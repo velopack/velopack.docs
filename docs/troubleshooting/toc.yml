@@ -1,0 +1,4 @@
+- name: Debugging / Logging
+  href: debugging.md
+- name: Command Line Reference
+  href: cli.md
