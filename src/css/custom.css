@@ -41,3 +41,7 @@ li:not(:first-child)>.sidebar-title-only {
   display: block;
   border-top: 1px #444950 solid;
 }
+
+code {
+  border-radius: 0;
+}

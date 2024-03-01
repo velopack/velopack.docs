@@ -51,7 +51,7 @@ GENERATE_PERLMOD       = NO
     fs.mkdirSync(outputDir, { recursive: true });
     const options = {
         ...moxygen.defaultOptions,
-        // templates: path.join(__dirname, "templates", "moxygen-cpp"),
+        templates: path.join(__dirname, "templates", "moxygen"),
         directory: path.join(doxygenTemp, "xml"),
         output: path.join(outputDir, "api.md"),
     };

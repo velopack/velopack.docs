@@ -1,13 +1,13 @@
-# Summary
+# Velopack C++ Reference
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
 `namespace `[`Velopack`](#namespace_velopack) | 
 `struct `[`subprocess_s`](#structsubprocess__s) | 
 
-# namespace `Velopack` {#namespace_velopack}
+## namespace `Velopack` {#namespace_velopack}
 
-## Summary
+#### Summary
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -23,7 +23,7 @@
 `class `[`Velopack::UpdateManagerSync`](#class_velopack_1_1_update_manager_sync) | This class is used to check for updates, download updates, and apply updates. It is a synchronous version of the UpdateManager class. This class is not recommended for use in GUI applications, as it will block the main thread, so you may want to use the async UpdateManager class instead, if it is supported for your programming language.
 `class `[`Velopack::VelopackAsset`](#class_velopack_1_1_velopack_asset) | An individual Velopack asset, could refer to an asset on-disk or in a remote package feed.
 
-## Members
+#### Members
 
 #### `enum `[`JsonNodeType`](#_velopack_8hpp_1a7dfd07faa4d65bbd8e7f1d0d0b5c5a04) {#_velopack_8hpp_1a7dfd07faa4d65bbd8e7f1d0d0b5c5a04}
 
@@ -62,9 +62,9 @@ delta            |
 
 #### `public void `[`startup`](#_velopack_8cpp_1a1a2c6842876e9c322e26c977f7bce384)`(char ** args,size_t c_args)` {#_velopack_8cpp_1a1a2c6842876e9c322e26c977f7bce384}
 
-# class `Velopack::JsonNode` {#class_velopack_1_1_json_node}
+## class `Velopack::JsonNode` {#class_velopack_1_1_json_node}
 
-## Summary
+#### Summary
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -85,7 +85,7 @@ delta            |
 `public void `[`initNumber`](#class_velopack_1_1_json_node_1aa0e4f7f297bc29dd23904de4b18910ed)`(double value)` | 
 `public void `[`initString`](#class_velopack_1_1_json_node_1aa1f5ca52183d31e0c832d7530227b35d)`(std::string_view value)` | 
 
-## Members
+#### Members
 
 #### `public  `[`JsonNode`](#class_velopack_1_1_json_node_1a1bf6d106ebbd1776709cf085fe333d76)`() = default` {#class_velopack_1_1_json_node_1a1bf6d106ebbd1776709cf085fe333d76}
 
@@ -135,9 +135,9 @@ Reinterpret a JSON value as a string. Throws exception if the value type was not
 
 #### `public void `[`initString`](#class_velopack_1_1_json_node_1aa1f5ca52183d31e0c832d7530227b35d)`(std::string_view value)` {#class_velopack_1_1_json_node_1aa1f5ca52183d31e0c832d7530227b35d}
 
-# class `Velopack::JsonParser` {#class_velopack_1_1_json_parser}
+## class `Velopack::JsonParser` {#class_velopack_1_1_json_parser}
 
-## Summary
+#### Summary
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -159,7 +159,7 @@ Reinterpret a JSON value as a string. Throws exception if the value type was not
 `public std::shared_ptr< `[`JsonNode`](#class_velopack_1_1_json_node)` > `[`parseArray`](#class_velopack_1_1_json_parser_1a7659a483c15b4c3f94f8ceb7a951a4c9)`()` | 
 `public std::shared_ptr< `[`JsonNode`](#class_velopack_1_1_json_node)` > `[`parseValue`](#class_velopack_1_1_json_parser_1a585c0e240fb52c3634c0df767fba8a74)`()` | 
 
-## Members
+#### Members
 
 #### `public  `[`JsonParser`](#class_velopack_1_1_json_parser_1a8ba6193b9910a65ea83b1805c4de2ae9)`() = default` {#class_velopack_1_1_json_parser_1a8ba6193b9910a65ea83b1805c4de2ae9}
 
@@ -195,18 +195,18 @@ Reinterpret a JSON value as a string. Throws exception if the value type was not
 
 #### `public std::shared_ptr< `[`JsonNode`](#class_velopack_1_1_json_node)` > `[`parseValue`](#class_velopack_1_1_json_parser_1a585c0e240fb52c3634c0df767fba8a74)`()` {#class_velopack_1_1_json_parser_1a585c0e240fb52c3634c0df767fba8a74}
 
-# class `Velopack::Platform` {#class_velopack_1_1_platform}
+## class `Velopack::Platform` {#class_velopack_1_1_platform}
 
-## Summary
+#### Summary
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
 
-## Members
+#### Members
 
-# class `Velopack::StringStream` {#class_velopack_1_1_string_stream}
+## class `Velopack::StringStream` {#class_velopack_1_1_string_stream}
 
-## Summary
+#### Summary
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -217,7 +217,7 @@ Reinterpret a JSON value as a string. Throws exception if the value type was not
 `public void `[`writeChar`](#class_velopack_1_1_string_stream_1ad025e53ac91373dbe983128c7cb62519)`(int c)` | 
 `public std::string `[`toString`](#class_velopack_1_1_string_stream_1ac9e5b82f2a193256d9e1ae94198d7f09)`() const` | 
 
-## Members
+#### Members
 
 #### `public  `[`StringStream`](#class_velopack_1_1_string_stream_1a7881ca72f76249dc905e83208adba0ba)`() = default` {#class_velopack_1_1_string_stream_1a7881ca72f76249dc905e83208adba0ba}
 
@@ -231,11 +231,11 @@ Reinterpret a JSON value as a string. Throws exception if the value type was not
 
 #### `public std::string `[`toString`](#class_velopack_1_1_string_stream_1ac9e5b82f2a193256d9e1ae94198d7f09)`() const` {#class_velopack_1_1_string_stream_1ac9e5b82f2a193256d9e1ae94198d7f09}
 
-# class `Velopack::UpdateInfo` {#class_velopack_1_1_update_info}
+## class `Velopack::UpdateInfo` {#class_velopack_1_1_update_info}
 
 Holds information about the current version and pending updates, such as how many there are, and access to release notes.
 
-## Summary
+#### Summary
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -243,7 +243,7 @@ Holds information about the current version and pending updates, such as how man
 `public bool `[`isDowngrade`](#class_velopack_1_1_update_info_1a593247b70ac2ec4cc12870a7fa544f21) | True if the update is a version downgrade or lateral move (such as when switching channels to the same version number). In this case, only full updates are allowed, and any local packages on disk newer than the downloaded version will be deleted.
 `public  `[`UpdateInfo`](#class_velopack_1_1_update_info_1ac124c42db882a61ca65f43a061fef338)`() = default` | 
 
-## Members
+#### Members
 
 #### `public std::shared_ptr< `[`VelopackAsset`](#class_velopack_1_1_velopack_asset)` > `[`targetFullRelease`](#class_velopack_1_1_update_info_1ae48ce8dce0fbb3e509e4767e42bead66) {#class_velopack_1_1_update_info_1ae48ce8dce0fbb3e509e4767e42bead66}
 
@@ -255,11 +255,11 @@ True if the update is a version downgrade or lateral move (such as when switchin
 
 #### `public  `[`UpdateInfo`](#class_velopack_1_1_update_info_1ac124c42db882a61ca65f43a061fef338)`() = default` {#class_velopack_1_1_update_info_1ac124c42db882a61ca65f43a061fef338}
 
-# class `Velopack::UpdateManagerSync` {#class_velopack_1_1_update_manager_sync}
+## class `Velopack::UpdateManagerSync` {#class_velopack_1_1_update_manager_sync}
 
 This class is used to check for updates, download updates, and apply updates. It is a synchronous version of the UpdateManager class. This class is not recommended for use in GUI applications, as it will block the main thread, so you may want to use the async UpdateManager class instead, if it is supported for your programming language.
 
-## Summary
+#### Summary
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -280,7 +280,7 @@ This class is used to check for updates, download updates, and apply updates. It
 `protected std::vector< std::string > `[`getUpdateApplyCommand`](#class_velopack_1_1_update_manager_sync_1a47232672aab9d74f593a2bfe29f5eb3d)`(const `[`VelopackAsset`](#class_velopack_1_1_velopack_asset)` * toApply,bool silent,bool restart,bool wait,const std::vector< std::string > * restartArgs) const` | Returns the command line arguments to apply the specified update.
 `protected std::string `[`getPackagesDir`](#class_velopack_1_1_update_manager_sync_1a8b0d484bcc50fc316ef662ecd5e09093)`() const` | Returns the path to the app's packages directory. This is where updates are downloaded to.
 
-## Members
+#### Members
 
 #### `public  `[`UpdateManagerSync`](#class_velopack_1_1_update_manager_sync_1a0725c325f7dfd276d8f4320b7e6524ff)`() = default` {#class_velopack_1_1_update_manager_sync_1a0725c325f7dfd276d8f4320b7e6524ff}
 
@@ -344,11 +344,11 @@ Returns the command line arguments to apply the specified update.
 
 Returns the path to the app's packages directory. This is where updates are downloaded to.
 
-# class `Velopack::VelopackAsset` {#class_velopack_1_1_velopack_asset}
+## class `Velopack::VelopackAsset` {#class_velopack_1_1_velopack_asset}
 
 An individual Velopack asset, could refer to an asset on-disk or in a remote package feed.
 
-## Summary
+#### Summary
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -362,7 +362,7 @@ An individual Velopack asset, could refer to an asset on-disk or in a remote pac
 `public std::string `[`notesHTML`](#class_velopack_1_1_velopack_asset_1aa8d00f3e2a6d7735a37663e7531791a1) | The release notes in HTML format, transformed from Markdown when packaging the release.
 `public  `[`VelopackAsset`](#class_velopack_1_1_velopack_asset_1a8185777fc17f66b0258e949c3e421231)`() = default` | 
 
-## Members
+#### Members
 
 #### `public std::string `[`packageId`](#class_velopack_1_1_velopack_asset_1a644d04e0fcd56f7639db2d912a575d72) {#class_velopack_1_1_velopack_asset_1a644d04e0fcd56f7639db2d912a575d72}
 
@@ -398,9 +398,9 @@ The release notes in HTML format, transformed from Markdown when packaging the r
 
 #### `public  `[`VelopackAsset`](#class_velopack_1_1_velopack_asset_1a8185777fc17f66b0258e949c3e421231)`() = default` {#class_velopack_1_1_velopack_asset_1a8185777fc17f66b0258e949c3e421231}
 
-# struct `subprocess_s` {#structsubprocess__s}
+## struct `subprocess_s` {#structsubprocess__s}
 
-## Summary
+#### Summary
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -411,7 +411,7 @@ The release notes in HTML format, transformed from Markdown when packaging the r
 `public int `[`return_status`](#structsubprocess__s_1a4a6027dbf0c75e5adee516ddf0c99860) | 
 `public subprocess_size_t `[`alive`](#structsubprocess__s_1ae931c423d39d981ab8b10cbdd49ae5ad) | 
 
-## Members
+#### Members
 
 #### `public FILE * `[`stdin_file`](#structsubprocess__s_1ada32f1e1e07a418e4a4d7d57677e44f0) {#structsubprocess__s_1ada32f1e1e07a418e4a4d7d57677e44f0}
 
