@@ -10,6 +10,7 @@ const doxygenTemp = ".doxy/";
 const doxygenFile = "Doxyfile";
 
 async function main() {
+    await gen_docfx();
     await download_doxygen();
     await gen_typedoc();
     await gen_doxygen("../velopack.fusion/for-cpp", "./docs/reference/cpp");
@@ -20,6 +21,19 @@ async function download_doxygen() {
         console.log(`Doxygen ${doxygenVersion} not found, downloading...`);
         await doxygen.downloadVersion(doxygenVersion);
     }
+}
+
+async function gen_docfx() {
+    // exec("dotnet tool update -g DocFxMarkdownGen", { stdio: "inherit" });
+    // exec("dotnet tool update -g docfx", { stdio: "inherit" });
+    const output = "./docs/reference/cs";
+    if (fs.existsSync(output)) {
+        fs.rmSync(output, { recursive: true, force: true });
+    }
+    exec("docfx metadata", { stdio: "inherit", cwd: "../velopack" });
+    fs.mkdirSync(output, { recursive: true });
+    exec("dfmg", { stdio: "inherit", env: { DFMG_CONFIG: "dfmg.yaml" } });
+    fs.unlinkSync("./docs/reference/cs/index.md");
 }
 
 async function gen_doxygen(sourceDir: string, outputDir: string) {
@@ -73,8 +87,8 @@ async function gen_typedoc() {
         compilerOptions: {
             module: "commonjs",
             target: "es2021",
-            include: ["../velopack.fusion/for-js/Velopack.d.ts"],
-            files: ["../velopack.fusion/for-js/Velopack.d.ts"],
+            // include: ["../velopack.fusion/for-js/Velopack.d.ts"],
+            // files: ["../velopack.fusion/for-js/Velopack.d.ts"],
         }
     });
 
@@ -91,7 +105,9 @@ async function gen_typedoc() {
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 // typedoc gets confused with this file here
-fs.renameSync("tsconfig.json", "tsconfig.json.bak");
+if (fs.existsSync("tsconfig.json")) {
+    fs.renameSync("tsconfig.json", "tsconfig.json.bak");
+}
 
 main().then(() => {
     console.log("Done");
@@ -100,6 +116,8 @@ main().then(() => {
     process.exit(1);
 }).finally(() => {
     fs.renameSync("tsconfig.json.bak", "tsconfig.json");
-    fs.unlinkSync(doxygenFile);
+    if (fs.existsSync(doxygenFile)) {
+        fs.unlinkSync(doxygenFile);
+    }
     fs.rmSync(doxygenTemp, { recursive: true, force: true });
 });
