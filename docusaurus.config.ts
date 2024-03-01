@@ -68,11 +68,15 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'mainSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Guides',
         },
-        { to: '/blog', label: 'Blog', position: 'left' },
+        {
+          to: '/blog',
+          label: 'Blog',
+          position: 'left'
+        },
         {
           href: 'https://github.com/velopack/velopack',
           label: 'GitHub',
@@ -126,8 +130,9 @@ const config: Config = {
     //   copyright: `Copyright © ${new Date().getFullYear()} Velopack Ltd.`,
     // },
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      additionalLanguages: ['csharp', 'rust', 'cpp', 'batch', 'powershell', 'java', 'toml'],
+      // theme: prismThemes.github,
+      // darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
 };

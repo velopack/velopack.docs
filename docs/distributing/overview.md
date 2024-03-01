@@ -7,7 +7,7 @@ The general steps for creating and deploying a Velopack release are:
 1. Download the latest published release (eg. 1.0.0).
 0. Run `vpk pack` to create your new release (eg. 1.0.1).
 0. Upload your newly created 1.0.1 assets.
-0. Update the remote releases.{channel}.json to reflect the newly uploaded assets.
+0. Update the remote `releases.{channel}.json` to reflect the newly uploaded assets.
 
 See also: [Deployment commands](deploy-cli.md) can make this process much easier.
 

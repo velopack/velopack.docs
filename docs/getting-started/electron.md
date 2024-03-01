@@ -1,5 +1,3 @@
-*Applies to: Windows, MacOS, Linux*
-
 # Getting Started: JS / Electron
 This quick start is slightly tailored to Electron, so if you are using pure nodejs and bundling your app using [pkg](https://github.com/vercel/pkg) or similar you can ignore those steps.
 

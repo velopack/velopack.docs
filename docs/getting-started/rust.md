@@ -1,5 +1,3 @@
-*Applies to: Windows, MacOS, Linux*
-
 # Getting Started: Rust
 
 1. Add Velopack to your `Cargo.toml`:
