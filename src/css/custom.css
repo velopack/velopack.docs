@@ -28,3 +28,16 @@
   --ifm-menu-color-background-hover: #1E293B;
   --ifm-card-background-color: #1E293B;
 }
+
+.sidebar-title-only {
+  font-weight: 300;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+li:not(:first-child)>.sidebar-title-only {
+  margin-top: 10px !important;
+  padding-top: 16px;
+  display: block;
+  border-top: 1px #444950 solid;
+}

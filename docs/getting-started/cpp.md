@@ -2,8 +2,9 @@
 
 1. Copy [Velopack.hpp](https://github.com/velopack/velopack.fusion/blob/master/for-cpp/Velopack.hpp) and [Velopack.cpp](https://github.com/velopack/velopack.fusion/blob/master/for-cpp/Velopack.cpp) into your project. 
 
-2. If you are on Linux or MacOS, you'll need [ICU4C](https://icu.unicode.org/) installed. Like many other C libraries, this is bundled into one package. 
-Installing the development package with your package manager (`apt` etc) is sufficient to make it available to compilers. The specific command you'll need is OS/Distro specific.
+2. If you are on Linux or MacOS, you'll need [ICU4C](https://icu.unicode.org/) installed. Like many other C libraries, 
+installing the development package with your package manager (`apt` etc) is sufficient to make it available to compilers. 
+The specific command you'll need is OS/Distro specific.
 
 3. Add the `Velopack::startup()` to your entry point (eg. `main()` or `wmain()`) as early as possible, ideally the first statement to run:
 ```cpp
