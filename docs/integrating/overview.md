@@ -42,8 +42,9 @@ static void Main(string[] args)
 
 The full list of options [for VelopackApp is available here](/sdk/Velopack.VelopackApp.html). You can also read more about [how hooks work](hooks.md).
 
-> [!WARNING]
-> A "FastCallback" requires that your application show no UI and exit quickly. When the callback returns, your application will exit. If you do not exit this callback quickly enough your process will be killed.
+:::warning
+A "FastCallback" requires that your application show no UI and exit quickly. When the callback returns, your application will exit. If you do not exit this callback quickly enough your process will be killed.
+:::
 
 ## Configuring Updates
 Updates can be accomplished by adding [UpdateManager](/sdk/Velopack.UpdateManager.html) to your app:
@@ -66,8 +67,9 @@ private static async Task UpdateMyApp()
 }
 ```
 
-> [!TIP]
-> Updates can be done silently in the background, or integrated into your application UI. It's always up to you.
+:::tip
+Updates can be done silently in the background, or integrated into your application UI. It's always up to you.
+:::
 
 You can host your update packages basically anywhere, here are a few examples:
 - Local directory:<br/>`new UpdateManager("C:\Updates")`
@@ -91,8 +93,9 @@ If you do not want to exit your app immediately, you can call `WaitExitThenApply
 
 Lastly, if you do not call any of these "Apply" methods, when you re-launch your app, by default, Velopack will detect that there is a pending update and install it then. If you wish to disable this, you should call `VelopackApp.Build().SetAutoApplyOnStartup(false)`.
 
-> [!TIP]
-> It is recommended that you use one of the functions which explicitly applies a package (eg. `ApplyUpdatesAndRestart`), and do not rely on the AutoApply behavior as a rule of thumb. The auto behavior will only apply a downloaded version if it is > the currently installed version, so will not work if trying to downgrade or switch channels, and if more than one instance of your process is running it could result in the update failing or those other processes being terminated.
+:::tip
+It is recommended that you use one of the functions which explicitly applies a package (eg. `ApplyUpdatesAndRestart`), and do not rely on the AutoApply behavior as a rule of thumb. The auto behavior will only apply a downloaded version if it is > the currently installed version, so will not work if trying to downgrade or switch channels, and if more than one instance of your process is running it could result in the update failing or those other processes being terminated.
+:::
 
 ## How updates work
 In a typical Windows install the application structure will look like this:

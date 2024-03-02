@@ -1,6 +1,5 @@
-*Applies to: Windows, MacOS, Linux*
-
 # Deployment CLI
+<AppliesTo all />
 The general process for deploying a Velopack release (`download -> pack -> upload`) can be greatly simplified by using the `download` and `upload` commands which are built into the `vpk` command line tool.
 
 ## Packing your new release with delta's
@@ -17,8 +16,9 @@ There are providers for various sources, such GitHub, S3, HTTP, etc.
 ## Deploying releases
 In the previous example, we used the `http` source, while that is very generic it does not provide any information about how to upload the releases, so in the following deployment example we will use [AWS S3](https://aws.amazon.com/s3/). 
 
-> [!TIP]
-> Most cloud storage providers today have an S3-compatible API ([GCP](https://cloud.google.com/storage/docs/interoperability), [BackBlaze B2](https://www.backblaze.com/docs/cloud-storage-s3-compatible-api), [DigitalOcean](https://docs.digitalocean.com/products/spaces/how-to/use-aws-sdks/), [Linode](https://www.linode.com/docs/products/storage/object-storage/), [IBM Cloud](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-compatibility-api), and so forth) and can be used with this command - it is not limited to AWS.
+:::tip
+Most cloud storage providers today have an S3-compatible API ([GCP](https://cloud.google.com/storage/docs/interoperability), [BackBlaze B2](https://www.backblaze.com/docs/cloud-storage-s3-compatible-api), [DigitalOcean](https://docs.digitalocean.com/products/spaces/how-to/use-aws-sdks/), [Linode](https://www.linode.com/docs/products/storage/object-storage/), [IBM Cloud](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-compatibility-api), and so forth) and can be used with this command - it is not limited to AWS.
+:::
 
 Using AWS, you can [authenticate using the `aws` command line tool](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-idc.html) or you can provide access keys as below. 
 

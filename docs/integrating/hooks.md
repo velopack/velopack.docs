@@ -17,8 +17,9 @@ At various stages of the install/update/uninstall process, Velopack will execute
 
 At this time, there is no way to provide feedback during the hooks that you would like to cancel the install/uninstall/update etc, and you may not show any UI to the user.
 
-> [!WARNING]
-> If your application receives one of these arguments and does not exit within the alloted time, it will be killed.
+:::warning
+If your application receives one of these arguments and does not exit within the alloted time, it will be killed.
+:::
 
 ## Environment variable hooks
 There are also two environment variables that get set, if these are detected your app does not need to exit.

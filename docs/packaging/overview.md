@@ -14,8 +14,9 @@ Henceforth this will be called `{build_dir}`.
 - `--mainExe {exeName}` The main executable to be started after install, and the binary that will [handle Velopack Hooks](../integrating/overview.md).
 - `--icon {path}` The icon used to bundle your app. Only required on MacOS and Linux.
 
-> [!TIP]
-> Velopack does not support 4 part versions (eg. `1.0.0.0`), as it would not be practical to support both formats simultaneously and semver2 offers a lot more flexibility.
+:::tip
+Velopack does not support 4 part versions (eg. `1.0.0.0`), as it would not be practical to support both formats simultaneously and semver2 offers a lot more flexibility.
+:::
 
 A complete example:
 ```cmd
@@ -40,14 +41,16 @@ When building a release has completed, you should have the following assets in y
 
 You do not need to deploy all of these files to allow users to update, so you should review the [deployment guide](../distributing/overview.md) for more information on which files to distribute.
 
-> [!TIP]
-> There is no setup/installer package for Linux. The program is distributed as a self-updating `.AppImage`. The reason is that `.AppImage` will run on pretty much every modern distro with no extra dependencies needed. Just download the `.AppImage`, run `chmod +x`, and click it to start. It is possible to install an `.AppImage`, but this is left up to the user to install something like [appimaged](https://github.com/probonopd/go-appimage/blob/master/src/appimaged/README.md) or [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher).
+:::tip
+There is no setup/installer package for Linux. The program is distributed as a self-updating `.AppImage`. The reason is that `.AppImage` will run on pretty much every modern distro with no extra dependencies needed. Just download the `.AppImage`, run `chmod +x`, and click it to start. It is possible to install an `.AppImage`, but this is left up to the user to install something like [appimaged](https://github.com/probonopd/go-appimage/blob/master/src/appimaged/README.md) or [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher).
+:::
 
 ## Code signing
 While this is not required for local builds / testing, you should always code-sign your application before distributing your application to users. 
 
-> [!WARNING]
-> If you do not code-sign, your application may fail to run. [[Read more]](signing.md)
+:::tip
+If you do not code-sign, your application may fail to run. [[Read more]](signing.md)
+:::
 
 ## Customising the installer
 On platforms which ship installers, you can customise the behavior. [[Read more]](installer.md)

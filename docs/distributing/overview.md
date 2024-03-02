@@ -1,6 +1,10 @@
-*Applies to: Windows, MacOS, Linux*
+---
+sidebar_label: Overview
+sidebar_position: 0
+---
 
 # Distributing Overview
+<AppliesTo all />
 Distributing with Velopack is extremely easy, it's usually just as simple as uploading your files somewhere that can be downloaded with HTTP. This means you could host them on an IIS or nodejs site, on shared file hosting such as AWS S3, Azure Storage, BackBlaze B2, or even for free on GitHub/GitLab releases if your project is open source.
 
 The general steps for creating and deploying a Velopack release are:
@@ -73,8 +77,9 @@ For example, if you packed `1.0.0` and then `1.0.1` immediately after, the conte
 
 The releases file should always mirror what files are _actually available_ in the remote folder that contains the releases file. So if you delete a nupkg release from the remote server, you should delete it from your remote release file too. If you are deploying newly created local files to a remote server which already contains some releases, then you should copy the assets from your local file to the remote releases file. 
 
-> [!WARNING]
-> This file is the only way that UpdateManager can discover releases, if you do not update it properly it may result in your users not getting updates.
+:::warning
+This file is the only way that UpdateManager can discover releases, if you do not update it properly it may result in your users not getting updates.
+:::
 
 It is tedious to update this file manually, so Velopack CLI provides deployment commands which can deploy assets and update this file automatically for you, as well as apply rentention policies around the number of releases to keep. [[Read more]](deploy-cli.md)
 

@@ -23,8 +23,9 @@ First, you need to acquire a code-signing certificate from a reputable brand. Mi
 - [IdenTrust](https://www.identrust.com/digital-certificates/trustid-ev-code-signing)
 - [Sectigo (formerly Comodo)](https://sectigo.com/ssl-certificates-tls/code-signing)
     
-> [!TIP]
-> Note that since June 1, 2023 there [has been a policy change](https://knowledge.digicert.com/general-information/new-private-key-storage-requirement-for-standard-code-signing-certificates-november-2022), meaning it is no longer possible to directly download your code signing certificate private key as a file from issuers. This means most signing options available today will require you to participate in Cloud Code Signing, or install your certificate to a HSM (usb / hardware module). Some issurs may allow you to install your cert to a pre-owned/generic HSM, and some may force you to purchase and ship their own brand of HSM. CI/CD may not be possible with some issuers unless they provide tools specifically designed to do that.
+:::tip
+Note that since June 1, 2023 there [has been a policy change](https://knowledge.digicert.com/general-information/new-private-key-storage-requirement-for-standard-code-signing-certificates-november-2022), meaning it is no longer possible to directly download your code signing certificate private key as a file from issuers. This means most signing options available today will require you to participate in Cloud Code Signing, or install your certificate to a HSM (usb / hardware module). Some issurs may allow you to install your cert to a pre-owned/generic HSM, and some may force you to purchase and ship their own brand of HSM. CI/CD may not be possible with some issuers unless they provide tools specifically designed to do that.
+:::
 
 It may be possible to get official certificates from an authorised reseller at a cheaper price:
 - [SignMyCode](https://signmycode.com/)
@@ -32,8 +33,9 @@ It may be possible to get official certificates from an authorised reseller at a
 
 If looking for a cheap option, at the time of writing Certum does an [Open Source Cloud Signing Certificate](https://certum.store/data-safety/code-signing-certificates.html?as_dane_w_certyfikacie=5720) for $58. Note that it is not possible to automate Certum certificates with CI/CD because they require you to install virtual signing drivers (SimpleSign Desktop) and sign in to it with their 2FA SimplySign app. 
 
-> [!WARNING]
-> This document is by no means a recommendation or advice to purchase from any particular code-signing certificate issuer. This is just general guidance for the process one might follow to purchase a certificate, and you must validate for yourself that the issuer you choose is fit for your use-case.
+:::warning
+This document is by no means a recommendation or advice to purchase from any particular code-signing certificate issuer. This is just general guidance for the process one might follow to purchase a certificate, and you must validate for yourself that the issuer you choose is fit for your use-case.
+:::
 
 ### Signing via `signtool.exe`
 Usually signing is accomplished via `signtool.exe`. If you already use this tool to sign your application, you can just pass your sign parameters straight to Velopack (minus the 'sign' command).
@@ -52,8 +54,9 @@ If you are new to using `signtool.exe`, you can check the [command line referenc
 
 If you are using a USB / HSM and have the following signing error `Error: SignerSign() failed." (-2147023673/0x800704c7)`, this means that you are missing a password / unlock token. This can be added to your signing command with the `/csp /k` parameters. [[Read more]](https://stackoverflow.com/questions/17927895/automate-extended-validation-ev-code-signing-with-safenet-etoken/54439759#54439759)
 
-> [!WARNING]
-> Take care when providing parameters with spaces. You must wrap anything containing spaces with quotes and escape with a backslash. For example, `--signParams "/n \"My Cert Name\""`. If you are using an MSBuild `<Exec>` task or similar, you will need to use `&quot;` instead.
+:::warning
+Take care when providing parameters with spaces. You must wrap anything containing spaces with quotes and escape with a backslash. For example, `--signParams "/n \"My Cert Name\""`. If you are using an MSBuild `<Exec>` task or similar, you will need to use `&quot;` instead.
+:::
 
 By default, Velopack will sign 10 files per call to `signtool.exe`, to speed up signing and reduce the number of times you need to interact with the console if you are using some kind of interactive signing method. This can be disabled with the `--signParallel 1` argument.
 

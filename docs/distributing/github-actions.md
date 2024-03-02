@@ -1,12 +1,5 @@
-_Applies to: Windows_
-
-# Continuous Deployment
-
-> [!NOTE]
-> This page is a work in progress. While there is only information regarding GitHub Actions here currently, please note
-that Velopack can be used with many different methods of Continuous Deployment.
-
-## GitHub Actions
+# GitHub Actions
+<AppliesTo all />
 
 This section assumes you have a basic knowledge of GitHub Actions. You can learn more about
 creating workflows [here](https://docs.github.com/en/actions/deployment/about-deployments/deploying-with-github-actions).
@@ -100,9 +93,10 @@ the `version` variable assigned earlier, which is accessed using the `id` of the
 and which flags are available for the `pack` command, [see here](../packaging/overview.md).
 4. Creates a new release in your repository and uploads the necessary files to it automatically.
 
-> [!NOTE]
-> If your repository is private, you will need to provide Velopack with an OAuth token when using the `vpk download`
+:::tip
+If your repository is private, you will need to provide Velopack with an OAuth token when using the `vpk download`
 and `vpk upload` commands. Simply append the following to both commands: `--token ${{ secrets.GITHUB_TOKEN }}`.
+:::
 
 ```yml
       - name: Create Velopack Release
