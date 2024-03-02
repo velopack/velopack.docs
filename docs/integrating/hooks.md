@@ -1,9 +1,5 @@
-import AppliesTo from '@site/src/components/AppliesTo';
-
 # App Hooks
-<AppliesTo os="all" />
-
-!at all
+<AppliesTo all />
 
 Hooks allow your application to run logic at various stages of the install/update/uninstall process.
 
