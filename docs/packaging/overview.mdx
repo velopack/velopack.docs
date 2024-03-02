@@ -16,7 +16,7 @@ Henceforth this will be called `{build_dir}`.
 - `--packId {id}` The unique ID of your application. This should be unique enough to avoid other application authors from colliding with your app.
 - `--packVersion {version}` The current version you are releasing - in [semver2 format](https://semver.org/) (eg. `1.0.0-build.23+metadata`). 
 - `--packDir {build_dir}` The folder containing your compiled application.
-- `--mainExe {exeName}` The main executable to be started after install, and the binary that will [handle Velopack Hooks](../integrating/overview.md).
+- `--mainExe {exeName}` The main executable to be started after install, and the binary that will [handle Velopack Hooks](../integrating/overview.mdx).
 - `--icon {path}` The icon used to bundle your app. Only required on MacOS and Linux.
 
 :::tip
@@ -41,26 +41,26 @@ When building a release has completed, you should have the following assets in y
 - `MyAppId-Portable.zip` - Portable Release: Can deploy this optionally to allow users to run and update your app without installing.
 - `MyAppId-Setup.exe` - Installer: Used by most users to install the app to the local filesystem.
 - `releases.{channel}.json` - Releases Index: a list of every available release. Used by `UpdateManager` to locate the latest applicable release.
-- `RELEASES` - Legacy Releases File: only used for clients [migrating to Velopack](../migrating/squirrel.md) from Squirrel.
-- `assets.{channel}.json` - Build Assets: A list of assets created in the most recent build. Used by [Velopack deployment commands](../distributing/overview.md).
+- `RELEASES` - Legacy Releases File: only used for clients [migrating to Velopack](../migrating/squirrel.mdx) from Squirrel.
+- `assets.{channel}.json` - Build Assets: A list of assets created in the most recent build. Used by [Velopack deployment commands](../distributing/overview.mdx).
 
-You do not need to deploy all of these files to allow users to update, so you should review the [deployment guide](../distributing/overview.md) for more information on which files to distribute.
+You do not need to deploy all of these files to allow users to update, so you should review the [deployment guide](../distributing/overview.mdx) for more information on which files to distribute.
 
 :::tip
-There is no setup/installer package for Linux. The program is distributed as a self-updating `.AppImage`. The reason is that `.AppImage` will run on pretty much every modern distro with no extra dependencies needed. Just download the `.AppImage`, run `chmod +x`, and click it to start. It is possible to install an `.AppImage`, but this is left up to the user to install something like [appimaged](https://github.com/probonopd/go-appimage/blob/master/src/appimaged/README.md) or [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher).
+There is no setup/installer package for Linux. The program is distributed as a self-updating `.AppImage`. The reason is that `.AppImage` will run on pretty much every modern distro with no extra dependencies needed. Just download the `.AppImage`, run `chmod +x`, and click it to start. It is possible to install an `.AppImage`, but this is left up to the user to install something like [appimaged](https://github.com/probonopd/go-appimage/blob/master/src/appimaged/README.mdx) or [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher).
 :::
 
 ## Code signing
 While this is not required for local builds / testing, you should always code-sign your application before distributing your application to users. 
 
 :::tip
-If you do not code-sign, your application may fail to run. [[Read more]](signing.md)
+If you do not code-sign, your application may fail to run. [[Read more]](signing.mdx)
 :::
 
 ## Customising the installer
-On platforms which ship installers, you can customise the behavior. [[Read more]](installer.md)
+On platforms which ship installers, you can customise the behavior. [[Read more]](installer.mdx)
 
 ## Other recommended arguments
-- If your application is operating-system or CPU architecture specific you should consider adding an `--rid`. [[Read more]](rid.md)
-- If you plan on distributing release channels for different architectures or features, consider adding a `--channel` [[Read more]](channels.md)
-- If your app requires additional frameworks (eg. vcredist) consider `--framework` [[Read more]](bootstrapping.md)
+- If your application is operating-system or CPU architecture specific you should consider adding an `--rid`. [[Read more]](rid.mdx)
+- If you plan on distributing release channels for different architectures or features, consider adding a `--channel` [[Read more]](channels.mdx)
+- If your app requires additional frameworks (eg. vcredist) consider `--framework` [[Read more]](bootstrapping.mdx)

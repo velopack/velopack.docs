@@ -2,12 +2,12 @@
 <AppliesTo win mac />
 Velopack takes a relatively light-touch when it comes to installers, so there is not a lot of customisation available like you would find in other installation frameworks. This is the tradeoff Velopack makes to ensure that the developer/user experience is as fast and easy as possible.
 
-In both operating systems, if [code signing is configured](signing.md) the installer will also be signed. (This is _required_ on MacOS)
+In both operating systems, if [code signing is configured](signing.mdx) the installer will also be signed. (This is _required_ on MacOS)
 
 ## Windows Overview
 The Windows installer is currently a "one-click" installer, meaning when the `Setup.exe` binary is run, Velopack will not show any questions / wizards to the user, it will simply attempt to install the app as fast as possible and then launch it. 
 
-The setup will install a shortcut to `StartMenuRoot` and `Desktop` by default. [[Read more]](../integrating/shortcuts.md)
+The setup will install a shortcut to `StartMenuRoot` and `Desktop` by default. [[Read more]](../integrating/shortcuts.mdx)
 
 The key options which will customize the installer are as follows:
 - `--packTitle {app name}` customizes shortcut names, the Apps & Features name, and the portable entry exe name.
@@ -16,7 +16,7 @@ The key options which will customize the installer are as follows:
 
 The splash image can be a `jpeg`, `png`, or `gif`. In the latter case, it will be animated.
 
-You can also [bootstrap required frameworks](bootstrapping.md) before installing your app.
+You can also [bootstrap required frameworks](bootstrapping.mdx) before installing your app.
 
 The Windows installer will extract the application to `%LocalAppData%\{packId}`, and the directory structure will look like:
 
@@ -29,7 +29,7 @@ The Windows installer will extract the application to `%LocalAppData%\{packId}`,
 └── Update.exe
 ```
 
-The `current` directory will be fully replaced [while doing updates](../integrating/overview.md). The other two files added by Velopack (`Update.exe` and `sq.version`) are crucial and are required files for Velopack to be able to properly update your application.
+The `current` directory will be fully replaced [while doing updates](../integrating/overview.mdx). The other two files added by Velopack (`Update.exe` and `sq.version`) are crucial and are required files for Velopack to be able to properly update your application.
 
 ## MacOS Overview
 The MacOS installer will be a standard `.pkg` - which is just a bundle where the UI is provided by the operating system, allowing the user to pick the install location. The app will be launched automatically after the install (mirroring the behavior on Windows) because of a `postinstall` script added by Velopack.
