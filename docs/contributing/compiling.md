@@ -1,7 +1,12 @@
-*Applies to: Windows, MacOS, Linux*
+# Build Velopack SDK
+The Velopack SDK is responsible for compiling releases and installers.
 
-# Compiling Velopack
-Velopack is made up of some Rust binaries which are re-distributed with installed apps, a .NET NuGet package, and a .NET command line tool. In order to test the project, you need to build the Rust binaries before compiling dotnet.   
+It is made up of:
+- Rust binaries which are re-distributed with installed apps, 
+- .NET NuGet package (`Velopack`), 
+- .NET command line tool (`vpk`). 
+
+In order to test the project, you need to build the Rust binaries before compiling dotnet.   
 
 ### Prerequisites
  - [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
@@ -48,4 +53,8 @@ sudo apt install libssl-dev pkg-config
 ```
 You need to verify that `nbgv` is working on the command line, you may be missing a `DOTNET_ROOT` variable in your bash profile, which might need to point at `/usr/share/dotnet` or `$HOME/.dotnet`. 
 
-If you are missing localisation packages, you can search for them or add `export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1` to your bash profile.
+If you are missing localisation packages, you can search for them or add the following to your bash profile:
+
+```bash
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+```

@@ -1,6 +1,5 @@
-*Applies to: Windows, MacOS, Linux*
-
-# Debugging Velopack
+# Debugging & Logging
+Find or configure application logs to find runtime issues.
 
 ## Logging
 All parts of Velopack have logging built in to help troubleshoot issues, and you should provide these logs when opening a GitHub issue about a potential bug.

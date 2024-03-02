@@ -1,6 +1,5 @@
-*Applies to: Windows, MacOS, Linux*
-
-# Velopack Command Line Reference
+# CLI Reference
+Overview of Velopack binary command line options.
 
 ## vpk
 ```txt

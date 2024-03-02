@@ -61,7 +61,7 @@ const sidebars: SidebarsConfig = {
       ],
       link: { type: 'generated-index' },
     },
-    
+
     title("Essentials"),
     auto("integrating", "Integrating", "Learn how to integrate the Velopack library with your application."),
     auto("packaging", "Packaging", "Learn how to package your application with Velopack."),
@@ -70,6 +70,7 @@ const sidebars: SidebarsConfig = {
     title("Advanced"),
     auto("troubleshooting", "Troubleshooting", "Debugging steps, common issues and how to resolve them."),
     auto("contributing", "Contributing", "Learn how to contribute to the Velopack project."),
+    auto("migrating", "Migrating", "Learn how to migrate your existing application to Velopack."),
   ],
   referenceSidebar: [
     title("Library Reference"),
