@@ -1,4 +1,5 @@
 # Build Velopack SDK
+<AppliesTo all />
 The Velopack SDK is responsible for compiling releases and installers.
 
 It is made up of:

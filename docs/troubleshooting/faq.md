@@ -1,4 +1,5 @@
 # FAQ
+<AppliesTo all />
 Commonly asked questions about Velopack.
 
 - **My application was detected as a virus?** <br/>

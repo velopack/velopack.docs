@@ -1,9 +1,10 @@
 # From Squirrel
+<AppliesTo win />
 Migrate `Squirrel.Windows` or `Clowd.Squirrel` to Velopack.
 
 Here are the general steps needed:
 
-1. Replace the `Squirrel.Windows` or `Clowd.Squirrel` nuget package with the latest [`Velopack NuGet Package`](https://www.nuget.org/packages/velopack).
+1. Replace the `Squirrel.Windows` or `Clowd.Squirrel` nuget package with the latest [Velopack NuGet Package](https://www.nuget.org/packages/velopack).
 
 0. Install the `vpk` command line tool, as this is what you'll use to build Velopack releases.
    ```cmd

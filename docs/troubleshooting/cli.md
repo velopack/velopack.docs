@@ -1,4 +1,5 @@
 # CLI Reference
+<AppliesTo all />
 Overview of Velopack binary command line options.
 
 ## vpk

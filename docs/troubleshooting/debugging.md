@@ -1,4 +1,5 @@
 # Debugging & Logging
+<AppliesTo all />
 Find or configure application logs to find runtime issues.
 
 ## Logging
