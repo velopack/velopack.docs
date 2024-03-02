@@ -1,3 +1,4 @@
+
 # Introduction
 Velopack is an installation and auto-update framework for cross-platform desktop applications. It's opinionated, extremely easy to use with zero config needed. With just one command you can be up and running with an installable application, and it's lightning fast for your users, too.
 
@@ -5,6 +6,31 @@ Be sure to check us out on [GitHub](https://github.com/velopack/velopack) and [j
 
 ## Overview
 To enable your application to make full use of Velopack, you need to do 3 things:
-1. Add the SDK to your app, and check for updates. [[Read more]](integrating/overview.md)
+1. Integrate the SDK into your app, and check for updates. [[Read more]](integrating/overview.md)
 0. Run the `vpk` command line tool to generate your update packages and installers. [[Read more]](packaging/overview.md)
 0. Upload your release somewhere your app can download updates from. [[Read more]](distributing/overview.md)
+
+## Language Support
+There are libraries planned or supported for the languages below.
+
+:::tip
+If your language is not listed, you can [open an issue to request it](https://github.com/velopack/velopack.fusion/issues), or if your language supports running a process you can integrate directly with the Fusion CLI.
+:::
+
+| Lang | Status | Runtime Deps | Async | Links |
+|:-:|---|---|---|---|
+| C# | ✅ Ready | ✅ None | ✅ Yes | [quick start](./getting-started/csharp.md), [docs](./reference/cs/Velopack/), [samples](https://github.com/velopack/velopack/tree/master/samples), [nuget.org](https://nuget.org/packages/velopack) |
+| JS | ✅ Ready | ✅ None | ✅ Yes | [quick start](./getting-started/electron.md), [docs](./reference/js/classes/UpdateManager.md), [samples](https://github.com/velopack/velopack.fusion/tree/master/for-js/samples), [npmjs.com](https://www.npmjs.com/package/velopack) |
+| Rust | ✅ Ready | ✅ None | ✅ Yes | [quick start](./getting-started/rust.md), [docs](https://docs.rs/velopack), [samples](https://github.com/velopack/velopack.fusion/tree/master/for-rust/samples), [crates.io](https://crates.io/crates/velopack) |
+| C++ | 🔶 Experimental | 🔶 vfusion.exe | ❌ No | [quick start](./getting-started/cpp.md), [docs](./reference/cpp/api.md), [samples](https://github.com/velopack/velopack.fusion/tree/master/for-cpp/samples), [velopack.hpp](https://github.com/velopack/velopack.fusion/tree/master/for-cpp) |
+| Java | Planned | - | - | - | - |
+| Python | Planned | - | - | - | - |
+| Swift | Planned | - | - | - | - |
+| Go | Planned | - | - | - | - |
+
+
+<!-- ## Migrating to Velopack
+import DocCardList from '@theme/DocCardList';
+<DocCardList items={[
+    { type: 'link', docId: 'migrating/squirrel', href: 'migrating/squirrel', label: 'From Squirrel' },
+]} /> -->
