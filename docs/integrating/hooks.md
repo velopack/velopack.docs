@@ -1,6 +1,12 @@
-*Applies to: Windows*
+import AppliesTo from '@site/src/components/AppliesTo';
 
-# Hooks
+# App Hooks
+<AppliesTo os="all" />
+
+!at all
+
+Hooks allow your application to run logic at various stages of the install/update/uninstall process.
+
 In general, I don't recommend trying to handle hooks manually - and instead refer to the available [VelopackApp](/sdk/Velopack.VelopackApp.html) options.
 
 If you wish to handle these yourself, an SDK doesn't exist for your language, or you just want to learn more about it, read on.

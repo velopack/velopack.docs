@@ -41,6 +41,10 @@ li:not(:first-child)>.sidebar-title-only {
   margin-top: 10px !important;
   padding-top: 16px;
   display: block;
+  border-top: 1px #DADDE1 solid;
+}
+
+[data-theme='dark'] li:not(:first-child)>.sidebar-title-only {
   border-top: 1px #444950 solid;
 }
 
@@ -51,5 +55,5 @@ code {
 }
 
 [data-theme='dark'] code {
-  background-color: #1E293B;
+  background-color: #1E293B !important;
 }

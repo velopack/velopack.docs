@@ -1,0 +1,44 @@
+.appliesto {
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    margin-right: 4px;
+    position: relative;
+    display: inline-block;
+}
+
+.appliesto-bg {
+    background-color: #F2F2F2;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transform: skew(-20deg);
+}
+
+[data-theme='dark'] .appliesto-bg {
+    background-color: #1E293B;
+}
+
+.appliesto-text {
+    position: relative;
+    display: inline-block;
+    font-weight: 100;
+}
+
+.appliesto.inactive .appliesto-text {
+    opacity: 0.4;
+}
+
+.appliesto.active .appliesto-bg {
+    background-color: var(--ifm-link-color);
+}
+
+.appliesto.active .appliesto-text {
+    color: white;
+    font-weight: 600;
+}
+
+[data-theme='dark'] .appliesto.active .appliesto-text {
+    color: #020617;
+}
