@@ -1,6 +1,11 @@
-*Applies to: Windows, MacOS, Linux*
+---
+sidebar_label: Overview
+sidebar_position: 0
+---
 
-# Updating Overview
+# Integrating Overview
+<AppliesTo all />
+
 To integrate Velopack into your application, you *must* initialise the Velopack as early as possible in app startup, and you *should* add update checking code somewhere.
 
 For .NET applications, you should first install the [Velopack Nuget Package](https://nuget.org/packages/velopack).

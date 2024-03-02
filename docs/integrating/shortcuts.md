@@ -1,6 +1,5 @@
-*Applies to: Windows*
-
 # Windows Shortcuts
+<AppliesTo win />
 By default, during installation Velopack will create a shortcut on the Desktop and in the StartMenuRoot. It will automatically delete any shortcuts it finds when uninstalling the application.
 
 The name of the shortcuts will be determined by the `--packTitle` vpk argument. For example, if you pass `--packTitle "My Fancy App"`, then the shortcuts created will be created as `"My Fancy App.lnk"`.

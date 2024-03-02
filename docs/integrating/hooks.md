@@ -1,5 +1,5 @@
 # App Hooks
-<AppliesTo all />
+<AppliesTo win />
 
 Hooks allow your application to run logic at various stages of the install/update/uninstall process.
 

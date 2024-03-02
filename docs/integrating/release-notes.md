@@ -1,6 +1,5 @@
-*Applies to: Windows, MacOS, Linux*
-
 # Release Notes
+<AppliesTo all />
 It is possible to store release notes (Markdown) in update packages and access it while Updating. This could be useful, for example, to show a user a list of changes before downloading a update.
 
 - Write your release notes to a file (eg. releasenotes.md).

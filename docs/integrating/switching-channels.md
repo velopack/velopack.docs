@@ -1,12 +1,13 @@
-*Applies to: Windows, MacOS, Linux*
-
 # Switching Channels
+<AppliesTo all />
 By default, `UpdateManager` will try and search for releases in the same channel that it was built for. You can [read more about packaging channels here](../packaging/channels.md). So normally, you should not provide a channel at all to the `UpdateManager` constructor.
 
 However, from time to time, it may be useful to allow a user to switch channels without re-installing the application. For example, a user opts into getting "beta" features via your application settings. In that case, you can provide the channel explicitly:
 
 ```cs
-new UpdateManager("https://the.place/you-host/updates", new UpdateOptions { ExplicitChannel = "beta" });
+new UpdateManager("https://the.place/you-host/updates", new UpdateOptions { 
+    ExplicitChannel = "beta" 
+});
 ```
 
 Also by default, the UpdateManager will only update to versions which are newer than the current version, leading to suboptimal behavior because often you may be switching to a version which is lower than the current version. Imagine the following scenario:
