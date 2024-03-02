@@ -40,13 +40,15 @@ Here are the general steps needed:
    ```cs
    public static void Main(string[] args)
    {
+       // Thank the user for installing the app on first run.
+       // Note that the MessageBox class below comes from WinForms or WPF.
        VelopackApp.Build()
            .WithFirstRun(v => MessageBox.Show("Thanks for installing my application!"))
            .Run();
    }
    ```
 
-0. The concept of `SquirrelAwareApp` no longer exists, so if you've added any attributes, assembly manifest entries, or other files to indicate that your binary is now aware, you can remove that. Every Velopack package has exactly one "VelopackApp" binary, which must implement the above interface at the top of `Main`. By default, Velopack will search for a binary in `{packDir}\{packId}.exe`. If your exe is named differently, you should provide the name with the `--mainExe yourApp.exe` argument.
+0. The concept of `SquirrelAwareApp` no longer exists, so if you've added any attributes, assembly manifest entries, or other files to indicate that your binary is now aware, you can remove that. Every Velopack package has exactly one "VelopackApp" binary, which must implement the above interface at the top of `Main`. By default, Velopack will search for a binary in `{packDir}\{packId}.exe`. If your main VelopackApp exe is named differently, you should provide the name with the `--mainExe yourApp.exe` argument.
 
 0. The "RELEASES" file is no longer a format that Velopack uses, but it will produce one when building packages on windows with the default channel (eg. no channel argument provided). Instead, Velopack will produce `releases.{channel}.json` files, which should be treated in the same way. If you are wishing for a legacy windows app to migrate to Velopack, you should upload both the `RELEASES` file and the `releases.win.json` file which is produced by Velopack to your update feed.
 
