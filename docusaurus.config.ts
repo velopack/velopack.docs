@@ -89,8 +89,15 @@ const config: Config = {
         },
         {
           href: 'https://github.com/velopack/velopack',
-          label: 'GitHub',
           position: 'right',
+          className: 'header-icon header-icon-github',
+          'aria-label': 'GitHub repository',
+        },
+        {
+          href: 'https://discord.gg/CjrCrNzd3F',
+          position: 'right',
+          className: 'header-icon header-icon-discord',
+          'aria-label': 'Discord invite',
         },
       ],
     },
