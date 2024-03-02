@@ -1,12 +1,12 @@
 /* Generate colors here https://docusaurus.io/docs/styling-layout#styling-your-site-with-infima */
 :root {
-  --ifm-color-primary: #294fff;
-  --ifm-color-primary-dark: #0b37ff;
-  --ifm-color-primary-darker: #002dfc;
-  --ifm-color-primary-darkest: #0025cf;
-  --ifm-color-primary-light: #4767ff;
-  --ifm-color-primary-lighter: #5574ff;
-  --ifm-color-primary-lightest: #8298ff;
+  --ifm-color-primary: #0d6efd;
+  --ifm-color-primary-dark: #0261ed;
+  --ifm-color-primary-darker: #025ce0;
+  --ifm-color-primary-darkest: #024cb9;
+  --ifm-color-primary-light: #277efd;
+  --ifm-color-primary-lighter: #3586fd;
+  --ifm-color-primary-lightest: #5c9dfe;
 
   --ifm-navbar-height: 72px;
   --ifm-navbar-shadow: 0 1px 0 0 #DADDE1;
@@ -28,6 +28,7 @@
   --ifm-menu-color-background-active: #1E293B;
   --ifm-menu-color-background-hover: #1E293B;
   --ifm-card-background-color: #1E293B;
+  --ifm-breadcrumb-item-background-active: #1E293B;
 }
 
 .sidebar-title-only {
@@ -45,4 +46,10 @@ li:not(:first-child)>.sidebar-title-only {
 
 code {
   border-radius: 0;
+  padding: 0.2em 0.4em;
+  background-color: #F2F2F2 !important;
+}
+
+[data-theme='dark'] code {
+  background-color: #1E293B;
 }

@@ -142,7 +142,7 @@ const config: Config = {
     // },
     prism: {
       additionalLanguages: ['csharp', 'rust', 'cpp', 'batch', 'powershell', 'java', 'toml'],
-      theme: prismThemes.jettwaveLight,
+      theme: prismThemes.oneLight,
       darkTheme: prismThemes.nightOwl,
     },
   } satisfies Preset.ThemeConfig,
