@@ -90,6 +90,11 @@ const config: Config = {
         },
       ],
     },
+    docs: {
+      sidebar: {
+        autoCollapseCategories: true,
+      }
+    },
     // footer: {
     //   style: 'dark',
     //   links: [
@@ -137,8 +142,8 @@ const config: Config = {
     // },
     prism: {
       additionalLanguages: ['csharp', 'rust', 'cpp', 'batch', 'powershell', 'java', 'toml'],
-      // theme: prismThemes.github,
-      // darkTheme: prismThemes.dracula,
+      theme: prismThemes.jettwaveLight,
+      darkTheme: prismThemes.nightOwl,
     },
   } satisfies Preset.ThemeConfig,
 };

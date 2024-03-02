@@ -10,6 +10,7 @@
 
   --ifm-navbar-height: 72px;
   --ifm-navbar-shadow: 0 1px 0 0 #DADDE1;
+  --ifm-card-background-color: #F1F5F9;
 }
 
 [data-theme='dark'] {
@@ -30,7 +31,7 @@
 }
 
 .sidebar-title-only {
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14px;
   opacity: 0.7;
 }
