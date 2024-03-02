@@ -1,6 +1,6 @@
-*Applies to: Windows, MacOS*
-
 # Code Signing
+<AppliesTo win mac />
+
 Code signing is an essential part of application distribution. On Windows, applications without code signatures are likely to be flagged as viruses. On OSX, codesigning and Notarization is required before your application can be run by users.
 
 On both platforms, signing needs to be performed by Velopack itself, this is because the Velopack binaries (such as Update and Setup) need to be signed at different points in the package build process.

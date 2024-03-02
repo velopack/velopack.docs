@@ -1,7 +1,6 @@
-*Applies to: Windows*
-
 # Bootstrapping
-While installing Velopack applications on Windows, it is possible to install other commonly required runtime dependencies using the `--framework` / `-f` argument.
+<AppliesTo win />
+Install .NET, vcredist, webview2, and more while installing Velopack applications on Windows using the `--framework` / `-f` argument.
 
 It is possibly to specify more than one requirement, using a comma delimited list. For example:
 ```cmd

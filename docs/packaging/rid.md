@@ -1,6 +1,6 @@
-*Applies to: Windows, MacOS, Linux*
-
 # RID (Runtime Identifier)
+<AppliesTo all />
+
 Similar to how you provide a RID to dotnet to designate your target operating system and architecture, you can do the same for Velopack to tell it what your application supports. 
 
 An RID is composed of three parts (`{os}{version?}-{arch}`)

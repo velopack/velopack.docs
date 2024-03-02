@@ -1,4 +1,5 @@
 # Getting Started: C# / .NET
+<AppliesTo all />
 
 1. Install the command line tool `vpk`:
    ```cmd

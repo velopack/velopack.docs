@@ -1,6 +1,5 @@
-*Applies to: Windows, MacOS*
-
-# Installer Overview
+# Installers
+<AppliesTo win mac />
 Velopack takes a relatively light-touch when it comes to installers, so there is not a lot of customisation available like you would find in other installation frameworks. This is the tradeoff Velopack makes to ensure that the developer/user experience is as fast and easy as possible.
 
 In both operating systems, if [code signing is configured](signing.md) the installer will also be signed. (This is _required_ on MacOS)

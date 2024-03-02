@@ -1,5 +1,10 @@
-*Applies to: Windows, MacOS, Linux*
+---
+sidebar_label: Overview
+sidebar_position: 0
+---
+
 # Packaging Overview
+<AppliesTo all />
 
 Packaging a release is accomplished with the `pack` command in Velopack. Regardless of your operating system, the common required arguments are roughly the same. 
 

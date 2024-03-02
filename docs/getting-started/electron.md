@@ -1,4 +1,5 @@
 # Getting Started: JS / Electron
+<AppliesTo all />
 This quick start is slightly tailored to Electron, so if you are using pure nodejs and bundling your app using [pkg](https://github.com/vercel/pkg) or similar you can ignore those steps.
 
 1. Add Velopack to your `package.json`:

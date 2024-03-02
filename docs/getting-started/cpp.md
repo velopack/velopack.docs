@@ -1,4 +1,5 @@
 # Getting Started: C++
+<AppliesTo all />
 
 1. Copy [Velopack.hpp](https://github.com/velopack/velopack.fusion/blob/master/for-cpp/Velopack.hpp) and [Velopack.cpp](https://github.com/velopack/velopack.fusion/blob/master/for-cpp/Velopack.cpp) into your project. 
 
