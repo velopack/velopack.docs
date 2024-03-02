@@ -12,8 +12,9 @@
     ```rust
     use velopack::*;
     fn main() {
-        // VelopackApp should be the first thing to run 
-        // In some circumstances it may terminate/restart the process to perform tasks.
+        // VelopackApp should be the first thing to run.
+        // In some circumstances it may terminate/restart 
+        // the process during update/install.
         VelopackApp::build().run();
         
         // ... your other app startup code here
@@ -27,16 +28,20 @@
 
     fn update_my_app() -> Result<()> {
         let um = UpdateManager::new("https://the.place/you-host/updates", None)?;
+
+        // check for updates
         let updates: Option<UpdateInfo> = um.check_for_updates()?;
         if updates.is_none() {
             return Ok(()); // no updates available
         }
 
+        // download updates
         let updates = updates.unwrap();
         um.download_updates(&updates, |progress| { 
             println!("Download progress: {}%", progress);
         })?;
-        
+
+        // apply updates
         um.apply_updates_and_restart(&updates, RestartArgs::None)?;
         Ok(())
     }
@@ -47,7 +52,15 @@
     cargo build --release
     ```
 
-5. Package your Velopack release / installers:
+5. Install the `vpk` command line tool:
+    ```sh
+    dotnet tool update -g vpk
+    ```
+    :::tip
+    ***You must have the .NET Core SDK 6 installed to use and update `vpk`***
+    :::
+
+6. Package your Velopack release / installers:
     ```sh
     vpk pack -u MyAppUniqueId -v 1.0.0 -p /target/release -e myexename.exe
     ```

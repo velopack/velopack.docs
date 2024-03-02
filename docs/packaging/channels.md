@@ -6,7 +6,9 @@ When building releases, Velopack will create a `releases.{channel}.json` file, t
 
 In general, you should not provide a channel to the `UpdateManager` constructor (leave it null). In this case, it will only search for update packages in the same channel that the current release was built for. For example, if you provided the `--channel stable` argument to `vpk`, and installed your app, then `UpdateManager` will automatically be searching for the file `releases.stable.json` when checking for updates.
 
-❗For legacy purposes, Velopack will also generate a `RELEASES` file (for the `win` channel), or a `RELEASES-{channel}` file (for any other channel). By deploying these files as well as the `releases.{channel}.json` will allow legacy apps to upgrade to Velopack. If you do not have any users on legacy versions of your software, you can ignore these files.
+:::tip
+For legacy purposes, Velopack will also generate a `RELEASES` file (for the `win` channel), or a `RELEASES-{channel}` file (for any other channel). By deploying these files as well as the `releases.{channel}.json` will allow legacy apps to upgrade to Velopack. If you do not have any users on legacy versions of your software, you can ignore these files.
+:::
 
 ## Switching channels in installed apps
 It is often desirable to allow users to switch channels easily. For example, if your users downloaded an installer for a "stable" version of your app, they will only receive updates for the "stable" channel. Later on, they decide they wish to switch to the "beta" channel to try some experimental features in your app. 

@@ -8,58 +8,58 @@ installing the development package with your package manager (`apt` etc) is suff
 The specific command you'll need is OS/Distro specific.
 
 3. Add the `Velopack::startup()` to your entry point (eg. `main()` or `wmain()`) as early as possible, ideally the first statement to run:
-```cpp
-#include "Velopack.hpp"
+    ```cpp
+    #include "Velopack.hpp"
 
-wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
-{
-    // velopack may exit / restart your app at this statement
-    Velopack::startup(argv, argc);
+    wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
+    {
+        // velopack may exit / restart your app at this statement
+        Velopack::startup(argv, argc);
 
-    // ... your other startup code here
-}
-```
+        // ... your other startup code here
+    }
+    ```
 
 3. Add auto-updates somewhere to your app:
-```cpp
-#include "Velopack.hpp"
-#include <memory>
+    ```cpp
+    #include "Velopack.hpp"
+    #include <memory>
 
-static void update_app()
-{
-    Velopack::UpdateManagerSync manager{};
-    manager.setUrlOrPath("https://the.place/you-host/updates");
+    static void update_app()
+    {
+        Velopack::UpdateManagerSync manager{};
+        manager.setUrlOrPath("https://the.place/you-host/updates");
 
-    std::shared_ptr<Velopack::UpdateInfo> updInfo = manager.checkForUpdates();
-    if (updInfo == nullptr) {
-        return; // no updates available
+        std::shared_ptr<Velopack::UpdateInfo> updInfo = manager.checkForUpdates();
+        if (updInfo == nullptr) {
+            return; // no updates available
+        }
+
+        manager.downloadUpdates(updInfo->targetFullRelease.get());
+        manager.applyUpdatesAndRestart(updInfo->targetFullRelease.get());
     }
-
-    manager.downloadUpdates(updInfo->targetFullRelease.get());
-    manager.applyUpdatesAndRestart(updInfo->targetFullRelease.get());
-}
-```
+    ```
 
 4. Install the `vpk` command line tool:
-```sh
-dotnet tool update -g vpk
-```
-***Note: you must have the .NET Core SDK 6 installed to use and update `vpk`***
+    ```sh
+    dotnet tool update -g vpk
+    ```
+    :::tip
+    ***You must have the .NET Core SDK 6 installed to use and update `vpk`***
+    :::
+
 
 5. Compile your app to a program using your usual compiler (eg. msvc, cmake, gcc, etc)
 
 6. Copy `Vfusion.exe`, `VfusionMac` or `VfusionNix` to your build output folder. This is a manual step for now, but may be automated in the future. You can compile this yourself, download a [recent build artifact](https://github.com/velopack/velopack.fusion/actions), or grab the latest [npm release](https://www.npmjs.com/package/velopack?activeTab=code) which also bundles the binaries.
-
-:::warning
-Until this is automated, failing to copy the fusion binary to your update directory will result in your app being unable to update.
-:::
+    :::warning
+    Until this is automated, failing to copy the fusion binary to your update directory will result in your app being unable to update.
+    :::
 
 7. Package your Velopack release / installers:
-```sh
-vpk pack -u MyAppUniqueId -v 1.0.0 -p /myBuildDir -e myexename.exe
-```
+    ```sh
+    vpk pack -u MyAppUniqueId -v 1.0.0 -p /myBuildDir -e myexename.exe
+    ```
 
 ✅ You're Done! Your app now has auto-updates and an installer.
 You can upload your release to your website, or use the `vpk upload` command to publish it to the destination of your choice.
-
-Read the [Velopack Documentation](https://velopack.io/docs) or the [Velopack C++ Reference](https://velopack.io/ref/cpp/) for more information.
