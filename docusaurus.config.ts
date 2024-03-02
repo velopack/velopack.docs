@@ -16,6 +16,17 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  headTags: [
+    // Favicon
+    { tagName: 'link', attributes: { rel: 'shortcut icon', href: '/favicon/favicon.ico' } },
+    { tagName: 'link', attributes: { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' } },
+    { tagName: 'link', attributes: { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/icon_32.png' } },
+    { tagName: 'link', attributes: { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/icon_16.png' } },
+    { tagName: 'link', attributes: { rel: 'manifest', href: '/favicon/site.webmanifest' } },
+    { tagName: 'link', attributes: { rel: 'mask-icon', href: '/favicon/safari-pinned-tab.svg', color: '#edd323' } },
+    { tagName: 'meta', attributes: { name: 'msapplication-TileColor', content: '#000000' } },
+    { tagName: 'meta', attributes: { name: 'theme-color', content: '#ffffff' } },
+  ],
   markdown: {
     format: 'detect'
   },
