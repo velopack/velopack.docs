@@ -8,7 +8,7 @@ In both operating systems, if [code signing is configured](signing.md) the insta
 ## Windows Overview
 The Windows installer is currently a "one-click" installer, meaning when the `Setup.exe` binary is run, Velopack will not show any questions / wizards to the user, it will simply attempt to install the app as fast as possible and then launch it. 
 
-The setup will install a shortcut to `StartMenuRoot` and `Desktop` by default. [[Read more]](../updating/shortcuts.md)
+The setup will install a shortcut to `StartMenuRoot` and `Desktop` by default. [[Read more]](../integrating/shortcuts.md)
 
 The key options which will customize the installer are as follows:
 - `--packTitle {app name}` customizes shortcut names, the Apps & Features name, and the portable entry exe name.
@@ -30,7 +30,7 @@ The Windows installer will extract the application to `%LocalAppData%\{packId}`,
 └── Update.exe
 ```
 
-The `current` directory will be fully replaced [while doing updates](../updating/overview.md). The other two files added by Velopack (`Update.exe` and `sq.version`) are crucial and are required files for Velopack to be able to properly update your application.
+The `current` directory will be fully replaced [while doing updates](../integrating/overview.md). The other two files added by Velopack (`Update.exe` and `sq.version`) are crucial and are required files for Velopack to be able to properly update your application.
 
 ## MacOS Overview
 The MacOS installer will be a standard `.pkg` - which is just a bundle where the UI is provided by the operating system, allowing the user to pick the install location. The app will be launched automatically after the install (mirroring the behavior on Windows) because of a `postinstall` script added by Velopack.

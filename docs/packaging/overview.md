@@ -11,7 +11,7 @@ Henceforth this will be called `{build_dir}`.
 - `--packId {id}` The unique ID of your application. This should be unique enough to avoid other application authors from colliding with your app.
 - `--packVersion {version}` The current version you are releasing - in [semver2 format](https://semver.org/) (eg. `1.0.0-build.23+metadata`). 
 - `--packDir {build_dir}` The folder containing your compiled application.
-- `--mainExe {exeName}` The main executable to be started after install, and the binary that will [handle Velopack Hooks](../updating/overview.md).
+- `--mainExe {exeName}` The main executable to be started after install, and the binary that will [handle Velopack Hooks](../integrating/overview.md).
 - `--icon {path}` The icon used to bundle your app. Only required on MacOS and Linux.
 
 > [!TIP]
@@ -35,7 +35,7 @@ When building a release has completed, you should have the following assets in y
 - `MyAppId-Portable.zip` - Portable Release: Can deploy this optionally to allow users to run and update your app without installing.
 - `MyAppId-Setup.exe` - Installer: Used by most users to install the app to the local filesystem.
 - `releases.{channel}.json` - Releases Index: a list of every available release. Used by `UpdateManager` to locate the latest applicable release.
-- `RELEASES` - Legacy Releases File: only used for clients [migrating to Velopack](../migrating.md) from Squirrel.
+- `RELEASES` - Legacy Releases File: only used for clients [migrating to Velopack](../migrating) from Squirrel.
 - `assets.{channel}.json` - Build Assets: A list of assets created in the most recent build. Used by [Velopack deployment commands](../distributing/overview.md).
 
 You do not need to deploy all of these files to allow users to update, so you should review the [deployment guide](../distributing/overview.md) for more information on which files to distribute.

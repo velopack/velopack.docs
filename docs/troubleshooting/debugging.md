@@ -34,7 +34,7 @@ Running Update.exe will log most output to it's base directory as `Velopack.log`
 All logs will be sent to `/tmp/velopack.log`.
 
 ## Advanced Debugging
-The debug builds of Velopack binaries have additional logging/debugging capabilities, and will produce console output. In some instances, it may be useful to [compile Velopack](../compiling.md) for your platform, and replace the release binaries of Setup.exe and Update.exe with debug versions. 
+The debug builds of Velopack binaries have additional logging/debugging capabilities, and will produce console output. In some instances, it may be useful to [compile Velopack](../contributing/compiling.md) for your platform, and replace the release binaries of Setup.exe and Update.exe with debug versions. 
 
 If your issue is with package building, after building the rust binaries in Debug mode, it can also be useful to run the Velopack.Vpk project from Visual Studio with your intended command line arguments rather than running the `vpk` tool directly.
 
