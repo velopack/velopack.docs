@@ -40,14 +40,14 @@ static void Main(string[] args)
 }
 ```
 
-The full list of options [for VelopackApp is available here](/sdk/Velopack.VelopackApp.html). You can also read more about [how hooks work](hooks.md).
+The full list of options [for VelopackApp is available here](../reference/cs//Velopack/VelopackApp.md). You can also read more about [how hooks work](./hooks.md).
 
 :::warning
 A "FastCallback" requires that your application show no UI and exit quickly. When the callback returns, your application will exit. If you do not exit this callback quickly enough your process will be killed.
 :::
 
 ## Configuring Updates
-Updates can be accomplished by adding [UpdateManager](/sdk/Velopack.UpdateManager.html) to your app:
+Updates can be accomplished by adding [UpdateManager](../reference/cs/Velopack/UpdateManager.md) to your app:
 
 ```cs
 private static async Task UpdateMyApp()
@@ -76,12 +76,12 @@ You can host your update packages basically anywhere, here are a few examples:
 - HTTP server, or S3, Azure Storage, etc:<br/>`new UpdateManager("https://the.place/you-host/updates")`
 - GitHub Releases:<br/>`new UpdateManager(new GitHubSource("https://github.com/yourName/yourRepo")`
 
-There are a variety of [built-in sources](/sdk/Velopack.Sources.html) you can use when checking for updates, but you can also build your own by [deriving from IUpdateSource](/sdk/Velopack.Sources.IUpdateSource.html).
+There are a variety of built-in sources (eg. [GithubSource](../reference/cs/Velopack.Sources/GithubSource.md), [SimpleWebSource](../reference/cs/Velopack.Sources/SimpleWebSource.md)) you can use when checking for updates, but you can also build your own by [deriving from IUpdateSource](../reference/cs/Velopack.Sources/IUpdateSource.md).
 
 ### Check for updates
-`CheckForUpdatesAsync` will read the provided update source for a `releases.{channel}.json` file to retrieve available updates ([Read about channels](../packaging/channels.md)). If there is an update available, a non-null [UpdateInfo](/sdk/Velopack.UpdateInfo.html) will be returned with some details about the update. You can also [retrieve any release notes](release-notes.md) which were provided when the update was packaged.
+`CheckForUpdatesAsync` will read the provided update source for a `releases.{channel}.json` file to retrieve available updates ([Read about channels](../packaging/channels.md)). If there is an update available, a non-null [UpdateInfo](../reference/cs/Velopack/UpdateInfo.md) will be returned with some details about the update. You can also [retrieve any release notes](release-notes.md) which were provided when the update was packaged.
 
-There are [also some options](/sdk/Velopack.UpdateOptions.html) which can be passed in to [UpdateManager](/sdk/Velopack.UpdateManager.html) to customise how updates are handled, eg. to allow things like [switching channels](switching-channels.md).
+There are [also some options](../reference/cs/Velopack/UpdateOptions.md) which can be passed in to [UpdateManager](../reference/cs/Velopack/UpdateManager.md) to customise how updates are handled, eg. to allow things like [switching channels](switching-channels.md).
 
 ### Download updates
 `DownloadUpdatesAsync` will attempt to download deltas (if available) and re-construct the latest full release. If there are no deltas available, or the delta reconstruction fails, the latest full release package will be downloaded instead. Note that if an option like `AllowVersionDowngrade` is specified, the downloaded version might be older than the currently executing version.
