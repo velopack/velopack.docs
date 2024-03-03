@@ -30,6 +30,11 @@ const config: Config = {
   markdown: {
     format: 'detect'
   },
+  plugins: [[require.resolve('docusaurus-lunr-search'), {
+    indexBaseUrl: true,
+    disableVersioning: true,
+    excludeRoutes: ['**/reference/**'],
+  }]],
   presets: [
     [
       'classic',
