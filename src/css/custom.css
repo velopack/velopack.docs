@@ -62,6 +62,10 @@ code {
   border: 1px solid #444950;
 }
 
+[data-theme='dark'] pre>code {
+  border: none;
+}
+
 .header-icon::before {
   content: '';
   width: 24px;
