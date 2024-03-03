@@ -157,7 +157,7 @@ const config: Config = {
     //   copyright: `Copyright © ${new Date().getFullYear()} Velopack Ltd.`,
     // },
     prism: {
-      additionalLanguages: ['csharp', 'rust', 'cpp', 'batch', 'powershell', 'java', 'toml'],
+      additionalLanguages: ['csharp', 'rust', 'cpp', 'batch', 'powershell', 'java', 'toml', 'json'],
       theme: prismThemes.oneLight,
       darkTheme: prismThemes.nightOwl,
     },
