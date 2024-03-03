@@ -1,0 +1,119 @@
+# Fusion CLI
+<AppliesTo all />
+Integrate directly using the command line interface. 
+
+If there isn't a native library, or command line bindings for your language yet, you can directly integrate Velopack using the command line.
+
+***There are two binaries needed.***
+
+## Fusion 
+`Vfusion.exe` / `VfusionMac` / `VFusionNix`<br/>
+Provides support for getting current version, checking for updates, downloading updates etc.
+
+:::warning
+At this time, the fusion binary is not automatically distributed, and you need to copy this into your compiler output directory. 
+You can download a [recent build artifact](https://github.com/velopack/velopack.fusion/actions) and make sure it's copied to your output dir during builds.
+:::
+
+### Example
+```
+> Vfusion.exe check --url https://the.place/you-host/updates
+```
+
+These are the possible outputs:
+- **No updates are available:** empty stdout and `exitCode == 0`.
+- **Unrecoverable error:** empty stdout and `exitCode != 0`. A [log file](#logging) will be created.
+- **Update is availble:** stdout contains json object and `exitCode == 0`.
+
+When an update is available, you'll receive an [UpdateInfo](../reference/cs/Velopack/UpdateInfo.md) object via stdout:
+
+```json
+{
+    "isDowngrade": false,
+    "targetFullRelease": {
+        "packageId": "YourPackageId",
+        "version": "2.0.1",
+        "type": "Full", 
+        "fileName": "YourPackageId-2.0.1-full.nupkg",
+        "sha1": "331a4f44a6a875b2ce139ae0c9ce5bb5e1ec0d97",
+        "size": 90654,
+        "notesMarkdown": "# Release v2.0.1 \n Your message here",
+        "notesHtml": "<h1>Release v2.0.1</h2><br/>Your message here"
+    }
+}
+```
+
+The next step is to download an update to disk, using the `fileName` property from the previous command:
+
+```
+> Vfusion.exe download \
+    --url https://the.place/you-host/updates \
+    --name YourPackageId-2.0.1-full.nupkg
+```
+
+During this command, fusion will output the current download progress to stdout. For example:
+```
+10
+20
+30
+40
+...
+```
+
+You can parse each line of stdout (split by `\n`) and show progress to your users.
+
+If `exitCode == 0` the command was successful.
+
+To get the final path to the downloaded asset, you can combine the result of `Vfusion.exe get-packages` and `fileName`.
+
+To install the update, please see the next section.
+
+:::tip
+There are other commands (eg. `get-version`) which may be useful, explore them with `Vfusion.exe -h`
+:::
+
+## Updater
+`Update.exe` / `UpdateMac` / `UpdateNix`<br/>
+Provides support for installing downloaded updates, prompting for elevation (if required), bootstrapping [dependencies](../packaging/bootstrapping.mdx), and so forth.
+
+:::info
+This binary is automatically copied into your package when building `vpk`, you just need to locate it relative to your main executable.
+:::
+
+You will use the `update apply` command to install a downloaded update.
+
+### Example
+
+```
+> Update.exe apply --restart
+```
+
+Running the above command will immediately close your program, install the update, and restart your app on the new version.
+
+:::tip
+If called with no arguments, Update will apply the newest downloaded release, as long as it's newer than the currently installed release. 
+If you would like to install an older release, you need to specify the `--package` parameter.
+:::
+
+All of the available apply options are below:
+
+```
+update apply:
+Applies a staged / prepared update, installing prerequisite runtimes if necessary
+  -r, --restart         Restart the application after the update
+  -w, --wait            Wait for the parent process to terminate before applying the update
+      --waitPid <PID>   Wait for the specified process to terminate before applying the update
+  -p, --package <FILE>  Update package to apply
+  -h, --help            Print help
+  [EXE_ARGS]...     Arguments to pass to the restarted executable. Must be preceeded by '--'.
+```
+
+## Logging
+Since errors are not printed on stdout, it is important to know where to locate log files to diagnose errors.
+
+### Windows
+Updater will log to it's own directory, and Fusion will log to the folder one above itself. 
+In a typical installation, this will result in both the Fusion logs and Updater log being merged into one log file.
+
+### Linux and MacOS
+On UNIX-like operating systems, the logs for these binaries always go to `/tmp/velopack.log`.

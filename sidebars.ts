@@ -47,6 +47,7 @@ const sidebars: SidebarsConfig = {
         doc("getting-started/cpp", "C++"),
         doc("getting-started/electron", "JS / Electron"),
         doc("getting-started/rust", "Rust"),
+        doc("getting-started/fusion-cli", "Fusion CLI"),
       ],
       link: { type: 'generated-index' },
     },
