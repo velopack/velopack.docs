@@ -52,10 +52,14 @@ code {
   border-radius: 0;
   padding: 0.2em 0.4em;
   background-color: #F2F2F2 !important;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
 }
 
 [data-theme='dark'] code {
   background-color: #1E293B !important;
+  border: 1px solid #444950;
 }
 
 .header-icon::before {
