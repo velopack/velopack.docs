@@ -58,6 +58,9 @@ const config: Config = {
 
   themeConfig: {
     image: 'logo/opengraph.png',
+    colorMode: {
+      respectPrefersColorScheme: true,
+    },
     navbar: {
       // title: 'Velopack',
       hideOnScroll: false,
