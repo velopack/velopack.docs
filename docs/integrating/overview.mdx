@@ -98,6 +98,8 @@ It is recommended that you use one of the functions which explicitly applies a p
 :::
 
 ## How updates work
+
+### On Windows
 In a typical Windows install the application structure will look like this:
 ```
 %LocalAppData%
@@ -111,4 +113,10 @@ In a typical Windows install the application structure will look like this:
 
 `sq.version` is a special file created by Velopack which contains some metadata about your currently installed application. During install/uninstall, the entire `{packId}` folder is replaced or removed. During updates, only the `current` folder is replaced. If you store settings in the same folder as your main binary, they will be erased during updates. 
 
-If you want to create files that persist through updates, but are erased when the app is uninstalled, you should store them one level up (`..`) outside of the `current` dir. If you want to create files which persist even if the app is uninstalled (eg. important user settings) then you should store them in `%AppData%\{packId}` (that's the roaming app data, not local app data).
+:::warning
+Since `current` is replaced with the new version during updates, it's not safe to store settings, logs, etc in the `current` dir where your app lives. See ***[Preserving Files](./preserved-files.mdx)*** for more info.
+:::
+
+### On Linux & Mac
+On these platforms, the app is stored as a single (typically read-only) bundle like `.app` or `.AppImage`. The bundle is replaced during updates in a single atomic operation.
+If you have any files you wish to persist (settings, logs, etc) you must find a directory elsewhere on the filesystem to store these files.
