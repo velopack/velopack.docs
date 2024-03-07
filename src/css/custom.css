@@ -29,6 +29,8 @@
   --ifm-menu-color-background-hover: #1E293B;
   --ifm-card-background-color: #1E293B;
   --ifm-breadcrumb-item-background-active: #1E293B;
+  --ifm-navbar-search-input-background-color: #1E293B;
+  --search-local-modal-background: #1E293B;
 }
 
 .sidebar-title-only {

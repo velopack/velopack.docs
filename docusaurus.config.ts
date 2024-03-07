@@ -16,6 +16,14 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  themes: [
+    ['@easyops-cn/docusaurus-search-local', {
+      hashed: true,
+      indexBlog: false,
+      docsRouteBasePath: '/',
+      ignoreFiles: new RegExp(".*reference/.*"),
+    }],
+  ],
   headTags: [
     // Favicon
     { tagName: 'link', attributes: { rel: 'shortcut icon', href: '/favicon/favicon.ico' } },
@@ -30,11 +38,6 @@ const config: Config = {
   markdown: {
     format: 'detect'
   },
-  plugins: [[require.resolve('docusaurus-lunr-search'), {
-    indexBaseUrl: true,
-    disableVersioning: true,
-    excludeRoutes: ['**/reference/**'],
-  }]],
   presets: [
     [
       'classic',
