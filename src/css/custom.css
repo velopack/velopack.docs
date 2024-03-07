@@ -85,6 +85,10 @@ code {
   border: none;
 }
 
+.header-icon {
+  padding-left: 7px;
+}
+
 .header-icon::before {
   content: '';
   width: 24px;
