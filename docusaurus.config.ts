@@ -30,11 +30,11 @@ const config: Config = {
   markdown: {
     format: 'detect'
   },
-  // plugins: [[require.resolve('docusaurus-lunr-search'), {
-  //   indexBaseUrl: true,
-  //   disableVersioning: true,
-  //   excludeRoutes: ['**/reference/**'],
-  // }]],
+  plugins: [[require.resolve('docusaurus-lunr-search'), {
+    indexBaseUrl: true,
+    disableVersioning: true,
+    excludeRoutes: ['**/reference/**'],
+  }]],
   presets: [
     [
       'classic',
@@ -65,12 +65,6 @@ const config: Config = {
     image: 'logo/opengraph.png',
     colorMode: {
       respectPrefersColorScheme: true,
-    },
-    algolia: {
-      appId: 'M6O3MUL164',
-      apiKey: '4ebd4874db5bb04ec53fe25db4cf9825',
-      indexName: 'velopack',
-      contextualSearch: true,
     },
     navbar: {
       // title: 'Velopack',
