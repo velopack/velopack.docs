@@ -1,0 +1,36 @@
+# Linux Overview
+<AppliesTo nix />
+Linux specific notes about creating and using Velopack packages.
+
+On Linux, Velopack does not create an installer, it simply creates an `.AppImage` file. 
+
+The user will:
+- Download the `.AppImage` file
+- Set permission with `chmod +x YourFile.AppImage`
+- Run with `./YourFile.AppImage`
+
+## Packaging Notes
+An icon is required to build an AppImage, and it ideally should be in PNG format. This can be provided with the `--icon` argument.
+
+It is possible for `vpk` to fully create the AppImage/AppDir structure for you automatically, given your build directory as usual. 
+Optionally, you can pre-build your AppImage/AppDir structure to the [following specification](https://github.com/AppImage/AppImageKit/wiki/AppDir).
+If you have staged your AppDir, use the `--appDir` argument _instead of_ the `--packDir / -p` argument. 
+Also, it's expected that the icon and `.desktop` file will already exist, so you should no longer provide the `--icon` argument with `--appDir`.
+
+## What is an AppImage?
+AppImage does not install software in the traditional sense (i.e., it do not put files all over the place in the system).
+
+It use one file per application. Each one is self-contained: it includes all libraries the application depends on and that are not part of the base system. 
+In this regard, it is similar to "application virtualization". 
+One can use a AppImage file even if they are not a superuser, or they are using a live CD. 
+AppImage files are often simpler than compiling and installing an application, as no installation actually took place. 
+The AppImage file is a compressed image which is temporarily mounted to allow access to the program, but not having to extract the program or modify the underlying system.
+
+## Why AppImage, and not deb, snap, etc?
+- AppImage is a format for binary software distribution. Software packaged as AppImage is intended to be as binary-compatible as possible with as many systems as possible. 
+- An AppImage should run on pretty much all base operating systems (distributions). For example, you could target Ubuntu 9.10, openSUSE 11.2, and Fedora 13 (and later versions) at the same time, without having to create and maintain separate packages for each target system.
+- AppImages are relocatable and portable, and do not modify the operating system in any way. This means it can be directly run on a Live CD, USB stick, etc. 
+
+## Can an AppImage be "installed"?
+Yes, it can - but this exercise is generally left up to the user. There are frameworks which will install an AppImage on first run, by moving it to a pre-determined location, adding a dock/launcher/desktop shortcut etc. 
+One such framework is [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher), but there are also others.
