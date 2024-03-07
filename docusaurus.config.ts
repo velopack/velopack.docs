@@ -68,7 +68,7 @@ const config: Config = {
     },
     algolia: {
       appId: 'M6O3MUL164',
-      apiKey: '735ff2128caf662b3adf8ddbfa6b2596',
+      apiKey: '4ebd4874db5bb04ec53fe25db4cf9825',
       indexName: 'velopack',
       contextualSearch: true,
     },
