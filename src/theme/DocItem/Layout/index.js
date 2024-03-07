@@ -18,8 +18,8 @@ import styles from './styles.module.css';
 function useDocTOC() {
   const {frontMatter, toc} = useDoc();
   const windowSize = useWindowSize();
-  const hidden = frontMatter.hide_table_of_contents;
-  const canRender = !hidden && toc.length > 0;
+  const hidden = frontMatter.hide_table_of_contents || toc.length < 1;
+  const canRender = !hidden;
   const mobile = canRender ? <DocItemTOCMobile /> : undefined;
   const desktop =
     canRender && (windowSize === 'desktop' || windowSize === 'ssr') ? (
