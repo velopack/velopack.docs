@@ -6,9 +6,24 @@ Be sure to check us out on [GitHub](https://github.com/velopack/velopack) and [j
 
 ## Overview
 To enable your application to make full use of Velopack, you need to do 3 things:
-1. Integrate the SDK into your app, and check for updates. [[Read more]](integrating/overview.mdx)
-0. Run the `vpk` command line tool to generate your update packages and installers. [[Read more]](packaging/overview.mdx)
-0. Upload your release somewhere your app can download updates from. [[Read more]](distributing/overview.mdx)
+
+<FancyStep step={1}>
+### Integrate the SDK & check for updates. 
+We have client libraries for some [languages below](#language-support), or if we don't support your language yet you can use [our CLI](./getting-started/fusion-cli.mdx). <br/>
+[Read more →](integrating/overview.mdx)
+</FancyStep>
+
+<FancyStep step={2}>
+### Build a Velopack release
+Our command-line tool `vpk` can help you build update packages and installers in just one command. <br/>
+[Read more →](packaging/overview.mdx)
+</FancyStep>
+
+<FancyStep step={3} noline>
+### Upload your releases somewhere
+You can host updates anywhere static files can be served, eg. cloud file storage, GitHub Releases, and more. <br/>
+[Read more →](distributing/overview.mdx)
+</FancyStep>
 
 ## Language Support
 There are libraries planned or supported for the languages below.

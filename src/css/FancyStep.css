@@ -1,0 +1,59 @@
+.fancystep-root {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    margin-left: 6px;
+}
+
+.fancystep-number {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 38px;
+    border-radius: 999px;
+    background-color: var(--ifm-color-primary-light);
+    position: relative;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: var(--ifm-h3-font-size);
+    font-weight: bold;
+}
+
+[data-theme='dark'] .fancystep-number {
+    color: black;
+}
+
+.fancystep-leftcol {
+    position: relative;
+}
+
+.fancystep-leftcol::after {
+    content: '';
+    background-color: var(--ifm-color-primary-light);
+    position: absolute;
+    left: 20px;
+    opacity: 0.5;
+    top: 60px;
+    right: 19px;
+    bottom: 0px;
+}
+
+.fancystep-number::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    right: -6px;
+    top: -6px;
+    bottom: -6px;
+    opacity: 0.3;
+    z-index: -1;
+    border-radius: 999px;
+    background-color: var(--ifm-color-primary-light);
+}
+
+.fancystep-content {
+    flex: 1;
+    padding-top: 6px;
+}
