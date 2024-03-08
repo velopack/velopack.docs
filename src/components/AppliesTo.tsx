@@ -1,4 +1,4 @@
-import "../css/appliesto.css";
+import "../css/AppliesTo.css";
 
 export type AppliesToProps = {
     win: boolean;
