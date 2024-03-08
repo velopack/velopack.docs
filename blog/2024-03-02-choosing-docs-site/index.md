@@ -6,7 +6,9 @@ tags: [nextra, docfx, docusaurus, documentation]
 
 There are plenty of great options available for static site documentation generators, I wouldn't even bother trying to name them all.
 
-The journey to find one that would work for [Velopack](/) took a few tries.
+The journey to find one that would work for [Velopack](/) was painful and took a few tries.
+
+<!-- truncate -->
 
 ## Docfx
 Since we started out as a `C#` library, it made sense to start with `docfx`, which was appealing because if you just need to launch a documentation site as quickly as possible for a C# project, it seems to work well. The design is nothing to be proud of, but it's functional.
