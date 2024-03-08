@@ -29,6 +29,16 @@
     position: relative;
 }
 
+@media (max-width: 576px) {
+    .fancystep-leftcol::after {
+        display: none;
+    }
+    .fancystep-root {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
 .fancystep-leftcol::after {
     content: '';
     background-color: var(--ifm-color-primary-light);
