@@ -9,13 +9,18 @@ The user will:
 - Set permission with `chmod +x YourFile.AppImage`
 - Run with `./YourFile.AppImage`
 
-## Packaging Notes
+## Packaging
 An icon is required to build an AppImage, and it ideally should be in PNG format. This can be provided with the `--icon` argument.
 
 It is possible for `vpk` to fully create the AppImage/AppDir structure for you automatically, given your build directory as usual. 
 Optionally, you can pre-build your AppImage/AppDir structure to the [following specification](https://github.com/AppImage/AppImageKit/wiki/AppDir).
 If you have staged your AppDir, use the `--appDir` argument _instead of_ the `--packDir / -p` argument. 
 Also, it's expected that the icon and `.desktop` file will already exist, so you should no longer provide the `--icon` argument with `--appDir`.
+
+## Updating
+During updates, packages are downloaded to a temporary location (`/var/tmp`) and then the `.AppImage` is replaced. 
+If the `.AppImage` is in a privileged folder, the updater will automatically prompt for sudo using `pkexec`.
+The app can technically be updated while it's running, although Velopack will make an effort to close/restart it to clear out any old versions curently running.
 
 ## What is an AppImage?
 AppImage does not install software in the traditional sense (i.e., it do not put files all over the place in the system).

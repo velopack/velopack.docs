@@ -1,0 +1,56 @@
+# Windows Overview
+<AppliesTo win />
+Windows specific notes about creating and using Velopack packages.
+
+For Windows, Velopack creates and installs a folder structure which looks like the following:
+
+```
+%LocalAppData%
+└── {packId}
+    ├── current
+    │   ├── YourFile.dll
+    │   ├── sq.version
+    │   └── YourApp.exe
+    └── Update.exe
+```
+
+## Packaging
+There are no special requirements to package a program for Windows, although you may wish to customise the installer 
+using `--packTitle`, `--splashImage`, `--icon` etc. See the command line help for a complete list of options.
+
+It's also very recommended (but not required) that you [code sign](../signing.mdx) before shipping to your users. If you do not do this,
+your app may be flagged as a virus.
+
+## Updating
+During updates, the entire `current` directory will be replaced, so if you need to store settings, logs, crash reports, and so on, 
+please see [Preserving Files](../../integrating/preserved-files.mdx).
+
+On Windows, if any of the files inside `current` are in-use, the folder can not be moved/renamed/deleted, etc. 
+There lots of things that could lock this folder. For example:
+- A process running inside `current`
+- A process running outside of `current`, which has opened a file inside `current` for reading. 
+- Anti-virus / Windows Defender, etc
+- A process with it's CWD (current working dir) inside that folder (for example, a `cmd.exe` process).
+
+If the folder can not be renamed during the update process, Velopack's updater will attempt to automatically kill any processes running inside `current`.
+If the folder is still locked and can not be renamed, the updater will search for other processes on the system which may be locking the folder - 
+and if any are found, it will open a dialog to the user offering to kill them or abort the update. If the locking process could not be identified,
+(for example, if the locking process is running as Administrator) then an error message will be shown to the user, and the old version of the
+application will be launched.
+
+:::info
+Currently, neither the updater nor the installer support privileged directories such as `C:\Program Files`, but support for this is planned in the future.
+:::
+
+## Installing
+The setup produced by Velopack is a one-click installer, which will show the splash image of your choice (PNG, JPG, or animated GIF), 
+or if you do not provide an image it will be a simple progress bar. 
+
+By default the installer will install to `%LocalAppData%\{packId}` but this can be overridden at runtime with the `Setup.exe --installto {dir}` argument.
+
+Before starting installation, the installer will check that the [App RID](../rid.mdx) is compatible with the current operating system,
+and also check for any missing [boostrapping dependencies](../bootstrapping.mdx).
+
+Also, during installation the installer will run [App Hooks](../../integrating/hooks.mdx), as well as launch the application for the first time 
+once installation has completed. If you would like to prevent the application from being launched after install has completed,
+you can do this with the `Setup.exe --silent` argument.
