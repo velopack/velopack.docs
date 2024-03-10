@@ -4,9 +4,26 @@ Get started with our cross-platform C++ header library.
 
 1. Copy [Velopack.hpp](https://github.com/velopack/velopack.fusion/blob/master/for-cpp/Velopack.hpp) and [Velopack.cpp](https://github.com/velopack/velopack.fusion/blob/master/for-cpp/Velopack.cpp) into your project. 
 
-0. If you are on Linux or MacOS, you'll need [ICU4C](https://icu.unicode.org/) installed. Like many other C libraries, 
-installing the development package with your package manager (`apt`, `brew` etc) should be sufficient to make it available to compilers. 
-The specific command you'll need is OS/Distro specific.
+0. Configure Unicode Support:
+    #### Windows
+    On Windows, to enable unicode support for this library you ***must*** 
+    [configure the UTF-8 code page](https://learn.microsoft.com/en-us/windows/apps/design/globalizing/use-utf8-code-page) via your application 
+    manifest. Failure to do so will potentially result in your application ***failing to update*** if there are any unicode characters in your user's 
+    file paths, username, etc.
+    ```xml
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
+      <application>
+        <windowsSettings>
+          <activeCodePage xmlns="http://schemas.microsoft.com/SMI/2019/WindowsSettings">UTF-8</activeCodePage>
+        </windowsSettings>
+      </application>
+    </assembly>
+    ```
+    #### Linux & MacOS
+    - If you are using Qt and `QString` is available, there's nothing further you need to do. 
+    - If you are not using Qt, you'll need to [install ICU4C](https://icu.unicode.org/). Like many other C libraries, 
+      installing the development package with your package manager (`apt`, `brew` etc) *should* be sufficient to make it available to compilers.
 
 0. Add the `Velopack::startup()` to your entry point (eg. `main()` or `wmain()`) as early as possible, ideally the first statement to run:
     ```cpp
@@ -14,7 +31,7 @@ The specific command you'll need is OS/Distro specific.
 
     wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
     {
-        // velopack may exit / restart your app at this statement
+        // Velopack may exit / restart your app at this statement
         Velopack::startup(argv, argc);
 
         // ... your other startup code here
@@ -31,7 +48,7 @@ The specific command you'll need is OS/Distro specific.
         Velopack::UpdateManagerSync manager{};
         manager.setUrlOrPath("https://the.place/you-host/updates");
 
-        std::shared_ptr<Velopack::UpdateInfo> updInfo = manager.checkForUpdates();
+        auto updInfo = manager.checkForUpdates();
         if (updInfo == nullptr) {
             return; // no updates available
         }
@@ -40,23 +57,6 @@ The specific command you'll need is OS/Distro specific.
         manager.applyUpdatesAndRestart(updInfo->targetFullRelease.get());
     }
     ```
-
-0. Enable the [UTF-8 codepage](https://learn.microsoft.com/en-us/windows/apps/design/globalizing/use-utf8-code-page) in your application manifest if you are targeting Windows.
-    ```xml
-    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
-      <application>
-        <windowsSettings>
-          <activeCodePage xmlns="http://schemas.microsoft.com/SMI/2019/WindowsSettings">UTF-8</activeCodePage>
-        </windowsSettings>
-      </application>
-    </assembly>
-    ```
-    :::warning[Enabling Unicode Support]
-    The Velopack C++ Library expects UTF-8 `std::string` and `char*` strings, which is standard practice on Unix-like operating systems, so no extra steps are needed there.
-    On Windows, Velopack will use the `A` (ansi) windows functions which accept `char*` rather than the `W` (UTF-16) unicode functions.
-    By adding the UTF-8 code page to your application manifest, the `A` ansi functions will switch to accepting UTF-8.
-    :::
 
 0. Install the `vpk` command line tool:
     ```sh
