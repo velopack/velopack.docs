@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
-import {useWindowSize} from '@docusaurus/theme-common';
-import {useDoc} from '@docusaurus/theme-common/internal';
+import { useWindowSize } from '@docusaurus/theme-common';
+import { useDoc } from '@docusaurus/theme-common/internal';
 import DocItemPaginator from '@theme/DocItem/Paginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
@@ -12,11 +12,10 @@ import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import Unlisted from '@theme/Unlisted';
 import styles from './styles.module.css';
-/**
- * Decide if the toc should be rendered, on mobile or desktop viewports
- */
+import Giscus from '@site/src/components/Giscus';
+
 function useDocTOC() {
-  const {frontMatter, toc} = useDoc();
+  const { frontMatter, toc } = useDoc();
   const windowSize = useWindowSize();
   const hidden = frontMatter.hide_table_of_contents || toc.length < 1;
   const canRender = !hidden;
@@ -31,11 +30,18 @@ function useDocTOC() {
     desktop,
   };
 }
-export default function DocItemLayout({children}) {
+
+export default function DocItemLayout({ children }) {
   const docTOC = useDocTOC();
-  const {
-    metadata: {unlisted},
-  } = useDoc();
+  const { metadata } = useDoc();
+  const { unlisted, frontMatter, slug } = metadata;
+  let { disable_comments } = frontMatter;
+
+  if (slug.includes("/reference/")) {
+    // Disable comments for all library reference pages
+    disable_comments = true;
+  }
+
   return (
     <div className="row">
       <div className={clsx('col', !docTOC.hidden && styles.docItemCol)}>
@@ -47,6 +53,13 @@ export default function DocItemLayout({children}) {
             <DocVersionBadge />
             {docTOC.mobile}
             <DocItemContent>{children}</DocItemContent>
+            {(!disable_comments) && (
+              <>
+                <br />
+                <br />
+                <Giscus />
+              </>
+            )}
             <DocItemFooter />
           </article>
           <DocItemPaginator />
