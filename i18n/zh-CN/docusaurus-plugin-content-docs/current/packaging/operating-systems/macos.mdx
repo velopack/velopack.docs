@@ -1,0 +1,37 @@
+# MacOS Overview
+
+<AppliesTo mac />
+MacOS specific notes about creating and using Velopack packages.
+
+For Mac, applications are distributed as `.app` bundles. These are special folders that appear in Finder like a single file.
+
+## Packaging
+
+If you are creating a custom bundle, you can provide a folder ending in `.app` to the `--packDir` / `-p` argument, Velopack will copy and use this directly.
+If you do not wish to create the `.app` bundle manually, Velopack can do this for you, so just supply any other folder (which does not end in `.app`) to the `--packDir` argument.
+
+If you wish for Velopack to automatically create a bundle, the only additional argument you need to provide is `--icon`, and this must be a valid `.icns` file.
+
+:::warning
+[Code signing and notarization](../signing.mdx) is required by Apple before shipping your releases to users, or your app won't run.
+:::
+
+## Updating
+
+During updates, packages are downloaded to `/tmp`, and during apply step the `.app` bundle will be extracted and replaced. 
+
+If the `.app` is installed to `/Applications` (and not `~/Applications` for example), elevation may be required. 
+In this case, the updater will use AppleScrpt to request elevation and complete the update. 
+The `.app` bundle created by Velopack does not need to be in `/Applications` to support updates, it is a portable / self contained bundle
+and if it is moved by the user it is still capable of applying updates.
+
+The app can technically be updated while it's running, although Velopack will make an effort to close/restart it to clear out any old versions curently running.
+
+## Installing
+
+Velopack will automatically generate and sign a `.pkg` installer for you, which allows you to show a readme, conclusion, license page, etc. 
+See the command line help for a complete list of options.
+It also allows the user to choose whether to install to `/Applications` or `~/Applications`, and will launch the app automatically after it's been installed. 
+
+If you do not wish to ship a pkg, Velopack also creates a portable `.zip` which will be automatically extracted if clicked by the user in Finder.
+If you wish to ship a DMG instead, you can unzip this portable package and create a DMG that way.

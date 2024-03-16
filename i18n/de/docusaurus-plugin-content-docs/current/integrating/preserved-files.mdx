@@ -1,0 +1,22 @@
+# Preserving Files & Settings
+
+<AppliesTo all />
+Your application binary files get completely replaced during updates, so you should not store important files in the same directory as your application binary files.
+
+## Application Settings
+
+If you want to create settings that persist through updates, but are erased when the app is uninstalled, on Windows you should store them one level up (`..\`) outside of the `current` dir. 
+
+If you want to create files which persist even if the app is uninstalled (eg. important user settings) then you should store them in `%AppData%\{packId}` (that's the **_roaming app data_**, not local app data where the app lives).
+
+## Sentry / Crashpad / Error Reporting
+
+Many error crash handling utilities will store error/crash reports to the application directory by default, and will upload them as a report the next time the application starts.
+
+You need to ensure any of these libraries can be configured with a database / storage directory outside of the current application directory somewhere. 
+On Windows, you just need to be outside the `%LocalAppData\{packId}\current` directory. So you could use `..\` (this is the same as `%LocalAppData\{packId}`). 
+
+## Non-Windows
+
+For other non-Windows operating systems, you should search online to find best practices about where to store settings/log files for installed apps. 
+The recommended location is OS / distro specific, and might be in `/var` or somewhere in user home `~` (eg. `~/Library/Application Support` on MacOS).

@@ -1,0 +1,71 @@
+# Сборка Velopack SDK
+
+<AppliesTo all />
+Velopack SDK отвечает за компиляцию выпусков и установщиков.
+
+Он состоит из:
+
+- Бинарные файлы Rust, которые перераспределяются вместе с установленными приложениями, 
+- пакет .NET NuGet («Велопак»), 
+- Инструмент командной строки .NET («vpk»). 
+
+Чтобы протестировать проект, вам необходимо собрать двоичные файлы Rust перед компиляцией dotnet.   
+
+### Предварительные условия
+
+- [SDK .NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [SDK .NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Rust/Cargo](https://www.rust-lang.org/tools/install)
+- `dotnet Tool install -g dotnet-coverage`
+- `dotnet Tool install -g nbgv`
+
+### Отладка/тестирование
+
+В Windows вам необходимо собрать двоичные файлы Rust, используя функцию Windows, прежде чем запускать тесты. В OSX вместо этого вам следует запустить `cargo build`. 
+
+```shell
+git clone https://github.com/velopack/velopack.git
+cd velopack/src/Rust
+cargo build --features windows
+cd ../../
+dotnet build
+dotnet test --no-build
+```
+
+### Выпуск/Сборка
+
+Это немного сложно, потому что вам нужно будет скомпилировать Rust для x64 OSX и x64 Windows перед созданием окончательных пакетов.
+
+В OSX:
+
+```shell
+git clone https://github.com/velopack/velopack.git
+cd velopack/src/Rust
+грузовая сборка --release
+```
+
+В Windows:
+
+```shell
+git clone https://github.com/velopack/velopack.git
+cd velopack/src/Rust
+cargo build --release --features windows
+copy {path_to_osx_update} target/release/updatemac
+dotnet build -c Release /p:PackRustAssets=true
+```
+
+### Компиляция в Linux
+
+Если вы используете Linux (протестировано на Ubuntu), существуют дополнительные предварительные требования к пакету:
+
+```sh
+sudo apt установить libssl-dev pkg-config 
+```
+
+Вам необходимо убедиться, что `nbgv` работает в командной строке. Возможно, в вашем профиле bash отсутствует переменная `DOTNET_ROOT`, которая может указывать на `/usr/share/dotnet` или `$HOME/.dotnet`. 
+
+Если вам не хватает пакетов локализации, вы можете найти их или добавить в свой профиль bash следующее:
+
+```bash
+экспортировать DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+```

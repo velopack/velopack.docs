@@ -1,0 +1,85 @@
+# Начало работы: С++
+
+<AppliesTo all />
+Начните работу с нашей кроссплатформенной библиотекой заголовков C++.
+
+1. Скопируйте [Velopack.hpp](https://github.com/velopack/velopack.fusion/blob/master/for-cpp/Velopack.hpp) и [Velopack.cpp]\(https://github.com/velopack/ velopack.fusion/blob/master/for-cpp/Velopack.cpp) в свой проект. 
+
+2. Настройте поддержку Unicode:
+   #### Окна
+   В Windows, чтобы включить поддержку Юникода для этой библиотеки, вы **_должны_** 
+   [настроить кодовую страницу UTF-8]\(https://learn.microsoft.com/en-us/windows/apps /design/globalizing/use-utf8-code-page) через манифест вашего приложения 
+   . Невыполнение этого требования потенциально может привести к тому, что ваше приложение **_не сможет обновить_**, если в путях к файлам 
+   вашего пользователя, имени пользователя и т. д. есть символы Юникода.
+   ```xml
+   <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+   <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
+     <application>
+       <windowsSettings>
+         <activeCodePage xmlns="http://schemas.microsoft.com/SMI/2019/WindowsSettings">UTF-8</activeCodePage>
+       </windowsSettings>
+     </application>
+   </assembly>
+   ```
+   #### Linux и MacOS
+   - Если вы используете Qt и доступен `QString`, вам больше ничего делать не нужно. 
+   - Если вы не используете Qt, вам необходимо [установить ICU4C](https://icu.unicode.org/). Как и во многих других библиотеках C, 
+     установки пакета разработки с помощью вашего менеджера пакетов (`apt`, `brew` и т.д.) _должно_ быть достаточно, чтобы сделать его доступным для компиляторов.
+
+3. Добавьте `Velopack::startup()` в вашу точку входа (например, `main()` или `wmain()`) как можно раньше, в идеале первым запускаемым оператором:
+
+   ```cpp
+   #include "Velopack.hpp"
+
+   wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
+   {
+       // Velopack может выйти/перезапустить ваш приложение в этом операторе
+       Velopack::startup(argv, argc);
+
+       // ... здесь ваш другой стартовый код
+   }
+   ```
+
+4. Добавьте где-нибудь в свое приложение автоматические обновления:
+
+   ```cpp
+   #include "Velopack.hpp"
+   #include <memory>
+
+   static void update_app()
+   {
+       Velopack::UpdateManagerSync Manager{};
+       Manager.setUrlOrPath("https://the.place/you-host/updates");
+
+       auto updInfo = Manager.checkForUpdates();
+       if (updInfo == nullptr) {
+           return; // обновлений нет
+       }
+
+       Manager.downloadUpdates(updInfo->targetFullRelease.get());
+       менеджер.applyUpdatesAndRestart(updInfo->targetFullRelease.get());
+   }
+   ```
+
+5. Установите инструмент командной строки `vpk`:
+   ```sh
+   обновление инструмента dotnet -g vpk
+   ```
+   :::tip
+   **_Для использования и обновления `vpk`_**
+   у вас должен быть установлен .NET Core SDK 6 :::
+
+6. Скомпилируйте свое приложение в программу, используя обычный компилятор (например, msvc, cmake, gcc и т. д.).
+
+7. Скопируйте `Vfusion.exe`, `VfusionMac` или `VfusionNix` в папку вывода вашей сборки. На данный момент это выполняется вручную, но в будущем может быть автоматизировано. Вы можете скомпилировать это самостоятельно, загрузить [артефакт последней сборки] \(https://github.com/velopack/velopack.fusion/actions) или получить последнюю версию [выпуска npm] \(https://www.npmjs.com/ package/velopack?activeTab=code), который также включает в себя двоичные файлы.
+   :::предупреждение
+   Пока это не будет автоматизировано, невозможность копирования двоичного файла fusion в каталог обновлений приведет к тому, что ваше приложение не сможет обновиться.
+   :::
+
+8. Упакуйте релиз/установщики Velopack:
+   ```sh
+   vpk package -u MyAppUniqueId -v 1.0.0 -p /myBuildDir -e myexename.exe
+   ```
+
+✅ Готово! Теперь в вашем приложении есть автоматические обновления и установщик.
+Вы можете загрузить свой релиз на свой веб-сайт или использовать команду `vpk upload`, чтобы опубликовать его в выбранном вами месте.

@@ -1,0 +1,130 @@
+{
+  "version.label": {
+    "message": "Следующий",
+    "description": "The label for version current"
+  },
+  "sidebar.mainSidebar.category.Quick Start": {
+    "message": "Быстрый старт",
+    "description": "The label for category Quick Start in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.category.Sample Apps": {
+    "message": "Примеры приложений",
+    "description": "The label for category Sample Apps in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.category.Integrating": {
+    "message": "Интеграция",
+    "description": "The label for category Integrating in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.category.Packaging": {
+    "message": "Упаковка",
+    "description": "The label for category Packaging in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.category.Operating Systems": {
+    "message": "Операционные системы",
+    "description": "The label for category Operating Systems in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.category.Operating Systems.link.generated-index.title": {
+    "message": "Обзор операционных систем",
+    "description": "The generated-index page title for category Operating Systems in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.category.Distributing": {
+    "message": "Распространение",
+    "description": "The label for category Distributing in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.category.Troubleshooting": {
+    "message": "Поиск неисправностей",
+    "description": "The label for category Troubleshooting in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.category.Contributing": {
+    "message": "Содействие",
+    "description": "The label for category Contributing in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.category.Migrating": {
+    "message": "Миграция",
+    "description": "The label for category Migrating in sidebar mainSidebar"
+  },
+  "sidebar.mainSidebar.link.C# / AvaloniaUI": {
+    "message": "C#/АвалонияUI",
+    "description": "The label for link C# / AvaloniaUI in sidebar mainSidebar, linking to https://github.com/velopack/velopack/tree/master/samples/AvaloniaCrossPlat"
+  },
+  "sidebar.mainSidebar.link.C# / WPF": {
+    "message": "С#/WPF",
+    "description": "The label for link C# / WPF in sidebar mainSidebar, linking to https://github.com/velopack/velopack/tree/master/samples/VeloWpfSample"
+  },
+  "sidebar.mainSidebar.link.C++ / Win32": {
+    "message": "С++/Win32",
+    "description": "The label for link C++ / Win32 in sidebar mainSidebar, linking to https://github.com/velopack/velopack.fusion/tree/master/for-cpp/samples/win32"
+  },
+  "sidebar.mainSidebar.link.JS / Electron": {
+    "message": "JS / Электрон",
+    "description": "The label for link JS / Electron in sidebar mainSidebar, linking to https://github.com/velopack/velopack.fusion/tree/master/for-js/samples/electron-forge"
+  },
+  "sidebar.mainSidebar.link.Rust / Iced": {
+    "message": "Ржавчина / Обледенение",
+    "description": "The label for link Rust / Iced in sidebar mainSidebar, linking to https://github.com/velopack/velopack.fusion/tree/master/for-rust/samples/iced"
+  },
+  "sidebar.mainSidebar.doc.C# .NET": {
+    "message": "С# .NET",
+    "description": "The label for the doc item C# .NET in sidebar mainSidebar, linking to the doc getting-started/csharp"
+  },
+  "sidebar.mainSidebar.doc.C++": {
+    "message": "С++",
+    "description": "The label for the doc item C++ in sidebar mainSidebar, linking to the doc getting-started/cpp"
+  },
+  "sidebar.mainSidebar.doc.JS / Electron": {
+    "message": "JS / Электрон",
+    "description": "The label for the doc item JS / Electron in sidebar mainSidebar, linking to the doc getting-started/electron"
+  },
+  "sidebar.mainSidebar.doc.Rust": {
+    "message": "Ржавчина",
+    "description": "The label for the doc item Rust in sidebar mainSidebar, linking to the doc getting-started/rust"
+  },
+  "sidebar.mainSidebar.doc.Fusion CLI": {
+    "message": "Слияние CLI",
+    "description": "The label for the doc item Fusion CLI in sidebar mainSidebar, linking to the doc getting-started/fusion-cli"
+  },
+  "sidebar.referenceSidebar.category.Library Reference": {
+    "message": "Справочник библиотеки",
+    "description": "The label for category Library Reference in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.C#": {
+    "message": "С#",
+    "description": "The label for category C# in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Velopack": {
+    "message": "Велопак",
+    "description": "The label for category Velopack in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Velopack.Compression": {
+    "message": "Велопак.Сжатие",
+    "description": "The label for category Velopack.Compression in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Velopack.Locators": {
+    "message": "Велопак.Локаторы",
+    "description": "The label for category Velopack.Locators in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Velopack.NuGet": {
+    "message": "Велопак.NuGet",
+    "description": "The label for category Velopack.NuGet in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Velopack.Sources": {
+    "message": "Велопак.Источники",
+    "description": "The label for category Velopack.Sources in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.Velopack.Windows": {
+    "message": "Велопак.Окна",
+    "description": "The label for category Velopack.Windows in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.category.JS": {
+    "message": "JS",
+    "description": "The label for category JS in sidebar referenceSidebar"
+  },
+  "sidebar.referenceSidebar.link.Rust": {
+    "message": "Ржавчина",
+    "description": "The label for link Rust in sidebar referenceSidebar, linking to https://docs.rs/velopack"
+  },
+  "sidebar.referenceSidebar.doc.C++": {
+    "message": "С++",
+    "description": "The label for the doc item C++ in sidebar referenceSidebar, linking to the doc reference/cpp/api"
+  }
+}

@@ -1,0 +1,70 @@
+# От Белки
+
+<AppliesTo win />
+Перенесите `Squirrel.Windows` или `Clowd.Squirrel` в Velopack.
+
+Вот общие необходимые шаги:
+
+1. Замените пакет nuget Squirrel.Windows или Clowd.Squirrel последней версией [Пакет Velopack NuGet] \(https://www.nuget.org/packages/velopack).
+
+2. Установите инструмент командной строки `vpk`, так как именно его вы будете использовать для сборки выпусков Velopack.
+   ```cmd
+   установка инструмента dotnet -g vpk
+   ```
+
+3. Вам нужно будет заменить `SquirrelAwareApp` в начале вашего приложения на `VelopackApp.Build().Run()`. Ярлыки [\[Подробнее\]](integrating/shortcuts.mdx) и записи реестра управляются автоматически в Velopack, поэтому, если вы сейчас делаете это в хуках `SquirrelAwareApp`, их следует удалить. Например, если раньше ваши крючки были такими:
+
+   ```cs
+   public static void Main(string[] args)
+   {
+       SquirrelAwareApp.HandleEvents(
+           onInitialInstall: OnAppInstall,
+           onAppUninstall: OnAppUninstall,
+           onEveryRun: OnAppRun);
+   }
+
+   Private static void OnAppInstall (версия SemanticVersion, инструменты IAppTools)
+   {
+       инструменты.CreateShortcutForThisExe(ShortcutLocation.StartMenu | ShortcutLocation.Desktop);
+   }
+
+   Private static void OnAppUninstall (версия SemanticVersion, инструменты IAppTools)
+   {
+       инструменты.RemoveShortcutForThisExe(ShortcutLocation.StartMenu | ShortcutLocation.Desktop);
+   }
+
+   Private static void OnAppRun(версия SemanticVersion, инструменты IAppTools, bool firstRun)
+   {
+       if (firstRun) MessageBox.Show("Спасибо за установку моего приложения !");
+   }
+   ```
+
+   Затем вы должны перейти к следующему коду, удалив ярлыки:
+
+   ```cs
+   public static void Main(string[] args)
+   {
+       // Благодарим пользователя за установку приложения при первом запуске.
+       // Обратите внимание, что приведенный ниже класс MessageBox взят из WinForms или WPF.
+       VelopackApp.Build()
+           .WithFirstRun(v => MessageBox.Show("Спасибо за установку моего приложения!"))
+           .Run();
+   }
+   ```
+
+4. Понятие `SquirrelAwareApp` больше не существует, поэтому, если вы добавили какие-либо атрибуты, записи манифеста сборки или другие файлы, чтобы указать, что ваш двоичный файл теперь поддерживает, вы можете удалить их. Каждый пакет Velopack имеет ровно один двоичный файл VelopackApp, который должен реализовывать указанный выше интерфейс в верхней части Main. По умолчанию Velopack будет искать двоичный файл в `{packDir}\{packId}.exe`. Если ваш основной exe-файл VelopackApp имеет другое имя, вам следует указать имя с аргументом `--mainExe yourApp.exe`.
+
+5. Файл «RELEASES» больше не является форматом, который использует Velopack, но он будет создавать его при сборке пакетов в Windows с каналом по умолчанию (например, без указания аргумента канала). Вместо этого Velopack будет выпускать «релизы».{channel}.json\` файлы, с которыми следует обращаться таким же образом. Если вы хотите, чтобы устаревшее приложение Windows было перенесено на Velopack, вам следует загрузить как файл RELEASES, так и файл Releases.win.json, созданный Velopack, в свой канал обновлений.
+
+6. В целом командная строка поддерживает все те же функции, но имена аргументов или команд могут измениться. Velopack больше не поддерживает использование файла .nupkg, созданного dotnet или nuget.exe. Вам следует опубликовать свое приложение и вместо этого использовать vpk package. Очень простой пример может выглядеть так
+
+   ```cmd
+   dotnetPublish --self-contined -r win-x64 -o опубликовать
+   vpk package -u YourAppId -v 1.0.0 -p опубликовать -e yourMainBinary.exe
+   ```
+
+   Пожалуйста, просмотрите справку по командной строке vpk для получения более подробной информации:
+
+   ```cmd
+   впк -ч
+   ```

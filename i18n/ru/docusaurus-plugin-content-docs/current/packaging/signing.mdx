@@ -1,0 +1,194 @@
+# Подписание кода
+
+<AppliesTo win mac />
+
+Подписание кода — важная часть распространения приложений. В Windows приложения без подписей кода могут быть помечены как вирусы. В OSX требуется разработка кода и нотариальное заверение, прежде чем ваше приложение сможет быть запущено пользователями.
+
+На обеих платформах подпись должна выполняться самим Velopack, поскольку двоичные файлы Velopack (такие как обновление и установка) необходимо подписывать на разных этапах процесса сборки пакета.
+
+## Подписание в Windows
+
+Вот общее практическое правило для предупреждений Защитника Windows/Smart Screen:
+
+- Вы не подписываете свой код. Вы выпускаете MyApp-v1.exe. Люди получают предупреждения на интеллектуальном экране на некоторое время, пока репутация этого файла не повысится. Вы выпускаете MyApp-v2.exe. Люди снова получают предупреждения до тех пор, пока MyApp-v2.exe не наберет достаточную репутацию.
+- Вы подписываете свой код сертификатом OV. Вы выпускаете MyApp-v1.exe. Люди получают предупреждения на интеллектуальном экране какое-то время, пока репутация этого сертификата не повысится. Вы выпускаете MyApp-v2.exe. Люди не получают предупреждений, поскольку сертификат уже имеет хорошую репутацию. В конце концов срок действия вашего сертификата истекает, и приходит время выпустить MyApp-v47.exe. Вы продлеваете свой сертификат, и люди снова получают предупреждения, пока новый сертификат не наберет репутацию.
+- Вы подписываете свой код сертификатом EV. Люди никогда не получают предупреждений.
+
+### Получение сертификата подписи кода
+
+Во-первых, вам необходимо приобрести сертификат подписи кода от известного бренда. Microsoft перечисляет следующих доверенных эмитентов [в своей документации] \(https://learn.microsoft.com/windows-hardware/drivers/dashboard/code-signing-cert-manage):
+
+- [Certum](https://shop.certum.eu/data-safety/code-signing-certificates/certum-ev-code-sigining.html)
+- [SSL.com](https://www.ssl.com/certificates/ev-code-signing/)
+- [DigiCert](https://www.digicert.com/signing/code-signing-certificates)
+- [Доверить](https://www.entrustdatacard.com/products/digital-signing-certificates/code-signing-certificates)
+- [GlobalSign](https://go.microsoft.com/fwlink/p/?LinkId=620888)
+- [IdenTrust](https://www.identrust.com/digital-certificates/trustid-ev-code-signing)
+- [Sectigo (ранее Comodo)](https://sectigo.com/ssl-certificates-tls/code-signing)  
+
+:::tip
+Обратите внимание, что с 1 июня 2023 г. [произошло изменение политики]\(https://knowledge.digicert.com/general-information/new-private-key-storage-requirement-for-standard-code-signing-certificates- ноябрь-2022 г.), что означает, что больше невозможно напрямую загрузить закрытый ключ сертификата подписи кода в виде файла от эмитентов. Это означает, что большинство доступных сегодня вариантов подписи потребуют от вас участия в подписании облачного кода или установки сертификата на HSM (USB/аппаратный модуль). Некоторые поставщики услуг могут разрешить вам установить сертификат на бывший в употреблении или универсальный HSM, а некоторые могут потребовать от вас приобрести и отправить HSM собственной марки. CI/CD может оказаться невозможным для некоторых эмитентов, если они не предоставляют инструменты, специально предназначенные для этого.
+:::
+
+Официальные сертификаты можно получить у авторизованного реселлера по более низкой цене:
+
+- [SignMyCode](https://signmycode.com/)
+- [GoGetSSL](https://www.gogetssl.com/code-signing-ssl/)
+
+Если вы ищете дешевый вариант, на момент написания статьи Certum предлагает [Сертификат подписи облака с открытым исходным кодом] \(https://certum.store/data-safety/code-signing-certificates.html?as_dane_w_certyfikacie=5720) за 58 долларов. Обратите внимание, что сертификаты Certum невозможно автоматизировать с помощью CI/CD, поскольку они требуют установки драйверов виртуальной подписи (SimpleSign Desktop) и входа в систему с помощью приложения 2FA SimplySign. 
+
+:::warning
+Этот документ ни в коем случае не является рекомендацией или советом по покупке у какого-либо конкретного эмитента сертификата подписи кода. Это всего лишь общее руководство по процессу приобретения сертификата, и вы должны сами убедиться, что выбранный вами эмитент подходит для вашего случая использования.
+:::
+
+### Подписание через `signtool.exe`
+
+Обычно подписание осуществляется с помощью `signtool.exe`. Если вы уже используете этот инструмент для подписи своего приложения, вы можете просто передать параметры подписи прямо в Velopack (без команды «подписать»).
+
+Например, если ваша команда подписи раньше была:
+
+```cmd
+Signtool.exe подписывает /td sha256 /fd sha256 /f yourCert.pfx /tr http://timestamp.comodoca.com
+```
+
+Тогда теперь с `--signParams` это будет:
+
+```cmd
+пакет vpk ... --signParams "/td sha256 /fd sha256 /f yourCert.pfx /tr http://timestamp.comodoca.com"
+```
+
+Если вы новичок в использовании `signtool.exe`, вы можете проверить [ссылку на командную строку здесь] \(https://learn.microsoft.com/dotnet/framework/tools/signtool-exe). Я рекомендую сначала начать работу с подписью на одном двоичном файле, используя `signtool.exe`, прежде чем пытаться заставить все работать с помощью Velopack CLI.
+
+Если вы используете USB/HSM и у вас возникла следующая ошибка подписи: «Ошибка: SignerSign() не удалось». (-2147023673/0x800704c7)`, это означает, что вам не хватает пароля/токена разблокировки. Это можно добавить в команду подписи с параметрами `/csp/k\`. [\[Подробнее\]](https://stackoverflow.com/questions/17927895/automate-extended-validation-ev-code-signing-with-safenet-etoken/54439759#54439759)
+
+:::warning
+Будьте осторожны, указывая параметры через пробелы. Вы должны заключить все, что содержит пробелы, в кавычки и отделить их обратной косой чертой. Например, `--signParams "/n \"Имя моего сертификата\""`. Если вы используете задачу MSBuild `<Exec>` или подобную, вам нужно будет использовать вместо нее `&quot;`.
+:::
+
+По умолчанию Velopack подписывает 10 файлов за один вызов `signtool.exe`, чтобы ускорить подписание и уменьшить количество раз, которое вам необходимо взаимодействовать с консолью, если вы используете какой-либо интерактивный метод подписи. Это можно отключить с помощью аргумента `--signParallel 1`.
+
+### Пользовательские команды и инструменты для подписания
+
+Если у вас есть более сложные требования к подписи, например специальный инструмент подписи (например, «AzureSignTool.exe»), вместо этого вы можете предоставить шаблон команды, где «{{file}}» — это двоичный файл, который Velopack заменит и подпишет. :
+
+```cmd
+vpk package ... --signTemplate "Знак AzureSignTool.exe ... {{file}}"
+```
+
+## Подписание и нотариальное заверение на OSX
+
+Прежде чем ваше приложение сможет запускаться пользователями, необходимо разработать код и нотариально заверить его, поэтому это обязательный шаг перед развертыванием вашего приложения.
+
+### Создание сертификатов подписи кода
+
+1. Сначала вам необходимо создать учетную запись на https://developer.apple.com, оплатить годовой взнос разработчика и принять все лицензионные соглашения. 
+2. Перейдите к своим сертификатам: https://developer.apple.com/account/resources/certificates.
+3. Нажмите значок (+), чтобы создать новые сертификаты. Вам необходимо создать сертификат «Установщик идентификатора разработчика» и сертификат «Приложение идентификатора разработчика» для распространения приложений Velopack за пределами Mac App Store. 
+   ![список сертификатов Apple](/images/apple_certificate_list.png)
+4. Откройте оба сертификата, щелкнув по ним, нажмите «Загрузить», а затем дважды щелкните файл «.cer», чтобы установить его в локальную связку ключей.
+
+### Настройка профиля NotaryTool
+
+1. Создайте пароль для конкретного приложения: https://support.apple.com/en-us/102654. Этот пароль будет показан вам только один раз, поэтому сохраните или запишите его где-нибудь.
+2. Найдите идентификатор своей команды Apple: https://developer.apple.com/account#MembershipDetailsCard.
+3. Сохраните учетные данные своей учетной записи Apple в новом профиле NotaryTool:
+   ```sh
+   xcrun notarytool store-credentials \
+       --apple-id "yourapple@account.com" \
+       --team-id "your-located-team-id" \
+       - -password "пароль-вашего-сгенерированного-приложения" \
+       "имя-вашего-локального-профиля"
+   ```
+
+### Собираем все это вместе
+
+Теперь, когда у вас установлен профиль NotaryTool и сертификаты подписи кода, вы можете добавить следующие параметры в команду Pack:
+
+```sh
+vpk package \
+    ... 
+    --signAppIdentity «Идентификатор разработчика приложения: ваше имя» \
+    --signInstallIdentity «Установщик идентификатора разработчика: ваше имя» \
+    --notaryProfile "имя-вашего-локального-профиля" \
+```
+
+Если эти параметры указаны и действительны, Velopack автоматически подпишет код и нотариально заверит ваше приложение и пакеты установщика.
+
+### Автоматизация подписи в CI/CD (Github Actions)
+
+Также можно хранить ваши сертификаты и учетные данные нотариуса как секреты действий и подписывать свой код во время CI-сборок.
+
+1. Запустите Keychain Access и откройте панель «Мои сертификаты».
+
+2. Выберите оба сертификата, щелкните правой кнопкой мыши и выберите «Экспорт». Сохраните как файл p12 и запишите пароль. Вы можете использовать один и тот же пароль для обоих сертификатов.
+
+3. Скопируйте содержимое сертификата в буфер обмена в формате base64, пример:
+   ```sh
+   base64 -i CERT.p12 | pbcopy
+   ```
+
+4. Создайте 7 [секретов Github](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) для ваших рабочих процессов действий.
+   - `BUILD_CERTIFICATE_BASE64` (b64 сертификата вашего приложения)
+   - `INSTALLER_CERTIFICATE_BASE64` (b64 вашего сертификата установщика)
+   - `P12_PASSWORD` (пароль для сертификатов)
+   - `APPLE_ID` (ваше имя пользователя Apple)
+   - `APPLE_PASSWORD` (пароль вашего приложения, указанный ранее)
+   - `APPLE_TEAM` (идентификатор вашей команды, указанный ранее)
+   - `KEYCHAIN_PASSWORD` (может быть любой случайной строкой, будет использоваться для создания новой цепочки для ключей)
+
+5. Добавьте в свой рабочий процесс шаг, который устанавливает сертификаты и профиль связки ключей. Вот пример:
+
+   ```yml
+   name: App build & sign
+   on: push
+   jobs:
+     build_with_signing:
+       runs-on: macos-latest
+       steps:
+         - name: Checkout repository
+           uses: actions/checkout@v4
+
+         - name: Install Apple certificates and notary profile
+           env:
+             BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+             INSTALLER_CERTIFICATE_BASE64: ${{ secrets.INSTALLER_CERTIFICATE_BASE64 }}
+             P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+             APPLE_ID: ${{ secrets.APPLE_ID }}
+             APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+             APPLE_TEAM: ${{ secrets.APPLE_TEAM }}
+             KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+           run: |
+             # create variables for file paths
+             CERT_BUILD_PATH=$RUNNER_TEMP/build_certificate.p12
+             CERT_INSTALLER_PATH=$RUNNER_TEMP/installer_certificate.p12
+             KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+             # import certificates from secrets
+             echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERT_BUILD_PATH
+             echo -n "$INSTALLER_CERTIFICATE_BASE64" | base64 --decode -o $CERT_INSTALLER_PATH
+
+             # create temporary keychain
+             security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+             security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+             security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+             # import certificates to keychain
+             security import $CERT_BUILD_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+             security import $CERT_INSTALLER_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+             security list-keychain -d user -s $KEYCHAIN_PATH
+
+             # create notarytool profile
+             xcrun notarytool store-credentials --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM" --password "$APPLE_PASSWORD" velopack-profile
+
+         - name: Build app
+           ...
+
+         - name: Create Velopack Release
+           run: |
+             dotnet tool install -g vpk
+             vpk ... --signAppIdentity "Developer ID Application: Your Name" --signInstallIdentity "Developer ID Installer: Your Name" --notaryProfile "velopack-profile"
+
+         - name: Clean up keychain
+           if: ${{ always() }}
+           run: security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+   ```

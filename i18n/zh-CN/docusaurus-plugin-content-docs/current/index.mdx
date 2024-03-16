@@ -1,0 +1,57 @@
+---
+disable_comments: true
+---
+
+# Introduction
+
+Velopack is an installation and auto-update framework for cross-platform desktop applications. It's opinionated, extremely easy to use with zero config needed. With just one command you can be up and running with an installable application, and it's lightning fast for your users, too.
+
+Be sure to check us out on [GitHub](https://github.com/velopack/velopack) and [join our Discord](https://discord.gg/CjrCrNzd3F) for any questions/support!
+
+## Overview
+
+To enable your application to make full use of Velopack, you need to do 3 things:
+
+<FancyStep step={1}>
+### Integrate the SDK & check for updates
+We have client libraries for some [languages below](#language-support), or if we don't support your language yet you can use [our CLI](./getting-started/fusion-cli.mdx). <br/>
+[Read more →](integrating/overview.mdx)
+</FancyStep>
+
+<FancyStep step={2}>
+### Build a Velopack release
+Our command-line tool `vpk` can help you build update packages and installers in just one command. <br/>
+[Read more →](packaging/overview.mdx)
+</FancyStep>
+
+<FancyStep step={3} noline>
+### Upload your releases somewhere
+You can host updates anywhere static files can be served, eg. cloud file storage, GitHub Releases, and more. <br/>
+[Read more →](distributing/overview.mdx)
+</FancyStep>
+
+## Language Support
+
+There are libraries planned or supported for the languages below.
+
+|  Lang  | Status  | Runtime Deps   | Async | Links                                                                                                                                                                                                                                         |   |
+| :----: | ------- | -------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | - |
+|   C#   | ✅ Ready | ✅ None         | ✅ Yes | [quick start](./getting-started/csharp.mdx), [docs](./reference/cs/Velopack/), [samples](https://github.com/velopack/velopack/tree/master/samples), [nuget.org](https://nuget.org/packages/velopack)                                          |   |
+|   JS   | ✅ Ready | ✅ None         | ✅ Yes | [quick start](./getting-started/electron.mdx), [docs](./reference/js/classes/UpdateManager.md), [samples](https://github.com/velopack/velopack.fusion/tree/master/for-js/samples), [npmjs.com](https://www.npmjs.com/package/velopack)        |   |
+|  Rust  | ✅ Ready | ✅ None         | ✅ Yes | [quick start](./getting-started/rust.mdx), [docs](https://docs.rs/velopack), [samples](https://github.com/velopack/velopack.fusion/tree/master/for-rust/samples), [crates.io](https://crates.io/crates/velopack)                              |   |
+|   C++  | ✅ Ready | 🔶 vfusion.exe | ❌ No  | [quick start](./getting-started/cpp.mdx), [docs](./reference/cpp/api.md), [samples](https://github.com/velopack/velopack.fusion/tree/master/for-cpp/samples), [velopack.hpp](https://github.com/velopack/velopack.fusion/tree/master/for-cpp) |   |
+|  Java  | Planned | -              | -     | -                                                                                                                                                                                                                                             | - |
+| Python | Planned | -              | -     | -                                                                                                                                                                                                                                             | - |
+|  Swift | Planned | -              | -     | -                                                                                                                                                                                                                                             | - |
+|   Go   | Planned | -              | -     | -                                                                                                                                                                                                                                             | - |
+
+:::info
+If your language is not listed, you can [**open an issue to request it**](https://github.com/velopack/velopack.fusion/issues), 
+or if your language supports running a process you can [**integrate directly with the Fusion CLI**](./getting-started/fusion-cli.mdx).
+:::
+
+<!-- ## Migrating to Velopack
+import DocCardList from '@theme/DocCardList';
+<DocCardList items={[
+    { type: 'link', docId: 'migrating/squirrel', href: 'migrating/squirrel', label: 'From Squirrel' },
+]} /> -->

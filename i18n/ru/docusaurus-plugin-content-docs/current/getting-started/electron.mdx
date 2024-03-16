@@ -1,0 +1,79 @@
+# Начало работы: JS/электрон
+
+<AppliesTo all />
+Начните работу с нашим пакетом NPM для JS и Electron.
+
+Если вы используете чистый nodejs и объединяете свое приложение с помощью [pkg](https://github.com/vercel/pkg) или аналогичного, вы можете игнорировать шаги, специфичные для Electron.
+
+1. Добавьте Velopack в ваш package.json:
+   ```txt
+   npm установить велопак
+   ```
+
+2. Добавьте следующий код в свою точку входа (например, `index.js`) как можно раньше (перед любым электронным кодом запуска и т. д.):
+
+   ```js
+   const { VelopackApp } = require('velopack');
+
+   // Сборщик Velopack должен быть запущен первым в основном процессе.
+   // В некоторых случаях процесс может завершиться/перезапуститься для выполнения задач.
+   VelopackApp.build().run();
+
+   // ... здесь код запуска вашего другого приложения
+   ```
+
+3. Добавьте где-нибудь в свое приложение автоматические обновления:
+
+   ```js
+   const { UpdateManager } = require('velopack');
+
+   асинхронная функция updateApp()
+   {
+       const um = new UpdateManager();
+       um.setUrlOrPath("https://the.place/you-host/updates");
+
+       const updateInfo = await um.checkForUpdatesAsync();
+       if (!updateInfo) {
+           return; // нет доступных обновлений
+       }
+
+       await um.downloadUpdatesAsync(updateInfo.targetFullRelease, p => {
+           console.log(`progress: ${p}%`);
+       });
+
+       um.applyUpdatesAndRestart(updateInfo.targetFullRelease);
+   }
+   ```
+
+4. Если вы используете Electron/Forge, вам нужно будет добавить правило распаковки asar:
+   ```js
+   module.exports = {
+       packagerConfig: {
+           asar: {
+           // velopack содержит собственные двоичные файлы, которые должны оставаться распакованными
+               unpack: '**/node_modules/velopack /**',
+           },
+       },
+   }
+   ```
+
+5. Скомпилируйте приложение в двоичный файл (например, «.exe» в Windows). Пример использования электронной кузницы:
+   ```sh
+   пакет npx для электронной кузницы
+   ```
+
+6. Установите инструмент командной строки `vpk`:
+   ```sh
+   обновление инструмента dotnet -g vpk
+   ```
+   :::tip
+   **_Для использования и обновления `vpk`_**
+   у вас должен быть установлен .NET Core SDK 6 :::
+
+7. Упакуйте релиз/установщики Velopack:
+   ```sh
+   vpk package -u MyAppUniqueId -v 1.0.0 -p /myBuildDir -e myexename.exe
+   ```
+
+✅ Готово! Теперь в вашем приложении есть автоматические обновления и установщик.
+Вы можете загрузить свой релиз на свой веб-сайт или использовать команду `vpk upload`, чтобы опубликовать его в выбранном вами месте.

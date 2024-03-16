@@ -1,0 +1,23 @@
+# Примечания к выпуску
+
+<AppliesTo all />
+Можно хранить примечания к выпуску (Markdown) в пакетах обновлений и получать к ним доступ во время обновления. Это может быть полезно, например, чтобы показать пользователю список изменений перед загрузкой обновления.
+
+- Запишите примечания к выпуску в файл (например, Releasenotes.mdx).
+- Упаковывая релиз, предоставьте его Velopack с помощью `--releaseNotes {path/to/releasenotes.md}`
+
+Конструктор Velopack для вашего удобства преобразует это в HTML и сохранит HTML и уценку в вашем пакете обновления.
+
+Теперь при проверке обновлений будут доступны примечания к выпуску, например:
+
+```cs
+частная статическая асинхронная задача UpdateMyApp()
+{
+    var mgr = new UpdateManager("https://the.place/you-host/updates");
+
+    вар newVersion = ждут mgr.CheckForUpdatesAsync();
+    if (newVersion != null) {
+        new ReleaseNotesHtmlWindow(newVersion.TargetFullRelease.ReleaseNotesHtml).Show();
+    }
+}
+```
