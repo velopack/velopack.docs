@@ -35,7 +35,11 @@ async function gen_docfx() {
     exec("dotnet run docfx.csproj", { cwd: path.join(__dirname, "scripts"), stdio: "inherit" })
 }
 
-async function gen_doxygen(sourceDir: string, outputDir: string) {
+/**
+ * @param sourceDir {string}
+ * @param outputDir {string}
+ */
+async function gen_doxygen(sourceDir, outputDir) {
     console.log(`Generating Doxygen: ${sourceDir} -> ${outputDir}`);
     if (fs.existsSync(doxygenTemp)) {
         fs.rmSync(doxygenTemp, { recursive: true, force: true });
@@ -101,7 +105,10 @@ async function gen_typedoc() {
     fs.unlinkSync("./docs/reference/js/.nojekyll");
 }
 
-const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+/**
+ * @param ms {number}
+ */
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
 // typedoc gets confused with this file here
 if (fs.existsSync("tsconfig.json")) {
