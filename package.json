@@ -16,7 +16,7 @@
     "generate": "ts-node ./generate.ts",
     "crowdin-download": "crowdin download",
     "crowdin-upload": "crowdin upload",
-    "locale": "node setup-locale.js"
+    "daily-tasks": "node daily-tasks.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.1.1",
