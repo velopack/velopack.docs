@@ -39,7 +39,7 @@ public virtual Task DownloadFile(string url, string targetFile, Action<int> prog
 |:--- |:--- |:--- |
 | `System.String` | *url* | The url which will be downloaded. |
 | `System.String` | *targetFile* | The local path where the file will be stored
-If a file exists at this path, it will be overritten. |
+If a file exists at this path, it will be overwritten. |
 | `System.Action<System.Int32>` | *progress* | A delegate for reporting download progress, with expected values from 0-100. |
 | `System.String` | *authorization* | Text to be sent in the 'Authorization' header of the request. |
 | `System.String` | *accept* | Text to be sent in the 'Accept' header of the request. |

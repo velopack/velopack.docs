@@ -24,7 +24,7 @@ deleted.
 
 #### Defined in
 
-[Velopack.d.ts:118](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L118)
+[Velopack.d.ts:118](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L118)
 
 ___
 
@@ -36,7 +36,7 @@ The available version that we are updating to.
 
 #### Defined in
 
-[Velopack.d.ts:112](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L112)
+[Velopack.d.ts:112](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L112)
 
 ## Methods
 
@@ -58,4 +58,4 @@ Parses a JSON string into an UpdateInfo object.
 
 #### Defined in
 
-[Velopack.d.ts:122](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L122)
+[Velopack.d.ts:122](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L122)

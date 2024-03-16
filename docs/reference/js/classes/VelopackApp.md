@@ -27,7 +27,7 @@ In some circumstances it may terminate/restart the process to perform tasks.
 
 #### Defined in
 
-[Velopack.d.ts:225](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L225)
+[Velopack.d.ts:225](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L225)
 
 ___
 
@@ -43,4 +43,4 @@ Create a new VelopackApp instance.
 
 #### Defined in
 
-[Velopack.d.ts:220](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L220)
+[Velopack.d.ts:220](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L220)

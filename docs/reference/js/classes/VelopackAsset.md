@@ -22,7 +22,7 @@ The filename of the update package containing this release.
 
 #### Defined in
 
-[Velopack.d.ts:79](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L79)
+[Velopack.d.ts:79](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L79)
 
 ___
 
@@ -34,7 +34,7 @@ The release notes in HTML format, transformed from Markdown when packaging the r
 
 #### Defined in
 
-[Velopack.d.ts:95](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L95)
+[Velopack.d.ts:95](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L95)
 
 ___
 
@@ -46,7 +46,7 @@ The release notes in markdown format, as passed to Velopack when packaging the r
 
 #### Defined in
 
-[Velopack.d.ts:91](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L91)
+[Velopack.d.ts:91](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L91)
 
 ___
 
@@ -58,7 +58,7 @@ The name or Id of the package containing this release.
 
 #### Defined in
 
-[Velopack.d.ts:67](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L67)
+[Velopack.d.ts:67](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L67)
 
 ___
 
@@ -70,7 +70,7 @@ The SHA1 checksum of the update package containing this release.
 
 #### Defined in
 
-[Velopack.d.ts:83](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L83)
+[Velopack.d.ts:83](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L83)
 
 ___
 
@@ -82,7 +82,7 @@ The size in bytes of the update package containing this release.
 
 #### Defined in
 
-[Velopack.d.ts:87](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L87)
+[Velopack.d.ts:87](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L87)
 
 ___
 
@@ -94,7 +94,7 @@ The type of asset (eg. full or delta).
 
 #### Defined in
 
-[Velopack.d.ts:75](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L75)
+[Velopack.d.ts:75](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L75)
 
 ___
 
@@ -106,7 +106,7 @@ The version of this release.
 
 #### Defined in
 
-[Velopack.d.ts:71](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L71)
+[Velopack.d.ts:71](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L71)
 
 ## Methods
 
@@ -128,7 +128,7 @@ Parses a JSON string into a VelopackAsset object.
 
 #### Defined in
 
-[Velopack.d.ts:99](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L99)
+[Velopack.d.ts:99](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L99)
 
 ___
 
@@ -150,4 +150,4 @@ Parses a JSON node into a VelopackAsset object.
 
 #### Defined in
 
-[Velopack.d.ts:103](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L103)
+[Velopack.d.ts:103](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L103)

@@ -25,7 +25,7 @@ True if this release is a prerelease.
 public bool Prerelease { get; set; }
 ```
 ### PublishedAt
-The date which this release was published publically.
+The date which this release was published publicly.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/GithubSource.cs#L22)
 ```csharp title="Declaration"
 public DateTime? PublishedAt { get; set; }

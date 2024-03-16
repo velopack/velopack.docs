@@ -8,7 +8,7 @@
 
 #### Defined in
 
-[Velopack.d.ts:58](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L58)
+[Velopack.d.ts:58](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L58)
 
 ___
 
@@ -18,7 +18,7 @@ ___
 
 #### Defined in
 
-[Velopack.d.ts:57](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L57)
+[Velopack.d.ts:57](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L57)
 
 ___
 
@@ -28,4 +28,4 @@ ___
 
 #### Defined in
 
-[Velopack.d.ts:56](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L56)
+[Velopack.d.ts:56](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L56)

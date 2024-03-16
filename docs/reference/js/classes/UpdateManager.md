@@ -35,7 +35,7 @@ It provides the asynchronous functions of the UpdateManager class.
 
 #### Defined in
 
-[Velopack.d.ts:130](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L130)
+[Velopack.d.ts:130](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L130)
 
 ## Methods
 
@@ -63,7 +63,7 @@ The user may be prompted during the update, if the update requires additional fr
 
 #### Defined in
 
-[Velopack.d.ts:199](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L199)
+[Velopack.d.ts:199](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L199)
 
 ___
 
@@ -92,7 +92,7 @@ The user may be prompted during the update, if the update requires additional fr
 
 #### Defined in
 
-[Velopack.d.ts:205](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L205)
+[Velopack.d.ts:205](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L205)
 
 ___
 
@@ -114,7 +114,7 @@ complete, depending on the network speed and the number of updates available.
 
 #### Defined in
 
-[Velopack.d.ts:186](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L186)
+[Velopack.d.ts:186](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L186)
 
 ___
 
@@ -132,7 +132,7 @@ complete, depending on the network speed and the number of updates available.
 
 #### Defined in
 
-[Velopack.d.ts:243](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L243)
+[Velopack.d.ts:243](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L243)
 
 ___
 
@@ -161,7 +161,7 @@ so may fail if there is already another update operation in progress.
 
 #### Defined in
 
-[Velopack.d.ts:193](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L193)
+[Velopack.d.ts:193](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L193)
 
 ___
 
@@ -187,7 +187,7 @@ so may fail if there is already another update operation in progress.
 
 #### Defined in
 
-[Velopack.d.ts:250](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L250)
+[Velopack.d.ts:250](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L250)
 
 ___
 
@@ -207,7 +207,7 @@ Returns the command line arguments to check for updates.
 
 #### Defined in
 
-[Velopack.d.ts:158](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L158)
+[Velopack.d.ts:158](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L158)
 
 ___
 
@@ -228,7 +228,7 @@ If the application is not installed, this function will throw an exception.
 
 #### Defined in
 
-[Velopack.d.ts:180](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L180)
+[Velopack.d.ts:180](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L180)
 
 ___
 
@@ -245,7 +245,7 @@ UpdateInfo object containing the latest available release, and any delta updates
 
 #### Defined in
 
-[Velopack.d.ts:237](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L237)
+[Velopack.d.ts:237](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L237)
 
 ___
 
@@ -265,7 +265,7 @@ Returns the command line arguments to get the current version of the application
 
 #### Defined in
 
-[Velopack.d.ts:154](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L154)
+[Velopack.d.ts:154](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L154)
 
 ___
 
@@ -291,7 +291,7 @@ Returns the command line arguments to download the specified update.
 
 #### Defined in
 
-[Velopack.d.ts:162](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L162)
+[Velopack.d.ts:162](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L162)
 
 ___
 
@@ -311,7 +311,7 @@ Returns the path to the app's packages directory. This is where updates are down
 
 #### Defined in
 
-[Velopack.d.ts:170](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L170)
+[Velopack.d.ts:170](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L170)
 
 ___
 
@@ -341,7 +341,7 @@ Returns the command line arguments to apply the specified update.
 
 #### Defined in
 
-[Velopack.d.ts:166](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L166)
+[Velopack.d.ts:166](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L166)
 
 ___
 
@@ -362,7 +362,7 @@ UpdateManager may throw exceptions, so you may want to check this before calling
 
 #### Defined in
 
-[Velopack.d.ts:175](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L175)
+[Velopack.d.ts:175](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L175)
 
 ___
 
@@ -391,7 +391,7 @@ channel is lower than the current version.
 
 #### Defined in
 
-[Velopack.d.ts:141](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L141)
+[Velopack.d.ts:141](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L141)
 
 ___
 
@@ -422,7 +422,7 @@ without having to reinstall the application.
 
 #### Defined in
 
-[Velopack.d.ts:150](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L150)
+[Velopack.d.ts:150](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L150)
 
 ___
 
@@ -448,7 +448,7 @@ Set the URL or local file path to the update server. This is required before cal
 
 #### Defined in
 
-[Velopack.d.ts:134](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L134)
+[Velopack.d.ts:134](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L134)
 
 ___
 
@@ -479,4 +479,4 @@ optionally restart your app. The updater will only wait for 60 seconds before gi
 
 #### Defined in
 
-[Velopack.d.ts:211](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L211)
+[Velopack.d.ts:211](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L211)

@@ -32,6 +32,8 @@ must contain one or more valid packages, as well as a 'releases.{channel}.json' 
 Retrieves updates from a static file host or other web server. 
 Will perform a request for '{baseUri}/RELEASES' to locate the available packages,
 and provides query parameters to specify the name of the requested package.
+### [VelopackFlowUpdateSource](../Velopack.Sources/VelopackFlowUpdateSource)
+Retrieves updates from the hosted Velopack service.
 ## Interfaces
 ### [IFileDownloader](../Velopack.Sources/IFileDownloader)
 A simple abstractable file downloader

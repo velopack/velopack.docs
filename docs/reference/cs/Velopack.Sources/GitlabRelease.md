@@ -25,7 +25,7 @@ True if this is intended for an upcoming release.
 public bool UpcomingRelease { get; set; }
 ```
 ### ReleasedAt
-The date which this release was published publically.
+The date which this release was published publicly.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/GitlabSource.cs#L30)
 ```csharp title="Declaration"
 public DateTime? ReleasedAt { get; set; }

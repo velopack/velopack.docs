@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[Velopack.d.ts:10](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L10)
+[Velopack.d.ts:10](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L10)
 
 ## Methods
 
@@ -38,7 +38,7 @@
 
 #### Defined in
 
-[Velopack.d.ts:49](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L49)
+[Velopack.d.ts:49](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L49)
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 #### Defined in
 
-[Velopack.d.ts:51](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L51)
+[Velopack.d.ts:51](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L51)
 
 ___
 
@@ -75,7 +75,7 @@ readonly [`JsonNode`](JsonNode.md)[]
 
 #### Defined in
 
-[Velopack.d.ts:33](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L33)
+[Velopack.d.ts:33](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L33)
 
 ___
 
@@ -91,7 +91,7 @@ Reinterpret a JSON value as a boolean. Throws exception if the value type was no
 
 #### Defined in
 
-[Velopack.d.ts:41](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L41)
+[Velopack.d.ts:41](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L41)
 
 ___
 
@@ -107,7 +107,7 @@ Reinterpret a JSON value as a number. Throws exception if the value type was not
 
 #### Defined in
 
-[Velopack.d.ts:37](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L37)
+[Velopack.d.ts:37](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L37)
 
 ___
 
@@ -123,7 +123,7 @@ Reinterpret a JSON value as an object. Throws exception if the value type was no
 
 #### Defined in
 
-[Velopack.d.ts:29](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L29)
+[Velopack.d.ts:29](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L29)
 
 ___
 
@@ -139,7 +139,7 @@ Reinterpret a JSON value as a string. Throws exception if the value type was not
 
 #### Defined in
 
-[Velopack.d.ts:45](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L45)
+[Velopack.d.ts:45](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L45)
 
 ___
 
@@ -158,7 +158,7 @@ parsed json information.
 
 #### Defined in
 
-[Velopack.d.ts:17](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L17)
+[Velopack.d.ts:17](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L17)
 
 ___
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-[Velopack.d.ts:48](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L48)
+[Velopack.d.ts:48](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L48)
 
 ___
 
@@ -192,7 +192,7 @@ ___
 
 #### Defined in
 
-[Velopack.d.ts:47](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L47)
+[Velopack.d.ts:47](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L47)
 
 ___
 
@@ -212,7 +212,7 @@ ___
 
 #### Defined in
 
-[Velopack.d.ts:52](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L52)
+[Velopack.d.ts:52](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L52)
 
 ___
 
@@ -226,7 +226,7 @@ ___
 
 #### Defined in
 
-[Velopack.d.ts:50](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L50)
+[Velopack.d.ts:50](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L50)
 
 ___
 
@@ -246,7 +246,7 @@ ___
 
 #### Defined in
 
-[Velopack.d.ts:53](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L53)
+[Velopack.d.ts:53](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L53)
 
 ___
 
@@ -262,7 +262,7 @@ Check if the JSON value is empty - eg. an empty string, array, or object.
 
 #### Defined in
 
-[Velopack.d.ts:25](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L25)
+[Velopack.d.ts:25](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L25)
 
 ___
 
@@ -278,7 +278,7 @@ Check if the JSON value is null.
 
 #### Defined in
 
-[Velopack.d.ts:21](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L21)
+[Velopack.d.ts:21](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L21)
 
 ___
 
@@ -298,4 +298,4 @@ ___
 
 #### Defined in
 
-[Velopack.d.ts:46](https://github.com/velopack/velopack.fusion/blob/b92fa93/for-js/Velopack.d.ts#L46)
+[Velopack.d.ts:46](https://github.com/velopack/velopack.fusion/blob/4afc04c/for-js/Velopack.d.ts#L46)

@@ -1,33 +1,37 @@
 ---
-title: Class SimpleFileSource
-sidebar_label: SimpleFileSource
-description: "Retrieves available updates from a local or network-attached disk. The directory
-must contain one or more valid packages, as well as a 'releases.{channel}.json' index file."
+title: Class VelopackFlowUpdateSource
+sidebar_label: VelopackFlowUpdateSource
+description: "Retrieves updates from the hosted Velopack service."
 ---
-# Class SimpleFileSource
-Retrieves available updates from a local or network-attached disk. The directory
-must contain one or more valid packages, as well as a 'releases.{channel}.json' index file.
+# Class VelopackFlowUpdateSource
+Retrieves updates from the hosted Velopack service.
 
 ###### **Assembly**: Velopack.dll
-###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/SimpleFileSource.cs#L15)
+###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/VelopackFlowUpdateSource.cs#L14)
 ```csharp title="Declaration"
-public class SimpleFileSource : IUpdateSource
+public sealed class VelopackFlowUpdateSource : IUpdateSource
 ```
 **Implements:**  
 [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource)
 
 ## Properties
-### BaseDirectory
-The local directory containing packages to update to.
-###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/SimpleFileSource.cs#L18)
+### BaseUri
+The URL of the server hosting packages to update to.
+###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/VelopackFlowUpdateSource.cs#L26)
 ```csharp title="Declaration"
-public virtual DirectoryInfo BaseDirectory { get; }
+public Uri BaseUri { get; }
+```
+### Downloader
+The [Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader) to be used for performing http requests.
+###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/VelopackFlowUpdateSource.cs#L29)
+```csharp title="Declaration"
+public IFileDownloader Downloader { get; }
 ```
 ## Methods
 ### GetReleaseFeed(ILogger, string, Guid?, VelopackAsset?)
 Retrieve the list of available remote releases from the package source. These releases
 can subsequently be downloaded with `Velopack.Sources.IUpdateSource.DownloadReleaseEntry(Microsoft.Extensions.Logging.ILogger%2cVelopack.VelopackAsset%2cSystem.String%2cSystem.Action%7bSystem.Int32%7d%2cSystem.Threading.CancellationToken)`.
-###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/SimpleFileSource.cs#L27)
+###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/VelopackFlowUpdateSource.cs#L32)
 ```csharp title="Declaration"
 public Task<VelopackAssetFeed> GetReleaseFeed(ILogger logger, string channel, Guid? stagingId = null, VelopackAsset? latestLocalRelease = null)
 ```
@@ -52,9 +56,9 @@ public Task<VelopackAssetFeed> GetReleaseFeed(ILogger logger, string channel, Gu
 
 ### DownloadReleaseEntry(ILogger, VelopackAsset, string, Action&lt;int&gt;, CancellationToken)
 Download the specified [Velopack.VelopackAsset](../Velopack/VelopackAsset) to the provided local file path.
-###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/SimpleFileSource.cs#L67)
+###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/VelopackFlowUpdateSource.cs#L68)
 ```csharp title="Declaration"
-public Task DownloadReleaseEntry(ILogger logger, VelopackAsset releaseEntry, string localFile, Action<int> progress, CancellationToken cancelToken)
+public Task DownloadReleaseEntry(ILogger logger, VelopackAsset releaseEntry, string localFile, Action<int> progress, CancellationToken cancelToken = default)
 ```
 
 ##### Returns
