@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 // config
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const locales = ['zh-CN'];
+const locales = ['de', 'ru', 'zh-CN'];
 const i18nDir = path.join(__dirname, 'i18n');
 
 // update reference libraries

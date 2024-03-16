@@ -14,7 +14,7 @@ const config: Config = {
   onBrokenMarkdownLinks: 'throw',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'zh-CN'],
+    locales: ['en', 'zh-CN', 'de', 'ru'],
   },
   themes: [
     ['@easyops-cn/docusaurus-search-local', {
