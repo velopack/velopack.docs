@@ -40,9 +40,7 @@ jobs:
           path: velopack.fusion
 
       - name: Install dotnet tools
-        run: |
-          dotnet tool install -g docfx
-          dotnet tool install -g DocFxMarkdownGen
+        run: dotnet tool install -g docfx
 
       - name: Install dependencies
         working-directory: velopack.docs

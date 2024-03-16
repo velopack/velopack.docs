@@ -32,8 +32,7 @@ async function gen_docfx() {
     }
     exec("docfx metadata", { stdio: "inherit", cwd: "../velopack" });
     fs.mkdirSync(output, { recursive: true });
-    exec("dfmg", { stdio: "inherit", env: { DFMG_CONFIG: "dfmg.yaml" } });
-    fs.unlinkSync("./docs/reference/cs/index.md");
+    exec("dotnet run docfx.csproj", { cwd: path.join(__dirname, "scripts"), stdio: "inherit" })
 }
 
 async function gen_doxygen(sourceDir: string, outputDir: string) {
