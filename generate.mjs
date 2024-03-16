@@ -1,9 +1,12 @@
-const TypeDoc = require("typedoc");
-const path = require("path");
-const doxygen = require('doxygen');
-const moxygen = require('moxygen');
-const fs = require("fs");
-const exec = require("child_process").execSync;
+import { execSync as exec } from "child_process";
+import fs from "fs";
+import path from "path";
+import TypeDoc from "typedoc";
+import doxygen from "doxygen";
+import moxygen from "moxygen";
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const doxygenVersion = "1.10.0";
 const doxygenTemp = ".doxy/";
