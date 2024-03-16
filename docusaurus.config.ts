@@ -14,7 +14,7 @@ const config: Config = {
   onBrokenMarkdownLinks: 'throw',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'zh-CN'],
   },
   themes: [
     ['@easyops-cn/docusaurus-search-local', {
@@ -45,10 +45,18 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/',
-          editUrl: 'https://github.com/velopack/velopack.docs/tree/master/',
+          editUrl: ({ versionDocsDirPath, docPath, locale }) => {
+            let match;
+            if ((match = docPath.match(/reference\/.*/)) != null) {
+              return null; // reference pages can't be edited
+            }
+            if (locale != 'en') {
+              return 'https://crowdin.com/project/velopack/invite?h=88bec14b5657f004fe5ba325090df5ba2031736';
+            }
+            return `https://github.com/velopack/velopack.docs/tree/master/${versionDocsDirPath}/${docPath}`;
+          },
           showLastUpdateTime: false,
           showLastUpdateAuthor: false,
-
         },
         blog: {
           showReadingTime: true,
@@ -94,6 +102,18 @@ const config: Config = {
           to: '/blog',
           label: 'Blog',
           position: 'left'
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+          dropdownItemsAfter: [
+            {
+              href: 'https://crowdin.com/project/velopack/invite?h=88bec14b5657f004fe5ba325090df5ba2031736',
+              label: 'Help Translate',
+              target: '_blank',
+              rel: null,
+            },
+          ],
         },
         {
           href: 'https://github.com/velopack/velopack',
