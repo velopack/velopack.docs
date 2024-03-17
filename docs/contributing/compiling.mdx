@@ -50,12 +50,32 @@ dotnet build -c Release /p:PackRustAssets=true
 ### Compiling on Linux
 If you are on Linux (tested on Ubuntu), there are additional package pre-requisites:
 ```sh
-sudo apt install libssl-dev pkg-config 
+sudo apt install libssl-dev pkg-config build-essential
 ```
-You need to verify that `nbgv` is working on the command line, you may be missing a `DOTNET_ROOT` variable in your bash profile, which might need to point at `/usr/share/dotnet` or `$HOME/.dotnet`. 
 
-If you are missing localisation packages, you can search for them or add the following to your bash profile:
+Installing dotnet and setting up the paths are a pain, I recommend using the [dotnet-install.sh](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script) script.
+
+```sh
+./dotnet-install.sh -c 6.0
+./dotnet-install.sh -c 8.0
+```
+
+And then adding the following to the bottom of your `.bashrc` or `.profile`:
 
 ```bash
+export DOTNET_ROOT="$HOME/.dotnet"
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+export PATH="$PATH:$HOME/.dotnet"
+export PATH="$PATH:$HOME/.dotnet/tools"
 ```
+
+Next, install the missing dotnet tools:
+
+```
+dotnet tool install -g dotnet-coverage
+dotnet tool install -g nbgv
+```
+
+You need to verify that `nbgv` is working on the command line (eg. `nbgv -h`) before continuing. 
+If it's not working, check that your tools installed to `~/.dotnet/tools`. If you did not use the `dotnet-install.sh` script,
+dotnet could be at a different location (eg. `/usr/share/dotnet`) and the paths above will need to be updated.
