@@ -47,7 +47,7 @@ copy {path_to_osx_update} target/release/updatemac
 dotnet build -c Release /p:PackRustAssets=true
 ```
 
-### Compiling on Linux
+### Preparing Linux
 If you are on Linux (tested on Ubuntu), there are additional package pre-requisites:
 ```sh
 sudo apt install libssl-dev pkg-config build-essential
@@ -79,3 +79,12 @@ dotnet tool install -g nbgv
 You need to verify that `nbgv` is working on the command line (eg. `nbgv -h`) before continuing. 
 If it's not working, check that your tools installed to `~/.dotnet/tools`. If you did not use the `dotnet-install.sh` script,
 dotnet could be at a different location (eg. `/usr/share/dotnet`) and the paths above will need to be updated.
+
+Once dotnet is configured, you can Install Rust, typically done with the [rustup script available here](https://www.rust-lang.org/tools/install)
+
+To verify that Rust is installed and working correctly, you should compile the Rust binaries in `src/Rust`:
+
+```
+cargo build --target x86_64-unknown-linux-gnu --release
+```
+
