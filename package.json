@@ -13,10 +13,7 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "generate": "node ./generate.mjs",
-    "crowdin-download": "crowdin download",
-    "crowdin-upload": "crowdin upload",
-    "daily-tasks": "node ./daily-tasks.mjs"
+    "generate": "node ./generate.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.1.1",
