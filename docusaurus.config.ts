@@ -8,6 +8,7 @@ const config: Config = {
   favicon: 'favicon/favicon.ico',
   url: 'https://docs.velopack.io/',
   baseUrl: '/',
+  trailingSlash: false,
   organizationName: 'velopack',
   projectName: 'velopack.docs',
   onBrokenLinks: 'throw',
