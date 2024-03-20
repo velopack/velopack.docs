@@ -10,7 +10,7 @@ sidebar_label: ZipPackage
 ```csharp title="Declaration"
 public class ZipPackage : PackageManifest
 ```
-**Inheritance:** `System.Object` -> [Velopack.NuGet.PackageManifest](../Velopack.NuGet/PackageManifest)
+**Inheritance:** `System.Object` -> [Velopack.NuGet.PackageManifest](../Velopack.NuGet/PackageManifest.md)
 
 ## Properties
 ### Files

@@ -11,10 +11,10 @@ The base class for a VC++ redistributable package.
 ```csharp title="Declaration"
 public abstract class Runtimes.VCRedistInfo : Runtimes.RuntimeInfo
 ```
-**Inheritance:** `System.Object` -> [Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo)
+**Inheritance:** `System.Object` -> [Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo.md)
 
 **Derived:**  
-[Velopack.Windows.Runtimes.VCRedist00](../Velopack.Windows/Runtimes.VCRedist00), [Velopack.Windows.Runtimes.VCRedist14](../Velopack.Windows/Runtimes.VCRedist14)
+[Velopack.Windows.Runtimes.VCRedist00](../Velopack.Windows/Runtimes.VCRedist00.md), [Velopack.Windows.Runtimes.VCRedist14](../Velopack.Windows/Runtimes.VCRedist14.md)
 
 ## Properties
 ### MinVersion

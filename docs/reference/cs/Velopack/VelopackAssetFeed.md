@@ -1,10 +1,10 @@
 ---
 title: Class VelopackAssetFeed
 sidebar_label: VelopackAssetFeed
-description: "A feed of Velopack assets, usually returned from an [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource)."
+description: "A feed of Velopack assets, usually returned from an [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource.md)."
 ---
 # Class VelopackAssetFeed
-A feed of Velopack assets, usually returned from an [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource).
+A feed of Velopack assets, usually returned from an [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource.md).
 
 ###### **Assembly**: Velopack.dll
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/VelopackAsset.cs#L24)
@@ -23,7 +23,7 @@ public VelopackAsset[] Assets { get; init; }
 ```
 ## Methods
 ### FromJson(string)
-Parse a json string into a [Velopack.VelopackAssetFeed](../Velopack/VelopackAssetFeed).
+Parse a json string into a [Velopack.VelopackAssetFeed](../Velopack/VelopackAssetFeed.md).
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/VelopackAsset.cs#L34)
 ```csharp title="Declaration"
 public static VelopackAssetFeed FromJson(string json)
@@ -31,7 +31,7 @@ public static VelopackAssetFeed FromJson(string json)
 
 ##### Returns
 
-[Velopack.VelopackAssetFeed](../Velopack/VelopackAssetFeed)
+[Velopack.VelopackAssetFeed](../Velopack/VelopackAssetFeed.md)
 
 ##### Parameters
 

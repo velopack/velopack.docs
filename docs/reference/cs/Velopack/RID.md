@@ -87,7 +87,7 @@ public string ToDisplay(RidDisplayType type)
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.RidDisplayType](../Velopack/RidDisplayType) | *type* |
+| [Velopack.RidDisplayType](../Velopack/RidDisplayType.md) | *type* |
 
 ### Parse(string)
 
@@ -98,7 +98,7 @@ public static RID Parse(string runtimeIdentifier)
 
 ##### Returns
 
-[Velopack.RID](../Velopack/RID)
+[Velopack.RID](../Velopack/RID.md)
 
 ##### Parameters
 
@@ -136,7 +136,7 @@ public bool Equals(RID obj)
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.RID](../Velopack/RID) | *obj* |
+| [Velopack.RID](../Velopack/RID.md) | *obj* |
 
 ### GetHashCode()
 Serves as the default hash function.

@@ -12,11 +12,11 @@ Base type containing information about a runtime in relation to the current oper
 public abstract class Runtimes.RuntimeInfo
 ```
 **Derived:**  
-[Velopack.Windows.Runtimes.DotnetInfo](../Velopack.Windows/Runtimes.DotnetInfo), [Velopack.Windows.Runtimes.FrameworkInfo](../Velopack.Windows/Runtimes.FrameworkInfo), [Velopack.Windows.Runtimes.VCRedistInfo](../Velopack.Windows/Runtimes.VCRedistInfo)
+[Velopack.Windows.Runtimes.DotnetInfo](../Velopack.Windows/Runtimes.DotnetInfo.md), [Velopack.Windows.Runtimes.FrameworkInfo](../Velopack.Windows/Runtimes.FrameworkInfo.md), [Velopack.Windows.Runtimes.VCRedistInfo](../Velopack.Windows/Runtimes.VCRedistInfo.md)
 
 ## Properties
 ### Id
-The unique Id of this runtime. Can be used to retrieve a runtime instance with [Velopack.Windows.Runtimes.GetRuntimeByName(string)](../Velopack.Windows/Runtimes#getruntimebynamestring)
+The unique Id of this runtime. Can be used to retrieve a runtime instance with [Velopack.Windows.Runtimes.GetRuntimeByName(string)](../Velopack.Windows/Runtimes.md#getruntimebynamestring)
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Windows/RuntimeInfo.cs#L49)
 ```csharp title="Declaration"
 public virtual string Id { get; }
@@ -75,7 +75,7 @@ public virtual Task DownloadToFile(string localPath, Action<int> progress = null
 |:--- |:--- |
 | `System.String` | *localPath* |
 | `System.Action<System.Int32>` | *progress* |
-| [Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader) | *downloader* |
+| [Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader.md) | *downloader* |
 | `Microsoft.Extensions.Logging.ILogger` | *log* |
 
 ### InvokeInstaller(string, bool, ILogger)

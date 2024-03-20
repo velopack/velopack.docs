@@ -2,13 +2,13 @@
 title: Class UpdateExe
 sidebar_label: UpdateExe
 description: "A static helper class to assist in running Update.exe CLI commands. You probably should not invoke this directly, 
-instead you should use the relevant methods on [Velopack.UpdateManager](../Velopack/UpdateManager). For example: 
-[Velopack.UpdateManager.ApplyUpdatesAndExit(Velopack.VelopackAsset?)](../Velopack/UpdateManager#applyupdatesandexitvelopackasset), or `Velopack.UpdateManager.ApplyUpdatesAndRestart(Velopack.VelopackAsset%2cSystem.String%5b%5d)`."
+instead you should use the relevant methods on [Velopack.UpdateManager](../Velopack/UpdateManager.md). For example: 
+[Velopack.UpdateManager.ApplyUpdatesAndExit(Velopack.VelopackAsset?)](../Velopack/UpdateManager.md#applyupdatesandexitvelopackasset), or `Velopack.UpdateManager.ApplyUpdatesAndRestart(Velopack.VelopackAsset%2cSystem.String%5b%5d)`."
 ---
 # Class UpdateExe
 A static helper class to assist in running Update.exe CLI commands. You probably should not invoke this directly, 
-instead you should use the relevant methods on [Velopack.UpdateManager](../Velopack/UpdateManager). For example: 
-[Velopack.UpdateManager.ApplyUpdatesAndExit(Velopack.VelopackAsset?)](../Velopack/UpdateManager#applyupdatesandexitvelopackasset), or `Velopack.UpdateManager.ApplyUpdatesAndRestart(Velopack.VelopackAsset%2cSystem.String%5b%5d)`.
+instead you should use the relevant methods on [Velopack.UpdateManager](../Velopack/UpdateManager.md). For example: 
+[Velopack.UpdateManager.ApplyUpdatesAndExit(Velopack.VelopackAsset?)](../Velopack/UpdateManager.md#applyupdatesandexitvelopackasset), or `Velopack.UpdateManager.ApplyUpdatesAndRestart(Velopack.VelopackAsset%2cSystem.String%5b%5d)`.
 
 ###### **Assembly**: Velopack.dll
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/UpdateExe.cs#L18)
@@ -27,8 +27,8 @@ public static void Apply(IVelopackLocator? locator, VelopackAsset? toApply, bool
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator) | *locator* | The locator to use to find the path to Update.exe and the packages directory. |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *toApply* | The update package you wish to apply, can be left null. |
+| [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md) | *locator* | The locator to use to find the path to Update.exe and the packages directory. |
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *toApply* | The update package you wish to apply, can be left null. |
 | `System.Boolean` | *silent* | If true, no dialogs will be shown during the update process. This could result 
     in an update failing to install, such as when we need to ask the user for permission to install 
     a new framework dependency. |

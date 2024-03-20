@@ -11,7 +11,7 @@ sidebar_label: PackageManifest
 public class PackageManifest
 ```
 **Derived:**  
-[Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage)
+[Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage.md)
 
 ## Properties
 ### ProductName
@@ -138,7 +138,7 @@ public static PackageManifest ParseFromFile(string filePath)
 
 ##### Returns
 
-[Velopack.NuGet.PackageManifest](../Velopack.NuGet/PackageManifest)
+[Velopack.NuGet.PackageManifest](../Velopack.NuGet/PackageManifest.md)
 
 ##### Parameters
 
@@ -162,7 +162,7 @@ public static bool TryParseFromFile(string filePath, out PackageManifest manifes
 | Type | Name |
 |:--- |:--- |
 | `System.String` | *filePath* |
-| [Velopack.NuGet.PackageManifest](../Velopack.NuGet/PackageManifest) | *manifest* |
+| [Velopack.NuGet.PackageManifest](../Velopack.NuGet/PackageManifest.md) | *manifest* |
 
 ### ReadManifest(Stream)
 

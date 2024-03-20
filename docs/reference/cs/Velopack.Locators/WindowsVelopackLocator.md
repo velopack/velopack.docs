@@ -11,10 +11,10 @@ An implementation for Windows which uses the default paths.
 ```csharp title="Declaration"
 public class WindowsVelopackLocator : VelopackLocator, IVelopackLocator
 ```
-**Inheritance:** `System.Object` -> [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator)
+**Inheritance:** `System.Object` -> [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator.md)
 
 **Implements:**  
-[Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator)
+[Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md)
 
 ## Properties
 ### AppId
@@ -63,4 +63,4 @@ public override string? Channel { get; }
 
 ## Implements
 
-* [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator)
+* [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md)

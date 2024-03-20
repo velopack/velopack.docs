@@ -13,10 +13,10 @@ All additional files (log, etc) will be placed in a temporary directory.
 ```csharp title="Declaration"
 public class LinuxVelopackLocator : VelopackLocator, IVelopackLocator
 ```
-**Inheritance:** `System.Object` -> [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator)
+**Inheritance:** `System.Object` -> [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator.md)
 
 **Implements:**  
-[Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator)
+[Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md)
 
 ## Properties
 ### AppId
@@ -89,4 +89,4 @@ public string? AppImagePath { get; }
 
 ## Implements
 
-* [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator)
+* [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md)

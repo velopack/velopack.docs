@@ -185,7 +185,7 @@ public void Open(string linkFile, IntPtr hWnd, ShellLink.EShellLinkResolveFlags 
 |:--- |:--- |:--- |
 | `System.String` | *linkFile* | The shortcut file (.lnk) to load |
 | `System.IntPtr` | *hWnd* | The window handle of the application's UI, if any |
-| [Velopack.Windows.ShellLink.EShellLinkResolveFlags](../Velopack.Windows/ShellLink.EShellLinkResolveFlags) | *resolveFlags* | Flags controlling resolution behaviour |
+| [Velopack.Windows.ShellLink.EShellLinkResolveFlags](../Velopack.Windows/ShellLink.EShellLinkResolveFlags.md) | *resolveFlags* | Flags controlling resolution behaviour |
 
 ### Open(string, IntPtr, EShellLinkResolveFlags, ushort)
 Loads a shortcut from the specified file, and allows flags controlling
@@ -202,7 +202,7 @@ public void Open(string linkFile, IntPtr hWnd, ShellLink.EShellLinkResolveFlags 
 |:--- |:--- |:--- |
 | `System.String` | *linkFile* | The shortcut file (.lnk) to load |
 | `System.IntPtr` | *hWnd* | The window handle of the application's UI, if any |
-| [Velopack.Windows.ShellLink.EShellLinkResolveFlags](../Velopack.Windows/ShellLink.EShellLinkResolveFlags) | *resolveFlags* | Flags controlling resolution behaviour |
+| [Velopack.Windows.ShellLink.EShellLinkResolveFlags](../Velopack.Windows/ShellLink.EShellLinkResolveFlags.md) | *resolveFlags* | Flags controlling resolution behaviour |
 | `System.UInt16` | *timeOut* | Timeout if SLR_NO_UI is specified, in ms. |
 
 

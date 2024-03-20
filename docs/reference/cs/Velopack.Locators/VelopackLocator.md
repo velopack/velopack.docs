@@ -12,10 +12,10 @@ A base class describing where Velopack can find key folders and files.
 public abstract class VelopackLocator : IVelopackLocator
 ```
 **Derived:**  
-[Velopack.Locators.LinuxVelopackLocator](../Velopack.Locators/LinuxVelopackLocator), [Velopack.Locators.OsxVelopackLocator](../Velopack.Locators/OsxVelopackLocator), [Velopack.Locators.TestVelopackLocator](../Velopack.Locators/TestVelopackLocator), [Velopack.Locators.WindowsVelopackLocator](../Velopack.Locators/WindowsVelopackLocator)
+[Velopack.Locators.LinuxVelopackLocator](../Velopack.Locators/LinuxVelopackLocator.md), [Velopack.Locators.OsxVelopackLocator](../Velopack.Locators/OsxVelopackLocator.md), [Velopack.Locators.TestVelopackLocator](../Velopack.Locators/TestVelopackLocator.md), [Velopack.Locators.WindowsVelopackLocator](../Velopack.Locators/WindowsVelopackLocator.md)
 
 **Implements:**  
-[Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator)
+[Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md)
 
 ## Properties
 ### AppId
@@ -62,7 +62,7 @@ The release channel this package was built for.
 public abstract string? Channel { get; }
 ```
 ### ThisExeRelativePath
-The path from [Velopack.Locators.IVelopackLocator.AppContentDir](../Velopack.Locators/IVelopackLocator#appcontentdir) to this executable.
+The path from [Velopack.Locators.IVelopackLocator.AppContentDir](../Velopack.Locators/IVelopackLocator.md#appcontentdir) to this executable.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Locators/VelopackLocator.cs#L63)
 ```csharp title="Declaration"
 public virtual string? ThisExeRelativePath { get; }
@@ -89,7 +89,7 @@ public static VelopackLocator GetDefault(ILogger? logger)
 
 ##### Returns
 
-[Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator)
+[Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator.md)
 
 ##### Parameters
 
@@ -116,7 +116,7 @@ public virtual VelopackAsset? GetLatestLocalFullPackage()
 
 ##### Returns
 
-[Velopack.VelopackAsset](../Velopack/VelopackAsset)
+[Velopack.VelopackAsset](../Velopack/VelopackAsset.md)
 ### CreateSubDirIfDoesNotExist(string?, string?)
 Given a base dir and a directory name, will create a new sub directory of that name.
 Will return null if baseDir is null, or if baseDir does not exist.
@@ -150,4 +150,4 @@ public Guid? GetOrCreateStagedUserId()
 
 ## Implements
 
-* [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator)
+* [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md)

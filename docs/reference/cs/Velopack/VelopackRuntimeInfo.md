@@ -90,7 +90,7 @@ public static string GetOsShortName(this RuntimeOs os)
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.RuntimeOs](../Velopack/RuntimeOs) | *os* |
+| [Velopack.RuntimeOs](../Velopack/RuntimeOs.md) | *os* |
 
 ### GetOsLongName(RuntimeOs)
 Returns the long OS name, suitable for showing to a human.
@@ -107,5 +107,5 @@ public static string GetOsLongName(this RuntimeOs os)
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.RuntimeOs](../Velopack/RuntimeOs) | *os* |
+| [Velopack.RuntimeOs](../Velopack/RuntimeOs.md) | *os* |
 

@@ -51,7 +51,7 @@ public static ShellLink.PropVariant FromString(string str)
 
 ##### Returns
 
-[Velopack.Windows.ShellLink.PropVariant](../Velopack.Windows/ShellLink.PropVariant)
+[Velopack.Windows.ShellLink.PropVariant](../Velopack.Windows/ShellLink.PropVariant.md)
 
 ##### Parameters
 
@@ -68,7 +68,7 @@ public static ShellLink.PropVariant FromGuid(Guid guid)
 
 ##### Returns
 
-[Velopack.Windows.ShellLink.PropVariant](../Velopack.Windows/ShellLink.PropVariant)
+[Velopack.Windows.ShellLink.PropVariant](../Velopack.Windows/ShellLink.PropVariant.md)
 
 ##### Parameters
 

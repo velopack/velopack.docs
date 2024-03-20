@@ -89,7 +89,7 @@ public UpdateInfo? CheckForUpdates()
 
 ##### Returns
 
-[Velopack.UpdateInfo](../Velopack/UpdateInfo): Null if no updates, otherwise [Velopack.UpdateInfo](../Velopack/UpdateInfo) containing the version of the latest update available.### CheckForUpdatesAsync()
+[Velopack.UpdateInfo](../Velopack/UpdateInfo.md): Null if no updates, otherwise [Velopack.UpdateInfo](../Velopack/UpdateInfo.md) containing the version of the latest update available.### CheckForUpdatesAsync()
 Checks for updates, returning null if there are none available. If there are updates available, this method will return an 
 UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/UpdateManager.cs#L109)
@@ -99,7 +99,7 @@ public virtual Task<UpdateInfo?> CheckForUpdatesAsync()
 
 ##### Returns
 
-`System.Threading.Tasks.Task<Velopack.UpdateInfo>`: Null if no updates, otherwise [Velopack.UpdateInfo](../Velopack/UpdateInfo) containing the version of the latest update available.### CreateDeltaUpdateStrategy(VelopackAsset[], VelopackAsset?, VelopackAsset)
+`System.Threading.Tasks.Task<Velopack.UpdateInfo>`: Null if no updates, otherwise [Velopack.UpdateInfo](../Velopack/UpdateInfo.md) containing the version of the latest update available.### CreateDeltaUpdateStrategy(VelopackAsset[], VelopackAsset?, VelopackAsset)
 Given a feed of releases, and the latest local full release, and the latest remote full release, this method will return a delta
 update strategy to be used by `Velopack.UpdateManager.DownloadUpdatesAsync(Velopack.UpdateInfo%2cSystem.Action%7bSystem.Int32%7d%2cSystem.Boolean%2cSystem.Threading.CancellationToken)`.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/UpdateManager.cs#L155)
@@ -109,15 +109,15 @@ protected virtual UpdateInfo CreateDeltaUpdateStrategy(VelopackAsset[] feed, Vel
 
 ##### Returns
 
-[Velopack.UpdateInfo](../Velopack/UpdateInfo)
+[Velopack.UpdateInfo](../Velopack/UpdateInfo.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
 | `Velopack.VelopackAsset[]` | *feed* |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *latestLocalFull* |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *latestRemoteFull* |
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *latestLocalFull* |
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *latestRemoteFull* |
 
 ### DownloadUpdates(UpdateInfo, Action&lt;int&gt;?, bool)
 Downloads the specified updates to the local app packages directory. If the update contains delta packages and ignoreDeltas=false, 
@@ -133,7 +133,7 @@ public void DownloadUpdates(UpdateInfo updates, Action<int>? progress = null, bo
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.UpdateInfo](../Velopack/UpdateInfo) | *updates* | The updates to download. Should be retrieved from [Velopack.UpdateManager.CheckForUpdates()](../Velopack/UpdateManager#checkforupdates). |
+| [Velopack.UpdateInfo](../Velopack/UpdateInfo.md) | *updates* | The updates to download. Should be retrieved from [Velopack.UpdateManager.CheckForUpdates()](../Velopack/UpdateManager.md#checkforupdates). |
 | `System.Action<System.Int32>` | *progress* | The progress callback. Will be called with values from 0-100. |
 | `System.Boolean` | *ignoreDeltas* | Whether to attempt downloading delta's or skip to full package download. |
 
@@ -155,7 +155,7 @@ public virtual Task DownloadUpdatesAsync(UpdateInfo updates, Action<int>? progre
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.UpdateInfo](../Velopack/UpdateInfo) | *updates* | The updates to download. Should be retrieved from [Velopack.UpdateManager.CheckForUpdates()](../Velopack/UpdateManager#checkforupdates). |
+| [Velopack.UpdateInfo](../Velopack/UpdateInfo.md) | *updates* | The updates to download. Should be retrieved from [Velopack.UpdateManager.CheckForUpdates()](../Velopack/UpdateManager.md#checkforupdates). |
 | `System.Action<System.Int32>` | *progress* | The progress callback. Will be called with values from 0-100. |
 | `System.Boolean` | *ignoreDeltas* | Whether to attempt downloading delta's or skip to full package download. |
 | `System.Threading.CancellationToken` | *cancelToken* | An optional cancellation token if you wish to stop this operation. |
@@ -177,7 +177,7 @@ protected virtual Task DownloadAndApplyDeltaUpdates(string extractedBasePackage,
 | Type | Name | Description |
 |:--- |:--- |:--- |
 | `System.String` | *extractedBasePackage* | A folder containing the application files to apply the delta's to. |
-| [Velopack.UpdateInfo](../Velopack/UpdateInfo) | *updates* | An update object containing one or more delta's |
+| [Velopack.UpdateInfo](../Velopack/UpdateInfo.md) | *updates* | An update object containing one or more delta's |
 | `System.Action<System.Int32>` | *progress* | A callback reporting process of delta application progress (from 0-100). |
 | `System.Threading.CancellationToken` | *cancelToken* | A token to use to cancel the request. |
 
@@ -206,7 +206,7 @@ protected virtual void VerifyPackageChecksum(VelopackAsset release, string? file
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *release* | The entry to check |
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *release* | The entry to check |
 | `System.String` | *filePathOverride* | Optional file path, if not specified the package will be loaded from %pkgdir%/release.OriginalFilename. |
 
 ### EnsureInstalled()
@@ -229,7 +229,7 @@ protected virtual Mutex AcquireUpdateLock()
 This will exit your app immediately, apply updates, and then optionally relaunch the app using the specified 
 restart arguments. If you need to save state or clean up, you should do that before calling this method. 
 The user may be prompted during the update, if the update requires additional frameworks to be installed etc.
-You can check if there are pending updates by checking [Velopack.UpdateManager.IsUpdatePendingRestart](../Velopack/UpdateManager#isupdatependingrestart).
+You can check if there are pending updates by checking [Velopack.UpdateManager.IsUpdatePendingRestart](../Velopack/UpdateManager.md#isupdatependingrestart).
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/UpdateManager.Helpers.cs#L22)
 ```csharp title="Declaration"
 public void ApplyUpdatesAndRestart(VelopackAsset? toApply, string[]? restartArgs = null)
@@ -239,14 +239,14 @@ public void ApplyUpdatesAndRestart(VelopackAsset? toApply, string[]? restartArgs
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *toApply* | The target release to apply. Can be left null to auto-apply the newest downloaded release. |
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *toApply* | The target release to apply. Can be left null to auto-apply the newest downloaded release. |
 | `System.String[]` | *restartArgs* | The arguments to pass to the application when it is restarted. |
 
 ### ApplyUpdatesAndExit(VelopackAsset?)
 This will exit your app immediately, apply updates, and then optionally relaunch the app using the specified 
 restart arguments. If you need to save state or clean up, you should do that before calling this method. 
 The user may be prompted during the update, if the update requires additional frameworks to be installed etc.
-You can check if there are pending updates by checking [Velopack.UpdateManager.IsUpdatePendingRestart](../Velopack/UpdateManager#isupdatependingrestart).
+You can check if there are pending updates by checking [Velopack.UpdateManager.IsUpdatePendingRestart](../Velopack/UpdateManager.md#isupdatependingrestart).
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/UpdateManager.Helpers.cs#L41)
 ```csharp title="Declaration"
 public void ApplyUpdatesAndExit(VelopackAsset? toApply)
@@ -256,13 +256,13 @@ public void ApplyUpdatesAndExit(VelopackAsset? toApply)
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *toApply* | The target release to apply. Can be left null to auto-apply the newest downloaded release. |
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *toApply* | The target release to apply. Can be left null to auto-apply the newest downloaded release. |
 
 ### WaitExitThenApplyUpdates(VelopackAsset?, bool, bool, string[]?)
 This will launch the Velopack updater and tell it to wait for this program to exit gracefully.
 You should then clean up any state and exit your app. The updater will apply updates and then
 optionally restart your app. The updater will only wait for 60 seconds before giving up.
-You can check if there are pending updates by checking [Velopack.UpdateManager.IsUpdatePendingRestart](../Velopack/UpdateManager#isupdatependingrestart).
+You can check if there are pending updates by checking [Velopack.UpdateManager.IsUpdatePendingRestart](../Velopack/UpdateManager.md#isupdatependingrestart).
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/UpdateManager.Helpers.cs#L57)
 ```csharp title="Declaration"
 public void WaitExitThenApplyUpdates(VelopackAsset? toApply, bool silent = false, bool restart = true, string[]? restartArgs = null)
@@ -272,7 +272,7 @@ public void WaitExitThenApplyUpdates(VelopackAsset? toApply, bool silent = false
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *toApply* | The target release to apply. Can be left null to auto-apply the newest downloaded release. |
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *toApply* | The target release to apply. Can be left null to auto-apply the newest downloaded release. |
 | `System.Boolean` | *silent* | Configure whether Velopack should show a progress window / dialogs during the updates or not. |
 | `System.Boolean` | *restart* | Configure whether Velopack should restart the app after the updates have been applied. |
 | `System.String[]` | *restartArgs* | The arguments to pass to the application when it is restarted. |

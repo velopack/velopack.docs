@@ -11,11 +11,11 @@ Represents a modern DOTNET runtime where versions are deployed independenly of t
 ```csharp title="Declaration"
 public class Runtimes.DotnetInfo : Runtimes.RuntimeInfo
 ```
-**Inheritance:** `System.Object` -> [Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo)
+**Inheritance:** `System.Object` -> [Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo.md)
 
 ## Properties
 ### Id
-The unique Id of this runtime. Can be used to retrieve a runtime instance with [Velopack.Windows.Runtimes.GetRuntimeByName(string)](../Velopack.Windows/Runtimes#getruntimebynamestring)
+The unique Id of this runtime. Can be used to retrieve a runtime instance with [Velopack.Windows.Runtimes.GetRuntimeByName(string)](../Velopack.Windows/Runtimes.md#getruntimebynamestring)
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Windows/RuntimeInfo.cs#L166)
 ```csharp title="Declaration"
 public override string Id { get; }
@@ -86,7 +86,7 @@ public static Runtimes.DotnetInfo Parse(string input)
 
 ##### Returns
 
-[Velopack.Windows.Runtimes.DotnetInfo](../Velopack.Windows/Runtimes.DotnetInfo)
+[Velopack.Windows.Runtimes.DotnetInfo](../Velopack.Windows/Runtimes.DotnetInfo.md)
 
 ##### Parameters
 
@@ -111,7 +111,7 @@ public static bool TryParse(string input, out Runtimes.DotnetInfo info)
 | Type | Name |
 |:--- |:--- |
 | `System.String` | *input* |
-| [Velopack.Windows.Runtimes.DotnetInfo](../Velopack.Windows/Runtimes.DotnetInfo) | *info* |
+| [Velopack.Windows.Runtimes.DotnetInfo](../Velopack.Windows/Runtimes.DotnetInfo.md) | *info* |
 
 ### ParseVersion(string)
 Safely converts a version string into a version structure, and provides some validation for invalid/unsupported versions.
@@ -163,9 +163,9 @@ public static Task<string> GetLatestDotNetVersion(Runtimes.DotnetRuntimeType run
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.Windows.Runtimes.DotnetRuntimeType](../Velopack.Windows/Runtimes.DotnetRuntimeType) | *runtimeType* |
+| [Velopack.Windows.Runtimes.DotnetRuntimeType](../Velopack.Windows/Runtimes.DotnetRuntimeType.md) | *runtimeType* |
 | `System.String` | *channel* |
-| [Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader) | *downloader* |
+| [Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader.md) | *downloader* |
 
 ### GetDotNetDownloadUrl(DotnetRuntimeType, string, string)
 Get download url for a specific version of dotnet. Version must be an absolute version, such as one
@@ -184,7 +184,7 @@ public static string GetDotNetDownloadUrl(Runtimes.DotnetRuntimeType runtimeType
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.Windows.Runtimes.DotnetRuntimeType](../Velopack.Windows/Runtimes.DotnetRuntimeType) | *runtimeType* |
+| [Velopack.Windows.Runtimes.DotnetRuntimeType](../Velopack.Windows/Runtimes.DotnetRuntimeType.md) | *runtimeType* |
 | `System.String` | *version* |
 | `System.String` | *cpuarch* |
 

@@ -25,7 +25,7 @@ public static VelopackApp Build()
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 ### SetArgs(string[])
 Override the command line arguments used to determine the Velopack hook to run.
 If this is not set, the command line arguments passed to the application will be used.
@@ -36,7 +36,7 @@ public VelopackApp SetArgs(string[] args)
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 
 ##### Parameters
 
@@ -53,7 +53,7 @@ public VelopackApp SetAutoApplyOnStartup(bool autoApply)
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 
 ##### Parameters
 
@@ -62,7 +62,7 @@ public VelopackApp SetAutoApplyOnStartup(bool autoApply)
 | `System.Boolean` | *autoApply* |
 
 ### SetLocator(IVelopackLocator)
-Override the default [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator) used to search for application paths.
+Override the default [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md) used to search for application paths.
 This will be cached and potentially re-used throughout the lifetime of the application.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/VelopackApp.cs#L70)
 ```csharp title="Declaration"
@@ -71,13 +71,13 @@ public VelopackApp SetLocator(IVelopackLocator locator)
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator) | *locator* |
+| [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md) | *locator* |
 
 ### WithFirstRun(VelopackHook)
 This hook is triggered when the application is started for the first time after installation.
@@ -88,13 +88,13 @@ public VelopackApp WithFirstRun(VelopackHook hook)
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.VelopackHook](../Velopack/VelopackHook) | *hook* |
+| [Velopack.VelopackHook](../Velopack/VelopackHook.md) | *hook* |
 
 ### WithRestarted(VelopackHook)
 This hook is triggered when the application is restarted by Velopack after installing updates.
@@ -105,13 +105,13 @@ public VelopackApp WithRestarted(VelopackHook hook)
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.VelopackHook](../Velopack/VelopackHook) | *hook* |
+| [Velopack.VelopackHook](../Velopack/VelopackHook.md) | *hook* |
 
 ### WithAfterInstallFastCallback(VelopackHook)
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
@@ -125,13 +125,13 @@ public VelopackApp WithAfterInstallFastCallback(VelopackHook hook)
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.VelopackHook](../Velopack/VelopackHook) | *hook* |
+| [Velopack.VelopackHook](../Velopack/VelopackHook.md) | *hook* |
 
 ### WithAfterUpdateFastCallback(VelopackHook)
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
@@ -145,13 +145,13 @@ public VelopackApp WithAfterUpdateFastCallback(VelopackHook hook)
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.VelopackHook](../Velopack/VelopackHook) | *hook* |
+| [Velopack.VelopackHook](../Velopack/VelopackHook.md) | *hook* |
 
 ### WithBeforeUpdateFastCallback(VelopackHook)
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
@@ -165,13 +165,13 @@ public VelopackApp WithBeforeUpdateFastCallback(VelopackHook hook)
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.VelopackHook](../Velopack/VelopackHook) | *hook* |
+| [Velopack.VelopackHook](../Velopack/VelopackHook.md) | *hook* |
 
 ### WithBeforeUninstallFastCallback(VelopackHook)
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
@@ -185,13 +185,13 @@ public VelopackApp WithBeforeUninstallFastCallback(VelopackHook hook)
 
 ##### Returns
 
-[Velopack.VelopackApp](../Velopack/VelopackApp)
+[Velopack.VelopackApp](../Velopack/VelopackApp.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.VelopackHook](../Velopack/VelopackHook) | *hook* |
+| [Velopack.VelopackHook](../Velopack/VelopackHook.md) | *hook* |
 
 ### Run(ILogger?)
 Runs the Velopack application startup code and triggers any configured hooks.

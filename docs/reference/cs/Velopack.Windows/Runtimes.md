@@ -273,7 +273,7 @@ public static Runtimes.RuntimeInfo GetRuntimeByName(string name)
 
 ##### Returns
 
-[Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo)
+[Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo.md)
 
 ##### Parameters
 

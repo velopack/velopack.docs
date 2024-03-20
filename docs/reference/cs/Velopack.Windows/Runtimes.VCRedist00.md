@@ -11,7 +11,7 @@ Represents a VC++ redistributable package which is referenced by a permalink
 ```csharp title="Declaration"
 public class Runtimes.VCRedist00 : Runtimes.VCRedistInfo
 ```
-**Inheritance:** `System.Object` -> [Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo) -> [Velopack.Windows.Runtimes.VCRedistInfo](../Velopack.Windows/Runtimes.VCRedistInfo)
+**Inheritance:** `System.Object` -> [Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo.md) -> [Velopack.Windows.Runtimes.VCRedistInfo](../Velopack.Windows/Runtimes.VCRedistInfo.md)
 
 ## Properties
 ### DownloadUrl

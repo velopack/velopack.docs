@@ -12,7 +12,7 @@ An individual Velopack asset, could refer to an asset on-disk or in a remote pac
 public record VelopackAsset : IEquatable<VelopackAsset>
 ```
 **Derived:**  
-[Velopack.Sources.GitBase&lt;T&gt;.GitBaseAsset](../Velopack.Sources/GitBase`T`.GitBaseAsset)
+[Velopack.Sources.GitBase&lt;T&gt;.GitBaseAsset](../Velopack.Sources/GitBase`T`.GitBaseAsset.md)
 
 **Implements:**  
 `System.IEquatable<Velopack.VelopackAsset>`
@@ -68,7 +68,7 @@ public string NotesHTML { get; init; }
 ```
 ## Methods
 ### FromZipPackage(ZipPackage)
-Convert a [Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage) to a [Velopack.VelopackAsset](../Velopack/VelopackAsset).
+Convert a [Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage.md) to a [Velopack.VelopackAsset](../Velopack/VelopackAsset.md).
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/VelopackAsset.cs#L72)
 ```csharp title="Declaration"
 public static VelopackAsset FromZipPackage(ZipPackage zip)
@@ -76,16 +76,16 @@ public static VelopackAsset FromZipPackage(ZipPackage zip)
 
 ##### Returns
 
-[Velopack.VelopackAsset](../Velopack/VelopackAsset)
+[Velopack.VelopackAsset](../Velopack/VelopackAsset.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage) | *zip* |
+| [Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage.md) | *zip* |
 
 ### FromNupkg(string)
-Load a [Velopack.VelopackAsset](../Velopack/VelopackAsset) from a .nupkg file on disk.
+Load a [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) from a .nupkg file on disk.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/VelopackAsset.cs#L90)
 ```csharp title="Declaration"
 public static VelopackAsset FromNupkg(string filePath)
@@ -93,7 +93,7 @@ public static VelopackAsset FromNupkg(string filePath)
 
 ##### Returns
 
-[Velopack.VelopackAsset](../Velopack/VelopackAsset)
+[Velopack.VelopackAsset](../Velopack/VelopackAsset.md)
 
 ##### Parameters
 

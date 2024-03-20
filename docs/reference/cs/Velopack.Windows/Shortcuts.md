@@ -38,7 +38,7 @@ public void CreateShortcutForThisExe(ShortcutLocation location = ShortcutLocatio
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation) | *location* |
+| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation.md) | *location* |
 
 ### RemoveShortcutForThisExe(ShortcutLocation)
 Removes a shortcut for the currently running executable at the specified locations
@@ -51,7 +51,7 @@ public void RemoveShortcutForThisExe(ShortcutLocation location = ShortcutLocatio
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation) | *location* |
+| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation.md) | *location* |
 
 ### FindShortcuts(string, ShortcutLocation)
 Searches for existing shortcuts to an executable inside the current package.
@@ -69,7 +69,7 @@ public Dictionary<ShortcutLocation, ShellLink> FindShortcuts(string relativeExeN
 | Type | Name | Description |
 |:--- |:--- |:--- |
 | `System.String` | *relativeExeName* | The relative path or filename of the executable (from the current app dir). |
-| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation) | *locations* | The locations to search. |
+| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation.md) | *locations* | The locations to search. |
 
 ### CreateShortcut(string, ShortcutLocation, bool, string, string)
 Creates new shortcuts to the specified executable at the specified locations.
@@ -83,7 +83,7 @@ public void CreateShortcut(string relativeExeName, ShortcutLocation locations, b
 | Type | Name | Description |
 |:--- |:--- |:--- |
 | `System.String` | *relativeExeName* | The relative path or filename of the executable (from the current app dir). |
-| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation) | *locations* | The locations to create shortcuts. |
+| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation.md) | *locations* | The locations to create shortcuts. |
 | `System.Boolean` | *updateOnly* | If true, shortcuts will be updated instead of created. |
 | `System.String` | *programArguments* | The arguments the application should be launched with |
 | `System.String` | *icon* | Path to a specific icon to use instead of the exe icon. |
@@ -100,10 +100,10 @@ public void DeleteShortcuts(string relativeExeName, ShortcutLocation locations)
 | Type | Name | Description |
 |:--- |:--- |:--- |
 | `System.String` | *relativeExeName* | The relative path or filename of the executable (from the current app dir). |
-| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation) | *locations* | The locations to create shortcuts. |
+| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation.md) | *locations* | The locations to create shortcuts. |
 
 ### LinkPathForVersionInfo(ShortcutLocation, ZipPackage, FileVersionInfo, string)
-Given an [Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage) and `System.Diagnostics.FileVersionInfo` return the target shortcut path.
+Given an [Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage.md) and `System.Diagnostics.FileVersionInfo` return the target shortcut path.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Windows/Shortcuts.cs#L228)
 ```csharp title="Declaration"
 protected virtual string LinkPathForVersionInfo(ShortcutLocation location, ZipPackage package, FileVersionInfo versionInfo, string rootdir)
@@ -117,8 +117,8 @@ protected virtual string LinkPathForVersionInfo(ShortcutLocation location, ZipPa
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation) | *location* |
-| [Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage) | *package* |
+| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation.md) | *location* |
+| [Velopack.NuGet.ZipPackage](../Velopack.NuGet/ZipPackage.md) | *package* |
 | `System.Diagnostics.FileVersionInfo` | *versionInfo* |
 | `System.String` | *rootdir* |
 
@@ -137,7 +137,7 @@ protected virtual string GetLinkPath(ShortcutLocation location, string title, st
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation) | *location* |
+| [Velopack.Windows.ShortcutLocation](../Velopack.Windows/ShortcutLocation.md) | *location* |
 | `System.String` | *title* |
 | `System.String` | *applicationName* |
 | `System.String` | *rootdir* |

@@ -37,5 +37,5 @@ OSX
 OSX = 3
 ```
 ## Extension Methods
-* [Velopack.VelopackRuntimeInfo.GetOsLongName(Velopack.RuntimeOs)](../Velopack/VelopackRuntimeInfo#getoslongnameruntimeos)
-* [Velopack.VelopackRuntimeInfo.GetOsShortName(Velopack.RuntimeOs)](../Velopack/VelopackRuntimeInfo#getosshortnameruntimeos)
+* [Velopack.VelopackRuntimeInfo.GetOsLongName(Velopack.RuntimeOs)](../Velopack/VelopackRuntimeInfo.md#getoslongnameruntimeos)
+* [Velopack.VelopackRuntimeInfo.GetOsShortName(Velopack.RuntimeOs)](../Velopack/VelopackRuntimeInfo.md#getosshortnameruntimeos)

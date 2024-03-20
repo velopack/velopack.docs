@@ -46,7 +46,7 @@ public static ReleaseEntryName FromEntryFileName(string fileName)
 
 ##### Returns
 
-[Velopack.ReleaseEntryName](../Velopack/ReleaseEntryName)
+[Velopack.ReleaseEntryName](../Velopack/ReleaseEntryName.md)
 
 ##### Parameters
 

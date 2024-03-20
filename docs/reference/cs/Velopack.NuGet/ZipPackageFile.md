@@ -124,7 +124,7 @@ public bool Equals(ZipPackageFile? other)
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.NuGet.ZipPackageFile](../Velopack.NuGet/ZipPackageFile) | *other* | An object to compare with this object. |
+| [Velopack.NuGet.ZipPackageFile](../Velopack.NuGet/ZipPackageFile.md) | *other* | An object to compare with this object. |
 
 
 ## Implements

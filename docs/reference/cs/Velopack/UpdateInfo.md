@@ -34,7 +34,7 @@ the currently installed version.
 public VelopackAsset? BaseRelease { get; }
 ```
 ### DeltasToTarget
-The list of delta versions between the current version and [Velopack.UpdateInfo.TargetFullRelease](../Velopack/UpdateInfo#targetfullrelease).
+The list of delta versions between the current version and [Velopack.UpdateInfo.TargetFullRelease](../Velopack/UpdateInfo.md#targetfullrelease).
 These will be applied in order.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/UpdateInfo.cs#L30)
 ```csharp title="Declaration"

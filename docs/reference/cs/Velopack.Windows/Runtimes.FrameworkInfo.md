@@ -11,7 +11,7 @@ Represents a full .NET Framework runtime, usually included in Windows automatica
 ```csharp title="Declaration"
 public class Runtimes.FrameworkInfo : Runtimes.RuntimeInfo
 ```
-**Inheritance:** `System.Object` -> [Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo)
+**Inheritance:** `System.Object` -> [Velopack.Windows.Runtimes.RuntimeInfo](../Velopack.Windows/Runtimes.RuntimeInfo.md)
 
 ## Properties
 ### DownloadUrl

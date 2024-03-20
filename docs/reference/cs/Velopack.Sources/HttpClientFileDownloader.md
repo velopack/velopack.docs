@@ -12,7 +12,7 @@ A simple abstractable file downloader
 public class HttpClientFileDownloader : IFileDownloader
 ```
 **Implements:**  
-[Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader)
+[Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader.md)
 
 ## Properties
 ### UserAgent
@@ -138,4 +138,4 @@ protected virtual HttpClient CreateHttpClient(string? authorization, string? acc
 
 ## Implements
 
-* [Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader)
+* [Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader.md)

@@ -12,7 +12,7 @@ Retrieves updates from the hosted Velopack service.
 public sealed class VelopackFlowUpdateSource : IUpdateSource
 ```
 **Implements:**  
-[Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource)
+[Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource.md)
 
 ## Properties
 ### BaseUri
@@ -22,7 +22,7 @@ The URL of the server hosting packages to update to.
 public Uri BaseUri { get; }
 ```
 ### Downloader
-The [Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader) to be used for performing http requests.
+The [Velopack.Sources.IFileDownloader](../Velopack.Sources/IFileDownloader.md) to be used for performing http requests.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/VelopackFlowUpdateSource.cs#L29)
 ```csharp title="Declaration"
 public IFileDownloader Downloader { get; }
@@ -38,7 +38,7 @@ public Task<VelopackAssetFeed> GetReleaseFeed(ILogger logger, string channel, Gu
 
 ##### Returns
 
-`System.Threading.Tasks.Task<Velopack.VelopackAssetFeed>`: An array of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry) objects that are available for download
+`System.Threading.Tasks.Task<Velopack.VelopackAssetFeed>`: An array of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md) objects that are available for download
     and are applicable to this user.
 ##### Parameters
 
@@ -50,12 +50,12 @@ public Task<VelopackAssetFeed> GetReleaseFeed(ILogger logger, string channel, Gu
 | `System.Nullable<System.Guid>` | *stagingId* | A persistent user-id, used for calculating whether a specific
     release should be available to this user or not. (eg, for the purposes of rolling out
     an update to only a small portion of users at a time). |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *latestLocalRelease* | The latest / current local release. If specified,
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *latestLocalRelease* | The latest / current local release. If specified,
     metadata from this package may be provided to the remote server (such as package id,
     or cpu architecture) to ensure that the correct package is downloaded for this user. |
 
 ### DownloadReleaseEntry(ILogger, VelopackAsset, string, Action&lt;int&gt;, CancellationToken)
-Download the specified [Velopack.VelopackAsset](../Velopack/VelopackAsset) to the provided local file path.
+Download the specified [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) to the provided local file path.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/VelopackFlowUpdateSource.cs#L68)
 ```csharp title="Declaration"
 public Task DownloadReleaseEntry(ILogger logger, VelopackAsset releaseEntry, string localFile, Action<int> progress, CancellationToken cancelToken = default)
@@ -70,7 +70,7 @@ public Task DownloadReleaseEntry(ILogger logger, VelopackAsset releaseEntry, str
 | Type | Name | Description |
 |:--- |:--- |:--- |
 | `Microsoft.Extensions.Logging.ILogger` | *logger* | The logger to use for any diagnostic messages. |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *releaseEntry* | The release to download. |
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *releaseEntry* | The release to download. |
 | `System.String` | *localFile* | The path on the local disk to store the file. If this file exists,
     it will be overwritten. |
 | `System.Action<System.Int32>` | *progress* | This delegate will be executed with values from 0-100 as the
@@ -80,4 +80,4 @@ public Task DownloadReleaseEntry(ILogger logger, VelopackAsset releaseEntry, str
 
 ## Implements
 
-* [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource)
+* [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource.md)

@@ -22,7 +22,7 @@ public string? Url { get; set; }
 ### BrowserDownloadUrl
 The browser URL for this release asset. This does not use API quota,
 however this URL only works for public repositories. If downloading
-assets from a private repository, the [Velopack.Sources.GithubReleaseAsset.Url](../Velopack.Sources/GithubReleaseAsset#url) property must
+assets from a private repository, the [Velopack.Sources.GithubReleaseAsset.Url](../Velopack.Sources/GithubReleaseAsset.md#url) property must
 be used with an appropriate access token.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/GithubSource.cs#L46)
 ```csharp title="Declaration"

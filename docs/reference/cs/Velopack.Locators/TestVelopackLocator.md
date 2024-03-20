@@ -1,12 +1,12 @@
 ---
 title: Class TestVelopackLocator
 sidebar_label: TestVelopackLocator
-description: "Provides a mock / test implementation of [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator). This can be used to verify that
+description: "Provides a mock / test implementation of [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator.md). This can be used to verify that
 your application is able to find and prepare updates from your chosen update source without actually
 having an installed application. This could be used in a CI/CD pipeline, or unit tests etc."
 ---
 # Class TestVelopackLocator
-Provides a mock / test implementation of [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator). This can be used to verify that
+Provides a mock / test implementation of [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator.md). This can be used to verify that
 your application is able to find and prepare updates from your chosen update source without actually
 having an installed application. This could be used in a CI/CD pipeline, or unit tests etc.
 
@@ -15,10 +15,10 @@ having an installed application. This could be used in a CI/CD pipeline, or unit
 ```csharp title="Declaration"
 public class TestVelopackLocator : VelopackLocator, IVelopackLocator
 ```
-**Inheritance:** `System.Object` -> [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator)
+**Inheritance:** `System.Object` -> [Velopack.Locators.VelopackLocator](../Velopack.Locators/VelopackLocator.md)
 
 **Implements:**  
-[Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator)
+[Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md)
 
 ## Properties
 ### AppId
@@ -74,8 +74,8 @@ public override VelopackAsset? GetLatestLocalFullPackage()
 
 ##### Returns
 
-[Velopack.VelopackAsset](../Velopack/VelopackAsset)
+[Velopack.VelopackAsset](../Velopack/VelopackAsset.md)
 
 ## Implements
 
-* [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator)
+* [Velopack.Locators.IVelopackLocator](../Velopack.Locators/IVelopackLocator.md)

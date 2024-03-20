@@ -104,16 +104,16 @@ public static ReleaseEntry FromVelopackAsset(VelopackAsset asset)
 
 ##### Returns
 
-[Velopack.ReleaseEntry](../Velopack/ReleaseEntry)
+[Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md)
 
 ##### Parameters
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.VelopackAsset](../Velopack/VelopackAsset) | *asset* |
+| [Velopack.VelopackAsset](../Velopack/VelopackAsset.md) | *asset* |
 
 ### ParseReleaseEntry(string)
-Parses an string entry from a RELEASES file and returns a [Velopack.ReleaseEntry](../Velopack/ReleaseEntry).
+Parses an string entry from a RELEASES file and returns a [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md).
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/ReleaseEntry.cs#L197)
 ```csharp title="Declaration"
 public static ReleaseEntry ParseReleaseEntry(string entry)
@@ -121,7 +121,7 @@ public static ReleaseEntry ParseReleaseEntry(string entry)
 
 ##### Returns
 
-[Velopack.ReleaseEntry](../Velopack/ReleaseEntry)
+[Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md)
 
 ##### Parameters
 
@@ -147,7 +147,7 @@ public bool IsStagingMatch(Guid? userId)
 | `System.Nullable<System.Guid>` | *userId* |
 
 ### ParseReleaseFile(string)
-Parse the contents of a RELEASES file into a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry)'s.
+Parse the contents of a RELEASES file into a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md)'s.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/ReleaseEntry.cs#L278)
 ```csharp title="Declaration"
 public static IEnumerable<ReleaseEntry> ParseReleaseFile(string fileContents)
@@ -164,7 +164,7 @@ public static IEnumerable<ReleaseEntry> ParseReleaseFile(string fileContents)
 | `System.String` | *fileContents* |
 
 ### ParseReleaseFileAndApplyStaging(string, Guid?)
-Parse the contents of a RELEASES file into a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry)'s,
+Parse the contents of a RELEASES file into a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md)'s,
 with any staging-ineligible releases removed.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/ReleaseEntry.cs#L299)
 ```csharp title="Declaration"
@@ -183,7 +183,7 @@ public static IEnumerable<ReleaseEntry> ParseReleaseFileAndApplyStaging(string f
 | `System.Nullable<System.Guid>` | *userToken* |
 
 ### WriteReleaseFile(IEnumerable&lt;ReleaseEntry&gt;, Stream)
-Write a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry)'s to a stream
+Write a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md)'s to a stream
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/ReleaseEntry.cs#L319)
 ```csharp title="Declaration"
 public static void WriteReleaseFile(IEnumerable<ReleaseEntry> releaseEntries, Stream stream)
@@ -197,7 +197,7 @@ public static void WriteReleaseFile(IEnumerable<ReleaseEntry> releaseEntries, St
 | `System.IO.Stream` | *stream* |
 
 ### WriteReleaseFile(IEnumerable&lt;ReleaseEntry&gt;, string)
-Write a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry)'s to a local file
+Write a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md)'s to a local file
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/ReleaseEntry.cs#L335)
 ```csharp title="Declaration"
 public static void WriteReleaseFile(IEnumerable<ReleaseEntry> releaseEntries, string path)
@@ -211,7 +211,7 @@ public static void WriteReleaseFile(IEnumerable<ReleaseEntry> releaseEntries, st
 | `System.String` | *path* |
 
 ### GenerateFromFile(Stream, string, string)
-Generates a [Velopack.ReleaseEntry](../Velopack/ReleaseEntry) from a local update package file (such as a nupkg).
+Generates a [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md) from a local update package file (such as a nupkg).
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/ReleaseEntry.cs#L348)
 ```csharp title="Declaration"
 public static ReleaseEntry GenerateFromFile(Stream file, string filename, string baseUrl = null)
@@ -219,7 +219,7 @@ public static ReleaseEntry GenerateFromFile(Stream file, string filename, string
 
 ##### Returns
 
-[Velopack.ReleaseEntry](../Velopack/ReleaseEntry)
+[Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md)
 
 ##### Parameters
 
@@ -230,7 +230,7 @@ public static ReleaseEntry GenerateFromFile(Stream file, string filename, string
 | `System.String` | *baseUrl* |
 
 ### GenerateFromFile(string, string)
-Generates a [Velopack.ReleaseEntry](../Velopack/ReleaseEntry) from a local update package file (such as a nupkg).
+Generates a [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md) from a local update package file (such as a nupkg).
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/ReleaseEntry.cs#L360)
 ```csharp title="Declaration"
 public static ReleaseEntry GenerateFromFile(string path, string baseUrl = null)
@@ -238,7 +238,7 @@ public static ReleaseEntry GenerateFromFile(string path, string baseUrl = null)
 
 ##### Returns
 
-[Velopack.ReleaseEntry](../Velopack/ReleaseEntry)
+[Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md)
 
 ##### Parameters
 
@@ -248,7 +248,7 @@ public static ReleaseEntry GenerateFromFile(string path, string baseUrl = null)
 | `System.String` | *baseUrl* |
 
 ### BuildReleasesFile(string, bool)
-Generates a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry)'s from a local directory containing
+Generates a list of [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md)'s from a local directory containing
 package files. Also writes/updates a RELEASES file in the specified directory
 to match the packages the are currently present.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/ReleaseEntry.cs#L373)

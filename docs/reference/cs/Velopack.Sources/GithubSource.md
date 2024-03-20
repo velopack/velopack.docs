@@ -11,14 +11,14 @@ Retrieves available releases from a GitHub repository.
 ```csharp title="Declaration"
 public class GithubSource : GitBase<GithubRelease>, IUpdateSource
 ```
-**Inheritance:** `System.Object` -> [Velopack.Sources.GitBase&lt;T&gt;](../Velopack.Sources/GitBase`T`)
+**Inheritance:** `System.Object` -> [Velopack.Sources.GitBase&lt;T&gt;](../Velopack.Sources/GitBase`T`.md)
 
 **Implements:**  
-[Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource)
+[Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource.md)
 
 ## Methods
 ### GetReleases(bool)
-Retrieves a list of [Velopack.Sources.GithubRelease](../Velopack.Sources/GithubRelease) from the current repository.
+Retrieves a list of [Velopack.Sources.GithubRelease](../Velopack.Sources/GithubRelease.md) from the current repository.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/GithubSource.cs#L86)
 ```csharp title="Declaration"
 protected override Task<GithubRelease[]> GetReleases(bool includePrereleases)
@@ -35,9 +35,9 @@ protected override Task<GithubRelease[]> GetReleases(bool includePrereleases)
 | `System.Boolean` | *includePrereleases* |
 
 ### GetAssetUrlFromName(GithubRelease, string)
-Given a [Velopack.Sources.GithubRelease](../Velopack.Sources/GithubRelease) and an asset filename (eg. 'RELEASES') this 
-function will return either [Velopack.Sources.GithubReleaseAsset.BrowserDownloadUrl](../Velopack.Sources/GithubReleaseAsset#browserdownloadurl) or
-[Velopack.Sources.GithubReleaseAsset.Url](../Velopack.Sources/GithubReleaseAsset#url), depending whether an access token is available
+Given a [Velopack.Sources.GithubRelease](../Velopack.Sources/GithubRelease.md) and an asset filename (eg. 'RELEASES') this 
+function will return either [Velopack.Sources.GithubReleaseAsset.BrowserDownloadUrl](../Velopack.Sources/GithubReleaseAsset.md#browserdownloadurl) or
+[Velopack.Sources.GithubReleaseAsset.Url](../Velopack.Sources/GithubReleaseAsset.md#url), depending whether an access token is available
 or not. Throws if the specified release has no matching assets.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/GithubSource.cs#L101)
 ```csharp title="Declaration"
@@ -52,7 +52,7 @@ protected override string GetAssetUrlFromName(GithubRelease release, string asse
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.Sources.GithubRelease](../Velopack.Sources/GithubRelease) | *release* |
+| [Velopack.Sources.GithubRelease](../Velopack.Sources/GithubRelease.md) | *release* |
 | `System.String` | *assetName* |
 
 ### GetApiBaseUrl(Uri)
@@ -77,4 +77,4 @@ protected virtual Uri GetApiBaseUrl(Uri repoUrl)
 
 ## Implements
 
-* [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource)
+* [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource.md)

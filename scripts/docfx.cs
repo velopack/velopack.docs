@@ -181,7 +181,8 @@ string Link(string uid, bool linkFromGroupedType, bool nameOnly = false, bool li
         return $"`{uid.Replace('{', '<').Replace('}', '>')}`";
     var name = nameOnly ? reference.Name : reference.FullName;
     var dots = linkFromIndex ? "./" : linkFromGroupedType ? "../../" : "../";
-    var extension = linkFromIndex ? ".md" : "";
+    // var extension = linkFromIndex ? ".md" : "";
+    var extension = ".md";
     if (reference.Type is "Class" or "Interface" or "Enum" or "Struct" or "Delegate")
     {
         if (NamespaceHasTypeGrouping(reference.Namespace))

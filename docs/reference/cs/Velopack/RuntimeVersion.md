@@ -57,7 +57,7 @@ public int CompareTo(RuntimeVersion other)
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.RuntimeVersion](../Velopack/RuntimeVersion) | *other* | An object to compare with this instance. |
+| [Velopack.RuntimeVersion](../Velopack/RuntimeVersion.md) | *other* | An object to compare with this instance. |
 
 ### Equals(RuntimeVersion)
 Indicates whether the current object is equal to another object of the same type.
@@ -73,7 +73,7 @@ public bool Equals(RuntimeVersion other)
 
 | Type | Name | Description |
 |:--- |:--- |:--- |
-| [Velopack.RuntimeVersion](../Velopack/RuntimeVersion) | *other* | An object to compare with this object. |
+| [Velopack.RuntimeVersion](../Velopack/RuntimeVersion.md) | *other* | An object to compare with this object. |
 
 ### Equals(object)
 Determines whether the specified object is equal to the current object.

@@ -1,10 +1,10 @@
 ---
 title: Class UpdateOptions
 sidebar_label: UpdateOptions
-description: "Options to customise the behaviour of [Velopack.UpdateManager](../Velopack/UpdateManager)."
+description: "Options to customise the behaviour of [Velopack.UpdateManager](../Velopack/UpdateManager.md)."
 ---
 # Class UpdateOptions
-Options to customise the behaviour of [Velopack.UpdateManager](../Velopack/UpdateManager).
+Options to customise the behaviour of [Velopack.UpdateManager](../Velopack/UpdateManager.md).
 
 ###### **Assembly**: Velopack.dll
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/UpdateOptions.cs#L6)
@@ -15,7 +15,7 @@ public class UpdateOptions
 ### AllowVersionDowngrade
 Allows UpdateManager to update to a version that's lower than the current version (i.e. downgrading).
 This could happen if a release has bugs and was retracted from the release feed, or if you're using 
-[Velopack.UpdateOptions.ExplicitChannel](../Velopack/UpdateOptions#explicitchannel) to switch channels to another channel where the latest version on that 
+[Velopack.UpdateOptions.ExplicitChannel](../Velopack/UpdateOptions.md#explicitchannel) to switch channels to another channel where the latest version on that 
 channel is lower than the current version.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/UpdateOptions.cs#L14)
 ```csharp title="Declaration"

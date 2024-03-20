@@ -56,7 +56,7 @@ The currently installed version of the application, or null if the app is not in
 SemanticVersion? CurrentlyInstalledVersion { get; }
 ```
 ### ThisExeRelativePath
-The path from [Velopack.Locators.IVelopackLocator.AppContentDir](../Velopack.Locators/IVelopackLocator#appcontentdir) to this executable.
+The path from [Velopack.Locators.IVelopackLocator.AppContentDir](../Velopack.Locators/IVelopackLocator.md#appcontentdir) to this executable.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Locators/IVelopackLocator.cs#L37)
 ```csharp title="Declaration"
 string? ThisExeRelativePath { get; }
@@ -87,7 +87,7 @@ VelopackAsset? GetLatestLocalFullPackage()
 
 ##### Returns
 
-[Velopack.VelopackAsset](../Velopack/VelopackAsset)
+[Velopack.VelopackAsset](../Velopack/VelopackAsset.md)
 ### GetOrCreateStagedUserId()
 Unique identifier for this user which is used to calculate whether this user is eligible for 
 staged roll outs.

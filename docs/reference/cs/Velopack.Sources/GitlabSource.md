@@ -13,16 +13,16 @@ downloads assets from the very latest GitLab release.
 ```csharp title="Declaration"
 public class GitlabSource : GitBase<GitlabRelease>, IUpdateSource
 ```
-**Inheritance:** `System.Object` -> [Velopack.Sources.GitBase&lt;T&gt;](../Velopack.Sources/GitBase`T`)
+**Inheritance:** `System.Object` -> [Velopack.Sources.GitBase&lt;T&gt;](../Velopack.Sources/GitBase`T`.md)
 
 **Implements:**  
-[Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource)
+[Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource.md)
 
 ## Methods
 ### GetAssetUrlFromName(GitlabRelease, string)
-Given a [Velopack.Sources.GitlabRelease](../Velopack.Sources/GitlabRelease) and an asset filename (eg. 'RELEASES') this 
-function will return either [Velopack.Sources.GitlabReleaseLink.DirectAssetUrl](../Velopack.Sources/GitlabReleaseLink#directasseturl) or
-[Velopack.Sources.GitlabReleaseLink.Url](../Velopack.Sources/GitlabReleaseLink#url), depending whether an access token is available
+Given a [Velopack.Sources.GitlabRelease](../Velopack.Sources/GitlabRelease.md) and an asset filename (eg. 'RELEASES') this 
+function will return either [Velopack.Sources.GitlabReleaseLink.DirectAssetUrl](../Velopack.Sources/GitlabReleaseLink.md#directasseturl) or
+[Velopack.Sources.GitlabReleaseLink.Url](../Velopack.Sources/GitlabReleaseLink.md#url), depending whether an access token is available
 or not. Throws if the specified release has no matching assets.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/GitlabSource.cs#L123)
 ```csharp title="Declaration"
@@ -37,11 +37,11 @@ protected override string GetAssetUrlFromName(GitlabRelease release, string asse
 
 | Type | Name |
 |:--- |:--- |
-| [Velopack.Sources.GitlabRelease](../Velopack.Sources/GitlabRelease) | *release* |
+| [Velopack.Sources.GitlabRelease](../Velopack.Sources/GitlabRelease.md) | *release* |
 | `System.String` | *assetName* |
 
 ### GetReleases(bool)
-Retrieves a list of [Velopack.Sources.GitlabRelease](../Velopack.Sources/GitlabRelease) from the current repository.
+Retrieves a list of [Velopack.Sources.GitlabRelease](../Velopack.Sources/GitlabRelease.md) from the current repository.
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/GitlabSource.cs#L147)
 ```csharp title="Declaration"
 protected override Task<GitlabRelease[]> GetReleases(bool includePrereleases)
@@ -60,4 +60,4 @@ protected override Task<GitlabRelease[]> GetReleases(bool includePrereleases)
 
 ## Implements
 
-* [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource)
+* [Velopack.Sources.IUpdateSource](../Velopack.Sources/IUpdateSource.md)

@@ -1,17 +1,17 @@
 ---
 title: Class GitBase<T>.GitBaseAsset
 sidebar_label: GitBase<T>.GitBaseAsset
-description: "Provides a wrapper around [Velopack.ReleaseEntry](../Velopack/ReleaseEntry) which also contains a Git Release."
+description: "Provides a wrapper around [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md) which also contains a Git Release."
 ---
 # Class GitBase&lt;T&gt;.GitBaseAsset
-Provides a wrapper around [Velopack.ReleaseEntry](../Velopack/ReleaseEntry) which also contains a Git Release.
+Provides a wrapper around [Velopack.ReleaseEntry](../Velopack/ReleaseEntry.md) which also contains a Git Release.
 
 ###### **Assembly**: Velopack.dll
 ###### [View Source](https://github.com/velopack/velopack.git/blob/master/src/Velopack/Sources/GitBase.cs#L114)
 ```csharp title="Declaration"
 protected record GitBase<T>.GitBaseAsset : VelopackAsset, IEquatable<VelopackAsset>, IEquatable<GitBase<T>.GitBaseAsset>
 ```
-**Inheritance:** `System.Object` -> [Velopack.VelopackAsset](../Velopack/VelopackAsset)
+**Inheritance:** `System.Object` -> [Velopack.VelopackAsset](../Velopack/VelopackAsset.md)
 
 **Implements:**  
 `System.IEquatable<Velopack.VelopackAsset>`, `System.IEquatable<Velopack.Sources.GitBase`1.GitBaseAsset>`
