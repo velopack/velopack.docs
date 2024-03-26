@@ -13,11 +13,11 @@ The journey to find one that would work for [Velopack](/) was painful and took a
 ## Docfx
 Since we started out as a `C#` library, it made sense to start with `docfx`, which was appealing because if you just need to launch a documentation site as quickly as possible for a C# project, it seems to work well. The design is nothing to be proud of, but it's functional.
 
-You can compile `.csproj` files to the corresponding docfx metadata (`.yml`), merge your extra markdown (`.md) and output a static website in one command, and they even have [handy instructions on their homepage](https://dotnet.github.io/docfx/#publish-to-github-pages) on how to publish this to a Github Pages site.
+You can compile `.csproj` files to the corresponding docfx metadata (`.yml`), merge your extra markdown (`.md`) and output a static website in one command, and they even have [handy instructions on their homepage](https://dotnet.github.io/docfx/#publish-to-github-pages) on how to publish this to a Github Pages site.
 
 Beyond the basics is where things started to get rough. We built the [Velopack marketing site](https://velopack.io), I wanted to merge the two sites together, but I spent many hours pulling our my hair getting docfx to work with relative url's that live in parent directories `../../the-website` for example. The solution I went with was in the website build script, copy all the files needed into the docfx project, build the site, and then copy the compiled assets back out. Far from elegant. 
 
-Also, good luck actually testing and seeing how anything looks - because there's no `watch` or `hmr` functionality built in, and compile times even for a small project could be as much as 10-20s. You need your own build scripts (eg. gulp) with watch built in you want to get any real work done.
+Also, good luck actually testing and seeing how anything looks - because there's no `watch` or `hmr` functionality built in, and compile times even for a small project could be as much as 10-20s. You need your own build scripts (eg. gulp) with watch built in if you want to get any real work done.
 
 The next problem was styling. I wanted the documentation site to match the style of the marketing site, which I thought wouldn't be hard since they both used Bootstrap 5 (in fact, I picked Bootstrap 5 for the marketing site for this exact reason!). To get anything done, I needed to eject most of the underlying template files (which are handlebar based) and edit them directly. Since the template was already pre-compiled, the css it took to wrangle it into a good looking state was not "easy" per say, but bootstrap is fairly clean. 
 
