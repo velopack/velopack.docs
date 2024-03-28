@@ -37,5 +37,21 @@ The AppImage file is a compressed image which is temporarily mounted to allow ac
 - AppImages are relocatable and portable, and do not modify the operating system in any way. This means it can be directly run on a Live CD, USB stick, etc. 
 
 ## Can an AppImage be "installed"?
-Yes, it can - but this exercise is generally left up to the user. There are frameworks which will install an AppImage on first run, by moving it to a pre-determined location, adding a dock/launcher/desktop shortcut etc. 
+Yes, it can - but this exercise is generally left up to the user. There are frameworks which will install an AppImage on first run, by moving it to a pre-determined location (usually `~/Applications`), adding a dock/launcher/desktop shortcut etc. 
 One such framework is [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher), but there are also others.
+
+### AppImageLauncher
+Installing AppImageLauncher on Ubuntu can be done with the following commands:
+
+```
+sudo add-apt-repository ppa:appimagelauncher-team/stable
+sudo apt install software-properties-common appimagelauncher
+```
+
+For other distros of linux, [check the wiki](https://github.com/TheAssassin/AppImageLauncher/wiki).
+
+Once AppImageLauncher is installed, the user will see an installation dialog any time they download and run a new AppImage:
+
+![appimagelauncher screenshot](appimagelauncher.png)
+
+It is also possible to install an AppImage manually (eg. without AppImageLauncher) [though it's a bit involved](https://askubuntu.com/a/1311653/15694).
