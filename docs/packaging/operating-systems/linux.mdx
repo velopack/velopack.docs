@@ -36,6 +36,15 @@ The AppImage file is a compressed image which is temporarily mounted to allow ac
 - An AppImage should run on pretty much all base operating systems (distributions). For example, you could target Ubuntu 9.10, openSUSE 11.2, and Fedora 13 (and later versions) at the same time, without having to create and maintain separate packages for each target system.
 - AppImages are relocatable and portable, and do not modify the operating system in any way. This means it can be directly run on a Live CD, USB stick, etc. 
 
+## FUSE / libfuse dependency
+An AppImage is a single file containing an embedded squashfs filesystem. When the AppImage runs, that filesystem is mounted using libfuse, therefore it must be installed
+before attempting to run an AppImage. On Ubuntu that can be done with the following
+
+```
+sudo add-apt-repository universe
+sudo apt install libfuse2
+```
+
 ## Can an AppImage be "installed"?
 Yes, it can - but this exercise is generally left up to the user. There are frameworks which will install an AppImage on first run, by moving it to a pre-determined location (usually `~/Applications`), adding a dock/launcher/desktop shortcut etc. 
 One such framework is [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher), but there are also others.
