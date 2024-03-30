@@ -17,7 +17,6 @@ Henceforth this will be called `{build_dir}`.
 - `--packVersion {version}` The current version you are releasing - in [semver2 format](https://semver.org/) (eg. `1.0.0-build.23+metadata`). 
 - `--packDir {build_dir}` The folder containing your compiled application.
 - `--mainExe {exeName}` The main executable to be started after install, and the binary that will [handle Velopack Hooks](../integrating/overview.mdx).
-- `--icon {path}` The icon used to bundle your app. Only required on MacOS and Linux.
 
 :::tip
 Velopack does not support 4 part versions (eg. `1.0.0.0`), as it would not be practical to support both formats simultaneously and semver2 offers a lot more flexibility.
@@ -33,6 +32,7 @@ vpk pack --packId MyAppId -packVersion 1.0.0 --packDir publish --mainExe MyApp.e
 There are many optional arguments, the best way to see what features are available for your operating system is to check `vpk pack -h`. To mention a couple:
 - `--packTitle {name}` The friendly name for your app, shown to users in dialogs, shortcuts, etc.
 - `--outputDir {path}` The location Velopack should create the final releases (defaults to `.\Releases`)
+- `--icon {path}` The icon used to bundle your app.
 
 ### Release output
 When building a release has completed, you should have the following assets in your `--outputDir`:
