@@ -87,6 +87,11 @@ Codesigning and Notarization is required before your application can be run by u
    ![apple certificate list](/images/apple_certificate_list.png)
 0. Open both certificates by clicking on them, press Download, and then double click the ".cer" file to install it to your local keychain.
 
+:::warning
+If your certificates show as untrusted in Keychain Access, or you receive a warning like **"Warning: unable to build chain to self-signed root for signer "Developer ID Application: YourName"**,
+you are probably missing a development certificate on your machine which can be downloaded from here: https://www.apple.com/certificateauthority/
+:::
+
 ### Setting up a NotaryTool profile
 1. Create an app-specific password: https://support.apple.com/en-us/102654. You will only be shown this password once, so save or write it down somewhere.
 0. Find your apple team ID: https://developer.apple.com/account#MembershipDetailsCard
@@ -111,6 +116,11 @@ vpk pack \
 ```
 
 When these parameters are specified and valid, Velopack will automatically code sign and notarize your application and installer packages.
+
+:::tip
+Even though your certificate may appear as `Developer ID Application: Your Name (TeamName)` in Keychain Access, you should not specify the team name as a part of
+your `--signAppIdentity` or `--signInstallIdentity` arguments. Your certificate should just be `Developer ID Application: Your Name` with no team.
+:::
 
 ### Automate signing in CI/CD (Github Actions)
 It is also posible to store your certificates and notary credentials as Action Secrets and sign your code during CI builds.
