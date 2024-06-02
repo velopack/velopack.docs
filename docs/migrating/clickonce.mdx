@@ -1,0 +1,48 @@
+# From ClickOnce
+<AppliesTo win />
+Migrate `ClickOnce` to Velopack.
+
+:::warning
+This is a relatively untested guide written with community feedback. If you have run into any issues which can improve the docs [please submit a PR or issue](https://github.com/velopack/velopack.docs/issues/new).
+:::
+
+It is not a straight-forward migration, since clickonce apps are very different to Velopack. The high level process overview is something like:
+- Ship a ClickOnce update which downloads and runs your Velopack app.
+- When the Velopack app starts, uninstall your ClickOnce app.
+
+
+### Your First Velopack Release
+We will need to start by publishing your first Velopack release.
+1. If you are using any of the `ApplicationDeployment` API's to check for updates, you will need to remove them.
+0. Turn off ClickOnce updates in your project settings, then manually open the `.csproj` and remove all ClickOnce related properties.
+   :::tip
+   If you are still on the legacy msbuild/csproj format, you should consider migrating to the SDK style project using the [dotnet/upgrade-assistant](https:// github.com/dotnet/upgrade-assistant) (The [VS extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.upgradeassistant) is easy to  use). You can continue to use .Net Framework, and the legacy csproj format may work however is not officially supported by Velopack.
+   :::
+0. Follow the [Velopack C# QuickStart](../getting-started/csharp.mdx) guide and/or review the samples to add Velopack updates to your application.
+0. Your first install of Velopack should uninstall your ClickOnce app. Ideally we would just run the default uninstaller, but since it cant be used unattended/silent, we need to include the [Wunder.ClickOnceUninstaller](https://github.com/rongchunzhang/Wunder.ClickOnceUninstaller) code. It is not currently distributed on NuGet, so you may wish to download and include the code directly in your project.
+0. Once `ClickOnceUninstaller` is added to your project, we can add a Velopack hook which uninstalls your clickonce app. You should already have `VelopackApp` in your main method at this point, and you'll need to modify it so that we add the clickonce uninstall code on Velopack install:
+   ```cs
+   VelopackApp.Build()
+       .WithAfterInstallFastCallback((appVersion) =>
+       {
+           var uninstallInfo = UninstallInfo.Find("Application Name");
+           if (uninstallInfo == null)
+           {
+               var uninstaller = new Uninstaller();
+               uninstaller.Uninstall(uninstallInfo);
+           }
+       })
+       .Run();
+   ```
+   Make sure you test this code independently to verify that it can uninstall your clickonce app successfully before moving on.
+0. 🎉 Compile your app and build your first release with `vpk pack`. You should see `YourAppSetup.exe` and some other files. We're now ready to ship a ClickOnce update which downloads and runs the Velopack setup.
+   
+### Your Last ClickOnce Update
+The code in your final ClickOnce update will just install `YourAppSetup.exe` that we created in the previous section and will be fairly straightforward.
+1. You will likely want to bundle `YourAppSetup.exe` into your application as an embedded resource.
+0. On startup (eg. `Main` method), you may wish to show a dialog/message to the user to let them know you are about to migrate/update the app. 
+0. Then, extract `YourAppSetup.exe` to a temporary location (eg. the user downloads folder) and run it. If you wish this to be invisible, you can add the `YourAppSetup.exe --silent` arg. Otherwise, if you omit this argument the user will be shown a progress dialog.
+0. As soon as you've run `YourAppSetup.exe` you should quit your application, either by `return 0;` from `Main()` or via `Environment.Exit(0)`. Once your Velopack has installed, it will delete this app.
+   :::tip
+   To reduce the size of your ClickOnce app, you may wish to delete any unused code/dependencies in this update. Since the only purpose of this update is to run the Velopack installer, any code/dependencies which does not serve this purpose is just extra time/delay for the user.
+   :::

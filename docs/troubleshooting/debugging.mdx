@@ -2,10 +2,9 @@
 <AppliesTo all />
 Find or configure application logs to find runtime issues.
 
-## Logging
 All parts of Velopack have logging built in to help troubleshoot issues, and you should provide these logs when opening a GitHub issue about a potential bug.
 
-### UpdateManager / In your application
+## Logging UpdateManager
 You should provide an instance of `Microsoft.Extensions.Logging.ILogger` to `VelopackApp.Run(ILogger)` and to `UpdateManager` to record potential issues. If you are not using Microsoft Hosting or Logging already, it is very simple to implement this interface yourself and log to a file, or integrate with another logging framework. 
 
 For example:
@@ -26,6 +25,8 @@ class ConsoleLogger : ILogger
 
 new UpdateManager("https://path.to/your-updates", logger: new ConsoleLogger());
 ```
+
+## Logging in the Velopack binaries
 
 ### Windows
 Running Update.exe will log most output to it's base directory as `Velopack.log`. Setup.exe will not log to file by default. However, you can override the log location for both binaries with the `--log {path}` parameter. You can also use the `--verbose` flag to capture debug/trace output to log. Unfortunately, on Windows, to avoid showing up as a console window, these binaries are compiled as a WinExe and there will be no console output by default.  Please see the [command line reference](cli.mdx) for a comprehensive list of arguments supported.

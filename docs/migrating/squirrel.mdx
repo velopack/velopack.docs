@@ -11,7 +11,13 @@ Here are the general steps needed:
    dotnet tool install -g vpk
    ```
 
-0. You will need to replace `SquirrelAwareApp` at the beginning of your app to `VelopackApp.Build().Run()`. Shortcuts [[Read more]](integrating/shortcuts.mdx) and registry entries are managed automatically for you in Velopack, so if you are currently doing this in `SquirrelAwareApp` hooks they should be removed. For example, if your hooks were this before:
+   :::tip
+   Make sure you are using the same version of vpk and the Velopack package, this is the only officially supported configuration.
+   :::
+
+0. You will need to replace `SquirrelAwareApp` at the beginning of your app to `VelopackApp.Build().Run()`.
+
+   Shortcuts [[Read more]](integrating/shortcuts.mdx) and registry entries are managed automatically for you in Velopack, so if you are currently doing this in `SquirrelAwareApp` hooks they should be removed. For example, if your hooks were this before:
    ```cs
    public static void Main(string[] args)
    {
@@ -50,9 +56,9 @@ Here are the general steps needed:
 
 0. The concept of `SquirrelAwareApp` no longer exists, so if you've added any attributes, assembly manifest entries, or other files to indicate that your binary is now aware, you can remove that. Every Velopack package has exactly one "VelopackApp" binary, which must implement the above interface at the top of `Main`. By default, Velopack will search for a binary in `{packDir}\{packId}.exe`. If your main VelopackApp exe is named differently, you should provide the name with the `--mainExe yourApp.exe` argument.
 
-0. The "RELEASES" file is no longer a format that Velopack uses, but it will produce one when building packages on windows with the default channel (eg. no channel argument provided). Instead, Velopack will produce `releases.{channel}.json` files, which should be treated in the same way. If you are wishing for a legacy windows app to migrate to Velopack, you should upload both the `RELEASES` file and the `releases.win.json` file which is produced by Velopack to your update feed.
+0. The "RELEASES" file is no longer a format that Velopack uses, but it will produce one when building packages on windows with the default channel (eg. no channel argument provided). Instead, Velopack will produce `releases.{channel}.json` files, which should be treated in the same way. If you are wishing for a legacy windows app to migrate to Velopack, you should publish a release (omitting the `--channel` arg) and upload both the `RELEASES` file and the `releases.win.json` file which is produced by Velopack to your update feed.
 
-0. In general, the command line supports all of the same features, but argument names or commands may have changed. Velopack no longer supports taking a `.nupkg` which was created by dotnet or nuget.exe. You should publish your app, and use `vpk pack` instead. A very simple example might look like this
+0. In general, the command line supports all of the same features, but argument names or commands may have changed. Velopack no longer supports taking a `.nupkg` which was created by dotnet or nuget.exe. You should compile/publish your app, and provide your compiler output to `vpk pack` instead. A very simple example might look like this
    ```cmd
    dotnet publish --self-contined -r win-x64 -o publish
    vpk pack -u YourAppId -v 1.0.0 -p publish -e yourMainBinary.exe
@@ -62,3 +68,4 @@ Here are the general steps needed:
    ```cmd
    vpk -h
    ```
+0. In your installed app, there are no longer `app-1.0.0` folders, and in a freshly installed app there will not be a `YourApp.exe` in the root of the application. Changing the path of the application (eg. app-1.0.0 and app-1.0.1) like Squirrel does is very bad, it breaks a lot of things in Windows. Firewall rules, antivirus issues, GPU preferences, tray icon pinning, and more. Maintaining the exe location in the same position after each update fixes many issues so velopack will always store your program at `{root}\current\YourApp.exe`. The first time your Squirrel app downloads a Velopack update, the Velopack updater will perform an app migration, it will look for shortcuts in all the usual/default locations and clean them up / repair them to point to the new location. If you previously had file associations or shortcuts outside of default locations pointing to `{root}\YourApp.exe` these will need to be updated since that file will no longer exist in new installs.
