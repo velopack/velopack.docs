@@ -118,6 +118,13 @@ vpk pack \
 When these parameters are specified and valid, Velopack will automatically code sign and notarize your application and installer packages.
 
 :::tip
+Velopack will use `codesign` and `xcrun notarytool` to sign and notarize your application. By default they will use the default keychain on your device to discover certificates and the notary profile.
+If you would like to use a different keychain, you must install your certificates and create your notary profile on that keychain and use the Velopack `--keychain {path}`
+argument to specify that Velopack should discover certificates from a non-default keychain.
+<hr />
+If you do not provide an entitlements file for hardened runtime, one suitable for most dotnet apps will be provided for you automatically. If your app requires
+special entitlements and the defaults are not suitable, you should supply your own signing entitlements using `--signEntitlements {path}`
+<hr />
 Even though your certificate may appear as `Developer ID Application: Your Name (TeamName)` in Keychain Access, you should not specify the team name as a part of
 your `--signAppIdentity` or `--signInstallIdentity` arguments. Your certificate should just be `Developer ID Application: Your Name` with no team.
 :::
