@@ -291,16 +291,6 @@ The documentation here for Azure DevOps is provided by the community and is not 
       - bash: security delete-keychain $AGENT_TEMPDIRECTORY/app-signing.keychain-db
         displayName: 🧹 Clean up keychain
         condition: always()
-    Sign on mac (assuming a powershell script):
-          # Add signing parameters
-          if ($IsMacOS) {
-            $vpkCommand += @(
-              '--signAppIdentity','Developer ID Application: Andrew Arnott',
-              '--signInstallIdentity','Developer ID Installer: Andrew Arnott',
-              '--notaryProfile','velopack-profile',
-              '--keychain','$(Agent.TempDirectory)/app-signing.keychain-db'
-            )
-          }
     ``` 
 
     Sign on mac (assuming a powershell script):
@@ -308,8 +298,8 @@ The documentation here for Azure DevOps is provided by the community and is not 
     # Add signing parameters
     if ($IsMacOS) {
       $vpkCommand += @(
-        '--signAppIdentity','Developer ID Application: Andrew Arnott',
-        '--signInstallIdentity','Developer ID Installer: Andrew Arnott',
+        '--signAppIdentity','Developer ID Application: Your Name',
+        '--signInstallIdentity','Developer ID Installer: Your Name',
         '--notaryProfile','velopack-profile',
         '--keychain','$(Agent.TempDirectory)/app-signing.keychain-db'
       )
