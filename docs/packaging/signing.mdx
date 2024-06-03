@@ -132,23 +132,32 @@ your `--signAppIdentity` or `--signInstallIdentity` arguments. Your certificate 
 ### Automate signing in CI/CD (Github Actions)
 It is also posible to store your certificates and notary credentials as Action Secrets and sign your code during CI builds.
 
+<Tabs groupId="ci" queryString>
+<TabItem value="github" label="Github Actions">
 1. Launch Keychain Access and open the "My Certificates" pane.
-0. Select both certificates, right click and select "Export". Save as a p12 file and make note of the password. You can use the same password for both certificates.
+
+0. Select each certificate (one at a time), right click and select "Export". Save as a p12 file and make note of the password. You can use the same password for both certificates.
+   :::tip
+   If you can't see the export option, or exporting as a `.p12` is disabled, you may need to change which keychain or tab you are viewing. You should be on the "My Certificates" tab. 
+   See https://stackoverflow.com/questions/15662377/unable-to-export-apple-production-push-ssl-certificate-in-p12-format for more information.
+   :::
+
 0. Copy the contents of the certificate to clipboard as base64, example:
    ```sh
    base64 -i CERT.p12 | pbcopy
    ```
+
 0. Create 7 [Github Secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) for your Actions workflows
    - `BUILD_CERTIFICATE_BASE64` (b64 of your app cert)
    - `INSTALLER_CERTIFICATE_BASE64` (b64 of your installer cert)
    - `P12_PASSWORD` (password for the certificates)
    - `APPLE_ID` (your apple username)
-   - `APPLE_PASSWORD` (your app-specific password from earlier)
-   - `APPLE_TEAM` (your team id from earlier)
+   - `APPLE_PASSWORD` (your app-specific password from the notary step above)
+   - `APPLE_TEAM` (your team id from the notary step above)
    - `KEYCHAIN_PASSWORD` (can be any random string, will be used to create a new keychain)
 
 0. Add a step to your workflow which installs the certificates and keychain profile. Here is an example:
-   ```yml
+   ```txt
    name: App build & sign
    on: push
    jobs:
@@ -190,15 +199,122 @@ It is also posible to store your certificates and notary credentials as Action S
              # create notarytool profile
              xcrun notarytool store-credentials --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM" --password "$APPLE_PASSWORD" velopack-profile
 
-         - name: Build app
+         - name: Compile your app
            ...
 
          - name: Create Velopack Release
            run: |
              dotnet tool install -g vpk
-             vpk ... --signAppIdentity "Developer ID Application: Your Name" --signInstallIdentity "Developer ID Installer: Your Name" --notaryProfile "velopack-profile"
+             vpk pack ... \
+             --signAppIdentity "Developer ID Application: Your Name" \
+             --signInstallIdentity "Developer ID Installer: Your Name" \
+             --notaryProfile "velopack-profile" \
+             --keychain $RUNNER_TEMP/app-signing.keychain-db
 
          - name: Clean up keychain
            if: ${{ always() }}
            run: security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
    ```
+
+</TabItem>
+
+<TabItem value="azure" label="Azure DevOps">
+:::warning
+The documentation here for Azure DevOps is provided by the community and is not verified by the Velopack team.
+:::
+1. Launch Keychain Access and open the "My Certificates" pane.
+
+0. Select each certificate (one at a time), right click and select "Export". Save as a p12 file and make note of the password. You can use the same password for both certificates.
+   :::tip
+   If you can't see the export option, or exporting as a `.p12` is disabled, you may need to change which keychain or tab you are viewing. You should be on the "My Certificates" tab. 
+   See https://stackoverflow.com/questions/15662377/unable-to-export-apple-production-push-ssl-certificate-in-p12-format for more information.
+   :::
+
+0. Copy the contents of the certificate to clipboard as base64, example:
+   ```sh
+   base64 -i CERT.p12 | pbcopy
+   ```
+
+0. Create 5 [Azure Pipeline Secret Variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash) for your Pipelines
+   - `P12_PASSWORD` (password for the certificates)
+   - `APPLE_ID` (your apple username)
+   - `APPLE_PASSWORD` (your app-specific password from the notary step above)
+   - `APPLE_TEAM` (your team id from the notary step above)
+   - `KEYCHAIN_PASSWORD` (can be any random string, will be used to create a new keychain)
+
+0. Import your two certificates into Azure Key Vault [and make it available to DevOps](https://learn.microsoft.com/en-us/azure/devops/pipelines/release/azure-key-vault?view=azure-devops&tabs=classic)
+   - `BUILD-CERTIFICATE-BASE64`
+   - `INSTALLER-CERTIFICATE-BASE64`
+
+0. Add steps to your pipeline to load the secrets, sign, and teardown:
+
+    The YAML to set things up:
+    ```
+      variables:
+      - group: Apple signing
+      steps:
+      - bash: |
+          # create variables for file paths
+          CERT_BUILD_PATH=$AGENT_TEMPDIRECTORY/build_certificate.p12
+          CERT_INSTALLER_PATH=$AGENT_TEMPDIRECTORY/installer_certificate.p12
+          KEYCHAIN_PATH=$AGENT_TEMPDIRECTORY/app-signing.keychain-db
+
+          # import certificates from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERT_BUILD_PATH
+          echo -n "$INSTALLER_CERTIFICATE_BASE64" | base64 --decode -o $CERT_INSTALLER_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificates to keychain
+          security import $CERT_BUILD_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import $CERT_INSTALLER_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # create notarytool profile
+          xcrun notarytool store-credentials --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM" --password "$APPLE_PASSWORD" --keychain $KEYCHAIN_PATH velopack-profile
+        env:
+          BUILD_CERTIFICATE_BASE64: $(BUILD-CERTIFICATE-BASE64)
+          INSTALLER_CERTIFICATE_BASE64: $(INSTALLER-CERTIFICATE-BASE64)
+          P12_PASSWORD: $(P12-PASSWORD)
+          APPLE_ID: $(APPLE-ID)
+          APPLE_PASSWORD: $(APPLE-PASSWORD)
+          APPLE_TEAM: $(APPLE-TEAM)
+          KEYCHAIN_PASSWORD: $(KEYCHAIN-PASSWORD)
+        displayName: 🛠️ Install Apple certs and notary profile
+    ```
+
+    Tear it down:
+    ```
+      - bash: security delete-keychain $AGENT_TEMPDIRECTORY/app-signing.keychain-db
+        displayName: 🧹 Clean up keychain
+        condition: always()
+    Sign on mac (assuming a powershell script):
+          # Add signing parameters
+          if ($IsMacOS) {
+            $vpkCommand += @(
+              '--signAppIdentity','Developer ID Application: Andrew Arnott',
+              '--signInstallIdentity','Developer ID Installer: Andrew Arnott',
+              '--notaryProfile','velopack-profile',
+              '--keychain','$(Agent.TempDirectory)/app-signing.keychain-db'
+            )
+          }
+    ``` 
+
+    Sign on mac (assuming a powershell script):
+    ```
+    # Add signing parameters
+    if ($IsMacOS) {
+      $vpkCommand += @(
+        '--signAppIdentity','Developer ID Application: Andrew Arnott',
+        '--signInstallIdentity','Developer ID Installer: Andrew Arnott',
+        '--notaryProfile','velopack-profile',
+        '--keychain','$(Agent.TempDirectory)/app-signing.keychain-db'
+      )
+    }
+    ```
+</TabItem>
+
+</Tabs>
