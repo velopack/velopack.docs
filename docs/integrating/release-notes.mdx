@@ -16,7 +16,10 @@ private static async Task UpdateMyApp()
 
     var newVersion = await mgr.CheckForUpdatesAsync();
     if (newVersion != null) {
-        new ReleaseNotesHtmlWindow(newVersion.TargetFullRelease.ReleaseNotesHtml).Show();
+        var releaseNotesHtml = newVersion.TargetFullRelease.ReleaseNotesHtml;
+        // show a window here with the release notes
+        // possibly ask the user if they wish to update or not?
+        // eg. new ReleaseNotesHtmlWindow().Show();
     }
 }
 ```
