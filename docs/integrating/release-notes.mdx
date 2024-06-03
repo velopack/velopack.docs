@@ -19,7 +19,7 @@ private static async Task UpdateMyApp()
         var releaseNotesHtml = newVersion.TargetFullRelease.ReleaseNotesHtml;
         // show a window here with the release notes
         // possibly ask the user if they wish to update or not?
-        // eg. new ReleaseNotesHtmlWindow().Show();
+        // eg. new ReleaseNotesHtmlWindow(releaseNotesHtml).Show();
     }
 }
 ```
