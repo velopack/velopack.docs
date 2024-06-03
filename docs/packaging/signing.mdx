@@ -235,16 +235,15 @@ The documentation here for Azure DevOps is provided by the community and is not 
    base64 -i CERT.p12 | pbcopy
    ```
 
-0. Create 5 [Azure Pipeline Secret Variables](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/set-secret-variables?view=azure-devops&tabs=yaml%2Cbash) for your Pipelines
-   - `P12_PASSWORD` (password for the certificates)
-   - `APPLE_ID` (your apple username)
-   - `APPLE_PASSWORD` (your app-specific password from the notary step above)
-   - `APPLE_TEAM` (your team id from the notary step above)
-   - `KEYCHAIN_PASSWORD` (can be any random string, will be used to create a new keychain)
-
-0. Import your two certificates into Azure Key Vault [and make it available to DevOps](https://learn.microsoft.com/en-us/azure/devops/pipelines/release/azure-key-vault?view=azure-devops&tabs=classic)
-   - `BUILD-CERTIFICATE-BASE64`
-   - `INSTALLER-CERTIFICATE-BASE64`
+0. Create 7 secrets in Azure Key Vault and expose it to Azure DevOps under the "Apple signing" variable group. Note that we use
+   Key Vault instead of DevOps secrets because our certificates are too large (over 4K) to store in DevOps secrets.
+   - `P12-PASSWORD` (password for the certificates)
+   - `APPLE-ID` (your apple username)
+   - `APPLE-PASSWORD` (your app-specific password from the notary step above)
+   - `APPLE-TEAM` (your team id from the notary step above)
+   - `KEYCHAIN-PASSWORD` (can be any random string, will be used to create a new keychain)
+   - `BUILD-CERTIFICATE-BASE64` (base64 of your app cert)
+   - `INSTALLER-CERTIFICATE-BASE64` (base64 of your installer cert)
 
 0. Add steps to your pipeline to load the secrets, sign, and teardown:
 
