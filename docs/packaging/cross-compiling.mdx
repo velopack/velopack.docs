@@ -1,0 +1,36 @@
+# Cross Compiling
+<AppliesTo all />
+Compiling releases for a OS different for the one you are using.
+
+## Runtime vs. cross compiling
+
+Using the `--runtime` argument [[Read more]](./runtime.mdx) is a great way to tell Velopack what CPU or OS _version_ your software supports, but it does not 
+enable cross compiling by default and if you try to use `--runtime linux-x64` on a Windows machine, you will get a "Not Supported" error message.
+
+This is because, by default, Velopack thinks that you are always trying to compile a release for the OS you are currently using.
+
+## How to cross compile
+Since command line arguments available for each OS are slightly different, you need to explictly opt-in to cross compiling by using using a CLI directive. 
+
+The following directives are available:
+- `vpk [win]`
+- `vpk [linux]`
+- `vpk [osx]`
+
+For example, if you wish to compile a linux package while using a Windows machine, you would use the following commands:
+- `vpk [linux] -h`
+- `vpk [linux] pack -h`
+- `vpk [linux] pack --runtime linux-x64 --mainExe yourExeName --packId YourAppId ...`
+
+Before running a command for a different OS, you should review the help text of that command using `vpk [os] -h` to see the available options.
+
+## Supported configurations
+
+- It is possible to create Windows packages on any OS (Windows, Linux, or MacOS). 
+- It is possible to create Linux packages on any OS (Windows, Linux, or MacOS).
+- It is not possible to create MacOS packages on Windows or Linux. Due to the hard dependencies on tools like `codesign`, `xcrun`, `productbuild` and so forth, 
+  you must use a MacOS machine to create MacOS packages.
+
+
+
+

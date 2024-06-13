@@ -25,6 +25,13 @@ const config: Config = {
       ignoreFiles: new RegExp(".*reference/.*"),
     }],
   ],
+  plugins: [
+    ['@docusaurus/plugin-client-redirects', {
+      redirects: [
+        { from: '/packaging/rid', to: '/packaging/runtime' },
+      ],
+    }],
+  ],
   headTags: [
     // Favicon
     { tagName: 'link', attributes: { rel: 'shortcut icon', href: '/favicon/favicon.ico' } },
