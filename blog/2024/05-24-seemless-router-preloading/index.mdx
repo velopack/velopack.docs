@@ -1,0 +1,201 @@
+---
+title: What a Data Router/Loader is and why you need it!
+authors: [caesay]
+tags: [react, ui, router, typescript]
+---
+
+In the last year we've seen a shift in `react-router` and `@tanstack-router` towards the idea of a "Data Router" or "Loader" which allows you to strongly tie your data fetching directly to your router. There are some benefits and drawbacks to this approach, but overall if it's done well it can result in a very measurable improvement to user experience.
+
+<!-- truncate -->
+
+## What's the big deal anyway?
+
+There is a flaw underpinning many React applications, called "render/fetch chains" or sometimes "waterfall loading". What this refers to is the phenomenon where you end up with a series of ajax requests to load required data, one after another with `useEffect` instead of loading data in parallel
+ The reason this happens is data fetching is tightly coupled to component rendering. 
+
+Image a scenario where a parent component needs to fetch before rendering (perhaps showing a loading spinner in the meantime). Once it's loaded it's data it renders itself and any children. Now imagine a child _also_ needs to fetch some data. It can only get started after the parent has fully loaded since the data fetch happens once the child renders. Here's an example:
+
+```jsx
+import React, { useEffect, useState } from 'react';
+
+// Simulating a data fetching function which takes 3s to complete
+const fetchData = () => new Promise(resolve => setTimeout(() => resolve("Data loaded"), 3000));
+
+function ParentComponent() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData().then(data => {
+      setData(data);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) return (<p>Loading...</p>);
+
+  return (
+    <div>
+        <h1>Parent Component</h1>
+        <p>{data}</p>
+        <ChildComponent />
+    </div>
+  );
+}
+
+function ChildComponent() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData().then(data => {
+      setData(data);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) return (<p>Loading...</p>);
+
+  return (
+    <div>
+        <h2>Child Component</h2>
+        <p>{data}</p>
+    </div>
+  );
+}
+
+export default ParentComponent;
+```
+
+This is a super common pattern. It's also a very bad pattern. The larger your app becomes, the slower things get as more component hierarchy gets added. 
+
+## Enter the Router Loader
+Libraries such as react-router (version 6.4 and above) and @tanstack/router have introduced significant improvements by adding "Data Loading" as a core feature. These router libraries manage streamline data fetching directly within the routing layer. This approach leverages the router's awareness of the component hierarchy and lifecycle to optimally schedule and parallelize data fetching tasks before the components even begin rendering.
+
+### Benefits of Using a Data Router/Loader
+
+#### Parallel Data Fetching
+By initiating all required data fetching at the router level, these libraries can load data in parallel rather than sequentially. This significantly reduces the total time waiting for data across nested routes, avoiding the "waterfall" effect seen in traditional React data fetching patterns.
+
+#### Decoupling Data Fetching from UI Rendering
+This architecture separates the concerns of data fetching and UI rendering. Components are responsible solely for presenting data and handling user interactions, not for fetching the data they display. This separation makes the components more reusable and easier to manage.
+
+#### Improved User Experience
+Loading data before rendering the component tree means that users see a complete UI without awkward loading states popping in sequentially. This can significantly improve the perceived performance of your application.
+
+#### Simplified Component Logic
+Components no longer need to manage their own data fetching logic with useEffect and state. The router loader handles all the asynchronous logic, simplifying your React components and making them cleaner and more focused on their primary function—rendering UI.
+
+### Potential Drawbacks
+While the benefits are considerable, there are a few trade-offs to consider:
+
+#### Increased Complexity in the Router
+The logic for data fetching moves into the routing configuration, which can become complex if not managed carefully. This might increase the learning curve or the amount of boilerplate code, especially in large applications with many routes and data dependencies.
+
+#### Less Flexibility for Dynamic Fetching Conditions
+Since data fetching is configured per-route, dynamically changing fetching logic based on component state or props can be more cumbersome. You might need additional patterns or libraries to handle more complex, dynamic scenarios.
+
+## Code Sample
+I'll take our code sample from earlier and update it for loaders:
+
+```jsx
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet,
+  useLoaderData
+} from 'react-router-dom';
+
+// Simulating a data fetching function which takes 3s to complete
+const fetchData = () => new Promise(resolve => setTimeout(() => resolve("Data loaded"), 3000));
+
+// Data loader function for the parent component
+async function parentLoader() {
+  const data = await fetchData();
+  return { parentData: data };
+}
+
+// Data loader function for the child component
+async function childLoader() {
+  const data = await fetchData();
+  return { childData: data };
+}
+
+function ParentComponent() {
+  const { parentData } = useLoaderData();
+  return (
+    <div>
+      <h1>Parent Component</h1>
+      <p>{parentData}</p>
+      <Outlet />  {/* Child components will be rendered here */}
+    </div>
+  );
+}
+
+function ChildComponent() {
+  const { childData } = useLoaderData();
+  return (
+    <div>
+      <h2>Child Component</h2>
+      <p>{childData}</p>
+    </div>
+  );
+}
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <ParentComponent />,
+    loader: parentLoader,
+    children: [
+      {
+        path: "child",
+        element: <ChildComponent />,
+        loader: childLoader,
+      },
+    ],
+  },
+]);
+
+function App() {
+  return (
+    <RouterProvider router={router} />
+  );
+}
+
+export default App;
+```
+
+In the above sample we can see that the data loading is defined in our router from the beginning - so when the user navigates to `/child`, react-router can get going fetching both the parent and child data simultaneously. The UX here can be further enhanced (and easily) by using deferred data and React Suspense enabling you to show placeholder UI instead of generic spinners, but I'll save that for another topic.
+
+## `react-router` vs. `@tanstack/router` - Which to use?
+
+It's no question that react-router used to be the king of React SPA navigation before it was acquired by Remix in 2024. Since the acquisition though, it's clear that drastic changes are being made to fit it in better to their commercial offering and community feedback is being largely ignored. Also, it's missing out on several key features.
+
+#### react-router
+- **Pro:** Has a huge legacy and is more widely used
+- **Con:** Limited TypeScript support (more runtime errors)
+- **Con:** Core logic is not exported, making it very hard to integrate with non-standard use-cases
+- **Con:** New versions often have rewrite-inducing major changes
+- **Con:** No ability to customize pre/loader behaviors (eg. timeouts)
+- **Con:** In order to make use of loaders properly, you need to switch from traditional `Route` components to a data router which many people will not be familiar with.
+- **Con:** Documentation is atrocious and unsearchable.
+
+#### @tanstack/router
+- **Pro:** First class TypeScript support in all aspects
+- **Pro:** Smaller / simpler code base
+- **Pro:** Supports code-based routing (like react-router) but also supports auto-generated routing based on file names.
+- **Pro:** API is very clean and mostly exported, resulting in a very extensible and customisable solution
+- **Pro:** Very customizable data loading behaviors, with fully deferred, partially with timeouts, etc
+- **Pro:** Intent based Preloading (eg. user hovering on a link) allows you to speed up data loading even further
+- **Pro:** Documented integrations with `@tanstack/query` (formerly `react-query`) which is already widely used.
+- **Con:** `@tanstack/router` is the new kid on the block.
+
+I might be biased, but I think it's clear from the list above that `@tanstack/router` is the winner for me.
+
+## Conclusion
+Adopting a Data Router/Loader can significantly enhance the structure and performance of large-scale React applications by optimizing data fetching strategies. While this approach introduces some complexities, the overall benefits in terms of performance gains and cleaner code generally outweigh these concerns. As with any architectural decision, it’s crucial to evaluate whether the specific benefits align with the needs and scale of your project.
+
+Incorporating a Data Router/Loader could be a game changer for your React app, ensuring that data management is as efficient and unobtrusive as possible. As you refactor or start new projects, consider how leveraging these advanced routing capabilities might enhance both developer experience and your UX.
