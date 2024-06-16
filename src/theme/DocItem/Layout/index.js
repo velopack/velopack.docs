@@ -13,6 +13,7 @@ import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import Unlisted from '@theme/Unlisted';
 import styles from './styles.module.css';
 import Giscus from '@site/src/components/Giscus';
+import HitTracker from '@site/src/components/HitTracker';
 
 function useDocTOC() {
   const { frontMatter, toc } = useDoc();
@@ -36,7 +37,6 @@ export default function DocItemLayout({ children }) {
   const { metadata } = useDoc();
   const { unlisted, frontMatter, slug } = metadata;
   let { disable_comments } = frontMatter;
-  const hitUrl = `https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=${encodeURI(window.location.href)}&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=true`;
 
   if (slug.includes("/reference/")) {
     // Disable comments for all library reference pages
@@ -58,7 +58,7 @@ export default function DocItemLayout({ children }) {
               <>
                 <br />
                 <br />
-                <img src={hitUrl} />
+                <HitTracker />
                 <Giscus />
               </>
             )}
