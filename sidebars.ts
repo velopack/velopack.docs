@@ -55,8 +55,8 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Sample Apps',
       items: [
-        link("C# / Uno", "https://github.com/velopack/velopack/tree/develop/samples/UnoSample"),
         link("C# / AvaloniaUI", "https://github.com/velopack/velopack/tree/master/samples/AvaloniaCrossPlat"),
+        link("C# / Uno", "https://github.com/velopack/velopack/tree/develop/samples/UnoSample"),
         link("C# / WPF", "https://github.com/velopack/velopack/tree/master/samples/VeloWpfSample"),
         link("C++ / Win32", "https://github.com/velopack/velopack.fusion/tree/master/for-cpp/samples/win32"),
         link("JS / Electron", "https://github.com/velopack/velopack.fusion/tree/master/for-js/samples/electron-forge"),
