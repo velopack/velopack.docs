@@ -14,8 +14,8 @@ An icon is required to build an AppImage, and it ideally should be in PNG format
 
 It is possible for `vpk` to fully create the AppImage/AppDir structure for you automatically, given your build directory as usual. 
 Optionally, you can pre-build your AppImage/AppDir structure to the [following specification](https://github.com/AppImage/AppImageKit/wiki/AppDir).
-If you have staged your AppDir, use the `--appDir` argument _instead of_ the `--packDir / -p` argument. 
-Also, it's expected that the icon and `.desktop` file will already exist, so you should no longer provide the `--icon` argument with `--appDir`.
+If you have staged your AppDir, you can provide it to the `--packDir / -p` argument. Note that the folder ***must*** end in `.AppDir`. 
+If using a pre-built AppDir it's expected that the icon and `.desktop` file will already exist, and the `--icon` / `--categories` arguments will be ignored.
 
 ## Updating
 During updates, packages are downloaded to a temporary location (`/var/tmp`) and then the `.AppImage` is replaced. 
