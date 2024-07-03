@@ -29,6 +29,7 @@ const config: Config = {
     ['@docusaurus/plugin-client-redirects', {
       redirects: [
         { from: '/packaging/rid', to: '/packaging/runtime' },
+        { from: '/troubleshooting/cli', to: '/reference/cli' },
       ],
     }],
   ],

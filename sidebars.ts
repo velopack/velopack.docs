@@ -71,9 +71,10 @@ const sidebars: SidebarsConfig = {
     auto("distributing", "Distributing", "Learn how to distribute your Velopack releases to your users."),
 
     title("Advanced"),
-    auto("troubleshooting", "Troubleshooting", "Debugging steps, common issues and how to resolve them."),
     auto("contributing", "Contributing", "Learn how to contribute to the Velopack project."),
     auto("migrating", "Migrating", "Learn how to migrate your existing application to Velopack."),
+    doc("troubleshooting/debugging", "Debugging & Logging"),
+    doc("troubleshooting/faq", "FAQ"),
   ],
   referenceSidebar: [
     {
