@@ -1,0 +1,57 @@
+# Update.exe (Windows)
+:::warning
+CLI reference is currently only available for Windows. Arguments may be slightly different for other platforms.
+Please check the help text yourself for the most accurate information.
+:::
+```
+Velopack Updater (0.0.556) manages packages and installs updates.
+https://github.com/velopack/velopack
+
+Usage: update.exe [OPTIONS]
+       update.exe apply [OPTIONS] [-- [EXE_ARGS]...]
+       update.exe patch [OPTIONS] --old <FILE> --patch <FILE> --output <FILE>
+       update.exe get-version [OPTIONS]
+       update.exe start [OPTIONS] [EXE_NAME] [-- [EXE_ARGS]...]
+       update.exe uninstall [OPTIONS]
+
+Options:
+      --verbose     Print debug messages to console / log
+  -s, --silent      Don't show any prompts / dialogs
+  -l, --log <PATH>  Override the default log file location
+  -h, --help        Print help
+  -V, --version     Print version
+
+update.exe apply:
+Applies a staged / prepared update, installing prerequisite runtimes if necessary
+      --norestart       Do not restart the application after the update
+  -w, --wait            Wait for the parent process to terminate before applying the update
+      --waitPid <PID>   Wait for the specified process to terminate before applying the update
+  -p, --package <FILE>  Update package to apply
+  -h, --help            Print help
+  [EXE_ARGS]...     Arguments to pass to the started executable. Must be preceeded by '--'.
+
+update.exe patch:
+Applies a Zstd patch file
+      --old <FILE>     Base / old file to apply the patch to
+      --patch <FILE>   The Zstd patch to apply to the old file
+      --output <FILE>  The file to create with the patch applied
+  -h, --help           Print help
+
+update.exe get-version:
+Prints the current version of the application
+  -h, --help  Print help
+
+update.exe start:
+Starts the currently installed version of the application
+  -w, --wait           Wait for the parent process to terminate before starting the application
+      --waitPid <PID>  Wait for the specified process to terminate before applying the update
+  -h, --help           Print help
+  [EXE_ARGS]...    Arguments to pass to the started executable. Must be preceeded by '--'.
+  [EXE_NAME]       The optional name of the binary to execute
+
+update.exe uninstall:
+Remove all app shortcuts, files, and registry entries.
+  -h, --help  Print help
+
+
+```
