@@ -2,6 +2,10 @@
 <AppliesTo all />
 Get started with our official cross-platform Rust Crate.
 
+:::tip
+To find the most accurate documentation for Rust please visit https://docs.rs/velopack
+:::
+
 1. Add Velopack to your `Cargo.toml`:
     ```toml
     [dependencies]
@@ -28,7 +32,8 @@ Get started with our official cross-platform Rust Crate.
     use anyhow::Result;
 
     fn update_my_app() -> Result<()> {
-        let um = UpdateManager::new("https://the.place/you-host/updates", None)?;
+        let source = sources::HttpSource::new("https://the.place/you-host/updates");
+        let um = UpdateManager::new(source, None)?;
 
         // check for updates
         let updates: Option<UpdateInfo> = um.check_for_updates()?;
@@ -38,11 +43,11 @@ Get started with our official cross-platform Rust Crate.
 
         // download updates
         let updates = updates.unwrap();
-        um.download_updates(&updates, |progress| { 
+        um.download_updates(&updates, |progress| {
             println!("Download progress: {}%", progress);
         })?;
 
-        // apply updates
+        // apply and restart
         um.apply_updates_and_restart(&updates, RestartArgs::None)?;
         Ok(())
     }
