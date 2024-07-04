@@ -62,6 +62,7 @@ class Program
                      SearchOption.AllDirectories)) {
             var categoryPath = Path.Combine(dir.FullName, "_category_.yml");
             var indexPath = Path.Combine(dir.FullName, "index.md");
+
             if (dir.Name == "methods") {
                 File.WriteAllText(categoryPath, "label: Methods");
             } else if (dir.Name == "properties") {
@@ -74,16 +75,61 @@ class Program
                 File.WriteAllText(categoryPath, "label: Operators");
             } else if (dir.Name == "constructors") {
                 File.WriteAllText(categoryPath, "label: Constructors");
+                if (File.Exists(indexPath)) {
+                    var indexContent = File.ReadAllText(indexPath);
+                    File.WriteAllText(
+                        indexPath,
+                        $"""
+                        ---
+                        title: Constructors
+                        ---
+                        {indexContent}
+                        """);
+                }
             } else if (File.Exists(indexPath)) {
-                var name = File.ReadAllText(indexPath)
+                var indexContent = File.ReadAllText(indexPath);
+
+                var name = indexContent
                     .Split(
                         new char[] { '\r', '\n' },
                         StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
                     .Where(l => l.StartsWith("# "))
                     .Select(l => l.Substring(2))
                     .First();
-                
-                File.WriteAllText(categoryPath, $"label: {name}");
+
+                // File.WriteAllText(categoryPath, $"label: {name}");
+
+                var sidebarPos = 10;
+                var sidebarIcon = "";
+
+                if (name.EndsWith("Namespace")) {
+                    sidebarPos = 1;
+                    name = name.Substring(0, name.LastIndexOf(" "));
+                    sidebarIcon = "🔶 ";
+                } else if (name.EndsWith("Class")) {
+                    sidebarPos = 2;
+                    name = name.Substring(0, name.LastIndexOf(" "));
+                    sidebarIcon = "🟦 ";
+                } else if (name.EndsWith("Struct")) {
+                    sidebarPos = 3;
+                    sidebarIcon = "🟩 ";
+                    name = name.Substring(0, name.LastIndexOf(" "));
+                } else if (name.EndsWith("Enum")) {
+                    sidebarPos = 4;
+                    sidebarIcon = "🟣 ";
+                    name = name.Substring(0, name.LastIndexOf(" "));
+                } 
+
+                File.WriteAllText(
+                    indexPath,
+                    $"""
+                    ---
+                    title: {name}
+                    sidebar_position: {sidebarPos}
+                    sidebar_label: {sidebarIcon}{name}
+                    ---
+                    {indexContent}
+                    """);
             }
         }
 
