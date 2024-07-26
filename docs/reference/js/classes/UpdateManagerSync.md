@@ -22,7 +22,7 @@ UpdateManager class instead, if it is supported for your programming language.
 
 ## Properties
 
-### #private
+### private
 
 • `Private` **#private**: `any`
 

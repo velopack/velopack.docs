@@ -25,13 +25,13 @@ It provides the asynchronous functions of the UpdateManager class.
 
 ## Properties
 
-### #private
+### private
 
 • `Private` **#private**: `any`
 
 #### Inherited from
 
-[UpdateManagerSync](UpdateManagerSync.md).[#private](UpdateManagerSync.md##private)
+[UpdateManagerSync](UpdateManagerSync.md).[#private](UpdateManagerSync.md#private)
 
 #### Defined in
 
