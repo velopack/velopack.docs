@@ -13,7 +13,21 @@ Here is the general rule of thumb for Windows Defender/Smart Screen warnings:
 - You sign your code with an EV certificate. People never get warnings.
 
 ### Acquiring a code signing certificate
-First, you need to acquire a code-signing certificate from a reputable brand. Microsoft lists the following trusted issuers [in their documentation](https://learn.microsoft.com/windows-hardware/drivers/dashboard/code-signing-cert-manage):
+
+#### Azure Trusted Signing
+
+As of April 2024, the most effective way to code-sign your product is via [**Azure Trusted Signing (ATS)**](https://azure.microsoft.com/en-us/products/trusted-signing).
+
+- Costs USD$10/mo (or USD$120/yr) which is on-par or cheaper than code signing certificates from other issuers.
+- Full cloud solution / Does not require any physical hardware (HSM) shipped to you.
+- Signing can be automated (eg. in your CI pipeline)
+- ATS certificates get built-in instant reputation for smart-screen and defender.
+
+ATS can be used with by following the [Microsoft documentation for using ATS with signtool.exe](https://learn.microsoft.com/en-us/azure/trusted-signing/how-to-signing-integrations#download-and-install-net-80-runtime), and then reading our docs below on how to configure signtool.exe with Velopack.
+
+#### Other certificate vendors
+
+If you instead wish to purchase a code signing certificate from a different vendor, Microsoft lists the following trusted issuers [in their documentation](https://learn.microsoft.com/windows-hardware/drivers/dashboard/code-signing-cert-manage):
 
 - [Certum](https://shop.certum.eu/data-safety/code-signing-certificates/certum-ev-code-sigining.html)
 - [SSL.com](https://www.ssl.com/certificates/ev-code-signing/)
@@ -22,19 +36,11 @@ First, you need to acquire a code-signing certificate from a reputable brand. Mi
 - [GlobalSign](https://go.microsoft.com/fwlink/p/?LinkId=620888)
 - [IdenTrust](https://www.identrust.com/digital-certificates/trustid-ev-code-signing)
 - [Sectigo (formerly Comodo)](https://sectigo.com/ssl-certificates-tls/code-signing)
+
+There are also resellers which may have certificates from authorised issuers for lower prices, but the added risk is that you will get no official support for those certificates and identity verification proceedures may be more convoluted.
     
-:::tip
-Note that since June 1, 2023 there [has been a policy change](https://knowledge.digicert.com/general-information/new-private-key-storage-requirement-for-standard-code-signing-certificates-november-2022), meaning it is no longer possible to directly download your code signing certificate private key as a file from issuers. This means most signing options available today will require you to participate in Cloud Code Signing, or install your certificate to a HSM (usb / hardware module). Some issurs may allow you to install your cert to a pre-owned/generic HSM, and some may force you to purchase and ship their own brand of HSM. CI/CD may not be possible with some issuers unless they provide tools specifically designed to do that.
-:::
-
-It may be possible to get official certificates from an authorised reseller at a cheaper price:
-- [SignMyCode](https://signmycode.com/)
-- [GoGetSSL](https://www.gogetssl.com/code-signing-ssl/)
-
-If looking for a cheap option, at the time of writing Certum does an [Open Source Cloud Signing Certificate](https://certum.store/data-safety/code-signing-certificates.html?as_dane_w_certyfikacie=5720) for $58. Note that it is not possible to automate Certum certificates with CI/CD because they require you to install virtual signing drivers (SimpleSign Desktop) and sign in to it with their 2FA SimplySign app. 
-
 :::warning
-This document is by no means a recommendation or advice to purchase from any particular code-signing certificate issuer. This is just general guidance for the process one might follow to purchase a certificate, and you must validate for yourself that the issuer you choose is fit for your use-case.
+Note that since June 1, 2023 there [has been a policy change](https://knowledge.digicert.com/general-information/new-private-key-storage-requirement-for-standard-code-signing-certificates-november-2022), meaning it is no longer possible to download your code signing certificate. It must be either stored in an authorised cloud HSM or a USB HSM will be shipped to you. Many of these solutions will require manual steps and not be compatible with automation / CI. Please review carefully before purchasing.
 :::
 
 ### Signing via `signtool.exe`
@@ -71,11 +77,7 @@ If you have more advanced signing requirements, such as a custom signing tool (e
 vpk pack ... --signTemplate "AzureSignTool.exe sign ... {{file}}"
 ```
 
-The above will disable the `signParallel` argument and only sign one file at a time. If your signing tool supports batch signing multiple files at a time, you can specify `{{file...}}` instead. 
-
-:::tip
-You should always pass absolute path to your custom signing binary, and for any other files in your signing arguments, as there is no guarentee that signtool will be run in the same working directory as vpk.
-:::
+The above will sign one file at a time, but if your signing tool supports batch signing multiple files at a time, you can specify `{{file...}}` instead.
 
 ## Signing & Notarizing on OSX
 Codesigning and Notarization is required before your application can be run by users, therefore it is a required step before deploying your application.
