@@ -30,7 +30,7 @@ vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
 vpk upload s3 --bucket MyApp --region us-west-1 --keyId {accessKeyId} --secret {accessKeySecret} 
 ```
 
-Note that you can specify most of these argumentsas environment variables too. You can review the [AWS SDK environment variables here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) and every `vpk` option can be provided as an environment variable too, to list these in the help text use `vpk -H` instead of `vpk -h`. 
+Note that you can specify most of these arguments as environment variables too. You can review the [AWS SDK environment variables here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) and every `vpk` option can be provided as an environment variable too, to list these in the help text use `vpk -H` instead of `vpk -h`. 
 
 When using a non-AWS S3-compatible API (eg. BackBlaze B2), you need to specify an endpoint instead of a region:
 
