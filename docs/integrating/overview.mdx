@@ -8,7 +8,7 @@ sidebar_position: 0
 
 To integrate Velopack into your application, you *must* initialise the Velopack as early as possible in app startup, and you *should* add update checking code somewhere.
 
-For .NET applications, you should first install the [Velopack Nuget Package](https://nuget.org/packages/velopack).
+For .NET applications, you should first install the [Velopack NuGet Package](https://nuget.org/packages/velopack).
 
 ## Application Startup
 Velopack requires you add some code to your application startup to handle hooks. This is because Velopack will run your main binary at certain stages of the install/update process with special arguments, to allow you to customise behavior. It expects your app to respond to these arguments in the right way and then exit as soon as possible. 
