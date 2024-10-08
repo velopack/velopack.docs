@@ -56,13 +56,14 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Sample Apps',
       items: [
-        link("C# / AvaloniaUI", "https://github.com/velopack/velopack/tree/develop/samples/CSharpAvalonia"),
-        link("C# / Unity Mono", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUnityMono"),
-        link("C# / Uno",        "https://github.com/velopack/velopack/tree/develop/samples/CSharpUno"),
-        link("C# / WPF",        "https://github.com/velopack/velopack/tree/develop/samples/CSharpWpf"),
-        link("C++ / Win32",     "https://github.com/velopack/velopack.fusion/tree/master/for-cpp/samples/win32"),
-        link("JS / Electron",   "https://github.com/velopack/velopack.fusion/tree/master/for-js/samples/electron-forge"),
-        link("Rust / Iced",     "https://github.com/velopack/velopack.fusion/tree/master/for-rust/samples/iced"),
+        //!! AUTO-GENERATED-START SAMPLES-TOC
+link("CSharpAvalonia", "https://github.com/velopack/velopack/tree/develop/samples/CSharpAvalonia", "Velopack in a cross-platform app with [Avalonia](https://avaloniaui.net/)."),
+link("CSharpUnityMono", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUnityMono", "Velopack with [Unity Game Engine](https://unity.com/) and Mono."),
+link("CSharpUno", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUno", "Velopack in a cross-platform app with [Uno Platform](https://github.com/unoplatform/uno)."),
+link("CSharpWpf", "https://github.com/velopack/velopack/tree/develop/samples/CSharpWpf", "Velopack with WPF on Windows."),
+link("NodeJSElectron", "https://github.com/velopack/velopack/tree/develop/samples/NodeJSElectron", "Velopack in a cross-platform javascript app with [Electron](https://www.electronjs.org/)."),
+link("RustIced", "https://github.com/velopack/velopack/tree/develop/samples/RustIced", "Velopack in a cross-platform app with [Iced](https://github.com/iced-rs/iced)."),
+        //!! AUTO-GENERATED-END SAMPLES-TOC
       ],
       link: { type: 'generated-index' },
     },

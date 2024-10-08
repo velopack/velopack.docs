@@ -134,7 +134,7 @@ public static class CSharpReference
         using var vpkStream = new MemoryStream();
         await dl.DownloadPackageToStream(vpkMetadata, vpkStream, CancellationToken.None);
 
-        Console.WriteLine("Extracting Velopack and VPK nuget package");
+        Console.WriteLine("Extracting VPK nuget package");
         vpkStream.Position = 0;
 
         var extractedVpk = Path.Combine(AppContext.BaseDirectory, "ref_VPK");
