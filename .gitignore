@@ -1,5 +1,5 @@
 # Dependencies
-/node_modules
+node_modules
 
 # Production
 /build
@@ -24,3 +24,4 @@ obj/
 bin/
 .vs
 .idea
+*.DotSettings.user
