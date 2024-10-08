@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 True if the update is a version downgrade or lateral move (such as when switching channels to the same version number). In this case, only full updates are allowed, and any local packages on disk newer than the downloaded version will be deleted.
 

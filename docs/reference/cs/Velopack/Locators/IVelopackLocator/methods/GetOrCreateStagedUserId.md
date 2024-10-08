@@ -10,7 +10,7 @@
 **Declaring Type:** [IVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 Unique identifier for this user which is used to calculate whether this user is eligible for  staged roll outs.
 

@@ -10,24 +10,15 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
-## Overloads
-
-| Signature                                                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ApplyUpdatesAndRestart(VelopackAsset, string\[\])](#applyupdatesandrestartvelopackasset-string) | This will exit your app immediately, apply updates, and then optionally relaunch the app using the specified  restart arguments. If you need to save state or clean up, you should do that before calling this method.  The user may be prompted during the update, if the update requires additional frameworks to be installed etc. You can check if there are pending updates by checking [IsUpdatePendingRestart](../properties/IsUpdatePendingRestart.md). |
-| [ApplyUpdatesAndRestart(string\[\])](#applyupdatesandrestartstring)                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-
-## ApplyUpdatesAndRestart(VelopackAsset, string\[\])
-
-This will exit your app immediately, apply updates, and then optionally relaunch the app using the specified  restart arguments. If you need to save state or clean up, you should do that before calling this method.  The user may be prompted during the update, if the update requires additional frameworks to be installed etc. You can check if there are pending updates by checking [IsUpdatePendingRestart](../properties/IsUpdatePendingRestart.md).
+This will exit your app immediately, apply updates, and then optionally relaunch the app using the specified  restart arguments. If you need to save state or clean up, you should do that before calling this method.  The user may be prompted during the update, if the update requires additional frameworks to be installed etc. You can check if there are pending updates by checking [UpdatePendingRestart](../properties/UpdatePendingRestart.md).
 
 ```csharp
 public void ApplyUpdatesAndRestart(VelopackAsset toApply, string[] restartArgs = null);
 ```
 
-### Parameters
+## Parameters
 
 `toApply`  [VelopackAsset](../../VelopackAsset/index.md)
 
@@ -36,20 +27,6 @@ The target release to apply. Can be left null to auto\-apply the newest download
 `restartArgs`  string\[\]
 
 The arguments to pass to the application when it is restarted.
-
-## ApplyUpdatesAndRestart(string\[\])
-
-⚠️ **Warning:** Please use one of the other overloads of ApplyUpdatesAndRestart() instead.
-
-```csharp
-[EditorBrowsable(EditorBrowsableState.Never)]
-[Obsolete("Please use one of the other overloads of ApplyUpdatesAndRestart() instead.")]
-public void ApplyUpdatesAndRestart(string[] restartArgs = null);
-```
-
-### Parameters
-
-`restartArgs`  string\[\]
 
 ___
 

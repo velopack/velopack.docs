@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 The base release that we are to apply delta updates from. If null, we can try doing a delta update from the currently installed version.
 

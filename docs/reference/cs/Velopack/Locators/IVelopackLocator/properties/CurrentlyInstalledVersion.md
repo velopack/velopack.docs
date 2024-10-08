@@ -10,7 +10,7 @@
 **Declaring Type:** [IVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
  The currently installed version of the application, or null if the app is not installed. 
 

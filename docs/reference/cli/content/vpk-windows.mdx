@@ -1,14 +1,10 @@
 # vpk (Windows)
-:::warning
-CLI reference is currently only available for Windows. Arguments may be slightly different for other platforms.
-Please check the help text yourself for the most accurate information.
-:::
 
 
 ## `vpk -H`
 ```
 Description:
-  Velopack CLI 0.0.556, for distributing applications.  
+  Velopack CLI 0.0.626, for distributing applications.  
 
 Usage:
   vpk [command] [options]  
@@ -20,6 +16,7 @@ Options:
   -y, --yes                'yes' by instead of 'no' in non-interactive          
                            prompts.                                             
   --verbose                Print diagnostic messages.                           
+  --skip-updates           Skip update checks                                   
 
 Commands:
   pack      Creates a release from a folder containing application files.      
@@ -88,6 +85,9 @@ Options:
   --signParallel <NUM>               ENV=VPK_SIGN_PARALLEL  The number of       
                                      files to sign in each signing              
                                      command. [default: 10]                     
+  --shortcuts <LOC>                  ENV=VPK_SHORTCUTS  List of locations       
+                                     to install shortcuts to during setup.      
+                                     [default: Desktop,StartMenuRoot]           
   -n, --signParams <PARAMS>          ENV=VPK_SIGN_PARAMS  Sign files via        
                                      signtool.exe using these parameters.
 ```
@@ -174,7 +174,8 @@ Options:
   --session <TOKEN>      ENV=VPK_SESSION  Authentication session token.         
   --endpoint <URL>       ENV=VPK_ENDPOINT  Custom service url (backblaze,       
                          digital ocean, etc).                                   
-  --bucket <NAME> (REQ)  ENV=VPK_BUCKET  Name of the S3 bucket.
+  --bucket <NAME> (REQ)  ENV=VPK_BUCKET  Name of the S3 bucket.                 
+  --prefix <PREFIX>      ENV=VPK_PREFIX  Prefix to the S3 url.
 ```
 
 ## `vpk download az -H`
@@ -334,6 +335,7 @@ Options:
   --endpoint <URL>             ENV=VPK_ENDPOINT  Custom service url             
                                (backblaze, digital ocean, etc).                 
   --bucket <NAME> (REQ)        ENV=VPK_BUCKET  Name of the S3 bucket.           
+  --prefix <PREFIX>            ENV=VPK_PREFIX  Prefix to the S3 url.            
   --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           
                                number of releases to keep in the bucket,        
                                anything older will be deleted.

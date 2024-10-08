@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [UpdateInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 Create a new instance of [UpdateInfo](../index.md)
 

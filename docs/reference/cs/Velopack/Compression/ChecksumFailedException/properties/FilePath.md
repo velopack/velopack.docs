@@ -10,7 +10,7 @@
 **Declaring Type:** [ChecksumFailedException](../index.md)  
 **Namespace:** [Velopack.Compression](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 The filename of the package which failed validation
 

@@ -7,14 +7,18 @@
 
 # UpdateManager.IsUpdatePendingRestart Property
 
+⚠️ **Warning:** Use UpdatePendingRestart instead.
+
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
- True if there is a local update prepared that requires a call to [ApplyUpdatesAndRestart(VelopackAsset, string\[\])](../methods/ApplyUpdatesAndRestart.md#applyupdatesandrestartvelopackasset-string) to be applied. 
+ OBSOLETE: Use [UpdatePendingRestart](UpdatePendingRestart.md) instead. 
 
 ```csharp
+[EditorBrowsable(EditorBrowsableState.Never)]
+[Obsolete("Use UpdatePendingRestart instead.")]
 public bool IsUpdatePendingRestart { get; }
 ```
 

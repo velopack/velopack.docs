@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [OsxVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 Creates a new [OsxVelopackLocator](../index.md) and auto\-detects the app information from metadata embedded in the .app.
 

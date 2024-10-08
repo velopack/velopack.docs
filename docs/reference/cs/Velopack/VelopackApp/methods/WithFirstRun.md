@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 This hook is triggered when the application is started for the first time after installation.
 

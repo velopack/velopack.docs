@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 The list of delta versions between the current version and [TargetFullRelease](TargetFullRelease.md). These will be applied in order.
 

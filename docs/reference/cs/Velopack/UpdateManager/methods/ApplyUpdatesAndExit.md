@@ -10,34 +10,15 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
-## Overloads
-
-| Signature                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ApplyUpdatesAndExit()](#applyupdatesandexit)                           |                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| [ApplyUpdatesAndExit(VelopackAsset)](#applyupdatesandexitvelopackasset) | This will exit your app immediately, apply updates, and then optionally relaunch the app using the specified  restart arguments. If you need to save state or clean up, you should do that before calling this method.  The user may be prompted during the update, if the update requires additional frameworks to be installed etc. You can check if there are pending updates by checking [IsUpdatePendingRestart](../properties/IsUpdatePendingRestart.md). |
-
-## ApplyUpdatesAndExit()
-
-⚠️ **Warning:** Please use one of the other overloads of ApplyUpdatesAndExit() instead.
-
-```csharp
-[EditorBrowsable(EditorBrowsableState.Never)]
-[Obsolete("Please use one of the other overloads of ApplyUpdatesAndExit() instead.")]
-public void ApplyUpdatesAndExit();
-```
-
-## ApplyUpdatesAndExit(VelopackAsset)
-
-This will exit your app immediately, apply updates, and then optionally relaunch the app using the specified  restart arguments. If you need to save state or clean up, you should do that before calling this method.  The user may be prompted during the update, if the update requires additional frameworks to be installed etc. You can check if there are pending updates by checking [IsUpdatePendingRestart](../properties/IsUpdatePendingRestart.md).
+This will exit your app immediately, apply updates, and then optionally relaunch the app using the specified  restart arguments. If you need to save state or clean up, you should do that before calling this method.  The user may be prompted during the update, if the update requires additional frameworks to be installed etc. You can check if there are pending updates by checking [UpdatePendingRestart](../properties/UpdatePendingRestart.md).
 
 ```csharp
 public void ApplyUpdatesAndExit(VelopackAsset toApply);
 ```
 
-### Parameters
+## Parameters
 
 `toApply`  [VelopackAsset](../../VelopackAsset/index.md)
 

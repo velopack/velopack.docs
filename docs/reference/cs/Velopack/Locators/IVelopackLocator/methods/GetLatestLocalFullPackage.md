@@ -10,7 +10,7 @@
 **Declaring Type:** [IVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 Finds latest .nupkg file in the PackagesDir or null if not found.
 

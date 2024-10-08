@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
  The currently installed app version when you created your release. Null if this is not a currently installed app. 
 

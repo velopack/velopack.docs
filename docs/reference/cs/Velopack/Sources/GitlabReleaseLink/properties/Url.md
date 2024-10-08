@@ -10,7 +10,7 @@
 **Declaring Type:** [GitlabReleaseLink](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 The url for the asset. This make use of the Gitlab API.
 

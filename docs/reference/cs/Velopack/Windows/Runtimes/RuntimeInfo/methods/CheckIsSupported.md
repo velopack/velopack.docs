@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes.RuntimeInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
  Check if this runtime is supported on the current system 
 

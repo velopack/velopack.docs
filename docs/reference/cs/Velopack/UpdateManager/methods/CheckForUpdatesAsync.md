@@ -10,12 +10,12 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 Checks for updates, returning null if there are none available. If there are updates available, this method will return an  UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available.
 
 ```csharp
-[AsyncStateMachine(Velopack.UpdateManager/<CheckForUpdatesAsync>d__32)]
+[AsyncStateMachine(Velopack.UpdateManager/<CheckForUpdatesAsync>d__34)]
 public Task<UpdateInfo> CheckForUpdatesAsync();
 ```
 

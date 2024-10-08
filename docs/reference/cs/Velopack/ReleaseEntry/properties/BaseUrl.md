@@ -10,7 +10,7 @@
 **Declaring Type:** [ReleaseEntry](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
  If the release corresponds to a remote http location, this will be the base url. 
 

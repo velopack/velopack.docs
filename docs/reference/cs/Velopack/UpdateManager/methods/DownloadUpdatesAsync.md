@@ -10,12 +10,12 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 Downloads the specified updates to the local app packages directory. If the update contains delta packages and ignoreDeltas\=false,  this method will attempt to unpack and prepare them. If there is no delta update available, or there is an error preparing delta  packages, this method will fall back to downloading the full version of the update. This function will acquire a global update lock so may fail if there is already another update operation in progress.
 
 ```csharp
-[AsyncStateMachine(Velopack.UpdateManager/<DownloadUpdatesAsync>d__35)]
+[AsyncStateMachine(Velopack.UpdateManager/<DownloadUpdatesAsync>d__37)]
 public Task DownloadUpdatesAsync(UpdateInfo updates, Action<int> progress = null, bool ignoreDeltas = false, CancellationToken cancelToken = default);
 ```
 

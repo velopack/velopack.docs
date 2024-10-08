@@ -10,7 +10,7 @@
 **Declaring Type:** [ReleaseEntry](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 The percentage of users this package has been released to. This release may or may not be applied if the current user is not in the staging group.
 

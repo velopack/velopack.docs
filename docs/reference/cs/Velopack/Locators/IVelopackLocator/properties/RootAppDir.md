@@ -10,7 +10,7 @@
 **Declaring Type:** [IVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 The root directory of the application. On Windows, this folder contains all  the application files, but that may not be the case on other operating systems. 
 

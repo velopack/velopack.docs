@@ -10,7 +10,7 @@
 **Declaring Type:** [GitBase\<T\>](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.556+83dfef5
+**Assembly Version:** 0.0.626+6f1a94e
 
 The file downloader used to perform HTTP requests. 
 
