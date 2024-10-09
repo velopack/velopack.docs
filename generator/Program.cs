@@ -13,11 +13,11 @@ class Program
             .Single(x => x.Key == "ScriptsDir").Value!;
         string docRootDir = Path.GetFullPath(Path.Combine(scriptsDir, ".."));
 
-        // Console.WriteLine("Updating C# / VPK / CLI Reference...");
-        // var outputCsharpReference = Path.Combine(docRootDir, "docs", "reference", "cs");
-        // var outputCliReference = Path.Combine(docRootDir, "docs", "reference", "cli", "content");
-        // await CSharpReference.UpdateCSharpReference(outputCsharpReference);
-        // await CSharpReference.UpdateVpkCliReference(outputCliReference);
+        Console.WriteLine("Updating C# / VPK / CLI Reference...");
+        var outputCsharpReference = Path.Combine(docRootDir, "docs", "reference", "cs");
+        var outputCliReference = Path.Combine(docRootDir, "docs", "reference", "cli", "content");
+        await CSharpReference.UpdateCSharpReference(outputCsharpReference);
+        await CSharpReference.UpdateVpkCliReference(outputCliReference);
 
         Console.WriteLine("Updating Rust QuickStart...");
         string rustQuickStartOutput = Path.Combine(docRootDir, "docs", "getting-started", "rust.mdx");
@@ -27,6 +27,9 @@ class Program
         var sidebarConfigPath = Path.Combine(docRootDir, "sidebars.ts");
         await UpdateSampleToc(sidebarConfigPath);
 
+        Console.WriteLine("Updating JavaScript Reference...");
+        var outputJsReference = Path.Combine(docRootDir, "docs", "reference", "js");
+        await JavaScriptReference.UpdateJavaScriptReference(outputJsReference);
     }
 
     static async Task UpdateSampleToc(string sidebarConfigPath)
