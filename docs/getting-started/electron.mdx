@@ -2,14 +2,19 @@
 <AppliesTo all />
 Get started with our NPM package for JS & Electron.
 
-If you are using pure nodejs and bundling your app using [pkg](https://github.com/vercel/pkg) or similar you can ignore Electron-specific steps.
+:::tip
+This guide assumes you are building an Electron app with Electron Forge and the Webpack bundler. Since Velopack contains a native binary module (`.node`), it may not be compatible with the `vite` or `rollup` bundlers. To scaffold a brand new project, you can use the official electron forge template:
+```
+npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
+```
+:::
 
 1. Add Velopack to your `package.json`:
     ```txt
     npm install velopack
     ```
 
-2. Add the following code to your entry point (eg. `index.js`) as early as possible (before any electron startup code etc.):
+0. Add the following code to your entry point (eg. `index.ts`) as early as possible (before any electron startup code etc.):
     ```js
     const { VelopackApp } = require('velopack');
 
@@ -19,57 +24,113 @@ If you are using pure nodejs and bundling your app using [pkg](https://github.co
 
     // ... your other app startup code here
     ```
+    :::warning
+    If you currently have any "Squirrel" startup code you should remove this now. For example:
+    ```
+    npm uninstall electron-squirrel-startup @electron-forge/maker-squirrel 
+    ```
+    :::
 
-3. Add auto-updates somewhere to your app:
+0. Add auto-updates to your app:
+    This has some complexity because of electron's IPC model and that Velopack has a native node module.
+
+    First, you should setup IPC handlers in your main application thread:
     ```js
-    const { UpdateManager } = require('velopack');
+    const { VelopackApp } = require('velopack');
 
-    async function updateApp()
-    {
-        const um = new UpdateManager();
-        um.setUrlOrPath("https://the.place/you-host/updates");
+    ipcMain.handle("velopack:get-version", () => {
+        try {
+            const updateManager = new UpdateManager(updateUrl);
+            return updateManager.getCurrentVersion();
+        } catch (e) {
+            return `Not Installed (${e})`;
+        }
+    });
 
-        const updateInfo = await um.checkForUpdatesAsync();
+    ipcMain.handle("velopack:check-for-update", async () => {
+        const updateManager = new UpdateManager(updateUrl);
+        return await updateManager.checkForUpdatesAsync();
+    });
+
+    ipcMain.handle("velopack:download-update", async (_, updateInfo) => {
+        const updateManager = new UpdateManager(updateUrl);
+        await updateManager.downloadUpdateAsync(updateInfo);
+        return true;
+    });
+
+    ipcMain.handle("velopack:apply-update", async (_, updateInfo) => {
+        const updateManager = new UpdateManager(updateUrl);
+        await updateManager.waitExitThenApplyUpdate(updateInfo);
+        app.quit();
+        return true;
+    });
+    ```
+
+    Next, you need to expose these functions to your renderer processes in `preload.ts`
+    ```js
+    import { contextBridge, ipcRenderer } from "electron";
+    import type { UpdateInfo } from "velopack";
+
+    interface VelopackBridgeApi {
+        getVersion: () => Promise<string>,
+        checkForUpdates: () => Promise<UpdateInfo>,
+        downloadUpdates: (updateInfo: UpdateInfo) => Promise<boolean>,
+        applyUpdates: (updateInfo: UpdateInfo) => Promise<boolean>,
+    }
+
+    declare global {
+        interface Window {
+            velopackApi: VelopackBridgeApi;
+        }
+    }
+
+    const velopackApi: VelopackBridgeApi = {
+        getVersion: () => ipcRenderer.invoke("velopack:get-version"),
+        checkForUpdates: () => ipcRenderer.invoke("velopack:check-for-update"),
+        downloadUpdates: (updateInfo: UpdateInfo) => ipcRenderer.invoke("velopack:download-update", updateInfo),
+        applyUpdates: (updateInfo: UpdateInfo) => ipcRenderer.invoke("velopack:apply-update", updateInfo)
+    };
+
+    contextBridge.exposeInMainWorld("velopackApi", velopackApi);
+    ```
+
+    Lastly, you can now use these functions in your renderer to provide an update UI to your users:
+    ```js
+    async function updateApp() {
+        // check for new version
+        const updateInfo = await window.velopackApi.checkForUpdates();
         if (!updateInfo) {
-            return; // no update available
+            return; // no updates available
         }
 
-        await um.downloadUpdatesAsync(updateInfo.targetFullRelease, p => {
-            console.log(`progress: ${p}%`);
-        });
+        // download new version
+        await window.velopackApi.downloadUpdates(updateInfo);
 
-        um.applyUpdatesAndRestart(updateInfo.targetFullRelease);
+        // install new version and restart app
+        await window.velopackApi.applyUpdates(updateInfo);
     }
+
     ```
 
-4. If you are using electron/forge, you will need to add an asar unpack rule:
-    ```js
-    module.exports = {
-        packagerConfig: {
-            asar: {
-            // velopack contains native binaries which must remain unpacked
-                unpack: '**/node_modules/velopack/**',
-            },
-        },
-    }
-    ```
+    Review our Electron sample app for a more complete example.
+ 
 
-5. Compile your app to a binary (eg. `.exe` on Windows). Example using electron forge:
+0. Compile your app to a binary (eg. `.exe` on Windows). Example using electron forge:
     ```sh
     npx electron-forge package
     ```
 
-6. Install the `vpk` command line tool:
+0. Install the `vpk` command line tool:
     ```sh
     dotnet tool update -g vpk
     ```
     :::tip
-    ***You must have the .NET Core SDK 6 installed to use and update `vpk`***
+    ***You must have the .NET Core SDK 8 installed to use and update `vpk`***
     :::
 
-7. Package your Velopack release / installers:
+0. Package your Velopack release / installers:
     ```sh
-    vpk pack -u MyAppUniqueId -v 1.0.0 -p /myBuildDir -e myexename.exe
+    vpk pack -u MyAppUniqueId -v 1.0.0 -p ./myBuildDir -e myexename.exe
     ```
 
 ✅ You're Done! Your app now has auto-updates and an installer.
