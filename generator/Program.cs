@@ -35,7 +35,7 @@ class Program
     static async Task UpdateSampleToc(string sidebarConfigPath)
     {
         string sampleBasePrefix = "https://github.com/velopack/velopack/tree/develop/samples/";
-        string sampleReadmeUrl = "https://raw.githubusercontent.com/velopack/velopack/refs/heads/develop/samples/readme.md";
+        string sampleReadmeUrl = "https://raw.githubusercontent.com/velopack/velopack/refs/heads/develop/samples/README.md";
         string sampleReadme = Downloader.DownloadString(sampleReadmeUrl);
         var sampleMatches = Regex.Matches(sampleReadme, @"^-\s?\[(?<name>.*?)\]\((?<url>.*?)\)\s?-\s?(?<description>.*)$", RegexOptions.Multiline);
         var sampleToc = new StringBuilder();
@@ -55,7 +55,7 @@ class Program
     {
         string rustLibUrl = "https://raw.githubusercontent.com/velopack/velopack/refs/heads/develop/src/lib-rust/src/lib.rs";
         string rustLibSrc = Downloader.DownloadString(rustLibUrl);
-        var rustLines = rustLibSrc.Split(['\n', '\r'], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+        var rustLines = rustLibSrc.Split(new char [] { '\n', '\r' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
             .Where(l => l.StartsWith("//!"))
             .Select(l => l.Substring(3).Trim())
             .ToList();

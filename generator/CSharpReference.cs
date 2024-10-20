@@ -11,7 +11,7 @@ public static class CSharpReference
     public static async Task UpdateCSharpReference(string outputCsharpReference)
     {
         Console.WriteLine("Installing mddocs");
-        var mdInstall = Process.Start("dotnet", "tool install --global Grynwald.MdDocs");
+        var mdInstall = Process.Start("dotnet", "tool update --global Grynwald.MdDocs");
         await mdInstall.WaitForExitAsync();
         if (mdInstall.ExitCode != 0) {
             throw new Exception("Failed to install mddocs");

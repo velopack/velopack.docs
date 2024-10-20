@@ -26,7 +26,7 @@ public class NugetDownloader
     {
         PackageMetadataResource packageMetadataResource = _sourceRepository.GetResource<PackageMetadataResource>();
         FindPackageByIdResource packageByIdResource = _sourceRepository.GetResource<FindPackageByIdResource>();
-        IPackageSearchMetadata package = null;
+        IPackageSearchMetadata package = null!;
 
         var prerelease = version?.Equals("pre", StringComparison.InvariantCultureIgnoreCase) == true;
         if (version is null || version.Equals("latest", StringComparison.InvariantCultureIgnoreCase) || prerelease) {
