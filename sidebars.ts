@@ -44,7 +44,7 @@ const sidebars: SidebarsConfig = {
       label: 'Quick Start',
       items: [
         doc("getting-started/csharp", "C# / .NET"),
-        doc("getting-started/cpp", "C++"),
+        doc("getting-started/cpp", "C / C++"),
         doc("getting-started/electron", "JS / Electron"),
         doc("getting-started/rust", "Rust"),
         doc("getting-started/uno", "C# / Uno Platform"),

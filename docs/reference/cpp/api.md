@@ -1,3 +1,7 @@
+:::warning
+## This page is currently out of date. Please see the [C++ Quick Start](../../getting-started/cpp.mdx) for the most accurate information.
+:::
+
 # Velopack C++ Reference
 
  Members                        | Descriptions                                
