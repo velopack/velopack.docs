@@ -27,6 +27,11 @@ public class CppHeaderReference
                 ],
             outputPath);
 
+        Console.WriteLine("Generated files:");
+        foreach (var f in Directory.GetFiles(outputPath)) {
+            Console.WriteLine(f);
+        }
+
         File.Delete(headerPath);
         File.Delete(Path.Combine(outputPath, "standardese_files.md"));
         File.Delete(Path.Combine(outputPath, "standardese_modules.md"));
