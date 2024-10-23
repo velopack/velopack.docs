@@ -2,6 +2,7 @@
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using NuGet.Common;
 using NuGet.Packaging;
 
@@ -327,6 +328,7 @@ public static class CSharpReference
             .Where(l => !l.StartsWith("    "))
             .Select(l => l.Trim())
             .Select(l => l.Substring(0, l.IndexOf(" ")))
+            .Select(l => Regex.Replace(l, @"[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]", ""))
             .ToArray();
 
         Console.WriteLine("Commands: ");
