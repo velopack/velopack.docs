@@ -32,7 +32,7 @@ public class CppHeaderReference
                 "run",
                 "--rm",
                 "-v",
-                outputPath + ":/include",
+                outputPath + ":/include:rw",
                 "-w",
                 "/include",
                 "standardese/standardese",
