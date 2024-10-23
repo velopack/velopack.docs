@@ -274,6 +274,7 @@ public static class CSharpReference
     {
         var help = await RunCaptureStdOut("dotnet", [vpkDll, directive, "-h"]);
         var root = new VpkCommand("", help);
+
         await RecursivelyPopulateSubCommands(root, [vpkDll, directive]);
         return root;
     }
@@ -308,17 +309,32 @@ public static class CSharpReference
 
     static string[] GetCommandsFromHelp(string stdout)
     {
+        Console.WriteLine("Trying to determine sub commands from output:");
+        Console.WriteLine(stdout);
+
         var commandsIdx = stdout.IndexOf("Commands:");
         if (commandsIdx == -1) return [];
         var commandsText = stdout.Substring(commandsIdx);
 
         var lines = commandsText.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
-        return lines.Skip(1)
+        Console.WriteLine("Lines: ");
+        foreach (var line in lines) {
+            Console.WriteLine(" - " + line);
+        }
+
+        var commands = lines.Skip(1)
             .Where(l => !l.StartsWith("    "))
             .Select(l => l.Trim())
             .Select(l => l.Substring(0, l.IndexOf(" ")))
             .ToArray();
+
+        Console.WriteLine("Commands: ");
+        foreach (var cmd in commands) {
+            Console.WriteLine(" - " + cmd);
+        }
+
+        return commands;
     }
 
     static async Task<string> RunCaptureStdOut(string exePath, string[] args)
