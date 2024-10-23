@@ -31,6 +31,13 @@ public class CppHeaderReference
         File.Delete(Path.Combine(outputPath, "standardese_files.md"));
         File.Delete(Path.Combine(outputPath, "standardese_modules.md"));
 
-        await Util.SetPageSidebarOverview(Path.Combine(outputPath, "standardese_entities.md"));
+        var indexMd = Path.Combine(outputPath, "index.md");
+        File.Move(Path.Combine(outputPath, "standardese_entities.md"), indexMd, true);
+        await Util.SetPageSidebarOverview(indexMd);
+
+        var velopackMd = Path.Combine(outputPath, "doc_Velopack.md");
+        var velopack = await File.ReadAllTextAsync(velopackMd);
+        velopack.Replace("href=\"doc_Velopack.md#", "href=\"#");
+        await File.WriteAllTextAsync(velopackMd, velopack);
     }
 }
