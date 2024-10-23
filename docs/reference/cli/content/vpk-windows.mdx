@@ -4,339 +4,339 @@
 ## `vpk -H`
 ```
 Description:
-  Velopack CLI 0.0.626, for distributing applications.  
+  [1mVelopack CLI 0.0.626, for distributing applications.[0m  
 
 Usage:
-  vpk [command] [options]  
+  [1mvpk [command] [options][0m  
 
 Options:
-  -h, -H, --help, --vhelp  Show help (-h) or extended help (-H).                
-  -x, --legacyConsole      Disable console colors and interactive               
+  [1m-h, -H, --help, --vhelp[0m  Show help (-h) or extended help (-H).                
+  [1m-x, --legacyConsole[0m      Disable console colors and interactive               
                            components.                                          
-  -y, --yes                'yes' by instead of 'no' in non-interactive          
+  [1m-y, --yes[0m                'yes' by instead of 'no' in non-interactive          
                            prompts.                                             
-  --verbose                Print diagnostic messages.                           
-  --skip-updates           Skip update checks                                   
+  [1m--verbose[0m                Print diagnostic messages.                           
+  [1m--skip-updates[0m           Skip update checks                                   
 
 Commands:
-  pack      Creates a release from a folder containing application files.      
-  download  Download's the latest release from a remote update source.         
-  upload    Upload local package(s) to a remote update source.                 
-  delta     Utilities for creating or applying delta packages.
+  [1mpack[0m      Creates a release from a folder containing application files.      
+  [1mdownload[0m  Download's the latest release from a remote update source.         
+  [1mupload[0m    Upload local package(s) to a remote update source.                 
+  [1mdelta[0m     Utilities for creating or applying delta packages.
 ```
 
 ## `vpk pack -H`
 ```
 Description:
-  Creates a release from a folder containing application files.  
+  [1mCreates a release from a folder containing application files.[0m  
 
 Usage:
-  vpk pack [options]  
+  [1mvpk pack [options][0m  
 
 Options:
-  -o, --outputDir <DIR>              ENV=VPK_OUTPUT_DIR  Output directory       
+  [1m-o, --outputDir[0m <DIR>              [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory       
                                      for created packages. [default:            
                                      Releases]                                  
-  -c, --channel <NAME>               ENV=VPK_CHANNEL  The channel to use        
+  [1m-c, --channel[0m <NAME>               [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use        
                                      for this release. [default: win]           
-  -r, --runtime <RID>                ENV=VPK_RUNTIME  The target runtime        
+  [1m-r, --runtime[0m <RID>                [3mENV=[0m[1;3;38;5;12mVPK_RUNTIME[0m  The target runtime        
                                      to build packages for.                     
-  -u, --packId <ID> (REQ)            ENV=VPK_PACK_ID  Unique Id for             
+  [1m-u, --packId[0m <ID> [38;5;9m(REQ)[0m            [3mENV=[0m[1;3;38;5;12mVPK_PACK_ID[0m  Unique Id for             
                                      application bundle.                        
-  -v, --packVersion <VERSION> (REQ)  ENV=VPK_PACK_VERSION  Current version      
+  [1m-v, --packVersion[0m <VERSION> [38;5;9m(REQ)[0m  [3mENV=[0m[1;3;38;5;12mVPK_PACK_VERSION[0m  Current version      
                                      for application bundle.                    
-  -p, --packDir <DIR> (REQ)          ENV=VPK_PACK_DIR  Directory                
+  [1m-p, --packDir[0m <DIR> [38;5;9m(REQ)[0m          [3mENV=[0m[1;3;38;5;12mVPK_PACK_DIR[0m  Directory                
                                      containing application files for           
                                      release.                                   
-  --packAuthors <AUTHORS>            ENV=VPK_PACK_AUTHORS  Company name or      
+  [1m--packAuthors[0m <AUTHORS>            [3mENV=[0m[1;3;38;5;12mVPK_PACK_AUTHORS[0m  Company name or      
                                      comma-delimited list of authors.           
-  --packTitle <NAME>                 ENV=VPK_PACK_TITLE  Display/friendly       
+  [1m--packTitle[0m <NAME>                 [3mENV=[0m[1;3;38;5;12mVPK_PACK_TITLE[0m  Display/friendly       
                                      name for application.                      
-  --releaseNotes <PATH>              ENV=VPK_RELEASE_NOTES  File with           
+  [1m--releaseNotes[0m <PATH>              [3mENV=[0m[1;3;38;5;12mVPK_RELEASE_NOTES[0m  File with           
                                      markdown-formatted notes for this          
                                      version.                                   
-  --delta <BestSize|BestSpeed|None>  ENV=VPK_DELTA  Disable or set the          
+  [1m--delta[0m <BestSize|BestSpeed|None>  [3mENV=[0m[1;3;38;5;12mVPK_DELTA[0m  Disable or set the          
                                      delta generation mode. [default:           
                                      BestSpeed]                                 
-  -i, --icon <PATH>                  ENV=VPK_ICON  Path to icon file for        
+  [1m-i, --icon[0m <PATH>                  [3mENV=[0m[1;3;38;5;12mVPK_ICON[0m  Path to icon file for        
                                      package.                                   
-  -e, --mainExe <NAME>               ENV=VPK_MAIN_EXE  The file name (not       
+  [1m-e, --mainExe[0m <NAME>               [3mENV=[0m[1;3;38;5;12mVPK_MAIN_EXE[0m  The file name (not       
                                      path) of the main/entry executable.        
-  --exclude <REGEX>                  ENV=VPK_EXCLUDE  A regex which             
+  [1m--exclude[0m <REGEX>                  [3mENV=[0m[1;3;38;5;12mVPK_EXCLUDE[0m  A regex which             
                                      excludes matched files from the            
                                      package. [default: .*\.pdb]                
-  --noPortable                       ENV=VPK_NO_PORTABLE  Skip generating       
+  [1m--noPortable[0m                       [3mENV=[0m[1;3;38;5;12mVPK_NO_PORTABLE[0m  Skip generating       
                                      a portable bundle.                         
-  --noInst                           ENV=VPK_NO_INST  Skip generating an        
+  [1m--noInst[0m                           [3mENV=[0m[1;3;38;5;12mVPK_NO_INST[0m  Skip generating an        
                                      installer package.                         
-  -f, --framework <RUNTIMES>         ENV=VPK_FRAMEWORK  List of required        
+  [1m-f, --framework[0m <RUNTIMES>         [3mENV=[0m[1;3;38;5;12mVPK_FRAMEWORK[0m  List of required        
                                      runtimes to install during setup.          
                                      Example:                                   
                                      'net6-x64-desktop,vcredist143'.            
-  -s, --splashImage <PATH>           ENV=VPK_SPLASH_IMAGE  Path to image        
+  [1m-s, --splashImage[0m <PATH>           [3mENV=[0m[1;3;38;5;12mVPK_SPLASH_IMAGE[0m  Path to image        
                                      displayed during installation.             
-  --skipVeloAppCheck                 ENV=VPK_SKIP_VELO_APP_CHECK  Skip the      
+  [1m--skipVeloAppCheck[0m                 [3mENV=[0m[1;3;38;5;12mVPK_SKIP_VELO_APP_CHECK[0m  Skip the      
                                      VelopackApp builder verification.          
-  --signTemplate <COMMAND>           ENV=VPK_SIGN_TEMPLATE  Use a custom        
+  [1m--signTemplate[0m <COMMAND>           [3mENV=[0m[1;3;38;5;12mVPK_SIGN_TEMPLATE[0m  Use a custom        
                                      signing command. {{file}} will be          
                                      substituted.                               
-  --signSkipDll                      ENV=VPK_SIGN_SKIP_DLL  Only signs EXE      
+  [1m--signSkipDll[0m                      [3mENV=[0m[1;3;38;5;12mVPK_SIGN_SKIP_DLL[0m  Only signs EXE      
                                      files, and skips signing DLL files.        
-  --signParallel <NUM>               ENV=VPK_SIGN_PARALLEL  The number of       
+  [1m--signParallel[0m <NUM>               [3mENV=[0m[1;3;38;5;12mVPK_SIGN_PARALLEL[0m  The number of       
                                      files to sign in each signing              
                                      command. [default: 10]                     
-  --shortcuts <LOC>                  ENV=VPK_SHORTCUTS  List of locations       
+  [1m--shortcuts[0m <LOC>                  [3mENV=[0m[1;3;38;5;12mVPK_SHORTCUTS[0m  List of locations       
                                      to install shortcuts to during setup.      
                                      [default: Desktop,StartMenuRoot]           
-  -n, --signParams <PARAMS>          ENV=VPK_SIGN_PARAMS  Sign files via        
+  [1m-n, --signParams[0m <PARAMS>          [3mENV=[0m[1;3;38;5;12mVPK_SIGN_PARAMS[0m  Sign files via        
                                      signtool.exe using these parameters.
 ```
 
 ## `vpk download -H`
 ```
 Description:
-  Download's the latest release from a remote update source.  
+  [1mDownload's the latest release from a remote update source.[0m  
 
 Usage:
-  vpk download [command] [options]  
+  [1mvpk download [command] [options][0m  
 
 Commands:
-  github  Download latest release from GitHub repository.                    
-  gitea   Download latest release from Gitea repository.                     
-  s3      Download latest release from an S3 bucket.                         
-  az      Download latest release from an Azure Blob Storage container.      
-  local   Download latest release from a local path or network share.        
-  http    Download latest release from a HTTP source.
+  [1mgithub[0m  Download latest release from GitHub repository.                    
+  [1mgitea[0m   Download latest release from Gitea repository.                     
+  [1ms3[0m      Download latest release from an S3 bucket.                         
+  [1maz[0m      Download latest release from an Azure Blob Storage container.      
+  [1mlocal[0m   Download latest release from a local path or network share.        
+  [1mhttp[0m    Download latest release from a HTTP source.
 ```
 
 ## `vpk download github -H`
 ```
 Description:
-  Download latest release from GitHub repository.  
+  [1mDownload latest release from GitHub repository.[0m  
 
 Usage:
-  vpk download github [options]  
+  [1mvpk download github [options][0m  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
+  [1m-o, --outputDir[0m <DIR>  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for created       
                          packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
+  [1m-c, --channel[0m <NAME>   [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for this           
                          release. [default: win]                                
-  --repoUrl (REQ)        ENV=VPK_REPO_URL  Full url to the github               
+  [1m--repoUrl [0m[1;38;5;9m(REQ)[0m        [3mENV=[0m[1;3;38;5;12mVPK_REPO_URL[0m  Full url to the github               
                          repository (eg.                                        
                          'https://github.com/myname/myrepo').                   
-  --token                ENV=VPK_TOKEN  OAuth token to use as login             
+  [1m--token[0m                [3mENV=[0m[1;3;38;5;12mVPK_TOKEN[0m  OAuth token to use as login             
                          credentials.                                           
-  --pre                  ENV=VPK_PRE  Get latest pre-release instead of         
+  [1m--pre[0m                  [3mENV=[0m[1;3;38;5;12mVPK_PRE[0m  Get latest pre-release instead of         
                          stable.
 ```
 
 ## `vpk download gitea -H`
 ```
 Description:
-  Download latest release from Gitea repository.  
+  [1mDownload latest release from Gitea repository.[0m  
 
 Usage:
-  vpk download gitea [options]  
+  [1mvpk download gitea [options][0m  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
+  [1m-o, --outputDir[0m <DIR>  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for created       
                          packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
+  [1m-c, --channel[0m <NAME>   [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for this           
                          release. [default: win]                                
-  --repoUrl (REQ)        ENV=VPK_REPO_URL  Full url to the gitea                
+  [1m--repoUrl [0m[1;38;5;9m(REQ)[0m        [3mENV=[0m[1;3;38;5;12mVPK_REPO_URL[0m  Full url to the gitea                
                          repository (eg.                                        
                          'https://gitea.com/myname/myrepo').                    
-  --token                ENV=VPK_TOKEN  OAuth token to use as login             
+  [1m--token[0m                [3mENV=[0m[1;3;38;5;12mVPK_TOKEN[0m  OAuth token to use as login             
                          credentials.                                           
-  --pre                  ENV=VPK_PRE  Get latest pre-release instead of         
+  [1m--pre[0m                  [3mENV=[0m[1;3;38;5;12mVPK_PRE[0m  Get latest pre-release instead of         
                          stable.
 ```
 
 ## `vpk download s3 -H`
 ```
 Description:
-  Download latest release from an S3 bucket.  
+  [1mDownload latest release from an S3 bucket.[0m  
 
 Usage:
-  vpk download s3 [options]  
+  [1mvpk download s3 [options][0m  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
+  [1m-o, --outputDir[0m <DIR>  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for created       
                          packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
+  [1m-c, --channel[0m <NAME>   [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for this           
                          release. [default: win]                                
-  --keyId <KEYID>        ENV=VPK_KEY_ID  Authentication identifier or           
+  [1m--keyId[0m <KEYID>        [3mENV=[0m[1;3;38;5;12mVPK_KEY_ID[0m  Authentication identifier or           
                          access key.                                            
-  --secret <KEY>         ENV=VPK_SECRET  Authentication secret key.             
-  --region <REGION>      ENV=VPK_REGION  AWS service region (eg.                
+  [1m--secret[0m <KEY>         [3mENV=[0m[1;3;38;5;12mVPK_SECRET[0m  Authentication secret key.             
+  [1m--region[0m <REGION>      [3mENV=[0m[1;3;38;5;12mVPK_REGION[0m  AWS service region (eg.                
                          us-west-1).                                            
-  --session <TOKEN>      ENV=VPK_SESSION  Authentication session token.         
-  --endpoint <URL>       ENV=VPK_ENDPOINT  Custom service url (backblaze,       
+  [1m--session[0m <TOKEN>      [3mENV=[0m[1;3;38;5;12mVPK_SESSION[0m  Authentication session token.         
+  [1m--endpoint[0m <URL>       [3mENV=[0m[1;3;38;5;12mVPK_ENDPOINT[0m  Custom service url (backblaze,       
                          digital ocean, etc).                                   
-  --bucket <NAME> (REQ)  ENV=VPK_BUCKET  Name of the S3 bucket.                 
-  --prefix <PREFIX>      ENV=VPK_PREFIX  Prefix to the S3 url.
+  [1m--bucket[0m <NAME> [38;5;9m(REQ)[0m  [3mENV=[0m[1;3;38;5;12mVPK_BUCKET[0m  Name of the S3 bucket.                 
+  [1m--prefix[0m <PREFIX>      [3mENV=[0m[1;3;38;5;12mVPK_PREFIX[0m  Prefix to the S3 url.
 ```
 
 ## `vpk download az -H`
 ```
 Description:
-  Download latest release from an Azure Blob Storage container.  
+  [1mDownload latest release from an Azure Blob Storage container.[0m  
 
 Usage:
-  vpk download az [options]  
+  [1mvpk download az [options][0m  
 
 Options:
-  -o, --outputDir <DIR>      ENV=VPK_OUTPUT_DIR  Output directory for           
+  [1m-o, --outputDir[0m <DIR>      [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for           
                              created packages. [default: Releases]              
-  -c, --channel <NAME>       ENV=VPK_CHANNEL  The channel to use for this       
+  [1m-c, --channel[0m <NAME>       [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for this       
                              release. [default: win]                            
-  --account <ACCOUNT> (REQ)  ENV=VPK_ACCOUNT  Account name                      
-  --key <KEY>                ENV=VPK_KEY  Account secret key                    
-  --sas <TOKEN>              ENV=VPK_SAS  Shared access signature token         
+  [1m--account[0m <ACCOUNT> [38;5;9m(REQ)[0m  [3mENV=[0m[1;3;38;5;12mVPK_ACCOUNT[0m  Account name                      
+  [1m--key[0m <KEY>                [3mENV=[0m[1;3;38;5;12mVPK_KEY[0m  Account secret key                    
+  [1m--sas[0m <TOKEN>              [3mENV=[0m[1;3;38;5;12mVPK_SAS[0m  Shared access signature token         
                              (not the url)                                      
-  --container <NAME> (REQ)   ENV=VPK_CONTAINER  Azure container name            
-  --endpoint <URL>           ENV=VPK_ENDPOINT  Service url (eg.                 
+  [1m--container[0m <NAME> [38;5;9m(REQ)[0m   [3mENV=[0m[1;3;38;5;12mVPK_CONTAINER[0m  Azure container name            
+  [1m--endpoint[0m <URL>           [3mENV=[0m[1;3;38;5;12mVPK_ENDPOINT[0m  Service url (eg.                 
                              https://<account-name>.blob.core.windows.net)
 ```
 
 ## `vpk download local -H`
 ```
 Description:
-  Download latest release from a local path or network share.  
+  [1mDownload latest release from a local path or network share.[0m  
 
 Usage:
-  vpk download local [options]  
+  [1mvpk download local [options][0m  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
+  [1m-o, --outputDir[0m <DIR>  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for created       
                          packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
+  [1m-c, --channel[0m <NAME>   [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for this           
                          release. [default: win]                                
-  --path <PATH> (REQ)    ENV=VPK_PATH  Target file path to copy releases        
+  [1m--path[0m <PATH> [38;5;9m(REQ)[0m    [3mENV=[0m[1;3;38;5;12mVPK_PATH[0m  Target file path to copy releases        
                          to/from.
 ```
 
 ## `vpk download http -H`
 ```
 Description:
-  Download latest release from a HTTP source.  
+  [1mDownload latest release from a HTTP source.[0m  
 
 Usage:
-  vpk download http [options]  
+  [1mvpk download http [options][0m  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
+  [1m-o, --outputDir[0m <DIR>  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for created       
                          packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
+  [1m-c, --channel[0m <NAME>   [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for this           
                          release. [default: win]                                
-  --url (REQ)            ENV=VPK_URL  Url to download remote releases           
+  [1m--url [0m[1;38;5;9m(REQ)[0m            [3mENV=[0m[1;3;38;5;12mVPK_URL[0m  Url to download remote releases           
                          from.
 ```
 
 ## `vpk upload -H`
 ```
 Description:
-  Upload local package(s) to a remote update source.  
+  [1mUpload local package(s) to a remote update source.[0m  
 
 Usage:
-  vpk upload [command] [options]  
+  [1mvpk upload [command] [options][0m  
 
 Commands:
-  github  Upload releases to a GitHub repository.                  
-  gitea   Upload releases to a Gitea repository.                   
-  s3      Upload releases to a S3 bucket.                          
-  az      Upload releases to an Azure Blob Storage container.      
-  local   Upload releases to a local path or network share.
+  [1mgithub[0m  Upload releases to a GitHub repository.                  
+  [1mgitea[0m   Upload releases to a Gitea repository.                   
+  [1ms3[0m      Upload releases to a S3 bucket.                          
+  [1maz[0m      Upload releases to an Azure Blob Storage container.      
+  [1mlocal[0m   Upload releases to a local path or network share.
 ```
 
 ## `vpk upload github -H`
 ```
 Description:
-  Upload releases to a GitHub repository.  
+  [1mUpload releases to a GitHub repository.[0m  
 
 Usage:
-  vpk upload github [options]  
+  [1mvpk upload github [options][0m  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
+  [1m-o, --outputDir[0m <DIR> [38;5;9m(REQ)[0m  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for         
                                created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
+  [1m-c, --channel[0m <NAME>         [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for          
                                this release. [default: win]                     
-  --repoUrl (REQ)              ENV=VPK_REPO_URL  Full url to the github         
+  [1m--repoUrl [0m[1;38;5;9m(REQ)[0m              [3mENV=[0m[1;3;38;5;12mVPK_REPO_URL[0m  Full url to the github         
                                repository (eg.                                  
                                'https://github.com/myname/myrepo').             
-  --token                      ENV=VPK_TOKEN  OAuth token to use as login       
+  [1m--token[0m                      [3mENV=[0m[1;3;38;5;12mVPK_TOKEN[0m  OAuth token to use as login       
                                credentials.                                     
-  --publish                    ENV=VPK_PUBLISH  Create and publish instead      
+  [1m--publish[0m                    [3mENV=[0m[1;3;38;5;12mVPK_PUBLISH[0m  Create and publish instead      
                                of leaving as draft.                             
-  --pre                        ENV=VPK_PRE  Create as pre-release instead       
+  [1m--pre[0m                        [3mENV=[0m[1;3;38;5;12mVPK_PRE[0m  Create as pre-release instead       
                                of stable.                                       
-  --merge                      ENV=VPK_MERGE  Allow merging this upload         
+  [1m--merge[0m                      [3mENV=[0m[1;3;38;5;12mVPK_MERGE[0m  Allow merging this upload         
                                with an existing release.                        
-  --releaseName <NAME>         ENV=VPK_RELEASE_NAME  A custom name for the      
+  [1m--releaseName[0m <NAME>         [3mENV=[0m[1;3;38;5;12mVPK_RELEASE_NAME[0m  A custom name for the      
                                release.                                         
-  --tag <NAME>                 ENV=VPK_TAG  A custom tag for the release.       
-  --targetCommitish <NAME>     ENV=VPK_TARGET_COMMITISH  A commitish value      
+  [1m--tag[0m <NAME>                 [3mENV=[0m[1;3;38;5;12mVPK_TAG[0m  A custom tag for the release.       
+  [1m--targetCommitish[0m <NAME>     [3mENV=[0m[1;3;38;5;12mVPK_TARGET_COMMITISH[0m  A commitish value      
                                for tag (branch or commit SHA).
 ```
 
 ## `vpk upload gitea -H`
 ```
 Description:
-  Upload releases to a Gitea repository.  
+  [1mUpload releases to a Gitea repository.[0m  
 
 Usage:
-  vpk upload gitea [options]  
+  [1mvpk upload gitea [options][0m  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
+  [1m-o, --outputDir[0m <DIR> [38;5;9m(REQ)[0m  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for         
                                created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
+  [1m-c, --channel[0m <NAME>         [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for          
                                this release. [default: win]                     
-  --repoUrl (REQ)              ENV=VPK_REPO_URL  Full url to the gitea          
+  [1m--repoUrl [0m[1;38;5;9m(REQ)[0m              [3mENV=[0m[1;3;38;5;12mVPK_REPO_URL[0m  Full url to the gitea          
                                repository (eg.                                  
                                'https://gitea.com/myname/myrepo').              
-  --token                      ENV=VPK_TOKEN  OAuth token to use as login       
+  [1m--token[0m                      [3mENV=[0m[1;3;38;5;12mVPK_TOKEN[0m  OAuth token to use as login       
                                credentials.                                     
-  --publish                    ENV=VPK_PUBLISH  Create and publish instead      
+  [1m--publish[0m                    [3mENV=[0m[1;3;38;5;12mVPK_PUBLISH[0m  Create and publish instead      
                                of leaving as draft.                             
-  --pre                        ENV=VPK_PRE  Create as pre-release instead       
+  [1m--pre[0m                        [3mENV=[0m[1;3;38;5;12mVPK_PRE[0m  Create as pre-release instead       
                                of stable.                                       
-  --merge                      ENV=VPK_MERGE  Allow merging this upload         
+  [1m--merge[0m                      [3mENV=[0m[1;3;38;5;12mVPK_MERGE[0m  Allow merging this upload         
                                with an existing release.                        
-  --releaseName <NAME>         ENV=VPK_RELEASE_NAME  A custom name for the      
+  [1m--releaseName[0m <NAME>         [3mENV=[0m[1;3;38;5;12mVPK_RELEASE_NAME[0m  A custom name for the      
                                release.                                         
-  --tag <NAME>                 ENV=VPK_TAG  A custom tag for the release.       
-  --targetCommitish <NAME>     ENV=VPK_TARGET_COMMITISH  A commitish value      
+  [1m--tag[0m <NAME>                 [3mENV=[0m[1;3;38;5;12mVPK_TAG[0m  A custom tag for the release.       
+  [1m--targetCommitish[0m <NAME>     [3mENV=[0m[1;3;38;5;12mVPK_TARGET_COMMITISH[0m  A commitish value      
                                for tag (branch or commit SHA).
 ```
 
 ## `vpk upload s3 -H`
 ```
 Description:
-  Upload releases to a S3 bucket.  
+  [1mUpload releases to a S3 bucket.[0m  
 
 Usage:
-  vpk upload s3 [options]  
+  [1mvpk upload s3 [options][0m  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
+  [1m-o, --outputDir[0m <DIR> [38;5;9m(REQ)[0m  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for         
                                created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
+  [1m-c, --channel[0m <NAME>         [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for          
                                this release. [default: win]                     
-  --keyId <KEYID>              ENV=VPK_KEY_ID  Authentication identifier        
+  [1m--keyId[0m <KEYID>              [3mENV=[0m[1;3;38;5;12mVPK_KEY_ID[0m  Authentication identifier        
                                or access key.                                   
-  --secret <KEY>               ENV=VPK_SECRET  Authentication secret key.       
-  --region <REGION>            ENV=VPK_REGION  AWS service region (eg.          
+  [1m--secret[0m <KEY>               [3mENV=[0m[1;3;38;5;12mVPK_SECRET[0m  Authentication secret key.       
+  [1m--region[0m <REGION>            [3mENV=[0m[1;3;38;5;12mVPK_REGION[0m  AWS service region (eg.          
                                us-west-1).                                      
-  --session <TOKEN>            ENV=VPK_SESSION  Authentication session          
+  [1m--session[0m <TOKEN>            [3mENV=[0m[1;3;38;5;12mVPK_SESSION[0m  Authentication session          
                                token.                                           
-  --endpoint <URL>             ENV=VPK_ENDPOINT  Custom service url             
+  [1m--endpoint[0m <URL>             [3mENV=[0m[1;3;38;5;12mVPK_ENDPOINT[0m  Custom service url             
                                (backblaze, digital ocean, etc).                 
-  --bucket <NAME> (REQ)        ENV=VPK_BUCKET  Name of the S3 bucket.           
-  --prefix <PREFIX>            ENV=VPK_PREFIX  Prefix to the S3 url.            
-  --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           
+  [1m--bucket[0m <NAME> [38;5;9m(REQ)[0m        [3mENV=[0m[1;3;38;5;12mVPK_BUCKET[0m  Name of the S3 bucket.           
+  [1m--prefix[0m <PREFIX>            [3mENV=[0m[1;3;38;5;12mVPK_PREFIX[0m  Prefix to the S3 url.            
+  [1m--keepMaxReleases[0m <COUNT>    [3mENV=[0m[1;3;38;5;12mVPK_KEEP_MAX_RELEASES[0m  The maximum           
                                number of releases to keep in the bucket,        
                                anything older will be deleted.
 ```
@@ -344,25 +344,25 @@ Options:
 ## `vpk upload az -H`
 ```
 Description:
-  Upload releases to an Azure Blob Storage container.  
+  [1mUpload releases to an Azure Blob Storage container.[0m  
 
 Usage:
-  vpk upload az [options]  
+  [1mvpk upload az [options][0m  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
+  [1m-o, --outputDir[0m <DIR> [38;5;9m(REQ)[0m  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for         
                                created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
+  [1m-c, --channel[0m <NAME>         [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for          
                                this release. [default: win]                     
-  --account <ACCOUNT> (REQ)    ENV=VPK_ACCOUNT  Account name                    
-  --key <KEY>                  ENV=VPK_KEY  Account secret key                  
-  --sas <TOKEN>                ENV=VPK_SAS  Shared access signature token       
+  [1m--account[0m <ACCOUNT> [38;5;9m(REQ)[0m    [3mENV=[0m[1;3;38;5;12mVPK_ACCOUNT[0m  Account name                    
+  [1m--key[0m <KEY>                  [3mENV=[0m[1;3;38;5;12mVPK_KEY[0m  Account secret key                  
+  [1m--sas[0m <TOKEN>                [3mENV=[0m[1;3;38;5;12mVPK_SAS[0m  Shared access signature token       
                                (not the url)                                    
-  --container <NAME> (REQ)     ENV=VPK_CONTAINER  Azure container name          
-  --endpoint <URL>             ENV=VPK_ENDPOINT  Service url (eg.               
+  [1m--container[0m <NAME> [38;5;9m(REQ)[0m     [3mENV=[0m[1;3;38;5;12mVPK_CONTAINER[0m  Azure container name          
+  [1m--endpoint[0m <URL>             [3mENV=[0m[1;3;38;5;12mVPK_ENDPOINT[0m  Service url (eg.               
                                https://<account-name>.blob.core.windows.ne      
                                t)                                               
-  --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           
+  [1m--keepMaxReleases[0m <COUNT>    [3mENV=[0m[1;3;38;5;12mVPK_KEEP_MAX_RELEASES[0m  The maximum           
                                number of releases to keep in the                
                                container, anything older will be deleted.
 ```
@@ -370,22 +370,22 @@ Options:
 ## `vpk upload local -H`
 ```
 Description:
-  Upload releases to a local path or network share.  
+  [1mUpload releases to a local path or network share.[0m  
 
 Usage:
-  vpk upload local [options]  
+  [1mvpk upload local [options][0m  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
+  [1m-o, --outputDir[0m <DIR> [38;5;9m(REQ)[0m  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT_DIR[0m  Output directory for         
                                created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
+  [1m-c, --channel[0m <NAME>         [3mENV=[0m[1;3;38;5;12mVPK_CHANNEL[0m  The channel to use for          
                                this release. [default: win]                     
-  --path <PATH> (REQ)          ENV=VPK_PATH  Target file path to copy           
+  [1m--path[0m <PATH> [38;5;9m(REQ)[0m          [3mENV=[0m[1;3;38;5;12mVPK_PATH[0m  Target file path to copy           
                                releases to/from.                                
-  --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           
+  [1m--keepMaxReleases[0m <COUNT>    [3mENV=[0m[1;3;38;5;12mVPK_KEEP_MAX_RELEASES[0m  The maximum           
                                number of releases to keep in the target         
                                directory, anything older will be deleted.       
-  --regenerate                 ENV=VPK_REGENERATE  Force regenerate the         
+  [1m--regenerate[0m                 [3mENV=[0m[1;3;38;5;12mVPK_REGENERATE[0m  Force regenerate the         
                                releases.{channel}.json file in the target       
                                directory.
 ```
@@ -393,48 +393,48 @@ Options:
 ## `vpk delta -H`
 ```
 Description:
-  Utilities for creating or applying delta packages.  
+  [1mUtilities for creating or applying delta packages.[0m  
 
 Usage:
-  vpk delta [command] [options]  
+  [1mvpk delta [command] [options][0m  
 
 Commands:
-  generate  Generate a delta patch from two full releases.                   
-  patch     Patch a base package and retrieve the original new package.
+  [1mgenerate[0m  Generate a delta patch from two full releases.                   
+  [1mpatch[0m     Patch a base package and retrieve the original new package.
 ```
 
 ## `vpk delta generate -H`
 ```
 Description:
-  Generate a delta patch from two full releases.  
+  [1mGenerate a delta patch from two full releases.[0m  
 
 Usage:
-  vpk delta generate [options]  
+  [1mvpk delta generate [options][0m  
 
 Options:
-  --mode <BestSize|BestSpeed|None>  ENV=VPK_MODE  Set the delta generation      
+  [1m--mode[0m <BestSize|BestSpeed|None>  [3mENV=[0m[1;3;38;5;12mVPK_MODE[0m  Set the delta generation      
                                     mode. [default: BestSpeed]                  
-  -b, --base <PATH> (REQ)           ENV=VPK_BASE  The base package for the      
+  [1m-b, --base[0m <PATH> [38;5;9m(REQ)[0m           [3mENV=[0m[1;3;38;5;12mVPK_BASE[0m  The base package for the      
                                     created patch.                              
-  -n, --new <PATH> (REQ)            ENV=VPK_NEW  The resulting package for      
+  [1m-n, --new[0m <PATH> [38;5;9m(REQ)[0m            [3mENV=[0m[1;3;38;5;12mVPK_NEW[0m  The resulting package for      
                                     the created patch.                          
-  -o, --output <PATH> (REQ)         ENV=VPK_OUTPUT  The output file path        
+  [1m-o, --output[0m <PATH> [38;5;9m(REQ)[0m         [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT[0m  The output file path        
                                     for the created patch.
 ```
 
 ## `vpk delta patch -H`
 ```
 Description:
-  Patch a base package and retrieve the original new package.  
+  [1mPatch a base package and retrieve the original new package.[0m  
 
 Usage:
-  vpk delta patch [options]  
+  [1mvpk delta patch [options][0m  
 
 Options:
-  -b, --base <PATH> (REQ)    ENV=VPK_BASE  The base package for the             
+  [1m-b, --base[0m <PATH> [38;5;9m(REQ)[0m    [3mENV=[0m[1;3;38;5;12mVPK_BASE[0m  The base package for the             
                              created patch.                                     
-  -p, --patch <PATH>         ENV=VPK_PATCH  The resulting package for the       
+  [1m-p, --patch[0m <PATH>         [3mENV=[0m[1;3;38;5;12mVPK_PATCH[0m  The resulting package for the       
                              created patch.                                     
-  -o, --output <PATH> (REQ)  ENV=VPK_OUTPUT  The output file path for the       
+  [1m-o, --output[0m <PATH> [38;5;9m(REQ)[0m  [3mENV=[0m[1;3;38;5;12mVPK_OUTPUT[0m  The output file path for the       
                              created patch.
 ```
