@@ -1,7 +1,15 @@
-﻿namespace DocGenerator;
+﻿using System.Runtime.InteropServices;
+
+namespace DocGenerator;
 
 public class CppHeaderReference
 {
+    [DllImport("libc")]
+    private static extern uint getuid();
+
+    [DllImport("libc")]
+    private static extern uint getgid();
+    
     public static async Task UpdateCppReference(string outputPath)
     {
         outputPath = Path.GetFullPath(outputPath);
@@ -31,6 +39,8 @@ public class CppHeaderReference
             [
                 "run",
                 "--rm",
+                "--user",
+                $"{getuid()}:{getgid()}",
                 "-v",
                 outputPath + ":/include:rw",
                 "-w",
