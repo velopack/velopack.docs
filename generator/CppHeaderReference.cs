@@ -4,11 +4,28 @@ public class CppHeaderReference
 {
     public static async Task UpdateCppReference(string outputPath)
     {
+        outputPath = Path.GetFullPath(outputPath);
         var cppHeaderUrl = "https://raw.githubusercontent.com/velopack/velopack/refs/heads/develop/src/lib-cpp/include/Velopack.h";
         var cppHeader = Util.DownloadString(cppHeaderUrl);
 
         var headerPath = Path.Combine(outputPath, "Velopack.h");
         await File.WriteAllTextAsync(headerPath, cppHeader);
+        
+        Console.WriteLine($"Mounting {outputPath}");
+        await Util.StartShellProcess("docker",
+            [
+                "run",
+                "--rm",
+                "-v",
+                outputPath + ":/include",
+                "-w",
+                "/include",
+                "standardese/standardese",
+                "ls",
+                "-la",
+                "/include"
+            ],
+            outputPath);
 
         await Util.StartShellProcess("docker",
             [
