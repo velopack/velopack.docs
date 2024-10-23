@@ -45,11 +45,14 @@ jobs:
           path: docs/reference/cli/content
           pattern: cli-*
           merge-multiple: true
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: output
-          path: docs/reference/*
-      # - name: test
-      #   run: ls -la docs/reference/cli/content
+      - name: Commit and Push
+        run: |
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else 
+            echo "Changes detected. Committing..."
+            git commit -m "automatic update"
+            git push
+          fi
    
