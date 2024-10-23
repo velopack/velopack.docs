@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Velopack',
-  tagline: 'Dinosaurs are cool',
+  tagline: 'Installer and automatic update framework for cross-platform desktop applications',
   favicon: 'favicon/favicon.ico',
   url: 'https://docs.velopack.io/',
   baseUrl: '/',
