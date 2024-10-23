@@ -3,6 +3,7 @@ using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text;
 using NuGet.Common;
+using NuGet.Packaging;
 
 namespace DocGenerator;
 
@@ -234,6 +235,8 @@ public static class CSharpReference
 
             Console.WriteLine("Generating MacOS VPK");
             var vpkOsx = await GetVpkHelpForDirective("[osx]", vpkDll);
+            Console.WriteLine(vpkOsx);
+
             var vpkStringBuilder = new StringBuilder();
             var vpkTocSb = new StringBuilder();
             AppendVpkCommand(vpkStringBuilder, vpkTocSb, vpkOsx, "vpk", 0);
@@ -257,7 +260,6 @@ public static class CSharpReference
         helpsb.AppendLine($"```");
         helpsb.AppendLine(command.HelpText);
         helpsb.AppendLine($"```");
-
 
         // sb.AppendLine($"{new string(' ', depth * 2)}## {command.Name}");
         // sb.AppendLine($"{new string(' ', depth * 2)}{command.HelpText}");
@@ -323,11 +325,14 @@ public static class CSharpReference
     {
         var psi = new ProcessStartInfo {
             FileName = exePath,
-            Arguments = string.Join(" ", args),
+            //Arguments = string.Join(" ", args),
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
         };
+        psi.ArgumentList.AddRange(args);
+
+        Console.WriteLine($"Running: {exePath} {string.Join(" ", args)}");
 
         return await RunCaptureStdOut(psi);
     }
