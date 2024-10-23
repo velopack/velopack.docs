@@ -1,7 +1,14 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import React from 'react';
 import clsx from 'clsx';
-import { useWindowSize } from '@docusaurus/theme-common';
-import { useDoc } from '@docusaurus/theme-common/internal';
+import {useWindowSize} from '@docusaurus/theme-common';
+import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import DocItemPaginator from '@theme/DocItem/Paginator';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
@@ -10,21 +17,29 @@ import DocItemTOCMobile from '@theme/DocItem/TOC/Mobile';
 import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
-import Unlisted from '@theme/Unlisted';
-import styles from './styles.module.css';
+import ContentVisibility from '@theme/ContentVisibility';
 import Giscus from '@site/src/components/Giscus';
 import HitTracker from '@site/src/components/HitTracker';
 
+import styles from './styles.module.css';
+
+/**
+ * Decide if the toc should be rendered, on mobile or desktop viewports
+ */
 function useDocTOC() {
-  const { frontMatter, toc } = useDoc();
+  const {frontMatter, toc} = useDoc();
   const windowSize = useWindowSize();
-  const hidden = frontMatter.hide_table_of_contents || toc.length < 1;
-  const canRender = !hidden;
+
+  const hidden = frontMatter.hide_table_of_contents;
+  const canRender = !hidden && toc.length > 0;
+
   const mobile = canRender ? <DocItemTOCMobile /> : undefined;
+
   const desktop =
     canRender && (windowSize === 'desktop' || windowSize === 'ssr') ? (
       <DocItemTOCDesktop />
     ) : undefined;
+
   return {
     hidden,
     mobile,
@@ -32,13 +47,11 @@ function useDocTOC() {
   };
 }
 
-export default function DocItemLayout({ children }) {
+export default function DocItemLayout({children}) {
   const docTOC = useDocTOC();
-  const { metadata } = useDoc();
-  const { unlisted, frontMatter, slug } = metadata;
-  let { disable_comments } = frontMatter;
-
-  if (slug.includes("/reference/")) {
+  const {frontMatter, metadata} = useDoc();
+  let disable_comments = frontMatter.disable_comments;
+  if (metadata.slug.includes("/reference/")) {
     // Disable comments for all library reference pages
     disable_comments = true;
   }
@@ -46,7 +59,7 @@ export default function DocItemLayout({ children }) {
   return (
     <div className="row">
       <div className={clsx('col', !docTOC.hidden && styles.docItemCol)}>
-        {unlisted && <Unlisted />}
+        <ContentVisibility metadata={metadata} />
         <DocVersionBanner />
         <div className={styles.docItemContainer}>
           <article>
@@ -67,7 +80,7 @@ export default function DocItemLayout({ children }) {
           <DocItemPaginator />
         </div>
       </div>
-      {docTOC.desktop && <div className={clsx("col", "col--3", styles.docItemColToc)}>{docTOC.desktop}</div>}
+      {docTOC.desktop && <div className="col col--3">{docTOC.desktop}</div>}
     </div>
   );
 }
