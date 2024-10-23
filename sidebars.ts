@@ -56,13 +56,13 @@ const sidebars: SidebarsConfig = {
       label: 'Sample Apps',
       items: [
         //!! AUTO-GENERATED-START SAMPLES-TOC
-link("C++ / Win32", "https://github.com/velopack/velopack/tree/develop/samples/CPlusPlusWin32", "Velopack in a C++ app, using the Win32 UI starter template."),
-link("C# / Avalonia", "https://github.com/velopack/velopack/tree/develop/samples/CSharpAvalonia", "Velopack in a cross-platform app with [Avalonia](https://avaloniaui.net/)."),
-link("C# / UnityMono", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUnityMono", "Velopack with [Unity Game Engine](https://unity.com/) and Mono."),
-link("C# / Uno", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUno", "Velopack in a cross-platform app with [Uno Platform](https://github.com/unoplatform/uno)."),
-link("C# / Wpf", "https://github.com/velopack/velopack/tree/develop/samples/CSharpWpf", "Velopack with WPF on Windows."),
-link("NodeJS / Electron", "https://github.com/velopack/velopack/tree/develop/samples/NodeJSElectron", "Velopack in a cross-platform JavaScript app with [Electron](https://www.electronjs.org/)."),
-link("Rust / Iced", "https://github.com/velopack/velopack/tree/develop/samples/RustIced", "Velopack in a cross-platform app with [Iced](https://github.com/iced-rs/iced)."),
+        link("C++ / Win32", "https://github.com/velopack/velopack/tree/develop/samples/CPlusPlusWin32", "Velopack in a C++ app, using the Win32 UI starter template."),
+        link("C# / Avalonia", "https://github.com/velopack/velopack/tree/develop/samples/CSharpAvalonia", "Velopack in a cross-platform app with [Avalonia](https://avaloniaui.net/)."),
+        link("C# / UnityMono", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUnityMono", "Velopack with [Unity Game Engine](https://unity.com/) and Mono."),
+        link("C# / Uno", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUno", "Velopack in a cross-platform app with [Uno Platform](https://github.com/unoplatform/uno)."),
+        link("C# / Wpf", "https://github.com/velopack/velopack/tree/develop/samples/CSharpWpf", "Velopack with WPF on Windows."),
+        link("NodeJS / Electron", "https://github.com/velopack/velopack/tree/develop/samples/NodeJSElectron", "Velopack in a cross-platform JavaScript app with [Electron](https://www.electronjs.org/)."),
+        link("Rust / Iced", "https://github.com/velopack/velopack/tree/develop/samples/RustIced", "Velopack in a cross-platform app with [Iced](https://github.com/iced-rs/iced)."),
         //!! AUTO-GENERATED-END SAMPLES-TOC
       ],
       link: { type: 'generated-index' },
@@ -88,7 +88,7 @@ link("Rust / Iced", "https://github.com/velopack/velopack/tree/develop/samples/R
       collapsible: false,
       items: [
         auto("reference/cs", "C#", "The C# API reference for Velopack. See the available namespaces below.", "reference/cs/Velopack/index"),
-        doc("reference/cpp/api", "C++"),
+        auto("reference/cpp", "C++", "The C++ API reference for Velopack.", "reference/cpp/standardese_entities"),
         auto("reference/js", "JS", "The JS API reference for Velopack.", "reference/js/index"),
         link("Rust", "https://docs.rs/velopack", "Link to docs.rs/velopack"),
         auto("reference/cli/content", "CLI", "The Velopack CLI reference.", "reference/cli/index"),

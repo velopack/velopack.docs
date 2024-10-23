@@ -1,9 +1,10 @@
-﻿using System.Threading;
-using NuGet.Configuration;
+﻿using NuGet.Configuration;
 using NuGet.Packaging.Core;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using NugetLevel = NuGet.Common.LogLevel;
 using NugetLogger = NuGet.Common.ILogger;
+using NugetMessage = NuGet.Common.ILogMessage;
 
 namespace DocGenerator;
 
@@ -38,7 +39,7 @@ public class NugetDownloader
                 .Where(x => x.IsListed)
                 .Where(x => prerelease || !x.Identity.Version.IsPrerelease)
                 .OrderByDescending(x => x.Identity.Version)
-                .FirstOrDefault();
+                .First();
         } else {
             // resolve version ranges and wildcards
             var versions = await packageByIdResource.GetAllVersionsAsync(packageName, _sourceCacheContext, _logger, cancellationToken)
@@ -65,5 +66,54 @@ public class NugetDownloader
         await packageByIdResource
             .CopyNupkgToStreamAsync(package.Identity.Id, package.Identity.Version, targetStream, _sourceCacheContext, _logger, cancellationToken)
             .ConfigureAwait(false);
+    }
+}
+
+class NullNugetLogger : NugetLogger
+{
+    void NugetLogger.LogDebug(string data)
+    {
+    }
+
+    void NugetLogger.LogVerbose(string data)
+    {
+    }
+
+    void NugetLogger.LogInformation(string data)
+    {
+    }
+
+    void NugetLogger.LogMinimal(string data)
+    {
+    }
+
+    void NugetLogger.LogWarning(string data)
+    {
+    }
+
+    void NugetLogger.LogError(string data)
+    {
+    }
+
+    void NugetLogger.LogInformationSummary(string data)
+    {
+    }
+
+    void NugetLogger.Log(NugetLevel level, string data)
+    {
+    }
+
+    Task NugetLogger.LogAsync(NugetLevel level, string data)
+    {
+        return Task.CompletedTask;
+    }
+
+    void NugetLogger.Log(NugetMessage message)
+    {
+    }
+
+    Task NugetLogger.LogAsync(NugetMessage message)
+    {
+        return Task.CompletedTask;
     }
 }
