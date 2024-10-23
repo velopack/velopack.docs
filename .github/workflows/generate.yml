@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 jobs:
-  vpkcli:
+  vpk-cli:
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
