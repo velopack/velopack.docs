@@ -147,7 +147,10 @@ public static class CSharpReference
 
         Directory.CreateDirectory(outputCliReference);
 
+        Console.WriteLine("Generating Reference to: " + outputCliReference);
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+            Console.WriteLine("Generating Win Setup.exe");
             var setupExe = Path.Combine(extractedVpk, "vendor", "setup.exe");
             var setupHelp = await RunCaptureStdOut(setupExe, ["-h"]);
             File.WriteAllText(
@@ -159,6 +162,7 @@ public static class CSharpReference
                 ```
                 """);
 
+            Console.WriteLine("Generating Win Update.exe");
             var updateExe = Path.Combine(extractedVpk, "vendor", "update.exe");
             var updateHelp = await RunCaptureStdOut(updateExe, ["-h"]);
             File.WriteAllText(
@@ -170,6 +174,7 @@ public static class CSharpReference
                 ```
                 """);
 
+            Console.WriteLine("Generating Win VPK");
             var vpkWindows = await GetVpkHelpForDirective("[win]", vpkDll);
             var vpkStringBuilder = new StringBuilder();
             var vpkTocSb = new StringBuilder();
@@ -185,6 +190,7 @@ public static class CSharpReference
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+            Console.WriteLine("Generating Linux UpdateNix_x64");
             var updateExe = Path.Combine(extractedVpk, "vendor", "UpdateNix_x64");
             Util.ChmodFileAsExecutable(updateExe);
             var updateHelp = await RunCaptureStdOut(updateExe, ["-h"]);
@@ -197,6 +203,7 @@ public static class CSharpReference
                 ```
                 """);
 
+            Console.WriteLine("Generating Linux VPK");
             var vpkLinux = await GetVpkHelpForDirective("[linux]", vpkDll);
             var vpkStringBuilder = new StringBuilder();
             var vpkTocSb = new StringBuilder();
@@ -212,6 +219,7 @@ public static class CSharpReference
         }
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+            Console.WriteLine("Generating MacOS UpdateMac");
             var updateExe = Path.Combine(extractedVpk, "vendor", "UpdateMac");
             Util.ChmodFileAsExecutable(updateExe);
             var updateHelp = await RunCaptureStdOut(updateExe, ["-h"]);
@@ -224,6 +232,7 @@ public static class CSharpReference
                 ```
                 """);
 
+            Console.WriteLine("Generating MacOS VPK");
             var vpkOsx = await GetVpkHelpForDirective("[osx]", vpkDll);
             var vpkStringBuilder = new StringBuilder();
             var vpkTocSb = new StringBuilder();
