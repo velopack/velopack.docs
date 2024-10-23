@@ -37,7 +37,7 @@ public class CppHeaderReference
 
         var velopackMd = Path.Combine(outputPath, "doc_Velopack.md");
         var velopack = await File.ReadAllTextAsync(velopackMd);
-        velopack.Replace("href=\"doc_Velopack.md#", "href=\"#");
+        velopack = velopack.Replace("href=\"doc_Velopack.md#", "href=\"#");
         await File.WriteAllTextAsync(velopackMd, velopack);
     }
 }
