@@ -327,7 +327,6 @@ public static class CSharpReference
             .Where(l => !l.StartsWith("    "))
             .Select(l => l.Trim())
             .Select(l => l.Substring(0, l.IndexOf(" ")))
-            .Select(l => Regex.Replace(l, @"[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]", ""))
             .ToArray();
 
         //Console.WriteLine("Commands: ");
@@ -351,7 +350,8 @@ public static class CSharpReference
 
         Console.WriteLine($"Running: {exePath} {string.Join(" ", args)}");
 
-        return await RunCaptureStdOut(psi);
+        string output = await RunCaptureStdOut(psi);
+        return Util.RemoveConsoleColors(output);
     }
 
     static async Task<string> RunCaptureStdOut(ProcessStartInfo psi)

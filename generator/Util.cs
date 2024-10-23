@@ -3,12 +3,18 @@ using System.Diagnostics;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using System.Text.RegularExpressions;
 using NuGet.Packaging;
 
 namespace DocGenerator;
 
 internal class Util
 {
+    public static string RemoveConsoleColors(string input)
+    {
+        return Regex.Replace(input, @"[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]", "");
+    }
+    
     public static async Task StartShellProcess(string path, string[] arguments, string workDir)
     {
         var psi = new ProcessStartInfo() {
