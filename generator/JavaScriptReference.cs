@@ -8,7 +8,10 @@ public static class JavaScriptReference
         Directory.CreateDirectory(jsReferenceOutput);
 
         var workDir = Path.Combine(AppContext.BaseDirectory, "ref_JS");
-        Directory.Delete(workDir, true);
+        if (Directory.Exists(workDir)) {
+            Directory.Delete(workDir, true);
+        }
+
         Directory.CreateDirectory(workDir);
 
         await Util.StartShellProcess("npm", ["pack", "velopack"], workDir);
