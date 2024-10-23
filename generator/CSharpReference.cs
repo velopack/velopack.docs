@@ -148,7 +148,7 @@ public static class CSharpReference
         Directory.CreateDirectory(outputCliReference);
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-            var setupExe = Path.Combine(extractedVpk, "vendor", "setup.exe");     
+            var setupExe = Path.Combine(extractedVpk, "vendor", "setup.exe");
             var setupHelp = await RunCaptureStdOut(setupExe, ["-h"]);
             File.WriteAllText(
                 Path.Combine(outputCliReference, "setup-windows.mdx"),
@@ -158,7 +158,7 @@ public static class CSharpReference
                 {setupHelp}
                 ```
                 """);
-            
+
             var updateExe = Path.Combine(extractedVpk, "vendor", "update.exe");
             var updateHelp = await RunCaptureStdOut(updateExe, ["-h"]);
             File.WriteAllText(
@@ -169,7 +169,7 @@ public static class CSharpReference
                 {updateHelp}
                 ```
                 """);
-            
+
             var vpkWindows = await GetVpkHelpForDirective("[win]", vpkDll);
             var vpkStringBuilder = new StringBuilder();
             var vpkTocSb = new StringBuilder();
@@ -186,6 +186,7 @@ public static class CSharpReference
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
             var updateExe = Path.Combine(extractedVpk, "vendor", "UpdateNix_x64");
+            Util.ChmodFileAsExecutable(updateExe);
             var updateHelp = await RunCaptureStdOut(updateExe, ["-h"]);
             File.WriteAllText(
                 Path.Combine(outputCliReference, "update-linux.mdx"),
@@ -195,7 +196,7 @@ public static class CSharpReference
                 {updateHelp}
                 ```
                 """);
-            
+
             var vpkLinux = await GetVpkHelpForDirective("[linux]", vpkDll);
             var vpkStringBuilder = new StringBuilder();
             var vpkTocSb = new StringBuilder();
@@ -209,9 +210,10 @@ public static class CSharpReference
                 """
             );
         }
-        
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
             var updateExe = Path.Combine(extractedVpk, "vendor", "UpdateMac");
+            Util.ChmodFileAsExecutable(updateExe);
             var updateHelp = await RunCaptureStdOut(updateExe, ["-h"]);
             File.WriteAllText(
                 Path.Combine(outputCliReference, "update-osx.mdx"),
@@ -221,7 +223,7 @@ public static class CSharpReference
                 {updateHelp}
                 ```
                 """);
-            
+
             var vpkOsx = await GetVpkHelpForDirective("[osx]", vpkDll);
             var vpkStringBuilder = new StringBuilder();
             var vpkTocSb = new StringBuilder();
@@ -270,10 +272,10 @@ public static class CSharpReference
         var subCommands = GetCommandsFromHelp(root.HelpText);
 
         foreach (var subCommand in subCommands) {
-            var subCommandHelp = await RunCaptureStdOut("dotnet", [..args, subCommand, "-H"]);
+            var subCommandHelp = await RunCaptureStdOut("dotnet", [.. args, subCommand, "-H"]);
             var subCommandObj = new VpkCommand(subCommand, subCommandHelp);
             root.SubCommands.Add(subCommandObj);
-            await RecursivelyPopulateSubCommands(subCommandObj, [..args, subCommand]);
+            await RecursivelyPopulateSubCommands(subCommandObj, [.. args, subCommand]);
         }
     }
 
