@@ -1,67 +1,68 @@
 # Header file `Velopack.h`
 
-``` cpp
-#define VPKC_EXPORT
+<span id="standardese-Velopack-h"></span>
 
-#define VPKC_CALL
+<pre><code class="standardese-language-cpp"><span class="pre">#define</span> <span class="typ dec var fun">VPKC_EXPORT</span>
 
-extern "C"
-{
-    enum vpkc_update_check_t;
+<span class="pre">#define</span> <span class="typ dec var fun">VPKC_CALL</span>
 
-    struct vpkc_locator_config_t;
+<span class="kwd">extern</span> <span class="str">&quot;C&quot;</span>
+<span class="pun">{</span>
+    <span class="kwd">enum</span> <span class="typ dec var fun">vpkc_update_check_t</span><span class="pun">;</span>
 
-    struct vpkc_asset_t;
+    <span class="kwd">struct</span> <a href="doc_Velopack.md#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">;</span>
 
-    struct vpkc_update_info_t;
+    <span class="kwd">struct</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">;</span>
 
-    struct vpkc_update_options_t;
+    <span class="kwd">struct</span> <a href="doc_Velopack.md#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">;</span>
 
-    //=== UpdateManager ===//
-    bool vpkc_new_update_manager(char const* pszUrlOrString, 'hidden'* pOptions, 'hidden'* pLocator, 'hidden'** pManager);
-    size_t vpkc_get_current_version('hidden'* pManager, char* pszVersion, size_t cVersion);
-    size_t vpkc_get_app_id('hidden'* pManager, char* pszId, size_t cId);
-    bool vpkc_is_portable('hidden'* pManager);
-    bool vpkc_update_pending_restart('hidden'* pManager, 'hidden'* pAsset);
-    'hidden' vpkc_check_for_updates('hidden'* pManager, 'hidden'* pUpdate);
-    bool vpkc_download_updates('hidden'* pManager, 'hidden'* pUpdate, 'hidden' cbProgress);
-    bool vpkc_wait_exit_then_apply_update('hidden'* pManager, 'hidden'* pAsset, bool bSilent, bool bRestart, char** pRestartArgs, size_t cRestartArgs);
-    void vpkc_free_update_manager('hidden'* pManager);
-    void vpkc_free_update_info('hidden'* pUpdateInfo);
-    void vpkc_free_asset('hidden'* pAsset);
+    <span class="kwd">struct</span> <a href="doc_Velopack.md#standardese-vpkc_update_options_t"><span class="typ dec var fun">vpkc_update_options_t</span></a><span class="pun">;</span>
 
-    //=== VelopackApp ===//
-    void vpkc_app_run();
-    void vpkc_app_set_auto_apply_on_startup(bool bAutoApply);
-    void vpkc_app_set_args(char** pArgs, size_t cArgs);
-    void vpkc_app_set_locator('hidden'* pLocator);
-    void vpkc_app_set_hook_after_install('hidden' cbAfterInstall);
-    void vpkc_app_set_hook_before_uninstall('hidden' cbBeforeUninstall);
-    void vpkc_app_set_hook_before_update('hidden' cbBeforeUpdate);
-    void vpkc_app_set_hook_after_update('hidden' cbAfterUpdate);
-    void vpkc_app_set_hook_first_run('hidden' cbFirstRun);
-    void vpkc_app_set_hook_restarted('hidden' cbRestarted);
+    &#x2F;&#x2F;=== UpdateManager ===&#x2F;&#x2F;
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_new_update_manager</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">pszUrlOrString</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pOptions</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pLocator</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="typ dec var fun">size_t</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_get_current_version</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">pszVersion</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cVersion</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="typ dec var fun">size_t</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_get_app_id</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">pszId</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cId</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_is_portable</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_update_pending_restart</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pAsset</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="typ dec var fun">&#x27;hidden&#x27;</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_check_for_updates</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pUpdate</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_download_updates</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pUpdate</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbProgress</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_wait_exit_then_apply_update</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pAsset</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">bSilent</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">bRestart</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">pRestartArgs</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cRestartArgs</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_free_update_manager</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_free_update_info</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pUpdateInfo</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_free_asset</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pAsset</span><span class="pun">)</span><span class="pun">;</span>
 
-    size_t vpkc_get_last_error(char* pszError, size_t cError);
+    &#x2F;&#x2F;=== VelopackApp ===&#x2F;&#x2F;
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_run</span></a><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_set_auto_apply_on_startup</span></a><span class="pun">(</span><span class="kwd">bool</span> <span class="typ dec var fun">bAutoApply</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_set_args</span></a><span class="pun">(</span><span class="kwd">char</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">pArgs</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cArgs</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_set_locator</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pLocator</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_set_hook_after_install</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbAfterInstall</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_set_hook_before_uninstall</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbBeforeUninstall</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_set_hook_before_update</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbBeforeUpdate</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_set_hook_after_update</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbAfterUpdate</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_set_hook_first_run</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbFirstRun</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_app_run--"><span class="typ dec var fun">vpkc_app_set_hook_restarted</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbRestarted</span><span class="pun">)</span><span class="pun">;</span>
 
-    void vpkc_set_log('hidden' cbLog);
-}
+    <span class="typ dec var fun">size_t</span> <a href="doc_Velopack.md#standardese-vpkc_get_last_error-char--size_t-"><span class="typ dec var fun">vpkc_get_last_error</span></a><span class="pun">(</span><span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">pszError</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cError</span><span class="pun">)</span><span class="pun">;</span>
 
-namespace Velopack
-{
-    struct VelopackLocatorConfig;
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-vpkc_set_log-vpkc_log_callback_t-"><span class="typ dec var fun">vpkc_set_log</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbLog</span><span class="pun">)</span><span class="pun">;</span>
+<span class="pun">}</span>
 
-    struct VelopackAsset;
+<span class="kwd">namespace</span> <span class="typ dec var fun">Velopack</span>
+<span class="pun">{</span>
+    <span class="kwd">struct</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig"><span class="typ dec var fun">VelopackLocatorConfig</span></a><span class="pun">;</span>
 
-    struct UpdateInfo;
+    <span class="kwd">struct</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset"><span class="typ dec var fun">VelopackAsset</span></a><span class="pun">;</span>
 
-    struct UpdateOptions;
+    <span class="kwd">struct</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateInfo"><span class="typ dec var fun">UpdateInfo</span></a><span class="pun">;</span>
 
-    class VelopackApp;
+    <span class="kwd">struct</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateOptions"><span class="typ dec var fun">UpdateOptions</span></a><span class="pun">;</span>
 
-    class UpdateManager;
-}
-```
+    <span class="kwd">class</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">VelopackApp</span></a><span class="pun">;</span>
+
+    <span class="kwd">class</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateManager"><span class="typ dec var fun">UpdateManager</span></a><span class="pun">;</span>
+<span class="pun">}</span>
+</code></pre>
 
 This header provides the C and C++ API for the Velopack library.
 
@@ -69,99 +70,103 @@ All the C constructs are prefixed by `vpkc_` and all the C++ constructs are in t
 
 ## Struct `vpkc_locator_config_t`
 
-``` cpp
-struct vpkc_locator_config_t
-{
-    char* RootAppDir;
+<span id="standardese-vpkc_locator_config_t"></span>
 
-    char* UpdateExePath;
+<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">vpkc_locator_config_t</span>
+<span class="pun">{</span>
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_locator_config_t__RootAppDir"><span class="typ dec var fun">RootAppDir</span></a><span class="pun">;</span>
 
-    char* PackagesDir;
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_locator_config_t__UpdateExePath"><span class="typ dec var fun">UpdateExePath</span></a><span class="pun">;</span>
 
-    char* ManifestPath;
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_locator_config_t__PackagesDir"><span class="typ dec var fun">PackagesDir</span></a><span class="pun">;</span>
 
-    char* CurrentBinaryDir;
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_locator_config_t__ManifestPath"><span class="typ dec var fun">ManifestPath</span></a><span class="pun">;</span>
 
-    bool IsPortable;
-};
-```
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_locator_config_t__CurrentBinaryDir"><span class="typ dec var fun">CurrentBinaryDir</span></a><span class="pun">;</span>
+
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-vpkc_locator_config_t__IsPortable"><span class="typ dec var fun">IsPortable</span></a><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 VelopackLocator provides some utility functions for locating the current app important paths (eg. path to packages, update binary, and so forth).
 
 #### Member variables
 
-  - `RootAppDir` - The root directory of the current app.
-  - `UpdateExePath` - The path to the Update.exe binary.
-  - `PackagesDir` - The path to the packages’ directory.
-  - `ManifestPath` - The current app manifest.
-  - `CurrentBinaryDir` - The directory containing the application’s user binaries.
-  - `IsPortable` - Whether the current application is portable or installed.
+  - `RootAppDir` &mdash; The root directory of the current app.
+  - `UpdateExePath` &mdash; The path to the Update.exe binary.
+  - `PackagesDir` &mdash; The path to the packages’ directory.
+  - `ManifestPath` &mdash; The current app manifest.
+  - `CurrentBinaryDir` &mdash; The directory containing the application’s user binaries.
+  - `IsPortable` &mdash; Whether the current application is portable or installed.
 
 -----
 
 ## Struct `vpkc_asset_t`
 
-``` cpp
-struct vpkc_asset_t
-{
-    char* PackageId;
+<span id="standardese-vpkc_asset_t"></span>
 
-    char* Version;
+<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">vpkc_asset_t</span>
+<span class="pun">{</span>
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t__PackageId"><span class="typ dec var fun">PackageId</span></a><span class="pun">;</span>
 
-    char* Type;
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t__Version"><span class="typ dec var fun">Version</span></a><span class="pun">;</span>
 
-    char* FileName;
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t__Type"><span class="typ dec var fun">Type</span></a><span class="pun">;</span>
 
-    char* SHA1;
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t__FileName"><span class="typ dec var fun">FileName</span></a><span class="pun">;</span>
 
-    char* SHA256;
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t__SHA1"><span class="typ dec var fun">SHA1</span></a><span class="pun">;</span>
 
-    uint64_t Size;
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t__SHA256"><span class="typ dec var fun">SHA256</span></a><span class="pun">;</span>
 
-    char* NotesMarkdown;
+    <span class="typ dec var fun">uint64_t</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t__Size"><span class="typ dec var fun">Size</span></a><span class="pun">;</span>
 
-    char* NotesHtml;
-};
-```
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t__NotesMarkdown"><span class="typ dec var fun">NotesMarkdown</span></a><span class="pun">;</span>
+
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_asset_t__NotesHtml"><span class="typ dec var fun">NotesHtml</span></a><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 An individual Velopack asset, could refer to an asset on-disk or in a remote package feed.
 
 #### Member variables
 
-  - `PackageId` - The name or Id of the package containing this release.
-  - `Version` - The version of this release.
-  - `Type` - The type of asset (eg. “Full” or “Delta”).
-  - `FileName` - The filename of the update package containing this release.
-  - `SHA1` - The SHA1 checksum of the update package containing this release.
-  - `SHA256` - The SHA256 checksum of the update package containing this release.
-  - `Size` - The size in bytes of the update package containing this release.
-  - `NotesMarkdown` - The release notes in markdown format, as passed to Velopack when packaging the release. This may be an empty string.
-  - `NotesHtml` - The release notes in HTML format, transformed from Markdown when packaging the release. This may be an empty string.
+  - `PackageId` &mdash; The name or Id of the package containing this release.
+  - `Version` &mdash; The version of this release.
+  - `Type` &mdash; The type of asset (eg. “Full” or “Delta”).
+  - `FileName` &mdash; The filename of the update package containing this release.
+  - `SHA1` &mdash; The SHA1 checksum of the update package containing this release.
+  - `SHA256` &mdash; The SHA256 checksum of the update package containing this release.
+  - `Size` &mdash; The size in bytes of the update package containing this release.
+  - `NotesMarkdown` &mdash; The release notes in markdown format, as passed to Velopack when packaging the release. This may be an empty string.
+  - `NotesHtml` &mdash; The release notes in HTML format, transformed from Markdown when packaging the release. This may be an empty string.
 
 -----
 
 ## Struct `vpkc_update_info_t`
 
-``` cpp
-struct vpkc_update_info_t
-{
-    'hidden' TargetFullRelease;
+<span id="standardese-vpkc_update_info_t"></span>
 
-    bool IsDowngrade;
-};
-```
+<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">vpkc_update_info_t</span>
+<span class="pun">{</span>
+    <span class="typ dec var fun">&#x27;hidden&#x27;</span> <a href="doc_Velopack.md#standardese-vpkc_update_info_t__TargetFullRelease"><span class="typ dec var fun">TargetFullRelease</span></a><span class="pun">;</span>
+
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-vpkc_update_info_t__IsDowngrade"><span class="typ dec var fun">IsDowngrade</span></a><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 Holds information about the current version and pending updates, such as how many there are, and access to release notes.
 
 #### Member variables
 
-  - `TargetFullRelease` - The available version that we are updating to.
+  - `TargetFullRelease` &mdash; The available version that we are updating to.
 
 ### Variable `vpkc_update_info_t::IsDowngrade`
 
-``` cpp
-bool IsDowngrade;
-```
+<span id="standardese-vpkc_update_info_t__IsDowngrade"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">IsDowngrade</span><span class="pun">;</span>
+</code></pre>
 
 True if the update is a version downgrade or lateral move (such as when switching channels to the same version number).
 
@@ -173,22 +178,24 @@ In this case, only full updates are allowed, and any local packages on disk newe
 
 ## Struct `vpkc_update_options_t`
 
-``` cpp
-struct vpkc_update_options_t
-{
-    bool AllowVersionDowngrade;
+<span id="standardese-vpkc_update_options_t"></span>
 
-    char* ExplicitChannel;
-};
-```
+<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">vpkc_update_options_t</span>
+<span class="pun">{</span>
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-vpkc_update_options_t__AllowVersionDowngrade"><span class="typ dec var fun">AllowVersionDowngrade</span></a><span class="pun">;</span>
+
+    <span class="kwd">char</span><span class="pun">*</span> <a href="doc_Velopack.md#standardese-vpkc_update_options_t__ExplicitChannel"><span class="typ dec var fun">ExplicitChannel</span></a><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 Options to customise the behaviour of UpdateManager.
 
 ### Variable `vpkc_update_options_t::AllowVersionDowngrade`
 
-``` cpp
-bool AllowVersionDowngrade;
-```
+<span id="standardese-vpkc_update_options_t__AllowVersionDowngrade"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">AllowVersionDowngrade</span><span class="pun">;</span>
+</code></pre>
 
 Allows UpdateManager to update to a version that’s lower than the current version (i.e. downgrading).
 
@@ -198,9 +205,10 @@ This could happen if a release has bugs and was retracted from the release feed,
 
 ### Variable `vpkc_update_options_t::ExplicitChannel`
 
-``` cpp
-char* ExplicitChannel;
-```
+<span id="standardese-vpkc_update_options_t__ExplicitChannel"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">ExplicitChannel</span><span class="pun">;</span>
+</code></pre>
 
 **This option should usually be left None**. \<br/\> Overrides the default channel used to fetch updates.
 
@@ -212,29 +220,30 @@ The default channel will be whatever channel was specified on the command line w
 
 ## Function `vpkc_new_update_manager`
 
-``` cpp
-(1) bool vpkc_new_update_manager(char const* pszUrlOrString, 'hidden'* pOptions, 'hidden'* pLocator, 'hidden'** pManager);
+<span id="standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"></span>
 
-(2) size_t vpkc_get_current_version('hidden'* pManager, char* pszVersion, size_t cVersion);
+<pre><code class="standardese-language-cpp">(1) <span class="kwd">bool</span> <span class="typ dec var fun">vpkc_new_update_manager</span><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">pszUrlOrString</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pOptions</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pLocator</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">)</span><span class="pun">;</span>
 
-(3) size_t vpkc_get_app_id('hidden'* pManager, char* pszId, size_t cId);
+(2) <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">vpkc_get_current_version</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">pszVersion</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cVersion</span><span class="pun">)</span><span class="pun">;</span>
 
-(4) bool vpkc_is_portable('hidden'* pManager);
+(3) <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">vpkc_get_app_id</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">pszId</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cId</span><span class="pun">)</span><span class="pun">;</span>
 
-(5) bool vpkc_update_pending_restart('hidden'* pManager, 'hidden'* pAsset);
+(4) <span class="kwd">bool</span> <span class="typ dec var fun">vpkc_is_portable</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">)</span><span class="pun">;</span>
 
-(6) 'hidden' vpkc_check_for_updates('hidden'* pManager, 'hidden'* pUpdate);
+(5) <span class="kwd">bool</span> <span class="typ dec var fun">vpkc_update_pending_restart</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pAsset</span><span class="pun">)</span><span class="pun">;</span>
 
-(7) bool vpkc_download_updates('hidden'* pManager, 'hidden'* pUpdate, 'hidden' cbProgress);
+(6) <span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">vpkc_check_for_updates</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pUpdate</span><span class="pun">)</span><span class="pun">;</span>
 
-(8) bool vpkc_wait_exit_then_apply_update('hidden'* pManager, 'hidden'* pAsset, bool bSilent, bool bRestart, char** pRestartArgs, size_t cRestartArgs);
+(7) <span class="kwd">bool</span> <span class="typ dec var fun">vpkc_download_updates</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pUpdate</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbProgress</span><span class="pun">)</span><span class="pun">;</span>
 
-(9) void vpkc_free_update_manager('hidden'* pManager);
+(8) <span class="kwd">bool</span> <span class="typ dec var fun">vpkc_wait_exit_then_apply_update</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pAsset</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">bSilent</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">bRestart</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">pRestartArgs</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cRestartArgs</span><span class="pun">)</span><span class="pun">;</span>
 
-(10) void vpkc_free_update_info('hidden'* pUpdateInfo);
+(9) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_free_update_manager</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pManager</span><span class="pun">)</span><span class="pun">;</span>
 
-(11) void vpkc_free_asset('hidden'* pAsset);
-```
+(10) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_free_update_info</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pUpdateInfo</span><span class="pun">)</span><span class="pun">;</span>
+
+(11) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_free_asset</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pAsset</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Creates a new vpkc\_update\_manager\_t. Free with vpkc\_free\_update\_manager.
 
@@ -242,27 +251,28 @@ Creates a new vpkc\_update\_manager\_t. Free with vpkc\_free\_update\_manager.
 
 ## Function `vpkc_app_run`
 
-``` cpp
-(1) void vpkc_app_run();
+<span id="standardese-vpkc_app_run--"></span>
 
-(2) void vpkc_app_set_auto_apply_on_startup(bool bAutoApply);
+<pre><code class="standardese-language-cpp">(1) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_run</span><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
 
-(3) void vpkc_app_set_args(char** pArgs, size_t cArgs);
+(2) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_auto_apply_on_startup</span><span class="pun">(</span><span class="kwd">bool</span> <span class="typ dec var fun">bAutoApply</span><span class="pun">)</span><span class="pun">;</span>
 
-(4) void vpkc_app_set_locator('hidden'* pLocator);
+(3) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_args</span><span class="pun">(</span><span class="kwd">char</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">pArgs</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cArgs</span><span class="pun">)</span><span class="pun">;</span>
 
-(5) void vpkc_app_set_hook_after_install('hidden' cbAfterInstall);
+(4) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_locator</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span><span class="pun">*</span> <span class="typ dec var fun">pLocator</span><span class="pun">)</span><span class="pun">;</span>
 
-(6) void vpkc_app_set_hook_before_uninstall('hidden' cbBeforeUninstall);
+(5) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_after_install</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbAfterInstall</span><span class="pun">)</span><span class="pun">;</span>
 
-(7) void vpkc_app_set_hook_before_update('hidden' cbBeforeUpdate);
+(6) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_before_uninstall</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbBeforeUninstall</span><span class="pun">)</span><span class="pun">;</span>
 
-(8) void vpkc_app_set_hook_after_update('hidden' cbAfterUpdate);
+(7) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_before_update</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbBeforeUpdate</span><span class="pun">)</span><span class="pun">;</span>
 
-(9) void vpkc_app_set_hook_first_run('hidden' cbFirstRun);
+(8) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_after_update</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbAfterUpdate</span><span class="pun">)</span><span class="pun">;</span>
 
-(10) void vpkc_app_set_hook_restarted('hidden' cbRestarted);
-```
+(9) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_first_run</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbFirstRun</span><span class="pun">)</span><span class="pun">;</span>
+
+(10) <span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_restarted</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbRestarted</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Should be run at the beginning of your application to handle Velopack events.
 
@@ -270,9 +280,10 @@ Should be run at the beginning of your application to handle Velopack events.
 
 ## Function `vpkc_get_last_error`
 
-``` cpp
-size_t vpkc_get_last_error(char* pszError, size_t cError);
-```
+<span id="standardese-vpkc_get_last_error-char--size_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">size_t</span> <span class="typ dec var fun">vpkc_get_last_error</span><span class="pun">(</span><span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">pszError</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">cError</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Given a function has returned a failure, this function will return the last error message as a string.
 
@@ -280,109 +291,116 @@ Given a function has returned a failure, this function will return the last erro
 
 ## Function `vpkc_set_log`
 
-``` cpp
-void vpkc_set_log('hidden' cbLog);
-```
+<span id="standardese-vpkc_set_log-vpkc_log_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_set_log</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbLog</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Sets the callback to be used/called with log messages from Velopack.
 
 -----
 
+<span id="standardese-Velopack"></span>
+
 ### Struct `Velopack::VelopackLocatorConfig`
 
-``` cpp
-struct VelopackLocatorConfig
-{
-    std::string RootAppDir;
+<span id="standardese-Velopack__VelopackLocatorConfig"></span>
 
-    std::string UpdateExePath;
+<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">VelopackLocatorConfig</span>
+<span class="pun">{</span>
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig__RootAppDir"><span class="typ dec var fun">RootAppDir</span></a><span class="pun">;</span>
 
-    std::string PackagesDir;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig__UpdateExePath"><span class="typ dec var fun">UpdateExePath</span></a><span class="pun">;</span>
 
-    std::string ManifestPath;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig__PackagesDir"><span class="typ dec var fun">PackagesDir</span></a><span class="pun">;</span>
 
-    std::string CurrentBinaryDir;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig__ManifestPath"><span class="typ dec var fun">ManifestPath</span></a><span class="pun">;</span>
 
-    bool IsPortable;
-};
-```
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig__CurrentBinaryDir"><span class="typ dec var fun">CurrentBinaryDir</span></a><span class="pun">;</span>
+
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig__IsPortable"><span class="typ dec var fun">IsPortable</span></a><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 VelopackLocator provides some utility functions for locating the current app important paths (eg. path to packages, update binary, and so forth).
 
 #### Member variables
 
-  - `RootAppDir` - The root directory of the current app.
-  - `UpdateExePath` - The path to the Update.exe binary.
-  - `PackagesDir` - The path to the packages’ directory.
-  - `ManifestPath` - The current app manifest.
-  - `CurrentBinaryDir` - The directory containing the application’s user binaries.
-  - `IsPortable` - Whether the current application is portable or installed.
+  - `RootAppDir` &mdash; The root directory of the current app.
+  - `UpdateExePath` &mdash; The path to the Update.exe binary.
+  - `PackagesDir` &mdash; The path to the packages’ directory.
+  - `ManifestPath` &mdash; The current app manifest.
+  - `CurrentBinaryDir` &mdash; The directory containing the application’s user binaries.
+  - `IsPortable` &mdash; Whether the current application is portable or installed.
 
 -----
 
 ### Struct `Velopack::VelopackAsset`
 
-``` cpp
-struct VelopackAsset
-{
-    std::string PackageId;
+<span id="standardese-Velopack__VelopackAsset"></span>
 
-    std::string Version;
+<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">VelopackAsset</span>
+<span class="pun">{</span>
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset__PackageId"><span class="typ dec var fun">PackageId</span></a><span class="pun">;</span>
 
-    std::string Type;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset__Version"><span class="typ dec var fun">Version</span></a><span class="pun">;</span>
 
-    std::string FileName;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset__Type"><span class="typ dec var fun">Type</span></a><span class="pun">;</span>
 
-    std::string SHA1;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset__FileName"><span class="typ dec var fun">FileName</span></a><span class="pun">;</span>
 
-    std::string SHA256;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset__SHA1"><span class="typ dec var fun">SHA1</span></a><span class="pun">;</span>
 
-    uint64_t Size;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset__SHA256"><span class="typ dec var fun">SHA256</span></a><span class="pun">;</span>
 
-    std::string NotesMarkdown;
+    <span class="typ dec var fun">uint64_t</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset__Size"><span class="typ dec var fun">Size</span></a><span class="pun">;</span>
 
-    std::string NotesHtml;
-};
-```
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset__NotesMarkdown"><span class="typ dec var fun">NotesMarkdown</span></a><span class="pun">;</span>
+
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset__NotesHtml"><span class="typ dec var fun">NotesHtml</span></a><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 An individual Velopack asset, could refer to an asset on-disk or in a remote package feed.
 
 #### Member variables
 
-  - `PackageId` - The name or Id of the package containing this release.
-  - `Version` - The version of this release.
-  - `Type` - The type of asset (eg. “Full” or “Delta”).
-  - `FileName` - The filename of the update package containing this release.
-  - `SHA1` - The SHA1 checksum of the update package containing this release.
-  - `SHA256` - The SHA256 checksum of the update package containing this release.
-  - `Size` - The size in bytes of the update package containing this release.
-  - `NotesMarkdown` - The release notes in markdown format, as passed to Velopack when packaging the release. This may be an empty string.
-  - `NotesHtml` - The release notes in HTML format, transformed from Markdown when packaging the release. This may be an empty string.
+  - `PackageId` &mdash; The name or Id of the package containing this release.
+  - `Version` &mdash; The version of this release.
+  - `Type` &mdash; The type of asset (eg. “Full” or “Delta”).
+  - `FileName` &mdash; The filename of the update package containing this release.
+  - `SHA1` &mdash; The SHA1 checksum of the update package containing this release.
+  - `SHA256` &mdash; The SHA256 checksum of the update package containing this release.
+  - `Size` &mdash; The size in bytes of the update package containing this release.
+  - `NotesMarkdown` &mdash; The release notes in markdown format, as passed to Velopack when packaging the release. This may be an empty string.
+  - `NotesHtml` &mdash; The release notes in HTML format, transformed from Markdown when packaging the release. This may be an empty string.
 
 -----
 
 ### Struct `Velopack::UpdateInfo`
 
-``` cpp
-struct UpdateInfo
-{
-    Velopack::VelopackAsset TargetFullRelease;
+<span id="standardese-Velopack__UpdateInfo"></span>
 
-    bool IsDowngrade;
-};
-```
+<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">UpdateInfo</span>
+<span class="pun">{</span>
+    <a href="doc_Velopack.md#standardese-Velopack__VelopackAsset"><span class="typ dec var fun">Velopack::VelopackAsset</span></a> <a href="doc_Velopack.md#standardese-Velopack__UpdateInfo__TargetFullRelease"><span class="typ dec var fun">TargetFullRelease</span></a><span class="pun">;</span>
+
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateInfo__IsDowngrade"><span class="typ dec var fun">IsDowngrade</span></a><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 Holds information about the current version and pending updates, such as how many there are, and access to release notes.
 
 #### Member variables
 
-  - `TargetFullRelease` - The available version that we are updating to.
+  - `TargetFullRelease` &mdash; The available version that we are updating to.
 
 ### Variable `Velopack::UpdateInfo::IsDowngrade`
 
-``` cpp
-bool IsDowngrade;
-```
+<span id="standardese-Velopack__UpdateInfo__IsDowngrade"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">IsDowngrade</span><span class="pun">;</span>
+</code></pre>
 
 True if the update is a version downgrade or lateral move (such as when switching channels to the same version number).
 
@@ -394,22 +412,24 @@ In this case, only full updates are allowed, and any local packages on disk newe
 
 ### Struct `Velopack::UpdateOptions`
 
-``` cpp
-struct UpdateOptions
-{
-    bool AllowVersionDowngrade;
+<span id="standardese-Velopack__UpdateOptions"></span>
 
-    std::optional<std::string> ExplicitChannel;
-};
-```
+<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">UpdateOptions</span>
+<span class="pun">{</span>
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateOptions__AllowVersionDowngrade"><span class="typ dec var fun">AllowVersionDowngrade</span></a><span class="pun">;</span>
+
+    <span class="typ dec var fun">std::optional</span><span class="pun">&lt;</span>std::string<span class="pun">&gt;</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateOptions__ExplicitChannel"><span class="typ dec var fun">ExplicitChannel</span></a><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 Options to customise the behaviour of UpdateManager.
 
 ### Variable `Velopack::UpdateOptions::AllowVersionDowngrade`
 
-``` cpp
-bool AllowVersionDowngrade;
-```
+<span id="standardese-Velopack__UpdateOptions__AllowVersionDowngrade"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">AllowVersionDowngrade</span><span class="pun">;</span>
+</code></pre>
 
 Allows UpdateManager to update to a version that’s lower than the current version (i.e. downgrading).
 
@@ -419,9 +439,10 @@ This could happen if a release has bugs and was retracted from the release feed,
 
 ### Variable `Velopack::UpdateOptions::ExplicitChannel`
 
-``` cpp
-std::optional<std::string> ExplicitChannel;
-```
+<span id="standardese-Velopack__UpdateOptions__ExplicitChannel"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">std::optional</span><span class="pun">&lt;</span>std::string<span class="pun">&gt;</span> <span class="typ dec var fun">ExplicitChannel</span><span class="pun">;</span>
+</code></pre>
 
 **This option should usually be left None**. \<br/\> Overrides the default channel used to fetch updates.
 
@@ -433,33 +454,34 @@ The default channel will be whatever channel was specified on the command line w
 
 ### Class `Velopack::VelopackApp`
 
-``` cpp
-class VelopackApp
-{
-public:
-    static Velopack::VelopackApp Build();
+<span id="standardese-Velopack__VelopackApp"></span>
 
-    Velopack::VelopackApp& SetAutoApplyOnStartup(bool bAutoApply);
+<pre><code class="standardese-language-cpp"><span class="kwd">class</span> <span class="typ dec var fun">VelopackApp</span>
+<span class="pun">{</span>
+<span class="kwd">public</span><span class="pun">:</span>
+    <span class="kwd">static</span> <span class="typ dec var fun">Velopack::VelopackApp</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__Build--"><span class="typ dec var fun">Build</span></a><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
 
-    Velopack::VelopackApp& SetArgs(std::vector<std::string> const& args);
+    <span class="typ dec var fun">Velopack::VelopackApp</span><span class="pun">&amp;</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__SetAutoApplyOnStartup-bool-"><span class="typ dec var fun">SetAutoApplyOnStartup</span></a><span class="pun">(</span><span class="kwd">bool</span> <span class="typ dec var fun">bAutoApply</span><span class="pun">)</span><span class="pun">;</span>
 
-    Velopack::VelopackApp& SetLocator(Velopack::VelopackLocatorConfig const& locator);
+    <span class="typ dec var fun">Velopack::VelopackApp</span><span class="pun">&amp;</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__SetArgs-std__vector-std__string-const--"><span class="typ dec var fun">SetArgs</span></a><span class="pun">(</span><span class="typ dec var fun">std::vector</span><span class="pun">&lt;</span>std::string<span class="pun">&gt;</span> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">args</span><span class="pun">)</span><span class="pun">;</span>
 
-    Velopack::VelopackApp& OnAfterInstall('hidden' cbInstall);
+    <span class="typ dec var fun">Velopack::VelopackApp</span><span class="pun">&amp;</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__SetLocator-Velopack__VelopackLocatorConfigconst--"><span class="typ dec var fun">SetLocator</span></a><span class="pun">(</span><a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig"><span class="typ dec var fun">Velopack::VelopackLocatorConfig</span></a> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">locator</span><span class="pun">)</span><span class="pun">;</span>
 
-    Velopack::VelopackApp& OnBeforeUninstall('hidden' cbInstall);
+    <span class="typ dec var fun">Velopack::VelopackApp</span><span class="pun">&amp;</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__OnAfterInstall-vpkc_hook_callback_t-"><span class="typ dec var fun">OnAfterInstall</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
 
-    Velopack::VelopackApp& OnBeforeUpdate('hidden' cbInstall);
+    <span class="typ dec var fun">Velopack::VelopackApp</span><span class="pun">&amp;</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__OnBeforeUninstall-vpkc_hook_callback_t-"><span class="typ dec var fun">OnBeforeUninstall</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
 
-    Velopack::VelopackApp& OnAfterUpdate('hidden' cbInstall);
+    <span class="typ dec var fun">Velopack::VelopackApp</span><span class="pun">&amp;</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__OnBeforeUpdate-vpkc_hook_callback_t-"><span class="typ dec var fun">OnBeforeUpdate</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
 
-    Velopack::VelopackApp& OnFirstRun('hidden' cbInstall);
+    <span class="typ dec var fun">Velopack::VelopackApp</span><span class="pun">&amp;</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__OnAfterUpdate-vpkc_hook_callback_t-"><span class="typ dec var fun">OnAfterUpdate</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
 
-    Velopack::VelopackApp& OnRestarted('hidden' cbInstall);
+    <span class="typ dec var fun">Velopack::VelopackApp</span><span class="pun">&amp;</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__OnFirstRun-vpkc_hook_callback_t-"><span class="typ dec var fun">OnFirstRun</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
 
-    void Run();
-};
-```
+    <span class="typ dec var fun">Velopack::VelopackApp</span><span class="pun">&amp;</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__OnRestarted-vpkc_hook_callback_t-"><span class="typ dec var fun">OnRestarted</span></a><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp__Run--"><span class="typ dec var fun">Run</span></a><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 VelopackApp helps you to handle app activation events correctly.
 
@@ -467,9 +489,10 @@ This should be used as early as possible in your application startup code. (eg. 
 
 ### Function `Velopack::VelopackApp::Build`
 
-``` cpp
-static Velopack::VelopackApp Build();
-```
+<span id="standardese-Velopack__VelopackApp__Build--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">static</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a> <span class="typ dec var fun">Build</span><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Build a new VelopackApp instance.
 
@@ -477,9 +500,10 @@ Build a new VelopackApp instance.
 
 ### Function `Velopack::VelopackApp::SetAutoApplyOnStartup`
 
-``` cpp
-Velopack::VelopackApp& SetAutoApplyOnStartup(bool bAutoApply);
-```
+<span id="standardese-Velopack__VelopackApp__SetAutoApplyOnStartup-bool-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a><span class="pun">&amp;</span> <span class="typ dec var fun">SetAutoApplyOnStartup</span><span class="pun">(</span><span class="kwd">bool</span> <span class="typ dec var fun">bAutoApply</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Set whether to automatically apply downloaded updates on startup. This is ON by default.
 
@@ -487,9 +511,10 @@ Set whether to automatically apply downloaded updates on startup. This is ON by 
 
 ### Function `Velopack::VelopackApp::SetArgs`
 
-``` cpp
-Velopack::VelopackApp& SetArgs(std::vector<std::string> const& args);
-```
+<span id="standardese-Velopack__VelopackApp__SetArgs-std__vector-std__string-const--"></span>
+
+<pre><code class="standardese-language-cpp"><a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a><span class="pun">&amp;</span> <span class="typ dec var fun">SetArgs</span><span class="pun">(</span><span class="typ dec var fun">std::vector</span><span class="pun">&lt;</span>std::string<span class="pun">&gt;</span> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">args</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Override the command line arguments used by VelopackApp. (by default this is env::args().skip(1))
 
@@ -497,9 +522,10 @@ Override the command line arguments used by VelopackApp. (by default this is env
 
 ### Function `Velopack::VelopackApp::SetLocator`
 
-``` cpp
-Velopack::VelopackApp& SetLocator(Velopack::VelopackLocatorConfig const& locator);
-```
+<span id="standardese-Velopack__VelopackApp__SetLocator-Velopack__VelopackLocatorConfigconst--"></span>
+
+<pre><code class="standardese-language-cpp"><a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a><span class="pun">&amp;</span> <span class="typ dec var fun">SetLocator</span><span class="pun">(</span><a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig"><span class="typ dec var fun">Velopack::VelopackLocatorConfig</span></a> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">locator</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 VelopackLocator provides some utility functions for locating the current app important paths (eg. path to packages, update binary, and so forth).
 
@@ -507,9 +533,10 @@ VelopackLocator provides some utility functions for locating the current app imp
 
 ### Function `Velopack::VelopackApp::OnAfterInstall`
 
-``` cpp
-Velopack::VelopackApp& OnAfterInstall('hidden' cbInstall);
-```
+<span id="standardese-Velopack__VelopackApp__OnAfterInstall-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a><span class="pun">&amp;</span> <span class="typ dec var fun">OnAfterInstall</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
 
@@ -519,9 +546,10 @@ Your code will be run and then the process will exit. If your code has not compl
 
 ### Function `Velopack::VelopackApp::OnBeforeUninstall`
 
-``` cpp
-Velopack::VelopackApp& OnBeforeUninstall('hidden' cbInstall);
-```
+<span id="standardese-Velopack__VelopackApp__OnBeforeUninstall-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a><span class="pun">&amp;</span> <span class="typ dec var fun">OnBeforeUninstall</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
 
@@ -531,9 +559,10 @@ Your code will be run and then the process will exit. If your code has not compl
 
 ### Function `Velopack::VelopackApp::OnBeforeUpdate`
 
-``` cpp
-Velopack::VelopackApp& OnBeforeUpdate('hidden' cbInstall);
-```
+<span id="standardese-Velopack__VelopackApp__OnBeforeUpdate-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a><span class="pun">&amp;</span> <span class="typ dec var fun">OnBeforeUpdate</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
 
@@ -543,9 +572,10 @@ Your code will be run and then the process will exit. If your code has not compl
 
 ### Function `Velopack::VelopackApp::OnAfterUpdate`
 
-``` cpp
-Velopack::VelopackApp& OnAfterUpdate('hidden' cbInstall);
-```
+<span id="standardese-Velopack__VelopackApp__OnAfterUpdate-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a><span class="pun">&amp;</span> <span class="typ dec var fun">OnAfterUpdate</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
 
@@ -555,9 +585,10 @@ Your code will be run and then the process will exit. If your code has not compl
 
 ### Function `Velopack::VelopackApp::OnFirstRun`
 
-``` cpp
-Velopack::VelopackApp& OnFirstRun('hidden' cbInstall);
-```
+<span id="standardese-Velopack__VelopackApp__OnFirstRun-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a><span class="pun">&amp;</span> <span class="typ dec var fun">OnFirstRun</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 This hook is triggered when the application is started for the first time after installation.
 
@@ -565,9 +596,10 @@ This hook is triggered when the application is started for the first time after 
 
 ### Function `Velopack::VelopackApp::OnRestarted`
 
-``` cpp
-Velopack::VelopackApp& OnRestarted('hidden' cbInstall);
-```
+<span id="standardese-Velopack__VelopackApp__OnRestarted-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="doc_Velopack.md#standardese-Velopack__VelopackApp"><span class="typ dec var fun">Velopack::VelopackApp</span></a><span class="pun">&amp;</span> <span class="typ dec var fun">OnRestarted</span><span class="pun">(</span><span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">cbInstall</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 This hook is triggered when the application is restarted by Velopack after installing updates.
 
@@ -575,9 +607,10 @@ This hook is triggered when the application is restarted by Velopack after insta
 
 ### Function `Velopack::VelopackApp::Run`
 
-``` cpp
-void Run();
-```
+<span id="standardese-Velopack__VelopackApp__Run--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">Run</span><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Runs the Velopack startup logic. This should be the first thing to run in your app.
 
@@ -589,39 +622,41 @@ In some circumstances it may terminate/restart the process to perform tasks.
 
 ### Class `Velopack::UpdateManager`
 
-``` cpp
-class UpdateManager
-{
-public:
-    UpdateManager(std::string const& urlOrPath, Velopack::UpdateOptions const* options = nullptr, Velopack::VelopackLocatorConfig const* locator = nullptr);
+<span id="standardese-Velopack__UpdateManager"></span>
 
-    ~UpdateManager();
+<pre><code class="standardese-language-cpp"><span class="kwd">class</span> <span class="typ dec var fun">UpdateManager</span>
+<span class="pun">{</span>
+<span class="kwd">public</span><span class="pun">:</span>
+    <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__UpdateManager-std__stringconst--Velopack__UpdateOptionsconst--Velopack__VelopackLocatorConfigconst--"><span class="typ dec var fun">UpdateManager</span></a><span class="pun">(</span><span class="typ dec var fun">std::string</span> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">urlOrPath</span><span class="pun">,</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateOptions"><span class="typ dec var fun">Velopack::UpdateOptions</span></a> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">options</span> <span class="pun">=</span> <span class="typ dec var fun">nullptr</span><span class="pun">,</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig"><span class="typ dec var fun">Velopack::VelopackLocatorConfig</span></a> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">locator</span> <span class="pun">=</span> <span class="typ dec var fun">nullptr</span><span class="pun">)</span><span class="pun">;</span>
 
-    bool IsPortable() noexcept;
+    <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__-UpdateManager--"><span class="typ dec var fun">~UpdateManager</span></a><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
 
-    std::string GetCurrentVersion() noexcept;
+    <span class="kwd">bool</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__IsPortable--"><span class="typ dec var fun">IsPortable</span></a><span class="pun">(</span><span class="pun">)</span> <span class="kwd">noexcept</span><span class="pun">;</span>
 
-    std::string GetAppId() noexcept;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__GetCurrentVersion--"><span class="typ dec var fun">GetCurrentVersion</span></a><span class="pun">(</span><span class="pun">)</span> <span class="kwd">noexcept</span><span class="pun">;</span>
 
-    std::optional<VelopackAsset> UpdatePendingRestart() noexcept;
+    <span class="typ dec var fun">std::string</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__GetAppId--"><span class="typ dec var fun">GetAppId</span></a><span class="pun">(</span><span class="pun">)</span> <span class="kwd">noexcept</span><span class="pun">;</span>
 
-    std::optional<UpdateInfo> CheckForUpdates();
+    <span class="typ dec var fun">std::optional</span><span class="pun">&lt;</span>VelopackAsset<span class="pun">&gt;</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__UpdatePendingRestart--"><span class="typ dec var fun">UpdatePendingRestart</span></a><span class="pun">(</span><span class="pun">)</span> <span class="kwd">noexcept</span><span class="pun">;</span>
 
-    void DownloadUpdates(Velopack::UpdateInfo const& update, 'hidden' progress = nullptr);
+    <span class="typ dec var fun">std::optional</span><span class="pun">&lt;</span>UpdateInfo<span class="pun">&gt;</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__CheckForUpdates--"><span class="typ dec var fun">CheckForUpdates</span></a><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
 
-    void WaitExitThenApplyUpdate(Velopack::VelopackAsset const& asset, bool silent = false, bool restart = true, std::vector<std::string> restartArgs = {});
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__DownloadUpdates-Velopack__UpdateInfoconst--vpkc_progress_callback_t-"><span class="typ dec var fun">DownloadUpdates</span></a><span class="pun">(</span><a href="doc_Velopack.md#standardese-Velopack__UpdateInfo"><span class="typ dec var fun">Velopack::UpdateInfo</span></a> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">update</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">progress</span> <span class="pun">=</span> <span class="typ dec var fun">nullptr</span><span class="pun">)</span><span class="pun">;</span>
 
-    void WaitExitThenApplyUpdate(Velopack::UpdateInfo const& asset, bool silent = false, bool restart = true, std::vector<std::string> restartArgs = {});
-};
-```
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__WaitExitThenApplyUpdate-Velopack__VelopackAssetconst--bool-bool-std__vector-std__string--"><span class="typ dec var fun">WaitExitThenApplyUpdate</span></a><span class="pun">(</span><a href="doc_Velopack.md#standardese-Velopack__VelopackAsset"><span class="typ dec var fun">Velopack::VelopackAsset</span></a> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">asset</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">silent</span> <span class="pun">=</span> <span class="typ dec var fun">false</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">restart</span> <span class="pun">=</span> <span class="typ dec var fun">true</span><span class="pun">,</span> <span class="typ dec var fun">std::vector</span><span class="pun">&lt;</span>std::string<span class="pun">&gt;</span> <span class="typ dec var fun">restartArgs</span> <span class="pun">=</span> <span class="pun">{</span><span class="pun">}</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateManager__WaitExitThenApplyUpdate-Velopack__UpdateInfoconst--bool-bool-std__vector-std__string--"><span class="typ dec var fun">WaitExitThenApplyUpdate</span></a><span class="pun">(</span><a href="doc_Velopack.md#standardese-Velopack__UpdateInfo"><span class="typ dec var fun">Velopack::UpdateInfo</span></a> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">asset</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">silent</span> <span class="pun">=</span> <span class="typ dec var fun">false</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">restart</span> <span class="pun">=</span> <span class="typ dec var fun">true</span><span class="pun">,</span> <span class="typ dec var fun">std::vector</span><span class="pun">&lt;</span>std::string<span class="pun">&gt;</span> <span class="typ dec var fun">restartArgs</span> <span class="pun">=</span> <span class="pun">{</span><span class="pun">}</span><span class="pun">)</span><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
 
 Provides functionality for checking for updates, downloading updates, and applying updates to the current application.
 
 ### Constructor `Velopack::UpdateManager::UpdateManager`
 
-``` cpp
-UpdateManager(std::string const& urlOrPath, Velopack::UpdateOptions const* options = nullptr, Velopack::VelopackLocatorConfig const* locator = nullptr);
-```
+<span id="standardese-Velopack__UpdateManager__UpdateManager-std__stringconst--Velopack__UpdateOptionsconst--Velopack__VelopackLocatorConfigconst--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">UpdateManager</span><span class="pun">(</span><span class="typ dec var fun">std::string</span> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">urlOrPath</span><span class="pun">,</span> <a href="doc_Velopack.md#standardese-Velopack__UpdateOptions"><span class="typ dec var fun">Velopack::UpdateOptions</span></a> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">options</span> <span class="pun">=</span> <span class="typ dec var fun">nullptr</span><span class="pun">,</span> <a href="doc_Velopack.md#standardese-Velopack__VelopackLocatorConfig"><span class="typ dec var fun">Velopack::VelopackLocatorConfig</span></a> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">locator</span> <span class="pun">=</span> <span class="typ dec var fun">nullptr</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Create a new UpdateManager instance.
 
@@ -631,9 +666,10 @@ Create a new UpdateManager instance.
 
 ### Destructor `Velopack::UpdateManager::~UpdateManager`
 
-``` cpp
-~UpdateManager();
-```
+<span id="standardese-Velopack__UpdateManager__-UpdateManager--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">~UpdateManager</span><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Destructor for UpdateManager.
 
@@ -641,9 +677,10 @@ Destructor for UpdateManager.
 
 ### Function `Velopack::UpdateManager::IsPortable`
 
-``` cpp
-bool IsPortable() noexcept;
-```
+<span id="standardese-Velopack__UpdateManager__IsPortable--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">IsPortable</span><span class="pun">(</span><span class="pun">)</span> <span class="kwd">noexcept</span><span class="pun">;</span>
+</code></pre>
 
 Returns whether the app is in portable mode. On Windows this can be true or false.
 
@@ -653,9 +690,10 @@ On MacOS and Linux this will always be true.
 
 ### Function `Velopack::UpdateManager::GetCurrentVersion`
 
-``` cpp
-std::string GetCurrentVersion() noexcept;
-```
+<span id="standardese-Velopack__UpdateManager__GetCurrentVersion--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">std::string</span> <span class="typ dec var fun">GetCurrentVersion</span><span class="pun">(</span><span class="pun">)</span> <span class="kwd">noexcept</span><span class="pun">;</span>
+</code></pre>
 
 Returns the currently installed version of the app.
 
@@ -663,9 +701,10 @@ Returns the currently installed version of the app.
 
 ### Function `Velopack::UpdateManager::GetAppId`
 
-``` cpp
-std::string GetAppId() noexcept;
-```
+<span id="standardese-Velopack__UpdateManager__GetAppId--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">std::string</span> <span class="typ dec var fun">GetAppId</span><span class="pun">(</span><span class="pun">)</span> <span class="kwd">noexcept</span><span class="pun">;</span>
+</code></pre>
 
 Returns the currently installed app id.
 
@@ -673,9 +712,10 @@ Returns the currently installed app id.
 
 ### Function `Velopack::UpdateManager::UpdatePendingRestart`
 
-``` cpp
-std::optional<VelopackAsset> UpdatePendingRestart() noexcept;
-```
+<span id="standardese-Velopack__UpdateManager__UpdatePendingRestart--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">std::optional</span><span class="pun">&lt;</span>VelopackAsset<span class="pun">&gt;</span> <span class="typ dec var fun">UpdatePendingRestart</span><span class="pun">(</span><span class="pun">)</span> <span class="kwd">noexcept</span><span class="pun">;</span>
+</code></pre>
 
 Returns an UpdateInfo object if there is an update downloaded which still needs to be applied.
 
@@ -685,9 +725,10 @@ You can pass the UpdateInfo object to waitExitThenApplyUpdate to apply the updat
 
 ### Function `Velopack::UpdateManager::CheckForUpdates`
 
-``` cpp
-std::optional<UpdateInfo> CheckForUpdates();
-```
+<span id="standardese-Velopack__UpdateManager__CheckForUpdates--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">std::optional</span><span class="pun">&lt;</span>UpdateInfo<span class="pun">&gt;</span> <span class="typ dec var fun">CheckForUpdates</span><span class="pun">(</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Checks for updates, returning None if there are none available. If there are updates available, this method will return an UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available.
 
@@ -695,9 +736,10 @@ Checks for updates, returning None if there are none available. If there are upd
 
 ### Function `Velopack::UpdateManager::DownloadUpdates`
 
-``` cpp
-void DownloadUpdates(Velopack::UpdateInfo const& update, 'hidden' progress = nullptr);
-```
+<span id="standardese-Velopack__UpdateManager__DownloadUpdates-Velopack__UpdateInfoconst--vpkc_progress_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">DownloadUpdates</span><span class="pun">(</span><a href="doc_Velopack.md#standardese-Velopack__UpdateInfo"><span class="typ dec var fun">Velopack::UpdateInfo</span></a> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">update</span><span class="pun">,</span> <span class="typ dec var fun">&#x27;hidden&#x27;</span> <span class="typ dec var fun">progress</span> <span class="pun">=</span> <span class="typ dec var fun">nullptr</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 Downloads the specified updates to the local app packages directory. Progress is reported back to the caller via an optional Sender.
 
@@ -711,9 +753,10 @@ This function will acquire a global update lock so may fail if there is already 
 
 ### Function `Velopack::UpdateManager::WaitExitThenApplyUpdate`
 
-``` cpp
-void WaitExitThenApplyUpdate(Velopack::VelopackAsset const& asset, bool silent = false, bool restart = true, std::vector<std::string> restartArgs = {});
-```
+<span id="standardese-Velopack__UpdateManager__WaitExitThenApplyUpdate-Velopack__VelopackAssetconst--bool-bool-std__vector-std__string--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">WaitExitThenApplyUpdate</span><span class="pun">(</span><a href="doc_Velopack.md#standardese-Velopack__VelopackAsset"><span class="typ dec var fun">Velopack::VelopackAsset</span></a> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">asset</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">silent</span> <span class="pun">=</span> <span class="typ dec var fun">false</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">restart</span> <span class="pun">=</span> <span class="typ dec var fun">true</span><span class="pun">,</span> <span class="typ dec var fun">std::vector</span><span class="pun">&lt;</span>std::string<span class="pun">&gt;</span> <span class="typ dec var fun">restartArgs</span> <span class="pun">=</span> <span class="pun">{</span><span class="pun">}</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 This will launch the Velopack updater and tell it to wait for this program to exit gracefully.
 
@@ -723,9 +766,10 @@ You should then clean up any state and exit your app. The updater will apply upd
 
 ### Function `Velopack::UpdateManager::WaitExitThenApplyUpdate`
 
-``` cpp
-void WaitExitThenApplyUpdate(Velopack::UpdateInfo const& asset, bool silent = false, bool restart = true, std::vector<std::string> restartArgs = {});
-```
+<span id="standardese-Velopack__UpdateManager__WaitExitThenApplyUpdate-Velopack__UpdateInfoconst--bool-bool-std__vector-std__string--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">WaitExitThenApplyUpdate</span><span class="pun">(</span><a href="doc_Velopack.md#standardese-Velopack__UpdateInfo"><span class="typ dec var fun">Velopack::UpdateInfo</span></a> <span class="kwd">const</span><span class="pun">&amp;</span> <span class="typ dec var fun">asset</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">silent</span> <span class="pun">=</span> <span class="typ dec var fun">false</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">restart</span> <span class="pun">=</span> <span class="typ dec var fun">true</span><span class="pun">,</span> <span class="typ dec var fun">std::vector</span><span class="pun">&lt;</span>std::string<span class="pun">&gt;</span> <span class="typ dec var fun">restartArgs</span> <span class="pun">=</span> <span class="pun">{</span><span class="pun">}</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
 
 This will launch the Velopack updater and tell it to wait for this program to exit gracefully.
 

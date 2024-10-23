@@ -22,6 +22,7 @@ public class CppHeaderReference
                 "standardese",
                 "--compilation.standard=c++17",
                 "--comment.free_file_comments=1",
+                "--output.format=commonmark_html",
                 "Velopack.h"
                 ],
             outputPath);
