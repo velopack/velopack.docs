@@ -236,7 +236,6 @@ public static class CSharpReference
 
             Console.WriteLine("Generating MacOS VPK");
             var vpkOsx = await GetVpkHelpForDirective("[osx]", vpkDll);
-            Console.WriteLine(vpkOsx);
 
             var vpkStringBuilder = new StringBuilder();
             var vpkTocSb = new StringBuilder();
@@ -310,8 +309,8 @@ public static class CSharpReference
 
     static string[] GetCommandsFromHelp(string stdout)
     {
-        Console.WriteLine("Trying to determine sub commands from output:");
-        Console.WriteLine(stdout);
+        //Console.WriteLine("Trying to determine sub commands from output:");
+        //Console.WriteLine(stdout);
 
         var commandsIdx = stdout.IndexOf("Commands:");
         if (commandsIdx == -1) return [];
@@ -319,10 +318,10 @@ public static class CSharpReference
 
         var lines = commandsText.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
-        Console.WriteLine("Lines: ");
-        foreach (var line in lines) {
-            Console.WriteLine(" - " + line);
-        }
+        //Console.WriteLine("Lines: ");
+        //foreach (var line in lines) {
+        //    Console.WriteLine(" - " + line);
+        //}
 
         var commands = lines.Skip(1)
             .Where(l => !l.StartsWith("    "))
@@ -331,10 +330,10 @@ public static class CSharpReference
             .Select(l => Regex.Replace(l, @"[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]", ""))
             .ToArray();
 
-        Console.WriteLine("Commands: ");
-        foreach (var cmd in commands) {
-            Console.WriteLine(" - " + cmd);
-        }
+        //Console.WriteLine("Commands: ");
+        //foreach (var cmd in commands) {
+        //    Console.WriteLine(" - " + cmd);
+        //}
 
         return commands;
     }
