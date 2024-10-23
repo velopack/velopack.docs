@@ -12,6 +12,12 @@ class Program
             .GetCustomAttributes<AssemblyMetadataAttribute>()
             .Single(x => x.Key == "ScriptsDir").Value!;
         string docRootDir = Path.GetFullPath(Path.Combine(scriptsDir, ".."));
+        
+        if (args.Length == 2 && args[0] == "cli") {
+            Console.WriteLine("Generating CLI Reference Only...");
+            await CSharpReference.UpdateVpkCliReference(args[1]);
+            return;
+        }
 
         Console.WriteLine("Updating C# / VPK / CLI Reference...");
         var outputCsharpReference = Path.Combine(docRootDir, "docs", "reference", "cs");
