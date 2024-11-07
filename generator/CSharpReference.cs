@@ -2,7 +2,6 @@
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using NuGet.Common;
 using NuGet.Packaging;
 
@@ -153,16 +152,20 @@ public static class CSharpReference
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
             Console.WriteLine("Generating Win Setup.exe");
-            var setupExe = Path.Combine(extractedVpk, "vendor", "setup.exe");
-            var setupHelp = await RunCaptureStdOut(setupExe, ["-h"]);
-            File.WriteAllText(
-                Path.Combine(outputCliReference, "setup-windows.mdx"),
-                $"""
+            try {
+                var setupExe = Path.Combine(extractedVpk, "vendor", "setup.exe");
+                var setupHelp = await RunCaptureStdOut(setupExe, ["-h"]);
+                File.WriteAllText(
+                    Path.Combine(outputCliReference, "setup-windows.mdx"),
+                    $"""
                 # Setup.exe (Windows)
                 ```
                 {setupHelp}
                 ```
                 """);
+            } catch (TaskCanceledException ex) {
+                Console.WriteLine("Failed to generate setup-windows.mdx: " + ex.Message);
+            }
 
             Console.WriteLine("Generating Win Update.exe");
             var updateExe = Path.Combine(extractedVpk, "vendor", "update.exe");
@@ -362,7 +365,9 @@ public static class CSharpReference
         p.OutputDataReceived += (sender, e) => sw.AppendLine(e?.Data);
         p.Start();
         p.BeginOutputReadLine();
-        await p.WaitForExitAsync();
+
+        var timeout = new CancellationTokenSource(60 * 1000);
+        await p.WaitForExitAsync(timeout.Token);
         return sw.ToString();
     }
 }
