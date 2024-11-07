@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 Set whether to automatically apply downloaded updates on startup. This is ON by default.
 

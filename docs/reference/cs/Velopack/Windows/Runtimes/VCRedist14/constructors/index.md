@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [Runtimes.VCRedist14](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 ```csharp
 public VCRedist14(string id, string displayName, NuGetVersion minVersion, RuntimeCpu cpuArchitecture);

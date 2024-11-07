@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes.VCRedist00](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
  Permalink to the installer for this runtime 
 

@@ -16,7 +16,7 @@ sidebar_label: Shortcuts
 
 **Namespace:** [Velopack.Windows](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 A helper class to create or delete windows shortcuts.
 

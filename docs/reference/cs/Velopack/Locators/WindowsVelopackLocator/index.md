@@ -14,7 +14,7 @@ sidebar_label: WindowsVelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 An implementation for Windows which uses the default paths.
 

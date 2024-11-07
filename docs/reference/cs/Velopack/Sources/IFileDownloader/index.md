@@ -14,7 +14,7 @@ sidebar_label: IFileDownloader Interface
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 A simple abstractable file downloader
 

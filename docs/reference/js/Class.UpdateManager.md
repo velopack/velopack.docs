@@ -1,18 +1,22 @@
 # Class: UpdateManager
 
+Provides functionality for checking for updates, downloading updates, and applying updates to the current application.
+
 ## Constructors
 
 ### new UpdateManager()
 
 > **new UpdateManager**(`urlOrPath`, `options`?, `locator`?): [`UpdateManager`](Class.UpdateManager.md)
 
+Create a new UpdateManager instance.
+
 #### Parameters
 
-| Parameter | Type |
-| ------ | ------ |
-| `urlOrPath` | `string` |
-| `options`? | [`UpdateOptions`](TypeAlias.UpdateOptions.md) |
-| `locator`? | [`VelopackLocatorConfig`](TypeAlias.VelopackLocatorConfig.md) |
+| Parameter | Type | Description |
+| ------ | ------ | ------ |
+| `urlOrPath` | `string` | Location of the update server or path to the local update directory. |
+| `options`? | [`UpdateOptions`](TypeAlias.UpdateOptions.md) | Optional extra configuration for update manager. |
+| `locator`? | [`VelopackLocatorConfig`](TypeAlias.VelopackLocatorConfig.md) | Override the default locator configuration (usually used for testing / mocks). |
 
 #### Returns
 

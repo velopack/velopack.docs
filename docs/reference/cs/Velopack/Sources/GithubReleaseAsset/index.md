@@ -14,7 +14,7 @@ sidebar_label: GithubReleaseAsset
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
  Describes a asset (file) uploaded to a GitHub release. 
 

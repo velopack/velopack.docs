@@ -14,7 +14,7 @@ sidebar_label: ShortcutLocation
 
 **Namespace:** [Velopack.Windows](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 Specifies several common places where shortcuts can be installed on a user's system
 

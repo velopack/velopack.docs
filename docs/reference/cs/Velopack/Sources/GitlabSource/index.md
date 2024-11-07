@@ -14,7 +14,7 @@ sidebar_label: GitlabSource
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 Retrieves available releases from a GitLab repository. This class only downloads assets from the very latest GitLab release.
 

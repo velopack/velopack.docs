@@ -10,7 +10,7 @@
 **Declaring Type:** [ShellLink.PropVariant](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 Called to clear the PropVariant's referenced and local memory.
 

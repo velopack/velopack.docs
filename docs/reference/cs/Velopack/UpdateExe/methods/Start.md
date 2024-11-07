@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateExe](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 Runs Update.exe in the current working directory with the 'start' command which will simply start the application. Combined with the \`waitForExit\` parameter, this can be used to gracefully restart the application.
 

@@ -14,7 +14,7 @@ sidebar_label: UpdateOptions
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 Options to customise the behaviour of [UpdateManager](../UpdateManager/index.md).
 

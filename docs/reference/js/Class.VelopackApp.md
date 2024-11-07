@@ -1,5 +1,9 @@
 # Class: VelopackApp
 
+VelopackApp helps you to handle app activation events correctly.
+This should be used as early as possible in your application startup code.
+(eg. the beginning of main() or wherever your entry point is)
+
 ## Constructors
 
 ### new VelopackApp()
@@ -202,6 +206,8 @@ VelopackLocator provides some utility functions for locating the current app imp
 ### build()
 
 > `static` **build**(): [`VelopackApp`](Class.VelopackApp.md)
+
+Build a new VelopackApp instance.
 
 #### Returns
 

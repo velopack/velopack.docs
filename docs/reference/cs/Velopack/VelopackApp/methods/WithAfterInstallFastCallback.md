@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations. Your code will be run and then Exit(int) will be called. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
 

@@ -8,8 +8,8 @@ sidebar_position: 0
 
 | Class | Description |
 | ------ | ------ |
-| [UpdateManager](Class.UpdateManager.md) | - |
-| [VelopackApp](Class.VelopackApp.md) | - |
+| [UpdateManager](Class.UpdateManager.md) | Provides functionality for checking for updates, downloading updates, and applying updates to the current application. |
+| [VelopackApp](Class.VelopackApp.md) | VelopackApp helps you to handle app activation events correctly. This should be used as early as possible in your application startup code. (eg. the beginning of main() or wherever your entry point is) |
 
 ## Type Aliases
 

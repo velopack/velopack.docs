@@ -10,7 +10,7 @@
 **Declaring Type:** [IFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 Returns a byte array containing the contents of the file at the specified url
 

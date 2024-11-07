@@ -15,7 +15,7 @@ sidebar_label: Runtimes.RuntimeInfo
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
  Base type containing information about a runtime in relation to the current operating system 
 

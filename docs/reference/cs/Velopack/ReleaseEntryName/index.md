@@ -16,7 +16,7 @@ sidebar_label: ReleaseEntryName
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.626+6f1a94e
+**Assembly Version:** 0.0.869+df2bffb
 
 Represents the information that can be parsed from a release entry filename.
 
