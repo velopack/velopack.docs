@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
  Returns a VelopackAsset if there is a local update prepared that requires a call to [ApplyUpdatesAndRestart(VelopackAsset, string\[\])](../methods/ApplyUpdatesAndRestart.md) to be applied. 
 

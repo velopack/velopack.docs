@@ -10,7 +10,7 @@
 **Declaring Type:** [RID](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
 ```csharp
 public static bool operator !=(RID obj1, RID obj2);

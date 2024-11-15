@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes.RuntimeInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
  The human\-friendly name of this runtime \- for displaying to users 
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [Shortcuts](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
 Delete all the shortcuts for the specified executable in the specified locations.
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [ReleaseEntryName](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
  The package version. 
 

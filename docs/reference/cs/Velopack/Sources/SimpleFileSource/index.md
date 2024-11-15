@@ -14,7 +14,7 @@ sidebar_label: SimpleFileSource
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
 Retrieves available updates from a local or network\-attached disk. The directory must contain one or more valid packages, as well as a 'releases.{channel}.json' index file.
 

@@ -14,7 +14,7 @@ sidebar_label: VelopackAssetFeed
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
 A feed of Velopack assets, usually returned from an [IUpdateSource](../Sources/IUpdateSource/index.md).
 

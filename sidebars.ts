@@ -56,6 +56,7 @@ const sidebars: SidebarsConfig = {
       label: 'Sample Apps',
       items: [
         //!! AUTO-GENERATED-START SAMPLES-TOC
+        link("C++ / wxWidgets", "https://github.com/velopack/velopack/tree/develop/samples/CPlusPlusWidgets", "Velopack in a cross-platform C++ app, using wxWidgets."),
         link("C++ / Win32", "https://github.com/velopack/velopack/tree/develop/samples/CPlusPlusWin32", "Velopack in a C++ app, using the Win32 UI starter template."),
         link("C# / Avalonia", "https://github.com/velopack/velopack/tree/develop/samples/CSharpAvalonia", "Velopack in a cross-platform app with [Avalonia](https://avaloniaui.net/)."),
         link("C# / UnityMono", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUnityMono", "Velopack with [Unity Game Engine](https://unity.com/) and Mono."),

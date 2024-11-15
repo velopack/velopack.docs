@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
 This will launch the Velopack updater and tell it to wait for this program to exit gracefully. You should then clean up any state and exit your app. The updater will apply updates and then optionally restart your app. The updater will only wait for 60 seconds before giving up. You can check if there are pending updates by checking [UpdatePendingRestart](../properties/UpdatePendingRestart.md).
 

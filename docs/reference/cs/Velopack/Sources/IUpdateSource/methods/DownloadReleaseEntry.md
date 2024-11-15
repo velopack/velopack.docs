@@ -10,7 +10,7 @@
 **Declaring Type:** [IUpdateSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
 Download the specified [VelopackAsset](../../../VelopackAsset/index.md) to the provided local file path.
 

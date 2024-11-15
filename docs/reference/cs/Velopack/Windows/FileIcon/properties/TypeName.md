@@ -10,7 +10,7 @@
 **Declaring Type:** [FileIcon](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.869+df2bffb
+**Assembly Version:** 0.0.942+a011233
 
 Gets the type name for the selected file if the SHGFI\_TYPENAME flag was set.
 
