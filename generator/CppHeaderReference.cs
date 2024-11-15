@@ -13,12 +13,18 @@ public class CppHeaderReference
     public static async Task UpdateCppReference(string outputPath)
     {
         outputPath = Path.GetFullPath(outputPath);
-        var cppHeaderUrl = "https://raw.githubusercontent.com/velopack/velopack/refs/heads/develop/src/lib-cpp/include/Velopack.h";
-        var cppHeader = Util.DownloadString(cppHeaderUrl);
 
-        var headerPath = Path.Combine(outputPath, "Velopack.h");
-        await File.WriteAllTextAsync(headerPath, cppHeader);
-        
+        var cHeaderUrl = "https://raw.githubusercontent.com/velopack/velopack/refs/heads/develop/src/lib-cpp/include/Velopack.h";
+        var cHeader = Util.DownloadString(cHeaderUrl);
+        var cHeaderPath = Path.Combine(outputPath, "Velopack.h");
+
+        var cppHeaderUrl = "https://raw.githubusercontent.com/velopack/velopack/refs/heads/develop/src/lib-cpp/include/Velopack.hpp";
+        var cppHeader = Util.DownloadString(cppHeaderUrl);
+        var cppHeaderPath = Path.Combine(outputPath, "Velopack.hpp");
+
+        await File.WriteAllTextAsync(cHeaderPath, cHeader);
+        await File.WriteAllTextAsync(cppHeaderPath, cppHeader);
+
         Console.WriteLine($"Mounting {outputPath}");
         await Util.StartShellProcess("docker",
             [
@@ -59,7 +65,8 @@ public class CppHeaderReference
             Console.WriteLine(f);
         }
 
-        File.Delete(headerPath);
+        File.Delete(cHeaderPath);
+        File.Delete(cppHeaderPath);
         File.Delete(Path.Combine(outputPath, "standardese_files.md"));
         File.Delete(Path.Combine(outputPath, "standardese_modules.md"));
 
