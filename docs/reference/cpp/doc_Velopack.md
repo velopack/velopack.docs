@@ -2,21 +2,92 @@
 
 <span id="standardese-Velopack-h"></span>
 
-<pre><code class="standardese-language-cpp"><span class="kwd">enum</span> <span class="typ dec var fun">vpkc_update_check_t</span>
-<span class="pun">:</span> <span class="typ dec var fun">int16_t</span><span class="pun">;</span>
+<pre><code class="standardese-language-cpp"><span class="kwd">enum</span> <a href="#standardese-vpkc_update_check_t"><span class="typ dec var fun">vpkc_update_check_t</span></a>
+<span class="pun">:</span> <span class="typ dec var fun">int8_t</span><span class="pun">;</span>
 
 <span class="kwd">struct</span> <a href="#standardese-vpkc_update_options_t"><span class="typ dec var fun">vpkc_update_options_t</span></a><span class="pun">;</span>
 
 <span class="kwd">struct</span> <a href="#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">;</span>
 
+<span class="kwd">using</span> <a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">;</span>
+
 <span class="kwd">struct</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">;</span>
 
 <span class="kwd">struct</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">;</span>
 
+<span class="kwd">using</span> <a href="#standardese-vpkc_progress_callback_t"><span class="typ dec var fun">vpkc_progress_callback_t</span></a> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span><span class="pun">)</span><span class="pun">;</span>
+
+<span class="kwd">using</span> <a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">)</span><span class="pun">;</span>
+
+<span class="kwd">using</span> <a href="#standardese-vpkc_log_callback_t"><span class="typ dec var fun">vpkc_log_callback_t</span></a> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">)</span><span class="pun">;</span>
+
 <span class="kwd">extern</span> <span class="str">&quot;C&quot;</span>
 <span class="pun">{</span>
+    <span class="kwd">bool</span> <a href="#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_new_update_manager</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_url_or_path</span><span class="pun">,</span> <a href="#standardese-vpkc_update_options_t"><span class="typ dec var fun">vpkc_update_options_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_options</span><span class="pun">,</span> <a href="#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_locator</span><span class="pun">,</span> <a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="typ dec var fun">size_t</span> <a href="#standardese-vpkc_get_current_version-vpkc_update_manager_t--char--size_t-"><span class="typ dec var fun">vpkc_get_current_version</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">psz_version</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_version</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="typ dec var fun">size_t</span> <a href="#standardese-vpkc_get_app_id-vpkc_update_manager_t--char--size_t-"><span class="typ dec var fun">vpkc_get_app_id</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">psz_id</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_id</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">bool</span> <a href="#standardese-vpkc_is_portable-vpkc_update_manager_t--"><span class="typ dec var fun">vpkc_is_portable</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">bool</span> <a href="#standardese-vpkc_update_pending_restart-vpkc_update_manager_t--vpkc_asset_t--"><span class="typ dec var fun">vpkc_update_pending_restart</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">)</span><span class="pun">;</span>
+
+    <a href="#standardese-vpkc_update_check_t"><span class="typ dec var fun">vpkc_update_check_t</span></a> <a href="#standardese-vpkc_check_for_updates-vpkc_update_manager_t--vpkc_update_info_t--"><span class="typ dec var fun">vpkc_check_for_updates</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_update</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">bool</span> <a href="#standardese-vpkc_download_updates-vpkc_update_manager_t--vpkc_update_info_t--vpkc_progress_callback_t-void--"><span class="typ dec var fun">vpkc_download_updates</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_update</span><span class="pun">,</span> <a href="#standardese-vpkc_progress_callback_t"><span class="typ dec var fun">vpkc_progress_callback_t</span></a> <span class="typ dec var fun">cb_progress</span><span class="pun">,</span> <span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">bool</span> <a href="#standardese-vpkc_wait_exit_then_apply_update-vpkc_update_manager_t--vpkc_asset_t--bool-bool-char---size_t-"><span class="typ dec var fun">vpkc_wait_exit_then_apply_update</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_silent</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_restart</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_restart_args</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_restart_args</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_free_update_manager-vpkc_update_manager_t--"><span class="typ dec var fun">vpkc_free_update_manager</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_free_update_info-vpkc_update_info_t--"><span class="typ dec var fun">vpkc_free_update_info</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_update_info</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_free_asset-vpkc_asset_t--"><span class="typ dec var fun">vpkc_free_asset</span></a><span class="pun">(</span><a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_run-void--"><span class="typ dec var fun">vpkc_app_run</span></a><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_set_auto_apply_on_startup-bool-"><span class="typ dec var fun">vpkc_app_set_auto_apply_on_startup</span></a><span class="pun">(</span><span class="kwd">bool</span> <span class="typ dec var fun">b_auto_apply</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_set_args-char---size_t-"><span class="typ dec var fun">vpkc_app_set_args</span></a><span class="pun">(</span><span class="kwd">char</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_args</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_args</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_set_locator-vpkc_locator_config_t--"><span class="typ dec var fun">vpkc_app_set_locator</span></a><span class="pun">(</span><a href="#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_locator</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_set_hook_after_install-vpkc_hook_callback_t-"><span class="typ dec var fun">vpkc_app_set_hook_after_install</span></a><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_after_install</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_set_hook_before_uninstall-vpkc_hook_callback_t-"><span class="typ dec var fun">vpkc_app_set_hook_before_uninstall</span></a><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_before_uninstall</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_set_hook_before_update-vpkc_hook_callback_t-"><span class="typ dec var fun">vpkc_app_set_hook_before_update</span></a><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_before_update</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_set_hook_after_update-vpkc_hook_callback_t-"><span class="typ dec var fun">vpkc_app_set_hook_after_update</span></a><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_after_update</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_set_hook_first_run-vpkc_hook_callback_t-"><span class="typ dec var fun">vpkc_app_set_hook_first_run</span></a><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_first_run</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_app_set_hook_restarted-vpkc_hook_callback_t-"><span class="typ dec var fun">vpkc_app_set_hook_restarted</span></a><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_restarted</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="typ dec var fun">size_t</span> <a href="#standardese-vpkc_get_last_error-char--size_t-"><span class="typ dec var fun">vpkc_get_last_error</span></a><span class="pun">(</span><span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">psz_error</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_error</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_set_logger-vpkc_log_callback_t-void--"><span class="typ dec var fun">vpkc_set_logger</span></a><span class="pun">(</span><a href="#standardese-vpkc_log_callback_t"><span class="typ dec var fun">vpkc_log_callback_t</span></a> <span class="typ dec var fun">cb_log</span><span class="pun">,</span> <span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
 <span class="pun">}</span>
 </code></pre>
+
+## Enumeration `vpkc_update_check_t`
+
+<span id="standardese-vpkc_update_check_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">enum</span> <span class="typ dec var fun">vpkc_update_check_t</span>
+<span class="pun">:</span> <span class="typ dec var fun">int8_t</span>
+<span class="pun">{</span>
+    <span class="typ dec var fun">UPDATE_ERROR</span> <span class="pun">=</span> <span class="pun">-</span><span class="lit">1</span><span class="pun">,</span>
+    <span class="typ dec var fun">UPDATE_AVAILABLE</span> <span class="pun">=</span> <span class="lit">0</span><span class="pun">,</span>
+    <span class="typ dec var fun">NO_UPDATE_AVAILABLE</span> <span class="pun">=</span> <span class="lit">1</span><span class="pun">,</span>
+    <span class="typ dec var fun">REMOTE_IS_EMPTY</span> <span class="pun">=</span> <span class="lit">2</span>
+<span class="pun">};</span>
+</code></pre>
+
+The result of a call to check for updates. This can indicate that an update is available, or that an error occurred.
+
+-----
 
 ## Struct `vpkc_update_options_t`
 
@@ -93,6 +164,17 @@ VelopackLocator provides some utility functions for locating the current app imp
 
 -----
 
+## Type alias `vpkc_update_manager_t`
+
+<span id="standardese-vpkc_update_manager_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">using</span> <span class="typ dec var fun">vpkc_update_manager_t</span> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">;</span>
+</code></pre>
+
+Opaque type for the Velopack UpdateManager. Must be freed with `vpkc_free_update_manager`.
+
+-----
+
 ## Struct `vpkc_asset_t`
 
 <span id="standardese-vpkc_asset_t"></span>
@@ -165,5 +247,315 @@ True if the update is a version downgrade or lateral move (such as when switchin
 In this case, only full updates are allowed, and any local packages on disk newer than the downloaded version will be deleted.
 
 -----
+
+-----
+
+## Type alias `vpkc_progress_callback_t`
+
+<span id="standardese-vpkc_progress_callback_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">using</span> <span class="typ dec var fun">vpkc_progress_callback_t</span> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Progress callback function.
+
+-----
+
+## Type alias `vpkc_hook_callback_t`
+
+<span id="standardese-vpkc_hook_callback_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">using</span> <span class="typ dec var fun">vpkc_hook_callback_t</span> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+VelopackApp startup hook callback function.
+
+-----
+
+## Type alias `vpkc_log_callback_t`
+
+<span id="standardese-vpkc_log_callback_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">using</span> <span class="typ dec var fun">vpkc_log_callback_t</span> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Log callback function.
+
+-----
+
+## Function `vpkc_new_update_manager`
+
+<span id="standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">vpkc_new_update_manager</span><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_url_or_path</span><span class="pun">,</span> <a href="#standardese-vpkc_update_options_t"><span class="typ dec var fun">vpkc_update_options_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_options</span><span class="pun">,</span> <a href="#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_locator</span><span class="pun">,</span> <a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Create a new UpdateManager instance.
+
+@param urlOrPath Location of the update server or path to the local update directory. @param options Optional extra configuration for update manager. @param locator Override the default locator configuration (usually used for testing / mocks).
+
+-----
+
+## Function `vpkc_get_current_version`
+
+<span id="standardese-vpkc_get_current_version-vpkc_update_manager_t--char--size_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">size_t</span> <span class="typ dec var fun">vpkc_get_current_version</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">psz_version</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_version</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Returns the currently installed version of the app.
+
+-----
+
+## Function `vpkc_get_app_id`
+
+<span id="standardese-vpkc_get_app_id-vpkc_update_manager_t--char--size_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">size_t</span> <span class="typ dec var fun">vpkc_get_app_id</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">psz_id</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_id</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Returns the currently installed app id.
+
+-----
+
+## Function `vpkc_is_portable`
+
+<span id="standardese-vpkc_is_portable-vpkc_update_manager_t--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">vpkc_is_portable</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Returns whether the app is in portable mode. On Windows this can be true or false.
+
+On MacOS and Linux this will always be true.
+
+-----
+
+## Function `vpkc_update_pending_restart`
+
+<span id="standardese-vpkc_update_pending_restart-vpkc_update_manager_t--vpkc_asset_t--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">vpkc_update_pending_restart</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Returns an UpdateInfo object if there is an update downloaded which still needs to be applied.
+
+You can pass the UpdateInfo object to waitExitThenApplyUpdate to apply the update.
+
+-----
+
+## Function `vpkc_check_for_updates`
+
+<span id="standardese-vpkc_check_for_updates-vpkc_update_manager_t--vpkc_update_info_t--"></span>
+
+<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_check_t"><span class="typ dec var fun">vpkc_update_check_t</span></a> <span class="typ dec var fun">vpkc_check_for_updates</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_update</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Checks for updates, returning None if there are none available. If there are updates available, this method will return an UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available.
+
+-----
+
+## Function `vpkc_download_updates`
+
+<span id="standardese-vpkc_download_updates-vpkc_update_manager_t--vpkc_update_info_t--vpkc_progress_callback_t-void--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">vpkc_download_updates</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_update</span><span class="pun">,</span> <a href="#standardese-vpkc_progress_callback_t"><span class="typ dec var fun">vpkc_progress_callback_t</span></a> <span class="typ dec var fun">cb_progress</span><span class="pun">,</span> <span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Downloads the specified updates to the local app packages directory. Progress is reported back to the caller via an optional callback.
+
+This function will acquire a global update lock so may fail if there is already another update operation in progress.
+
+  - If the update contains delta packages and the delta feature is enabled this method will attempt to unpack and prepare them.
+
+  - If there is no delta update available, or there is an error preparing delta packages, this method will fall back to downloading the full version of the update.
+
+-----
+
+## Function `vpkc_wait_exit_then_apply_update`
+
+<span id="standardese-vpkc_wait_exit_then_apply_update-vpkc_update_manager_t--vpkc_asset_t--bool-bool-char---size_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">vpkc_wait_exit_then_apply_update</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_silent</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_restart</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_restart_args</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_restart_args</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+This will launch the Velopack updater and tell it to wait for this program to exit gracefully.
+
+You should then clean up any state and exit your app. The updater will apply updates and then optionally restart your app. The updater will only wait for 60 seconds before giving up.
+
+-----
+
+## Function `vpkc_free_update_manager`
+
+<span id="standardese-vpkc_free_update_manager-vpkc_update_manager_t--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_free_update_manager</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Frees a vpkc\_update\_manager\_t instance.
+
+-----
+
+## Function `vpkc_free_update_info`
+
+<span id="standardese-vpkc_free_update_info-vpkc_update_info_t--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_free_update_info</span><span class="pun">(</span><a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_update_info</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Frees a vpkc\_update\_info\_t instance.
+
+-----
+
+## Function `vpkc_free_asset`
+
+<span id="standardese-vpkc_free_asset-vpkc_asset_t--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_free_asset</span><span class="pun">(</span><a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Frees a vpkc\_asset\_t instance.
+
+-----
+
+## Function `vpkc_app_run`
+
+<span id="standardese-vpkc_app_run-void--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_run</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+VelopackApp helps you to handle app activation events correctly.
+
+This should be used as early as possible in your application startup code. (eg. the beginning of main() or wherever your entry point is)
+
+-----
+
+## Function `vpkc_app_set_auto_apply_on_startup`
+
+<span id="standardese-vpkc_app_set_auto_apply_on_startup-bool-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_auto_apply_on_startup</span><span class="pun">(</span><span class="kwd">bool</span> <span class="typ dec var fun">b_auto_apply</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Set whether to automatically apply downloaded updates on startup. This is ON by default.
+
+-----
+
+## Function `vpkc_app_set_args`
+
+<span id="standardese-vpkc_app_set_args-char---size_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_args</span><span class="pun">(</span><span class="kwd">char</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_args</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_args</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Override the command line arguments used by VelopackApp. (by default this is env::args().skip(1))
+
+-----
+
+## Function `vpkc_app_set_locator`
+
+<span id="standardese-vpkc_app_set_locator-vpkc_locator_config_t--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_locator</span><span class="pun">(</span><a href="#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_locator</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+VelopackLocator provides some utility functions for locating the current app important paths (eg. path to packages, update binary, and so forth).
+
+-----
+
+## Function `vpkc_app_set_hook_after_install`
+
+<span id="standardese-vpkc_app_set_hook_after_install-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_after_install</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_after_install</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+
+Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
+
+-----
+
+## Function `vpkc_app_set_hook_before_uninstall`
+
+<span id="standardese-vpkc_app_set_hook_before_uninstall-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_before_uninstall</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_before_uninstall</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+
+Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
+
+-----
+
+## Function `vpkc_app_set_hook_before_update`
+
+<span id="standardese-vpkc_app_set_hook_before_update-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_before_update</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_before_update</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+
+Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
+
+-----
+
+## Function `vpkc_app_set_hook_after_update`
+
+<span id="standardese-vpkc_app_set_hook_after_update-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_after_update</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_after_update</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+
+Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
+
+-----
+
+## Function `vpkc_app_set_hook_first_run`
+
+<span id="standardese-vpkc_app_set_hook_first_run-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_first_run</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_first_run</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+This hook is triggered when the application is started for the first time after installation.
+
+-----
+
+## Function `vpkc_app_set_hook_restarted`
+
+<span id="standardese-vpkc_app_set_hook_restarted-vpkc_hook_callback_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_restarted</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_restarted</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+This hook is triggered when the application is restarted by Velopack after installing updates.
+
+-----
+
+## Function `vpkc_get_last_error`
+
+<span id="standardese-vpkc_get_last_error-char--size_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">size_t</span> <span class="typ dec var fun">vpkc_get_last_error</span><span class="pun">(</span><span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">psz_error</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_error</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Get the last error message that occurred in the Velopack library.
+
+-----
+
+## Function `vpkc_set_logger`
+
+<span id="standardese-vpkc_set_logger-vpkc_log_callback_t-void--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_set_logger</span><span class="pun">(</span><a href="#standardese-vpkc_log_callback_t"><span class="typ dec var fun">vpkc_log_callback_t</span></a> <span class="typ dec var fun">cb_log</span><span class="pun">,</span> <span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Set a custom log callback. This will be called for all log messages generated by the Velopack library.
 
 -----
