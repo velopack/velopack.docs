@@ -43,6 +43,34 @@ There are also resellers which may have certificates from authorised issuers for
 Note that since June 1, 2023 there [has been a policy change](https://knowledge.digicert.com/general-information/new-private-key-storage-requirement-for-standard-code-signing-certificates-november-2022), meaning it is no longer possible to download your code signing certificate. It must be either stored in an authorised cloud HSM or a USB HSM will be shipped to you. Many of these solutions will require manual steps and not be compatible with automation / CI. Please review carefully before purchasing.
 :::
 
+### Signing via Azure Trusted Signing
+
+[Azure Trusted Signing](https://learn.microsoft.com/azure/trusted-signing/overview) is a managed signing service from Microsoft and one of the most [cost effective](https://azure.microsoft.com/products/trusted-signing#pricing) ways to sign your application.
+
+For detailed information on Azure Trusted Signing please refer to the [official documentation](https://learn.microsoft.com/azure/trusted-signing/).
+
+:::note
+Signing relies on `signtool.exe` which is only supported on Windows. If you are using a different operating system, you will need to sign your binaries on a Windows machine before deploying them.
+:::
+
+1. First you will need to create an Azure account at: https://azure.microsoft.com/pricing/purchase-options/azure-account?icid=trusted-signing. This account will need to have an [active subscription](https://learn.microsoft.com/azure/cost-management-billing/manage/create-subscription#create-a-subscription).
+0. Regsiter the Azure Trusted Signing [resource provider](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-providers-and-types). This can be done either in the Azure portal, or via the Azure CLI by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#register-the-trusted-signing-resource-provider).
+0. Create the Azure Trusted Signing resource by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-trusted-signing-account). Note the name and region that you select, as you will use these values later for the `CodeSigningAccountName` and `Endpoint` values respectively, in the signing configuration JSON file.
+0. Create an identity validation request by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-an-identity-validation-request). This step must be done in the Azure Portal. The identity validation can either be done for an Organization or an Individual developer. This process make take a while as the identity infomration is verified by Microsoft. Return to these steps after the identity validation process is completed.
+0. Create a certificate profile by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-certificate-profile). There are multiple [trust models](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-trust-models) that are supported. The Public Trust model is the most common and is suitable for most applications. Note the name of the certificate profile as you will use this value later as the `CertificateProfileName` in the signing configuration JSON file.
+0. Velopack comes bundled with a version of [signtool.exe](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-signtool) (x64) and the [dlib package](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-the-trusted-signing-dlib-package) that is compatible with Azure Trusted Signing. These components [require the .NET 8.0 Runtime](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-net-80-runtime) be installed on the machiene that will be performing the signing. You can find the latest version of the .NET 8.0 runtime [here](https://dotnet.microsoft.com/download/dotnet/8.0).
+0. Setup authentication with Azure Trusted Signing. `signtool.exe` leverages the common [DefaultAzureCredentials](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) class for authenticating with Azure. This class supporta authenticating in a variety of ways, including the Azure CLI. After installing the Azure CLI, run `az login`. This will provide singtool.exe the authentication it needs when `vpk` invokes it. If you are running inside of the [GitHub Actions](https://github.com/marketplace/actions/azure-cli-action) or [Azure DevOps](https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/azure-cli-v2?view=azure-pipelines) there is built in support that handles performing the needed authentication.
+0. Create signing metadata JSON file. This file has three required paramters and an optional CorrelationId. The file should look like this:
+   ```json
+   {
+     "Endpoint": "<Trusted Signing account endpoint>",
+     "CodeSigningAccountName": "<Trusted Signing account name>",
+     "CertificateProfileName": "<Certificate profile name>"
+   }
+   ```
+   The values from each of these can be found in the steps above where you created the Azure Trusted Signing resource, and the certificate profile. The file should be saved with UTF-8 (without a BOM) encoding. Though not required, this is often named as `metadata.json`. The full details can be seen [here](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#create-a-json-file).
+0. Pass the metadata JSON file. When calling `vpk pack` using `--azureTrustedSignFile <path to json file>`. `vpk` will pass the file through to `signtool.exe` to sign the needed assets.
+
 ### Signing via `signtool.exe`
 Usually signing is accomplished via `signtool.exe`. If you already use this tool to sign your application, you can just pass your sign parameters straight to Velopack (minus the 'sign' command).
 
