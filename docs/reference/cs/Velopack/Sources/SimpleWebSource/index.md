@@ -14,7 +14,7 @@ sidebar_label: SimpleWebSource
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 Retrieves updates from a static file host or other web server.  Will perform a request for '{baseUri}\/RELEASES' to locate the available packages, and provides query parameters to specify the name of the requested package.
 
@@ -28,10 +28,10 @@ public class SimpleWebSource : IUpdateSource
 
 ## Constructors
 
-| Name                                                                                                    | Description |
-| ------------------------------------------------------------------------------------------------------- | ----------- |
-| [SimpleWebSource(Uri, IFileDownloader)](constructors/index.md#simplewebsourceuri-ifiledownloader)       |             |
-| [SimpleWebSource(string, IFileDownloader)](constructors/index.md#simplewebsourcestring-ifiledownloader) |             |
+| Name                                                                                                                   | Description |
+| ---------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [SimpleWebSource(Uri, IFileDownloader, double)](constructors/index.md#simplewebsourceuri-ifiledownloader-double)       |             |
+| [SimpleWebSource(string, IFileDownloader, double)](constructors/index.md#simplewebsourcestring-ifiledownloader-double) |             |
 
 ## Properties
 
@@ -39,6 +39,7 @@ public class SimpleWebSource : IUpdateSource
 | -------------------------------------- | --------------------------------------------------------------------------------------------- |
 | [BaseUri](properties/BaseUri.md)       |  The URL of the server hosting packages to update to.                                         |
 | [Downloader](properties/Downloader.md) |  The [IFileDownloader](../IFileDownloader/index.md) to be used for performing http requests.  |
+| [Timeout](properties/Timeout.md)       |  The timeout for http requests, in minutes.                                                   |
 
 ## Methods
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [ReleaseEntry](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 Generates a list of [ReleaseEntry](../index.md)'s from a local directory containing package files. Also writes\/updates a RELEASES file in the specified directory to match the packages the are currently present.
 

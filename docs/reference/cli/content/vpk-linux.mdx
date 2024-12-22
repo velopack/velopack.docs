@@ -4,7 +4,7 @@
 ## `vpk -H`
 ```
 Description:
-  Velopack CLI 0.0.942, for distributing applications.  
+  Velopack CLI 0.0.1015, for distributing applications.  
 
 Usage:
   vpk [command] [options]  
@@ -107,6 +107,8 @@ Options:
                          'https://github.com/myname/myrepo').                   
   --token                ENV=VPK_TOKEN  OAuth token to use as login             
                          credentials.                                           
+  --timeout <MINUTES>    ENV=VPK_TIMEOUT  Network timeout in minutes. [         
+                         default: 30]                                           
   --pre                  ENV=VPK_PRE  Get latest pre-release instead of         
                          stable.
 ```
@@ -129,6 +131,8 @@ Options:
                          'https://gitea.com/myname/myrepo').                    
   --token                ENV=VPK_TOKEN  OAuth token to use as login             
                          credentials.                                           
+  --timeout <MINUTES>    ENV=VPK_TIMEOUT  Network timeout in minutes. [         
+                         default: 30]                                           
   --pre                  ENV=VPK_PRE  Get latest pre-release instead of         
                          stable.
 ```
@@ -155,7 +159,9 @@ Options:
   --endpoint <URL>       ENV=VPK_ENDPOINT  Custom service url (backblaze,       
                          digital ocean, etc).                                   
   --bucket <NAME> (REQ)  ENV=VPK_BUCKET  Name of the S3 bucket.                 
-  --prefix <PREFIX>      ENV=VPK_PREFIX  Prefix to the S3 url.
+  --prefix <PREFIX>      ENV=VPK_PREFIX  Prefix to the S3 url.                  
+  --timeout <MINUTES>    ENV=VPK_TIMEOUT  Network timeout in minutes. [         
+                         default: 30]
 ```
 
 ## `vpk download az -H`
@@ -177,7 +183,9 @@ Options:
                              (not the url)                                      
   --container <NAME> (REQ)   ENV=VPK_CONTAINER  Azure container name            
   --endpoint <URL>           ENV=VPK_ENDPOINT  Service url (eg.                 
-                             https://<account-name>.blob.core.windows.net)
+                             https://<account-name>.blob.core.windows.net)      
+  --timeout <MINUTES>        ENV=VPK_TIMEOUT  Network timeout in minutes.       
+                             [default: 30]
 ```
 
 ## `vpk download local -H`
@@ -211,7 +219,9 @@ Options:
   -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
                          release. [default: linux]                              
   --url (REQ)            ENV=VPK_URL  Url to download remote releases           
-                         from.
+                         from.                                                  
+  --timeout <MINUTES>    ENV=VPK_TIMEOUT  Network timeout in minutes. [         
+                         default: 30]
 ```
 
 ## `vpk upload -H`
@@ -248,6 +258,8 @@ Options:
                                'https://github.com/myname/myrepo').             
   --token                      ENV=VPK_TOKEN  OAuth token to use as login       
                                credentials.                                     
+  --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
+                               minutes. [default: 30]                           
   --publish                    ENV=VPK_PUBLISH  Create and publish instead      
                                of leaving as draft.                             
   --pre                        ENV=VPK_PRE  Create as pre-release instead       
@@ -279,6 +291,8 @@ Options:
                                'https://gitea.com/myname/myrepo').              
   --token                      ENV=VPK_TOKEN  OAuth token to use as login       
                                credentials.                                     
+  --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
+                               minutes. [default: 30]                           
   --publish                    ENV=VPK_PUBLISH  Create and publish instead      
                                of leaving as draft.                             
   --pre                        ENV=VPK_PRE  Create as pre-release instead       
@@ -316,6 +330,8 @@ Options:
                                (backblaze, digital ocean, etc).                 
   --bucket <NAME> (REQ)        ENV=VPK_BUCKET  Name of the S3 bucket.           
   --prefix <PREFIX>            ENV=VPK_PREFIX  Prefix to the S3 url.            
+  --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
+                               minutes. [default: 30]                           
   --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           
                                number of releases to keep in the bucket,        
                                anything older will be deleted.
@@ -342,6 +358,8 @@ Options:
   --endpoint <URL>             ENV=VPK_ENDPOINT  Service url (eg.               
                                https://<account-name>.blob.core.windows.ne      
                                t)                                               
+  --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
+                               minutes. [default: 30]                           
   --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           
                                number of releases to keep in the                
                                container, anything older will be deleted.

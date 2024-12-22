@@ -14,7 +14,7 @@ sidebar_label: ChecksumFailedException
 
 **Namespace:** [Velopack.Compression](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 Represents an error that occurs when a package does not match it's expected SHA checksum
 

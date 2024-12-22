@@ -10,12 +10,12 @@
 **Declaring Type:** [IFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 Downloads a remote file to the specified local path
 
 ```csharp
-public Task DownloadFile(string url, string targetFile, Action<int> progress, string authorization = null, string accept = null, CancellationToken cancelToken = default);
+public Task DownloadFile(string url, string targetFile, Action<int> progress, string authorization = null, string accept = null, double timeout = 30, CancellationToken cancelToken = default);
 ```
 
 ## Parameters
@@ -39,6 +39,10 @@ Text to be sent in the 'Authorization' header of the request.
 `accept`  string
 
 Text to be sent in the 'Accept' header of the request.
+
+`timeout`  double
+
+The maximum time in minutes to wait for the download to complete.
 
 `cancelToken`  CancellationToken
 

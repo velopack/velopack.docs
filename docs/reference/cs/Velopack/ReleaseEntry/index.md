@@ -16,7 +16,7 @@ sidebar_label: ReleaseEntry
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 Represents a Velopack release, as described in a RELEASES file \- usually also with an  accompanying package containing the files needed to apply the release.
 

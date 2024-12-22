@@ -10,7 +10,7 @@
 **Declaring Type:** [GithubReleaseAsset](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 The asset URL for this release asset. Requests to this URL will use API quota and return JSON unless the 'Accept' header is "application\/octet\-stream". 
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes.DotnetInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
  The CPU architecture of the runtime. This must match the RID of the app being deployed.             For example, if the app was deployed with 'win\-x64', this must be X64 also. 
 

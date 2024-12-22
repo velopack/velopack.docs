@@ -14,7 +14,7 @@ sidebar_label: FileIcon
 
 **Namespace:** [Velopack.Windows](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 Enables extraction of icons for any file type from the Shell.
 

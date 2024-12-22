@@ -14,7 +14,7 @@ sidebar_label: GitlabReleaseLink
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 Describes a container for the links of assets attached to a release.
 

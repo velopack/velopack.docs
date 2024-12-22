@@ -10,12 +10,12 @@
 **Declaring Type:** [IFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 Returns a byte array containing the contents of the file at the specified url
 
 ```csharp
-public Task<byte[]> DownloadBytes(string url, string authorization = null, string accept = null);
+public Task<byte[]> DownloadBytes(string url, string authorization = null, string accept = null, double timeout = 30);
 ```
 
 ## Parameters
@@ -25,6 +25,8 @@ public Task<byte[]> DownloadBytes(string url, string authorization = null, strin
 `authorization`  string
 
 `accept`  string
+
+`timeout`  double
 
 ## Returns
 

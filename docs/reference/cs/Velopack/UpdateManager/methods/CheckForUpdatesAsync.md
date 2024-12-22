@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 Checks for updates, returning null if there are none available. If there are updates available, this method will return an  UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available.
 

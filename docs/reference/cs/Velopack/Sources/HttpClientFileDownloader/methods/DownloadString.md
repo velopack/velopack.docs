@@ -10,11 +10,11 @@
 **Declaring Type:** [HttpClientFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 ```csharp
 [AsyncStateMachine(Velopack.Sources.HttpClientFileDownloader/<DownloadString>d__4)]
-public Task<string> DownloadString(string url, string authorization, string accept);
+public Task<string> DownloadString(string url, string authorization, string accept, double timeout);
 ```
 
 ## Parameters
@@ -24,6 +24,8 @@ public Task<string> DownloadString(string url, string authorization, string acce
 `authorization`  string
 
 `accept`  string
+
+`timeout`  double
 
 ## Returns
 

@@ -10,11 +10,11 @@
 **Declaring Type:** [HttpClientFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 ```csharp
 [AsyncStateMachine(Velopack.Sources.HttpClientFileDownloader/<DownloadFile>d__2)]
-public Task DownloadFile(string url, string targetFile, Action<int> progress, string authorization, string accept, CancellationToken cancelToken = default);
+public Task DownloadFile(string url, string targetFile, Action<int> progress, string authorization, string accept, double timeout, CancellationToken cancelToken = default);
 ```
 
 ## Parameters
@@ -28,6 +28,8 @@ public Task DownloadFile(string url, string targetFile, Action<int> progress, st
 `authorization`  string
 
 `accept`  string
+
+`timeout`  double
 
 `cancelToken`  CancellationToken
 

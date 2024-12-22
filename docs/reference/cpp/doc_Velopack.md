@@ -5,13 +5,21 @@
 <pre><code class="standardese-language-cpp"><span class="kwd">enum</span> <a href="#standardese-vpkc_update_check_t"><span class="typ dec var fun">vpkc_update_check_t</span></a>
 <span class="pun">:</span> <span class="typ dec var fun">int8_t</span><span class="pun">;</span>
 
+<span class="kwd">using</span> <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">;</span>
+
+<span class="kwd">using</span> <a href="#standardese-vpkc_release_feed_delegate_t"><span class="typ dec var fun">vpkc_release_feed_delegate_t</span></a> <span class="pun">=</span> <span class="kwd">char</span><span class="pun">*</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">)</span><span class="pun">;</span>
+
+<span class="kwd">using</span> <a href="#standardese-vpkc_free_release_feed_t"><span class="typ dec var fun">vpkc_free_release_feed_t</span></a> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span><span class="pun">)</span><span class="pun">;</span>
+
+<span class="kwd">struct</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">;</span>
+
+<span class="kwd">using</span> <a href="#standardese-vpkc_download_asset_delegate_t"><span class="typ dec var fun">vpkc_download_asset_delegate_t</span></a> <span class="pun">=</span> <span class="kwd">bool</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a> <span class="kwd">const</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span><span class="pun">)</span><span class="pun">;</span>
+
 <span class="kwd">struct</span> <a href="#standardese-vpkc_update_options_t"><span class="typ dec var fun">vpkc_update_options_t</span></a><span class="pun">;</span>
 
 <span class="kwd">struct</span> <a href="#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">;</span>
 
 <span class="kwd">using</span> <a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">;</span>
-
-<span class="kwd">struct</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">;</span>
 
 <span class="kwd">struct</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">;</span>
 
@@ -23,7 +31,19 @@
 
 <span class="kwd">extern</span> <span class="str">&quot;C&quot;</span>
 <span class="pun">{</span>
+    <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_new_source_file-charconst--"><span class="typ dec var fun">vpkc_new_source_file</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_file_path</span><span class="pun">)</span><span class="pun">;</span>
+
+    <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_new_source_http_url-charconst--"><span class="typ dec var fun">vpkc_new_source_http_url</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_http_url</span><span class="pun">)</span><span class="pun">;</span>
+
+    <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_new_source_custom_callback-vpkc_release_feed_delegate_t-vpkc_free_release_feed_t-vpkc_download_asset_delegate_t-void--"><span class="typ dec var fun">vpkc_new_source_custom_callback</span></a><span class="pun">(</span><a href="#standardese-vpkc_release_feed_delegate_t"><span class="typ dec var fun">vpkc_release_feed_delegate_t</span></a> <span class="typ dec var fun">cb_release_feed</span><span class="pun">,</span> <a href="#standardese-vpkc_free_release_feed_t"><span class="typ dec var fun">vpkc_free_release_feed_t</span></a> <span class="typ dec var fun">cb_free_release_feed</span><span class="pun">,</span> <a href="#standardese-vpkc_download_asset_delegate_t"><span class="typ dec var fun">vpkc_download_asset_delegate_t</span></a> <span class="typ dec var fun">cb_download_entry</span><span class="pun">,</span> <span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_source_report_progress-size_t-int16_t-"><span class="typ dec var fun">vpkc_source_report_progress</span></a><span class="pun">(</span><span class="typ dec var fun">size_t</span> <span class="typ dec var fun">progress_callback_id</span><span class="pun">,</span> <span class="typ dec var fun">int16_t</span> <span class="typ dec var fun">progress</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">void</span> <a href="#standardese-vpkc_free_source-vpkc_update_source_t--"><span class="typ dec var fun">vpkc_free_source</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_source</span><span class="pun">)</span><span class="pun">;</span>
+
     <span class="kwd">bool</span> <a href="#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_new_update_manager</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_url_or_path</span><span class="pun">,</span> <a href="#standardese-vpkc_update_options_t"><span class="typ dec var fun">vpkc_update_options_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_options</span><span class="pun">,</span> <a href="#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_locator</span><span class="pun">,</span> <a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
+
+    <span class="kwd">bool</span> <a href="#standardese-vpkc_new_update_manager_with_source-vpkc_update_source_t--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"><span class="typ dec var fun">vpkc_new_update_manager_with_source</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_source</span><span class="pun">,</span> <a href="#standardese-vpkc_update_options_t"><span class="typ dec var fun">vpkc_update_options_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_options</span><span class="pun">,</span> <a href="#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_locator</span><span class="pun">,</span> <a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
 
     <span class="typ dec var fun">size_t</span> <a href="#standardese-vpkc_get_current_version-vpkc_update_manager_t--char--size_t-"><span class="typ dec var fun">vpkc_get_current_version</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">psz_version</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_version</span><span class="pun">)</span><span class="pun">;</span>
 
@@ -86,6 +106,94 @@
 </code></pre>
 
 The result of a call to check for updates. This can indicate that an update is available, or that an error occurred.
+
+-----
+
+## Type alias `vpkc_update_source_t`
+
+<span id="standardese-vpkc_update_source_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">using</span> <span class="typ dec var fun">vpkc_update_source_t</span> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">;</span>
+</code></pre>
+
+Opaque type for a Velopack UpdateSource. Must be freed with `vpkc_free_update_source`.
+
+-----
+
+## Type alias `vpkc_release_feed_delegate_t`
+
+<span id="standardese-vpkc_release_feed_delegate_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">using</span> <span class="typ dec var fun">vpkc_release_feed_delegate_t</span> <span class="pun">=</span> <span class="kwd">char</span><span class="pun">*</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+User delegate for to fetch a release feed. This function should return the raw JSON string of the release.json feed.
+
+-----
+
+## Type alias `vpkc_free_release_feed_t`
+
+<span id="standardese-vpkc_free_release_feed_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">using</span> <span class="typ dec var fun">vpkc_free_release_feed_t</span> <span class="pun">=</span> <span class="kwd">void</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span><span class="pun">*</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+User delegate for freeing a release feed. This function should free the feed string returned by `vpkc_release_feed_delegate_t`.
+
+-----
+
+## Struct `vpkc_asset_t`
+
+<span id="standardese-vpkc_asset_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">vpkc_asset_t</span>
+<span class="pun">{</span>
+    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__PackageId"><span class="typ dec var fun">PackageId</span></a><span class="pun">;</span>
+
+    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__Version"><span class="typ dec var fun">Version</span></a><span class="pun">;</span>
+
+    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__Type"><span class="typ dec var fun">Type</span></a><span class="pun">;</span>
+
+    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__FileName"><span class="typ dec var fun">FileName</span></a><span class="pun">;</span>
+
+    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__SHA1"><span class="typ dec var fun">SHA1</span></a><span class="pun">;</span>
+
+    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__SHA256"><span class="typ dec var fun">SHA256</span></a><span class="pun">;</span>
+
+    <span class="typ dec var fun">uint64_t</span> <a href="#standardese-vpkc_asset_t__Size"><span class="typ dec var fun">Size</span></a><span class="pun">;</span>
+
+    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__NotesMarkdown"><span class="typ dec var fun">NotesMarkdown</span></a><span class="pun">;</span>
+
+    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__NotesHtml"><span class="typ dec var fun">NotesHtml</span></a><span class="pun">;</span>
+<span class="pun">};</span>
+</code></pre>
+
+An individual Velopack asset, could refer to an asset on-disk or in a remote package feed.
+
+#### Member variables
+
+  - `PackageId` &mdash; The name or Id of the package containing this release.
+  - `Version` &mdash; The version of this release.
+  - `Type` &mdash; The type of asset (eg. “Full” or “Delta”).
+  - `FileName` &mdash; The filename of the update package containing this release.
+  - `SHA1` &mdash; The SHA1 checksum of the update package containing this release.
+  - `SHA256` &mdash; The SHA256 checksum of the update package containing this release.
+  - `Size` &mdash; The size in bytes of the update package containing this release.
+  - `NotesMarkdown` &mdash; The release notes in markdown format, as passed to Velopack when packaging the release. This may be an empty string.
+  - `NotesHtml` &mdash; The release notes in HTML format, transformed from Markdown when packaging the release. This may be an empty string.
+
+-----
+
+## Type alias `vpkc_download_asset_delegate_t`
+
+<span id="standardese-vpkc_download_asset_delegate_t"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">using</span> <span class="typ dec var fun">vpkc_download_asset_delegate_t</span> <span class="pun">=</span> <span class="kwd">bool</span><span class="pun">(</span><span class="pun">*</span><span class="pun">)</span><span class="pun">(</span><span class="kwd">void</span><span class="pun">*</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a> <span class="kwd">const</span><span class="pun">*</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+User delegate for downloading an asset file. This function is expected to download the provided asset to the provided local file path. Througout, you can use the progress callback to write progress reports.
+
+The function should return true if the download was successful, false otherwise. Progress
 
 -----
 
@@ -175,48 +283,6 @@ Opaque type for the Velopack UpdateManager. Must be freed with `vpkc_free_update
 
 -----
 
-## Struct `vpkc_asset_t`
-
-<span id="standardese-vpkc_asset_t"></span>
-
-<pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">vpkc_asset_t</span>
-<span class="pun">{</span>
-    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__PackageId"><span class="typ dec var fun">PackageId</span></a><span class="pun">;</span>
-
-    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__Version"><span class="typ dec var fun">Version</span></a><span class="pun">;</span>
-
-    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__Type"><span class="typ dec var fun">Type</span></a><span class="pun">;</span>
-
-    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__FileName"><span class="typ dec var fun">FileName</span></a><span class="pun">;</span>
-
-    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__SHA1"><span class="typ dec var fun">SHA1</span></a><span class="pun">;</span>
-
-    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__SHA256"><span class="typ dec var fun">SHA256</span></a><span class="pun">;</span>
-
-    <span class="typ dec var fun">uint64_t</span> <a href="#standardese-vpkc_asset_t__Size"><span class="typ dec var fun">Size</span></a><span class="pun">;</span>
-
-    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__NotesMarkdown"><span class="typ dec var fun">NotesMarkdown</span></a><span class="pun">;</span>
-
-    <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_asset_t__NotesHtml"><span class="typ dec var fun">NotesHtml</span></a><span class="pun">;</span>
-<span class="pun">};</span>
-</code></pre>
-
-An individual Velopack asset, could refer to an asset on-disk or in a remote package feed.
-
-#### Member variables
-
-  - `PackageId` &mdash; The name or Id of the package containing this release.
-  - `Version` &mdash; The version of this release.
-  - `Type` &mdash; The type of asset (eg. “Full” or “Delta”).
-  - `FileName` &mdash; The filename of the update package containing this release.
-  - `SHA1` &mdash; The SHA1 checksum of the update package containing this release.
-  - `SHA256` &mdash; The SHA256 checksum of the update package containing this release.
-  - `Size` &mdash; The size in bytes of the update package containing this release.
-  - `NotesMarkdown` &mdash; The release notes in markdown format, as passed to Velopack when packaging the release. This may be an empty string.
-  - `NotesHtml` &mdash; The release notes in HTML format, transformed from Markdown when packaging the release. This may be an empty string.
-
------
-
 ## Struct `vpkc_update_info_t`
 
 <span id="standardese-vpkc_update_info_t"></span>
@@ -283,6 +349,63 @@ Log callback function.
 
 -----
 
+## Function `vpkc_new_source_file`
+
+<span id="standardese-vpkc_new_source_file-charconst--"></span>
+
+<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">vpkc_new_source_file</span><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_file_path</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Create a new FileSource update source for a given file path.
+
+-----
+
+## Function `vpkc_new_source_http_url`
+
+<span id="standardese-vpkc_new_source_http_url-charconst--"></span>
+
+<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">vpkc_new_source_http_url</span><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_http_url</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Create a new HttpSource update source for a given HTTP URL.
+
+-----
+
+## Function `vpkc_new_source_custom_callback`
+
+<span id="standardese-vpkc_new_source_custom_callback-vpkc_release_feed_delegate_t-vpkc_free_release_feed_t-vpkc_download_asset_delegate_t-void--"></span>
+
+<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">vpkc_new_source_custom_callback</span><span class="pun">(</span><a href="#standardese-vpkc_release_feed_delegate_t"><span class="typ dec var fun">vpkc_release_feed_delegate_t</span></a> <span class="typ dec var fun">cb_release_feed</span><span class="pun">,</span> <a href="#standardese-vpkc_free_release_feed_t"><span class="typ dec var fun">vpkc_free_release_feed_t</span></a> <span class="typ dec var fun">cb_free_release_feed</span><span class="pun">,</span> <a href="#standardese-vpkc_download_asset_delegate_t"><span class="typ dec var fun">vpkc_download_asset_delegate_t</span></a> <span class="typ dec var fun">cb_download_entry</span><span class="pun">,</span> <span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Create a new *CUSTOM* update source with user-provided callbacks to fetch release feeds and download assets.
+
+You can report download progress using `vpkc_source_report_progress`. Note that the callbacks must be valid for the lifetime of any UpdateManager’s that use this source. You should call `vpkc_free_source` to free the source, but note that if the source is still in use by an UpdateManager, it will not be freed until the UpdateManager is freed. Therefore to avoid possible issues, it is recommended to create this type of source once for the lifetime of your application.
+
+-----
+
+## Function `vpkc_source_report_progress`
+
+<span id="standardese-vpkc_source_report_progress-size_t-int16_t-"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_source_report_progress</span><span class="pun">(</span><span class="typ dec var fun">size_t</span> <span class="typ dec var fun">progress_callback_id</span><span class="pun">,</span> <span class="typ dec var fun">int16_t</span> <span class="typ dec var fun">progress</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Sends a progress update to the callback with the specified ID. This is used by custom update sources created with `vpkc_new_source_custom_callback` to report download progress.
+
+-----
+
+## Function `vpkc_free_source`
+
+<span id="standardese-vpkc_free_source-vpkc_update_source_t--"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_free_source</span><span class="pun">(</span><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_source</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Frees a vpkc\_update\_source\_t instance.
+
+-----
+
 ## Function `vpkc_new_update_manager`
 
 <span id="standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"></span>
@@ -291,6 +414,19 @@ Log callback function.
 </code></pre>
 
 Create a new UpdateManager instance.
+
+@param urlOrPath Location of the update server or path to the local update directory. @param options Optional extra configuration for update manager. @param locator Override the default locator configuration (usually used for testing / mocks).
+
+-----
+
+## Function `vpkc_new_update_manager_with_source`
+
+<span id="standardese-vpkc_new_update_manager_with_source-vpkc_update_source_t--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---"></span>
+
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">vpkc_new_update_manager_with_source</span><span class="pun">(</span><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_source</span><span class="pun">,</span> <a href="#standardese-vpkc_update_options_t"><span class="typ dec var fun">vpkc_update_options_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_options</span><span class="pun">,</span> <a href="#standardese-vpkc_locator_config_t"><span class="typ dec var fun">vpkc_locator_config_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_locator</span><span class="pun">,</span> <a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Create a new UpdateManager instance with a custom UpdateSource.
 
 @param urlOrPath Location of the update server or path to the local update directory. @param options Optional extra configuration for update manager. @param locator Override the default locator configuration (usually used for testing / mocks).
 

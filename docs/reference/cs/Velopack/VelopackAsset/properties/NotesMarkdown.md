@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackAsset](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
  The release notes in markdown format, as passed to Velopack when packaging the release. 
 

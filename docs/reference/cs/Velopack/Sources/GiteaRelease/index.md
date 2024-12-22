@@ -14,7 +14,7 @@ sidebar_label: GiteaRelease
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
  Describes a Gitea release, including attached assets. 
 

@@ -14,7 +14,7 @@ sidebar_label: HttpClientFileDownloader
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 ```csharp
 public class HttpClientFileDownloader : IFileDownloader
@@ -38,11 +38,11 @@ public class HttpClientFileDownloader : IFileDownloader
 
 ## Methods
 
-| Name                                                                                                      | Description |
-| --------------------------------------------------------------------------------------------------------- | ----------- |
-| [DownloadBytes(string, string, string)](methods/DownloadBytes.md)                                         |             |
-| [DownloadFile(string, string, Action\<int\>, string, string, CancellationToken)](methods/DownloadFile.md) |             |
-| [DownloadString(string, string, string)](methods/DownloadString.md)                                       |             |
+| Name                                                                                                              | Description |
+| ----------------------------------------------------------------------------------------------------------------- | ----------- |
+| [DownloadBytes(string, string, string, double)](methods/DownloadBytes.md)                                         |             |
+| [DownloadFile(string, string, Action\<int\>, string, string, double, CancellationToken)](methods/DownloadFile.md) |             |
+| [DownloadString(string, string, string, double)](methods/DownloadString.md)                                       |             |
 
 ___
 

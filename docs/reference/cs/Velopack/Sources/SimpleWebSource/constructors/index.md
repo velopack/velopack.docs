@@ -13,19 +13,19 @@ title: Constructors
 **Declaring Type:** [SimpleWebSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 ## Overloads
 
-| Signature                                                                          | Description |
-| ---------------------------------------------------------------------------------- | ----------- |
-| [SimpleWebSource(Uri, IFileDownloader)](#simplewebsourceuri-ifiledownloader)       |             |
-| [SimpleWebSource(string, IFileDownloader)](#simplewebsourcestring-ifiledownloader) |             |
+| Signature                                                                                         | Description |
+| ------------------------------------------------------------------------------------------------- | ----------- |
+| [SimpleWebSource(Uri, IFileDownloader, double)](#simplewebsourceuri-ifiledownloader-double)       |             |
+| [SimpleWebSource(string, IFileDownloader, double)](#simplewebsourcestring-ifiledownloader-double) |             |
 
-## SimpleWebSource(Uri, IFileDownloader)
+## SimpleWebSource(Uri, IFileDownloader, double)
 
 ```csharp
-public SimpleWebSource(Uri baseUri, IFileDownloader downloader = null);
+public SimpleWebSource(Uri baseUri, IFileDownloader downloader = null, double timeout = 30);
 ```
 
 ### Parameters
@@ -34,10 +34,12 @@ public SimpleWebSource(Uri baseUri, IFileDownloader downloader = null);
 
 `downloader`  [IFileDownloader](../../IFileDownloader/index.md)
 
-## SimpleWebSource(string, IFileDownloader)
+`timeout`  double
+
+## SimpleWebSource(string, IFileDownloader, double)
 
 ```csharp
-public SimpleWebSource(string baseUrl, IFileDownloader downloader = null);
+public SimpleWebSource(string baseUrl, IFileDownloader downloader = null, double timeout = 30);
 ```
 
 ### Parameters
@@ -45,6 +47,8 @@ public SimpleWebSource(string baseUrl, IFileDownloader downloader = null);
 `baseUrl`  string
 
 `downloader`  [IFileDownloader](../../IFileDownloader/index.md)
+
+`timeout`  double
 
 ___
 

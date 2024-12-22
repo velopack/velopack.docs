@@ -14,7 +14,7 @@ sidebar_label: IFileDownloader Interface
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.942+a011233
+**Assembly Version:** 0.0.1015+c29a8ec
 
 A simple abstractable file downloader
 
@@ -24,11 +24,11 @@ public interface IFileDownloader
 
 ## Methods
 
-| Name                                                                                                      | Description                                                                   |
-| --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [DownloadBytes(string, string, string)](methods/DownloadBytes.md)                                         | Returns a byte array containing the contents of the file at the specified url |
-| [DownloadFile(string, string, Action\<int\>, string, string, CancellationToken)](methods/DownloadFile.md) | Downloads a remote file to the specified local path                           |
-| [DownloadString(string, string, string)](methods/DownloadString.md)                                       | Returns a string containing the contents of the specified url                 |
+| Name                                                                                                              | Description                                                                   |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| [DownloadBytes(string, string, string, double)](methods/DownloadBytes.md)                                         | Returns a byte array containing the contents of the file at the specified url |
+| [DownloadFile(string, string, Action\<int\>, string, string, double, CancellationToken)](methods/DownloadFile.md) | Downloads a remote file to the specified local path                           |
+| [DownloadString(string, string, string, double)](methods/DownloadString.md)                                       | Returns a string containing the contents of the specified url                 |
 
 ___
 
