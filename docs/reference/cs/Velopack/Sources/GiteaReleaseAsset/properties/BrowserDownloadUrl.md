@@ -10,7 +10,7 @@
 **Declaring Type:** [GiteaReleaseAsset](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 The browser URL for this release asset. This does not use API quota, however this URL only works for public repositories. If downloading assets from a private repository, the [Url](Url.md) property must be used with an appropriate access token.
 

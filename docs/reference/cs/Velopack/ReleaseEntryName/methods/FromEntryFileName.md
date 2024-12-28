@@ -10,7 +10,7 @@
 **Declaring Type:** [ReleaseEntryName](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 Takes a filename such as 'My\-Cool3\-App\-1.0.1\-build.23\-full.nupkg' and separates it into  it's name and version (eg. 'My\-Cool3\-App', and '1.0.1\-build.23'). Returns null values if  the filename can not be parsed.
 

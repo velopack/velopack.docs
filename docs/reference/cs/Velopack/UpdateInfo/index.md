@@ -14,7 +14,7 @@ sidebar_label: UpdateInfo
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 Holds information about the current version and pending updates, such as how many there are, and access to release notes.
 

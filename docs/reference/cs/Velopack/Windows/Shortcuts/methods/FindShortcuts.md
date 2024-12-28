@@ -10,7 +10,7 @@
 **Declaring Type:** [Shortcuts](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 Searches for existing shortcuts to an executable inside the current package.
 

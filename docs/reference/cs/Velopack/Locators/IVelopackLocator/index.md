@@ -14,7 +14,7 @@ sidebar_label: IVelopackLocator Interface
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 An interface describing where Velopack can find key folders and files.
 

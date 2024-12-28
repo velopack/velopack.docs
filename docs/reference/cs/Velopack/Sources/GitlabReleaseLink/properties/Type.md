@@ -10,7 +10,7 @@
 **Declaring Type:** [GitlabReleaseLink](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 The category type that the asset is listed under. Options: 'Package', 'Image', 'Runbook', 'Other'
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes.RuntimeInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
  The unique Id of this runtime. Can be used to retrieve a runtime instance with [GetRuntimeByName(string)](../../methods/GetRuntimeByName.md)
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [Shortcuts](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 Create a shortcut to the currently running executable at the specified locations.  See [CreateShortcut(string, ShortcutLocation, bool, string, string)](CreateShortcut.md) to create a shortcut to a different program
 

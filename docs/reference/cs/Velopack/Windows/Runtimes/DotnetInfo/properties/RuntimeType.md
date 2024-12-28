@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes.DotnetInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
  The type of runtime required, eg. Windows Desktop, AspNetCore, Sdk.
 

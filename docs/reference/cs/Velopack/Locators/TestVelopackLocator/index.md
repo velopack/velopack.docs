@@ -14,7 +14,7 @@ sidebar_label: TestVelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 Provides a mock \/ test implementation of [VelopackLocator](../VelopackLocator/index.md). This can be used to verify that your application is able to find and prepare updates from your chosen update source without actually having an installed application. This could be used in a CI\/CD pipeline, or unit tests etc.
 

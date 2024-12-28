@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 Override the default [IVelopackLocator](../../Locators/IVelopackLocator/index.md) used to search for application paths. This will be cached and potentially re\-used throughout the lifetime of the application.
 

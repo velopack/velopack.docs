@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [VelopackHook](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 ```csharp
 public VelopackHook(object object, IntPtr method);

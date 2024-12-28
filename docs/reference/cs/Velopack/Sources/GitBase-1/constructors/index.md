@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [GitBase\<T\>](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 ```csharp
 public GitBase(string repoUrl, string accessToken, bool prerelease, IFileDownloader downloader = null);

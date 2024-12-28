@@ -14,7 +14,7 @@ sidebar_label: RID
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 ```csharp
 public class RID : IEquatable<RID>

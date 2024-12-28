@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [Runtimes.DotnetInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 ```csharp
 public DotnetInfo(Version minversion, RuntimeCpu architecture, Runtimes.DotnetRuntimeType runtimeType = Runtimes.DotnetRuntimeType.WindowsDesktop);

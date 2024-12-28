@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [ZipPackage](../index.md)  
 **Namespace:** [Velopack.NuGet](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1015+c29a8ec
+**Assembly Version:** 0.0.1023+8e1beca
 
 ```csharp
 public ZipPackage(string filePath, bool loadUpdateExe = false);
