@@ -10,7 +10,7 @@
 **Declaring Type:** [ReleaseEntry](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 Parse the contents of a RELEASES file into a list of [ReleaseEntry](../index.md)'s.
 

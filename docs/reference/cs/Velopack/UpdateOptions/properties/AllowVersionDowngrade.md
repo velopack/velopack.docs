@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateOptions](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 Allows UpdateManager to update to a version that's lower than the current version (i.e. downgrading). This could happen if a release has bugs and was retracted from the release feed, or if you're using [ExplicitChannel](ExplicitChannel.md) to switch channels to another channel where the latest version on that  channel is lower than the current version.
 

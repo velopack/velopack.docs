@@ -15,7 +15,7 @@ sidebar_label: Runtimes.DotnetInfo
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
  Represents a modern DOTNET runtime where versions are deployed independenly of the operating system 
 

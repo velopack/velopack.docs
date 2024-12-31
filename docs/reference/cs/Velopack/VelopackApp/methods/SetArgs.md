@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 Override the command line arguments used to determine the Velopack hook to run. If this is not set, the command line arguments passed to the application will be used.
 

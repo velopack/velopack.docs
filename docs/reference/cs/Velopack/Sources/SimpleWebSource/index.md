@@ -14,7 +14,7 @@ sidebar_label: SimpleWebSource
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 Retrieves updates from a static file host or other web server.  Will perform a request for '{baseUri}\/RELEASES' to locate the available packages, and provides query parameters to specify the name of the requested package.
 

@@ -14,7 +14,7 @@ sidebar_label: VelopackRuntimeInfo
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 Convenience class which provides runtime information about the current executing process,  in a way that is safe in older and newer versions of the framework.
 

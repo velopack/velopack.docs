@@ -14,7 +14,7 @@ sidebar_label: VelopackApp
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 VelopackApp helps you to handle app activation events correctly. This should be used as early as possible in your application startup code. (eg. the beginning of Main() in Program.cs)
 

@@ -14,7 +14,7 @@ sidebar_label: VelopackAssetType
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 Represents a Velopack Asset Type.
 
@@ -22,7 +22,9 @@ Represents a Velopack Asset Type.
 public enum VelopackAssetType
 {
     Full = 1,
-    Delta = 2
+    Delta = 2,
+    Portable = 3,
+    Installer = 4
 }
 ```
 
@@ -30,10 +32,12 @@ public enum VelopackAssetType
 
 ## Fields
 
-| Name  | Description               |
-| ----- | ------------------------- |
-| Delta |  A delta update package.  |
-| Full  |  A full update package.   |
+| Name      | Description                           |
+| --------- | ------------------------------------- |
+| Delta     |  A delta update package.              |
+| Full      |  A full update package.               |
+| Installer |  An application installer archive.    |
+| Portable  |  A portable application zip archive.  |
 
 ___
 

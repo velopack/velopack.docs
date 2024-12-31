@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [GiteaSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 ```csharp
 public GiteaSource(string repoUrl, string accessToken, bool prerelease, IFileDownloader downloader = null);

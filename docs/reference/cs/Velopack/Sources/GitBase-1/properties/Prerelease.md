@@ -10,7 +10,7 @@
 **Declaring Type:** [GitBase\<T\>](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 If true, the latest upcoming\/prerelease release will be downloaded. If false, the latest  stable release will be downloaded.
 

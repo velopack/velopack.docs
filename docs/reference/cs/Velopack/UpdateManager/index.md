@@ -14,7 +14,7 @@ sidebar_label: UpdateManager
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 Provides functionality for checking for updates, downloading updates, and applying updates to the current application.
 

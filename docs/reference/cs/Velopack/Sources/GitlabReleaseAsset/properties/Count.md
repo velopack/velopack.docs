@@ -10,7 +10,7 @@
 **Declaring Type:** [GitlabReleaseAsset](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 The amount of assets linked to the release.
 

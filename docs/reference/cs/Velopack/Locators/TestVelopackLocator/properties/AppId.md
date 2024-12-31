@@ -10,7 +10,7 @@
 **Declaring Type:** [TestVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 ```csharp
 public string AppId { get; }

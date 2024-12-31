@@ -15,7 +15,7 @@ sidebar_label: Runtimes.DotnetRuntimeType
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
  Dotnet Runtime SKU 
 
@@ -24,7 +24,8 @@ public enum Runtimes.DotnetRuntimeType
 {
     Runtime = 1,
     AspNetCore = 2,
-    WindowsDesktop = 3
+    WindowsDesktop = 3,
+    Sdk = 4
 }
 ```
 
@@ -32,11 +33,12 @@ public enum Runtimes.DotnetRuntimeType
 
 ## Fields
 
-| Name           | Description                                                                         |
-| -------------- | ----------------------------------------------------------------------------------- |
-| AspNetCore     |  The The ASP.NET Core Runtime enables you to run existing web\/server applications  |
-| Runtime        |  The .NET Runtime contains just the components needed to run a console app          |
-| WindowsDesktop |  The .NET Desktop Runtime enables you to run existing Windows desktop applications  |
+| Name           | Description                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------- |
+| AspNetCore     |  The The ASP.NET Core Runtime enables you to run existing web\/server applications                |
+| Runtime        |  The .NET Runtime contains just the components needed to run a console app                        |
+| Sdk            |  The .NET SDK contains all other runtimes and tools necessary for developing dotnet applications  |
+| WindowsDesktop |  The .NET Desktop Runtime enables you to run existing Windows desktop applications                |
 
 ___
 

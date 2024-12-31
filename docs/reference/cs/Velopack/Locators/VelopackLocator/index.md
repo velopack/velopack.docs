@@ -14,7 +14,7 @@ sidebar_label: VelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 A base class describing where Velopack can find key folders and files.
 

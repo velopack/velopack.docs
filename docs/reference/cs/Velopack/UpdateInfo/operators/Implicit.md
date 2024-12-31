@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 Implicitly convert an [UpdateInfo](../index.md) to a [VelopackAsset](../../VelopackAsset/index.md).
 

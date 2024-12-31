@@ -10,7 +10,7 @@
 **Declaring Type:** [ZipPackageFile](../index.md)  
 **Namespace:** [Velopack.NuGet](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1023+8e1beca
+**Assembly Version:** 0.0.1049+da27736
 
 ## Overloads
 
