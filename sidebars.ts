@@ -62,7 +62,7 @@ const sidebars: SidebarsConfig = {
         link("C# / UnityMono", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUnityMono", "Velopack with [Unity Game Engine](https://unity.com/) and Mono."),
         link("C# / Uno", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUno", "Velopack in a cross-platform app with [Uno Platform](https://github.com/unoplatform/uno)."),
         link("C# / Wpf", "https://github.com/velopack/velopack/tree/develop/samples/CSharpWpf", "Velopack with WPF on Windows."),
-        link("C# / WinForms", "https://github.com/velopack/velopack/tree/develop/samples/CSharpWinFroms", "Velopack with WinForms on Windows."),
+        link("C# / WinForms", "https://github.com/velopack/velopack/tree/develop/samples/CSharpWinForms", "Velopack with WinForms on Windows."),
         link("NodeJS / Electron", "https://github.com/velopack/velopack/tree/develop/samples/NodeJSElectron", "Velopack in a cross-platform JavaScript app with [Electron](https://www.electronjs.org/)."),
         link("Rust / Iced", "https://github.com/velopack/velopack/tree/develop/samples/RustIced", "Velopack in a cross-platform app with [Iced](https://github.com/iced-rs/iced)."),
         //!! AUTO-GENERATED-END SAMPLES-TOC
