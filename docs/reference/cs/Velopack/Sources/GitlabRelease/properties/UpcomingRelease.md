@@ -10,7 +10,7 @@
 **Declaring Type:** [GitlabRelease](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 True if this is intended for an upcoming release.
 

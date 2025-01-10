@@ -10,7 +10,7 @@
 **Declaring Type:** [LinuxVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
  A pointer to \/var\/tmp\/{velopack}, a location on linux which is semi\-persistent. 
 

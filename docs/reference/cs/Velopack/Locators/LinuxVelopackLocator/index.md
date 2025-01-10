@@ -14,7 +14,7 @@ sidebar_label: LinuxVelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 The default for OSX. All application files will remain in the '.app'. All additional files (log, etc) will be placed in a temporary directory.
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackRuntimeInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 Returns the shortened OS name as a string, suitable for creating an RID.
 

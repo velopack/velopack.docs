@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [ReleaseEntryName](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 Create a new ReleaseEntryName from the given package name, version, delta status, and runtime identifier.
 

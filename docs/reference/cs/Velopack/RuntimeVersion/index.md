@@ -14,7 +14,7 @@ sidebar_label: RuntimeVersion
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 A Version class that also supports a single integer (major only)
 

@@ -15,7 +15,7 @@ sidebar_label: Runtimes.VCRedist14
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
  Represents a VC++ 2015\-2022 redistributable package. 
 

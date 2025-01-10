@@ -14,7 +14,7 @@ sidebar_label: VelopackAsset
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 An individual Velopack asset, could refer to an asset on\-disk or in a remote package feed.
 

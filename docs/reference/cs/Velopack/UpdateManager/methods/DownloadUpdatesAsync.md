@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 Downloads the specified updates to the local app packages directory. If the update contains delta packages and ignoreDeltas\=false,  this method will attempt to unpack and prepare them. If there is no delta update available, or there is an error preparing delta  packages, this method will fall back to downloading the full version of the update. This function will acquire a global update lock so may fail if there is already another update operation in progress.
 

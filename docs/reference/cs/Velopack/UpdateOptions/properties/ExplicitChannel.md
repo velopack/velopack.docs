@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateOptions](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 . Overrides the default channel used to fetch updates.              The default channel will be whatever channel was specified on the command line when building this release.              For example, if the current release was packaged with '\-\-channel beta', then the default channel will be 'beta'.             This allows users to automatically receive updates from the same channel they installed from. This options             allows you to explicitly switch channels, for example if the user wished to switch back to the 'stable' channel             without having to reinstall the application.
 

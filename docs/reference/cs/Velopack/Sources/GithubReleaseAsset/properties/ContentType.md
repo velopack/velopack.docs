@@ -10,7 +10,7 @@
 **Declaring Type:** [GithubReleaseAsset](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
  The mime type of this release asset (as detected by GitHub). 
 

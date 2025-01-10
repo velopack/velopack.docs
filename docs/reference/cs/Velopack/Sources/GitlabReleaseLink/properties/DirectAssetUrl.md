@@ -10,7 +10,7 @@
 **Declaring Type:** [GitlabReleaseLink](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 A direct url to the asset, via a traditional URl.  As a posed to using the API. This links directly to the raw asset (file).
 

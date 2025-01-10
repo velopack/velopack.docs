@@ -10,7 +10,7 @@
 **Declaring Type:** [IVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 A flag indicating if this is a portable build, and that the settings should be self\-contained in the package. On Windows, this is true for portable builds, and false for non\-portable builds which were installed by Setup.exe On OSX and Linux, this is always false, because settings and application files should be stored in the user's  home directory.
 

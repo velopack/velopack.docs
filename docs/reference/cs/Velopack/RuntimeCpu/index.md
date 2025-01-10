@@ -14,7 +14,7 @@ sidebar_label: RuntimeCpu
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
  The Runtime CPU Architecture 
 

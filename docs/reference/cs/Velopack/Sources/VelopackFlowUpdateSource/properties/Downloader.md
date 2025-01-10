@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackFlowUpdateSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
  The [IFileDownloader](../../IFileDownloader/index.md) to be used for performing http requests. 
 

@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [GithubSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1049+da27736
+**Assembly Version:** 0.0.1053+0cec039
 
 ```csharp
 public GithubSource(string repoUrl, string accessToken, bool prerelease, IFileDownloader downloader = null);
