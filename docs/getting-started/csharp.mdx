@@ -38,9 +38,13 @@ Get started with .NET 5+ (cross-platform) or .Net Framework.
    ```
 0. Publish dotnet and build your first Velopack release! 🎉
    ```batch
-   dotnet publish -c Release --self-contained -r win-x64 -o .\publish
+   dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
    vpk pack -u YourAppId -v 1.0.0 -p .\publish -e yourMainApp.exe
    ```
+   :::tip
+   Starting with .NET 7, the `-o`/`--output` option [can no longer be used with a solution file](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/7.0/solution-level-output-no-longer-valid?WT.mc_id=DT-MVP-5003472).
+   If you execute the dotnet publish command from within the same directory as the .csproj file, you can omit the project argument. You can find more details on the [dotnet publish documentation](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?WT.mc_id=DT-MVP-5003472#arguments).
+   :::
 
 ✅ You're Done! Your app now has auto-updates and an installer.
 You can upload your release to your website, or use the `vpk upload` command to publish it to the destination of your choice.
