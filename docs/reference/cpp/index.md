@@ -74,6 +74,8 @@ sidebar_position: 0
 
   - [`vpkc_source_report_progress`](doc_Velopack.md#standardese-vpkc_source_report_progress-size_t-int16_t-) &mdash; Sends a progress update to the callback with the specified ID. This is used by custom update sources created with `vpkc_new_source_custom_callback` to report download progress.
 
+  - [`vpkc_unsafe_apply_updates`](doc_Velopack.md#standardese-vpkc_unsafe_apply_updates-vpkc_update_manager_t--vpkc_asset_t--bool-uint32_t-bool-char---size_t-) &mdash; This will launch the Velopack updater and optionally wait for a program to exit gracefully.
+
   - [`vpkc_update_check_t`](doc_Velopack.md#standardese-vpkc_update_check_t) &mdash; The result of a call to check for updates. This can indicate that an update is available, or that an error occurred.
 
   - [`vpkc_update_info_t`](doc_Velopack.md#standardese-vpkc_update_info_t) &mdash; Holds information about the current version and pending updates, such as how many there are, and access to release notes.
@@ -86,4 +88,4 @@ sidebar_position: 0
 
   - [`vpkc_update_source_t`](doc_Velopack.md#standardese-vpkc_update_source_t) &mdash; Opaque type for a Velopack UpdateSource. Must be freed with `vpkc_free_update_source`.
 
-  - [`vpkc_wait_exit_then_apply_update`](doc_Velopack.md#standardese-vpkc_wait_exit_then_apply_update-vpkc_update_manager_t--vpkc_asset_t--bool-bool-char---size_t-) &mdash; This will launch the Velopack updater and tell it to wait for this program to exit gracefully.
+  - [`vpkc_wait_exit_then_apply_updates`](doc_Velopack.md#standardese-vpkc_wait_exit_then_apply_updates-vpkc_update_manager_t--vpkc_asset_t--bool-bool-char---size_t-) &mdash; This will launch the Velopack updater and tell it to wait for this program to exit gracefully.
