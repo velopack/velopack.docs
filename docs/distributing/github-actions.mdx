@@ -96,13 +96,19 @@ and which flags are available for the `pack` command, [see here](../packaging/ov
 :::tip
 If your repository is private, you will need to provide Velopack with an OAuth token when using the `vpk download`
 and `vpk upload` commands. Simply append the following to both commands: `--token ${{ secrets.GITHUB_TOKEN }}`.
+
+To allow github to upload the release files using the your GITHUB_TOKEN add the following to the top of your yml file 
+```yml
+permissions:
+  contents: write
+```
 :::
 
 ```yml
       - name: Create Velopack Release
         run: |
           dotnet tool install -g vpk
-          vpk download github --repoUrl https://github.com/Myname/Myrepo
+          vpk download github --repoUrl https://github.com/${{ github.repository }}
           vpk pack -u MyUniqueIdentifier -v ${{ steps.get-version.outputs.version }} -p publish
-          vpk upload github --repoUrl https://github.com/Myname/Myrepo --publish --releaseName "MyProject ${{ steps.get-version.outputs.version }}" --tag v${{ steps.get-version.outputs.version }}
+          vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "MyProject ${{ steps.get-version.outputs.version }}" --tag v${{ steps.get-version.outputs.version }}
 ```
