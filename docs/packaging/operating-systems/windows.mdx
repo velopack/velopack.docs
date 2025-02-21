@@ -26,7 +26,7 @@ During updates, the entire `current` directory will be replaced, so if you need 
 please see [Preserving Files](../../integrating/preserved-files.mdx).
 
 On Windows, if any of the files inside `current` are in-use, the folder can not be moved/renamed/deleted, etc. 
-There lots of things that could lock this folder. For example:
+There are lots of things that could lock this folder. For example:
 - A process running inside `current`
 - A process running outside of `current`, which has opened a file inside `current` for reading. 
 - Anti-virus / Windows Defender, etc
@@ -49,7 +49,7 @@ or if you do not provide an image it will be a simple progress bar.
 By default the installer will install to `%LocalAppData%\{packId}` but this can be overridden at runtime with the `Setup.exe --installto {dir}` argument.
 
 Before starting installation, the installer will check that the [App Runtime](../runtime.mdx) is compatible with the current operating system,
-and also check for any missing [boostrapping dependencies](../bootstrapping.mdx).
+and also check for any missing [bootstrapping dependencies](../bootstrapping.mdx).
 
 Also, during installation the installer will run [App Hooks](../../integrating/hooks.mdx), as well as launch the application for the first time 
 once installation has completed. If you would like to prevent the application from being launched after install has completed,
