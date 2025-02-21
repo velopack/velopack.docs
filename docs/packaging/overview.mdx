@@ -37,7 +37,7 @@ There are many optional arguments, the best way to see what features are availab
 ### Release output
 When building a release has completed, you should have the following assets in your `--outputDir`:
 - `MyAppId-1.0.0-full.nupkg` - Full Release: contains your entire update package.
-- `MyAppId-1.0.0-delta.nupkg` - Delta Release: only if there was a previous release to build a delta from. These are optional to build/deploy, but speeds up the updating process for sers because they only need to download what's changed between versions instead of the full package.
+- `MyAppId-1.0.0-delta.nupkg` - Delta Release: only if there was a previous release to build a delta from. These are optional to build/deploy, but speeds up the updating process for users because they only need to download what's changed between versions instead of the full package.
 - `MyAppId-Portable.zip` - Portable Release: Can deploy this optionally to allow users to run and update your app without installing.
 - `MyAppId-Setup.exe` - Installer: Used by most users to install the app to the local filesystem.
 - `releases.{channel}.json` - Releases Index: a list of every available release. Used by `UpdateManager` to locate the latest applicable release.

@@ -11,7 +11,7 @@ vpk download http --url https://the.place/you-host/updates
 vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
 ```
 
-There are providers for various sources, such GitHub, S3, HTTP, etc.
+There are providers for various sources, such as GitHub, S3, HTTP, etc.
 
 ## Deploying releases
 In the previous example, we used the `http` source, while that is very generic it does not provide any information about how to upload the releases, so in the following deployment example we will use [AWS S3](https://aws.amazon.com/s3/). 
