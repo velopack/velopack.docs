@@ -21,7 +21,7 @@ On windows, you need to build the Rust binaries using the `windows` feature befo
 
 ```shell
 git clone https://github.com/velopack/velopack.git
-cd velopack/src/Rust
+cd velopack/src/bins
 cargo build --features windows
 cd ../../
 dotnet build
@@ -34,14 +34,14 @@ This is slightly complicated, because you will need to compile Rust on x64 OSX a
 On OSX:
 ```shell
 git clone https://github.com/velopack/velopack.git
-cd velopack/src/Rust
+cd velopack/src/bins
 cargo build --release
 ```
 
 On Windows:
 ```shell
 git clone https://github.com/velopack/velopack.git
-cd velopack/src/Rust
+cd velopack/src/bins
 cargo build --release --features windows
 copy {path_to_osx_update} target/release/updatemac
 dotnet build -c Release /p:PackRustAssets=true
