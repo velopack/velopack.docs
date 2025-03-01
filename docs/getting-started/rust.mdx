@@ -17,9 +17,9 @@ velopack = { version = "0.0", features = ["async"] } # Replace with actual versi
 use velopack::*;
 
 fn main() {
-// VelopackApp should be the first thing to run, in some circumstances it may terminate/restart the process to perform tasks.
-VelopackApp::build().run();
-// Your other app startup code here
+    // VelopackApp should be the first thing to run, in some circumstances it may terminate/restart the process to perform tasks.
+    VelopackApp::build().run();
+    // Your other app startup code here
 }
 ```
 
@@ -28,16 +28,16 @@ VelopackApp::build().run();
 use velopack::*;
 
 fn update_my_app() {
-let source = sources::HttpSource::new("https://the.place/you-host/updates");
-let um = UpdateManager::new(source, None, None).unwrap();
+    let source = sources::HttpSource::new("https://the.place/you-host/updates");
+    let um = UpdateManager::new(source, None, None).unwrap();
 
-if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
-// there was an update available. Download it.
-um.download_updates(&updates, None).unwrap();
+    if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
+        // there was an update available. Download it.
+        um.download_updates(&updates, None).unwrap();
 
-// download completed, let's restart and update
-um.apply_updates_and_restart(&updates).unwrap();
-}
+        // download completed, let's restart and update
+        um.apply_updates_and_restart(&updates).unwrap();
+    }
 }
 ```
 
