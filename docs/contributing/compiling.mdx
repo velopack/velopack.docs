@@ -49,20 +49,20 @@ dotnet build -c Release /p:PackRustAssets=true
 
 ### Preparing Linux
 If you are on Linux (tested on Ubuntu), there are additional package pre-requisites:
-```sh
+```shell
 sudo apt install libssl-dev pkg-config build-essential
 ```
 
-Installing dotnet and setting up the paths are a pain, I recommend using the [dotnet-install.sh](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script) script.
+Installing dotnet and setting up the paths are a pain, I recommend using the [dotnet-install.sh](https://learn.microsoft.com/dotnet/core/tools/dotnet-install-script) script.
 
-```sh
+```shell
 ./dotnet-install.sh -c 6.0
 ./dotnet-install.sh -c 8.0
 ```
 
 And then adding the following to the bottom of your `.bashrc` or `.profile`:
 
-```bash
+```shell
 export DOTNET_ROOT="$HOME/.dotnet"
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 export PATH="$PATH:$HOME/.dotnet"
@@ -71,7 +71,7 @@ export PATH="$PATH:$HOME/.dotnet/tools"
 
 Next, install the missing dotnet tools:
 
-```
+```shell
 dotnet tool install -g dotnet-coverage
 dotnet tool install -g nbgv
 ```
@@ -84,7 +84,7 @@ Once dotnet is configured, you can Install Rust, typically done with the [rustup
 
 To verify that Rust is installed and working correctly, you should compile the Rust binaries in `src/Rust`:
 
-```
+```shell
 cargo build --target x86_64-unknown-linux-gnu --release
 ```
 
