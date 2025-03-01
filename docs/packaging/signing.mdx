@@ -114,7 +114,7 @@ To use it with Velopack do the following:
 0. Download the latest version of JSign from https://ebourg.github.io/jsign/#files
 0. Install the [Azure CLI](https://learn.microsoft.com/cli/azure/) and login with `az login`
 0. Get an [access token](https://learn.microsoft.com/cli/azure/account?view=azure-cli-latest#az-account-get-access-token) by running `az account get-access-token --resource https://codesigning.azure.net`
-0. User the `--signTemplate` option to sign your files.
+0. Use the `--signTemplate` option to sign your files.
 
 ```sh
 vpk pack ... --signTemplate "jsign --storetype TRUSTEDSIGNING --keystore <region> --storepass <api-access-token> --alias <account>/<profile> {{file}}"
