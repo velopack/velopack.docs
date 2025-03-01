@@ -104,8 +104,21 @@ If you have more advanced signing requirements, such as a custom signing tool (e
 ```cmd
 vpk pack ... --signTemplate "AzureSignTool.exe sign ... {{file}}"
 ```
-
 The above will sign one file at a time, but if your signing tool supports batch signing multiple files at a time, you can specify `{{file...}}` instead.
+
+## Cross Platform Signing
+[JSign](https://ebourg.github.io/jsign/) is a versatile code signing tool that runs on Linux, macOS and Windows. It supports a wide range of signing algorithms and timestamping services.
+
+To use it with Velopack do the following:
+1. Follow the steps abose to setup [Azure Trusted Signing](#signing-via-azure-trusted-signing)
+0. Download the latest version of JSign from https://ebourg.github.io/jsign/#files
+0. Install the [Azure CLI](https://learn.microsoft.com/cli/azure/) and login with `az login`
+0. Get an [access token](https://learn.microsoft.com/cli/azure/account?view=azure-cli-latest#az-account-get-access-token) by running `az account get-access-token --resource https://codesigning.azure.net`
+0. User the `--signTemplate` option to sign your files.
+
+```sh
+vpk pack ... --signTemplate "jsign --storetype TRUSTEDSIGNING --keystore <region> --storepass <api-access-token> --alias <account>/<profile> {{file}}"
+```
 
 ## Signing & Notarizing on OSX
 Codesigning and Notarization is required before your application can be run by users, therefore it is a required step before deploying your application.
@@ -177,7 +190,7 @@ It is also posible to store your certificates and notary credentials as Action S
    base64 -i CERT.p12 | pbcopy
    ```
 
-0. Create 7 [Github Secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions) for your Actions workflows
+0. Create 7 [Github Secrets](https://docs.github.com/actions/security-guides/using-secrets-in-github-actions) for your Actions workflows
    - `BUILD_CERTIFICATE_BASE64` (b64 of your app cert)
    - `INSTALLER_CERTIFICATE_BASE64` (b64 of your installer cert)
    - `P12_PASSWORD` (password for the certificates)
