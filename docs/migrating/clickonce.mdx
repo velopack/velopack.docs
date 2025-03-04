@@ -26,7 +26,7 @@ We will need to start by publishing your first Velopack release.
        .WithAfterInstallFastCallback((appVersion) =>
        {
            var uninstallInfo = UninstallInfo.Find("Application Name");
-           if (uninstallInfo == null)
+           if (uninstallInfo != null)
            {
                var uninstaller = new Uninstaller();
                uninstaller.Uninstall(uninstallInfo);
