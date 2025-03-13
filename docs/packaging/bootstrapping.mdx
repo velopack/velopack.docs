@@ -39,6 +39,9 @@ Any of the following can be passed via the `--framework` argument.
 - `vcredist143-x86` (VC++ 14.3 / VS 2022)
 - `vcredist143-x64` (VC++ 14.3 / VS 2022)
 - `vcredist143-arm64` (VC++ 14.3 / VS 2022)
+- `vcredist144-x86` (VC++ 14.4 / VS 2022)
+- `vcredist144-x64` (VC++ 14.4 / VS 2022)
+- `vcredist144-arm64` (VC++ 14.4 / VS 2022)
 
 ### .Net Framework
 - `net45`
@@ -65,11 +68,13 @@ The valid `{type}` values are
 - runtime
 - aspnetcore
 - desktop
+- sdk
 
 Here are some examples:
 - .NET 6.0 Desktop Runtime (x64)  `--framework net6.0-x64-desktop`
 - .NET 8.0 Runtime (arm64)  `--framework net8.0-arm64-runtime`
 - .NET 5.0 AspNetCore (x86)  `--framework net5.0-x86-aspnetcore`
+- .NET 9.0 SDK (x64)  `--framework net9.0-x64-sdk`
 
 By default, Velopack will accept any installed release, but always install the latest. That is to say, if your dependency is specified as `net6.0-x64-desktop` and version `6.0.2` is installed, it will be accepted. If it's not installed, Velopack will download the latest available version (at the time of writing, that's `6.0.26`). 
 
