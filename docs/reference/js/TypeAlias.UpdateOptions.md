@@ -1,10 +1,10 @@
 # Type Alias: UpdateOptions
 
-> **UpdateOptions**: `object`
+> **UpdateOptions** = `object`
 
 Options to customise the behaviour of UpdateManager.
 
-## Type declaration
+## Properties
 
 ### AllowVersionDowngrade
 
@@ -14,6 +14,8 @@ Allows UpdateManager to update to a version that's lower than the current versio
 This could happen if a release has bugs and was retracted from the release feed, or if you're using
 ExplicitChannel to switch channels to another channel where the latest version on that
 channel is lower than the current version.
+
+***
 
 ### ExplicitChannel
 

@@ -8,17 +8,17 @@ This should be used as early as possible in your application startup code.
 
 ### new VelopackApp()
 
-> **new VelopackApp**(): [`VelopackApp`](Class.VelopackApp.md)
+> **new VelopackApp**(): `VelopackApp`
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ## Methods
 
 ### onAfterInstallFastCallback()
 
-> **onAfterInstallFastCallback**(`callback`): [`VelopackApp`](Class.VelopackApp.md)
+> **onAfterInstallFastCallback**(`callback`): `VelopackApp`
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
 Your code will be run and then the process will exit.
@@ -33,13 +33,13 @@ Only supported on windows; On other operating systems, this will never be called
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ***
 
 ### onAfterUpdateFastCallback()
 
-> **onAfterUpdateFastCallback**(`callback`): [`VelopackApp`](Class.VelopackApp.md)
+> **onAfterUpdateFastCallback**(`callback`): `VelopackApp`
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
 Your code will be run and then the process will exit.
@@ -54,13 +54,13 @@ Only supported on windows; On other operating systems, this will never be called
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ***
 
 ### onBeforeUninstallFastCallback()
 
-> **onBeforeUninstallFastCallback**(`callback`): [`VelopackApp`](Class.VelopackApp.md)
+> **onBeforeUninstallFastCallback**(`callback`): `VelopackApp`
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
 Your code will be run and then the process will exit.
@@ -75,13 +75,13 @@ Only supported on windows; On other operating systems, this will never be called
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ***
 
 ### onBeforeUpdateFastCallback()
 
-> **onBeforeUpdateFastCallback**(`callback`): [`VelopackApp`](Class.VelopackApp.md)
+> **onBeforeUpdateFastCallback**(`callback`): `VelopackApp`
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations.
 Your code will be run and then the process will exit.
@@ -96,13 +96,13 @@ Only supported on windows; On other operating systems, this will never be called
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ***
 
 ### onFirstRun()
 
-> **onFirstRun**(`callback`): [`VelopackApp`](Class.VelopackApp.md)
+> **onFirstRun**(`callback`): `VelopackApp`
 
 This hook is triggered when the application is started for the first time after installation.
 
@@ -114,13 +114,13 @@ This hook is triggered when the application is started for the first time after 
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ***
 
 ### onRestarted()
 
-> **onRestarted**(`callback`): [`VelopackApp`](Class.VelopackApp.md)
+> **onRestarted**(`callback`): `VelopackApp`
 
 This hook is triggered when the application is restarted by Velopack after installing updates.
 
@@ -132,7 +132,7 @@ This hook is triggered when the application is restarted by Velopack after insta
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ***
 
@@ -151,7 +151,7 @@ In some circumstances it may terminate/restart the process to perform tasks.
 
 ### setArgs()
 
-> **setArgs**(`args`): [`VelopackApp`](Class.VelopackApp.md)
+> **setArgs**(`args`): `VelopackApp`
 
 Override the command line arguments used by VelopackApp. (by default this is env::args().skip(1))
 
@@ -163,13 +163,13 @@ Override the command line arguments used by VelopackApp. (by default this is env
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ***
 
 ### setAutoApplyOnStartup()
 
-> **setAutoApplyOnStartup**(`autoApply`): [`VelopackApp`](Class.VelopackApp.md)
+> **setAutoApplyOnStartup**(`autoApply`): `VelopackApp`
 
 Set whether to automatically apply downloaded updates on startup. This is ON by default.
 
@@ -181,13 +181,13 @@ Set whether to automatically apply downloaded updates on startup. This is ON by 
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ***
 
 ### setLocator()
 
-> **setLocator**(`locator`): [`VelopackApp`](Class.VelopackApp.md)
+> **setLocator**(`locator`): `VelopackApp`
 
 VelopackLocator provides some utility functions for locating the current app important paths (eg. path to packages, update binary, and so forth).
 
@@ -199,16 +199,16 @@ VelopackLocator provides some utility functions for locating the current app imp
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`
 
 ***
 
 ### build()
 
-> `static` **build**(): [`VelopackApp`](Class.VelopackApp.md)
+> `static` **build**(): `VelopackApp`
 
 Build a new VelopackApp instance.
 
 #### Returns
 
-[`VelopackApp`](Class.VelopackApp.md)
+`VelopackApp`

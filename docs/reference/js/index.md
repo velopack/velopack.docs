@@ -13,7 +13,7 @@ sidebar_position: 0
 
 ## Type Aliases
 
-| Type alias | Description |
+| Type Alias | Description |
 | ------ | ------ |
 | [UpdateInfo](TypeAlias.UpdateInfo.md) | Holds information about the current version and pending updates, such as how many there are, and access to release notes. |
 | [UpdateOptions](TypeAlias.UpdateOptions.md) | Options to customise the behaviour of UpdateManager. |

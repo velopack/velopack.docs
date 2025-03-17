@@ -1,10 +1,10 @@
 # Type Alias: VelopackLocatorConfig
 
-> **VelopackLocatorConfig**: `object`
+> **VelopackLocatorConfig** = `object`
 
 VelopackLocator provides some utility functions for locating the current app important paths (eg. path to packages, update binary, and so forth).
 
-## Type declaration
+## Properties
 
 ### CurrentBinaryDir
 
@@ -12,11 +12,15 @@ VelopackLocator provides some utility functions for locating the current app imp
 
 The directory containing the application's user binaries.
 
+***
+
 ### IsPortable
 
 > **IsPortable**: `boolean`
 
 Whether the current application is portable or installed.
+
+***
 
 ### ManifestPath
 
@@ -24,17 +28,23 @@ Whether the current application is portable or installed.
 
 The current app manifest.
 
+***
+
 ### PackagesDir
 
 > **PackagesDir**: `string`
 
 The path to the packages' directory.
 
+***
+
 ### RootAppDir
 
 > **RootAppDir**: `string`
 
 The root directory of the current app.
+
+***
 
 ### UpdateExePath
 

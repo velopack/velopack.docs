@@ -6,7 +6,7 @@ Provides functionality for checking for updates, downloading updates, and applyi
 
 ### new UpdateManager()
 
-> **new UpdateManager**(`urlOrPath`, `options`?, `locator`?): [`UpdateManager`](Class.UpdateManager.md)
+> **new UpdateManager**(`urlOrPath`, `options`?, `locator`?): `UpdateManager`
 
 Create a new UpdateManager instance.
 
@@ -20,7 +20,7 @@ Create a new UpdateManager instance.
 
 #### Returns
 
-[`UpdateManager`](Class.UpdateManager.md)
+`UpdateManager`
 
 ## Methods
 
