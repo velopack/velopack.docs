@@ -4,7 +4,7 @@ Provides functionality for checking for updates, downloading updates, and applyi
 
 ## Constructors
 
-### new UpdateManager()
+### Constructor
 
 > **new UpdateManager**(`urlOrPath`, `options`?, `locator`?): `UpdateManager`
 

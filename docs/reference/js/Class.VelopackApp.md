@@ -6,7 +6,7 @@ This should be used as early as possible in your application startup code.
 
 ## Constructors
 
-### new VelopackApp()
+### Constructor
 
 > **new VelopackApp**(): `VelopackApp`
 
