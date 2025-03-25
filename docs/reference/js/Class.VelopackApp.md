@@ -203,6 +203,24 @@ VelopackLocator provides some utility functions for locating the current app imp
 
 ***
 
+### setLogger()
+
+> **setLogger**(`callback`): `VelopackApp`
+
+Set a callback to receive log messages from VelopackApp.
+
+#### Parameters
+
+| Parameter | Type |
+| ------ | ------ |
+| `callback` | (`loglevel`, `msg`) => `void` |
+
+#### Returns
+
+`VelopackApp`
+
+***
+
 ### build()
 
 > `static` **build**(): `VelopackApp`
