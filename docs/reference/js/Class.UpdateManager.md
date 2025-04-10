@@ -6,7 +6,7 @@ Provides functionality for checking for updates, downloading updates, and applyi
 
 ### Constructor
 
-> **new UpdateManager**(`urlOrPath`, `options`?, `locator`?): `UpdateManager`
+> **new UpdateManager**(`urlOrPath`, `options?`, `locator?`): `UpdateManager`
 
 Create a new UpdateManager instance.
 
@@ -15,8 +15,8 @@ Create a new UpdateManager instance.
 | Parameter | Type | Description |
 | ------ | ------ | ------ |
 | `urlOrPath` | `string` | Location of the update server or path to the local update directory. |
-| `options`? | [`UpdateOptions`](TypeAlias.UpdateOptions.md) | Optional extra configuration for update manager. |
-| `locator`? | [`VelopackLocatorConfig`](TypeAlias.VelopackLocatorConfig.md) | Override the default locator configuration (usually used for testing / mocks). |
+| `options?` | [`UpdateOptions`](TypeAlias.UpdateOptions.md) | Optional extra configuration for update manager. |
+| `locator?` | [`VelopackLocatorConfig`](TypeAlias.VelopackLocatorConfig.md) | Override the default locator configuration (usually used for testing / mocks). |
 
 #### Returns
 
@@ -39,7 +39,7 @@ UpdateInfo object containing the latest available release, and any delta updates
 
 ### downloadUpdateAsync()
 
-> **downloadUpdateAsync**(`update`, `progress`?): `Promise`\<`void`\>
+> **downloadUpdateAsync**(`update`, `progress?`): `Promise`\<`void`\>
 
 Downloads the specified updates to the local app packages directory. Progress is reported back to the caller via an optional Sender.
 This function will acquire a global update lock so may fail if there is already another update operation in progress.
@@ -53,7 +53,7 @@ This function will acquire a global update lock so may fail if there is already 
 | Parameter | Type |
 | ------ | ------ |
 | `update` | [`UpdateInfo`](TypeAlias.UpdateInfo.md) |
-| `progress`? | (`perc`) => `void` |
+| `progress?` | (`perc`) => `void` |
 
 #### Returns
 
@@ -113,7 +113,7 @@ On MacOS and Linux this will always be true.
 
 ### waitExitThenApplyUpdate()
 
-> **waitExitThenApplyUpdate**(`update`, `silent`?, `restart`?, `restartArgs`?): `void`
+> **waitExitThenApplyUpdate**(`update`, `silent?`, `restart?`, `restartArgs?`): `void`
 
 This will launch the Velopack updater and tell it to wait for this program to exit gracefully.
 You should then clean up any state and exit your app. The updater will apply updates and then
@@ -124,9 +124,9 @@ optionally restart your app. The updater will only wait for 60 seconds before gi
 | Parameter | Type |
 | ------ | ------ |
 | `update` | [`UpdateInfo`](TypeAlias.UpdateInfo.md) |
-| `silent`? | `boolean` |
-| `restart`? | `boolean` |
-| `restartArgs`? | `string`[] |
+| `silent?` | `boolean` |
+| `restart?` | `boolean` |
+| `restartArgs?` | `string`[] |
 
 #### Returns
 
