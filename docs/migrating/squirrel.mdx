@@ -64,7 +64,7 @@ Here are the general steps needed:
 
 0. In general, the command line supports all of the same features, but argument names or commands may have changed. Velopack no longer supports taking a `.nupkg` which was created by dotnet or nuget.exe. You should compile/publish your app, and provide your compiler output to `vpk pack` instead. A very simple example might look like this
    ```cmd
-   dotnet publish --self-contined -r win-x64 -o publish
+   dotnet publish --self-contained -r win-x64 -o publish
    vpk pack -u YourAppId -v 1.0.0 -p publish -e yourMainBinary.exe
    ```
 
