@@ -1,0 +1,49 @@
+# Self hosting
+<AppliesTo all />
+
+<FlowLink /> provides a fully managed solution for distributing applications. It takes care of handling updates, rollbacks by managing the the releases list. It manages organizing and distributing release assests within separate channels, and provides additional features like tiered rollout.
+
+If instead you would prefer to manage your own infrastructure, Velopack provides tooling for downloading and uploading release assets to many common storage providers. The `vpk` tool has support downloading the latest release, and, for several providers, pushing up new release assets after running `vpk pack` (see [Overview](overview.mdx)).
+
+## Amazon S3
+
+[Amazon S3](https://aws.amazon.com/s3/) is a highly scalable, durable, and secure object storage service. 
+
+To upload or download from an S3 bucket you will need to specify either the S3 endpoint or the region. Authentication can be done using an existing session token or by access key ID and secret.
+
+For all of the available options see the [vpk CLI documentation](../reference/cli).
+
+## Azure Blob storage
+
+[Azure Blob Storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction) is a scalable, cost-effective cloud storage solution for unstructured data. 
+
+You can authenticate to Azure Blob Storage using either a storage account name and access key or by using a shared access signature (SAS). 
+
+For all of the available options see the [vpk CLI documentation](../reference/cli).
+
+## File system
+Velopack supports local file system paths for both "uploading" and "downloading". This is useful for testing or for local development via network drives. The `vpk` tool can be used to pack releases and then copy them to a local directory.
+
+For all of the available options see the [vpk CLI documentation](../reference/cli).
+
+## Gitea
+
+[Gitea](https://gitea.io) is a lightweight, self-hosted Git service. It provides a private, fast, reliable DevOps platform.
+
+When publishing to Gitea the release name will be the same as the version number unless otherwise specified. If an existing release is not found a new one will be created. Optionally if you would prefer to update an existing release you can specify the `--merge` flag.
+
+For all of the available options see the [vpk CLI documentation](../reference/cli).
+
+## GitHub
+
+[GitHub](https://github.com) is a widely used platform for hosting Git repositories and collaborating on software development. It provides features like pull requests, issue tracking, and CI/CD integrations.
+
+When publishing to GitHub, the release name will default to the version number unless specified. If a release with the same name exists, it can be updated using the `--merge` flag.
+
+For all of the available options see the [vpk CLI documentation](../reference/cli).
+
+## HTTP server
+Velopack supports arbitrary HTTP endpoints for downloading. This endpoint must be able to service the `releases.{channel}.json` file, as well as the `nupkg` files. `vpk` does not offer upload support, and it is up to you to upload the updated files to the server after building a new release.
+
+For all of the available options see the [vpk CLI documentation](../reference/cli).
+
