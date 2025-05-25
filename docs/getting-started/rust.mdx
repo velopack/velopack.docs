@@ -39,7 +39,8 @@ To find the most accurate and complete documentation for Rust please visit https
     use velopack::*;
 
     fn update_my_app() {
-        let source = sources::HttpSource::new("https://the.place/you-host/updates");
+        // This will default to using Velopack Flow as the IUpdateSource
+        let source = sources::HttpSource::new();
         let um = UpdateManager::new(source, None, None).unwrap();
 
         if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
