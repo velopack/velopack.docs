@@ -56,7 +56,8 @@ On Windows, you may need to convert `wchar_t*` and `std::wstring` to UTF-8 befor
 
     static void update_app()
     {
-        Velopack::UpdateManager manager("https://the.place/you-host/updates");
+        // This will default to using Velopack Flow as the IUpdateSource
+        Velopack::UpdateManager manager();
 
         auto updInfo = manager.CheckForUpdates();
         if (!updInfo.has_value()) {

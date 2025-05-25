@@ -12,7 +12,8 @@ Now, release notes will be available while checking for updates, for example:
 ```cs
 private static async Task UpdateMyApp()
 {
-    var mgr = new UpdateManager("https://the.place/you-host/updates");
+    // This will default to using Velopack Flow as the IUpdateSource
+    var mgr = new UpdateManager();
 
     var newVersion = await mgr.CheckForUpdatesAsync();
     if (newVersion != null) {

@@ -51,7 +51,8 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
 
     ipcMain.handle("velopack:get-version", () => {
         try {
-            const updateManager = new UpdateManager(updateUrl);
+            // This will default to using Velopack Flow as the IUpdateSource
+            const updateManager = new UpdateManager();
             return updateManager.getCurrentVersion();
         } catch (e) {
             return `Not Installed (${e})`;
@@ -59,7 +60,8 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
     });
 
     ipcMain.handle("velopack:check-for-update", async () => {
-        const updateManager = new UpdateManager(updateUrl);
+        // This will default to using Velopack Flow as the IUpdateSource
+        const updateManager = new UpdateManager();
         return await updateManager.checkForUpdatesAsync();
     });
 

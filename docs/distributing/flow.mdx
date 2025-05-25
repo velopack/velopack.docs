@@ -1,0 +1,42 @@
+---
+sidebar_label: Velopack Flow
+sidebar_position: 1
+---
+
+# Velopack Flow
+<AppliesTo all />
+
+<FlowLink text="Flow" /> is Velopack's hosted solution for distributing applications. It provides a seamless way to distribute your Velopack applications. If you would prefer to self-host your application and manually manage update and rollbacks, see the [self-hosting](self-hosting.mdx) section.
+
+## Features
+
+- Full Managed Solution No need to manage your own infrastructure.
+- [Tiered Rollouts](Flow/tiered-rollout.mdx): Gradually release updates to a subset of users before a full rollout.
+- [Static Links](Flow/static-links.mdx): Static links that can be used to direct users to the latest release of your application, or a specific release.
+- [API](Flow/api.mdx): A REST API that allows you to programmatically manage your releases, channels, and projects.
+
+## Getting Started
+
+### Integrating with Flow
+Simply following current [integration guide](../integrating/overview.mdx) to integrate Velopack into your application. Make sure the [UpdateManager](../reference/cs/Velopack/UpdateManager) is configured to use the [VelopackFlowSource](../reference/cs/Velopack/Sources/VelopackFlowSource) as the [IUpdateSource](../reference/cs/Velopack/Sources/IUpdateSource). This is the default behavior of the default constructor.
+
+### Publishing to Flow
+Start by creating a free account on <FlowLink />.
+
+Once you have an account, you need to create a project. This can be done by click the "Create New Project" button on the main dashboard, or by navigating to the Projects list on your Team's home page.
+Make sure that the Package Id you enter exactly matches the `--packId` you used when building your Velopack release. 
+
+Back in the Velopack CLI, package your application as you normally would following the [packaging guide](../packaging/overview.mdx). 
+
+Next login to the Flow service by running the following command.
+```bash
+vpk login
+```
+For more details on authenticating with Flow through the `vpk` CLI see [Flow Authentication](Flow/authentication.mdx).
+
+You can now upload your release to Flow by running the following command in the directory where your release is located:
+```bash
+vpk publish --outputDir <OutputDir> --channel <Channel>
+```
+
+Done! You can now view the release in Flow. Within a few minutes the release will be available and ready for distrobution.

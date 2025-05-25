@@ -1,0 +1,13 @@
+# API
+<FlowLink /> offers a REST API for interacting with the service. There is an OpenAPI specification that can be browsed with [Swagger](https://swagger.io/) available at https://api.velopack.io/swagger that describes the API endpoints and their parameters. This API allows you to build your own automation tools that integrate with Velopack Flow.
+
+`vpk` supports making direct calls against this API using the `vpk flow api` command. This command allows you to make GET, POST, PUT, and DELETE requests to the Flow API. You can use this command to automate tasks such as creating projects, uploading releases, and managing channels. 
+
+Some sample commands for managing projects:
+- Getting a list of projects: `vpk flow api -m GET -e "v1/projects/list"`
+- Create a new project: `vpk flow api -m POST -e "v1/projects/create" -b '{"name": "My Project Name", "teamIdentifier": "Default Team", "packageId": "company.package.id"}'`
+- Deleting a project: `vpk flow api -m DELETE -e "v1/projects/$($project.id)"`
+
+For all of the available options see the [vpk CLI documentation](../../reference/cli).
+
+

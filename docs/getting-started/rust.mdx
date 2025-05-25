@@ -28,7 +28,7 @@ VelopackApp::build().run();
 use velopack::*;
 
 fn update_my_app() {
-let source = sources::HttpSource::new("https://the.place/you-host/updates");
+let source = sources::HttpSource::new();
 let um = UpdateManager::new(source, None, None).unwrap();
 
 if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
