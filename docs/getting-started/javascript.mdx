@@ -77,7 +77,8 @@ Some users have reported an `invalid peer certificate: UnknownIssuer` error from
 
     ipcMain.handle("velopack:get-version", () => {
         try {
-            const updateManager = new UpdateManager(updateUrl);
+            // This will default to using Velopack Flow as the IUpdateSource
+            const updateManager = new UpdateManager();
             return updateManager.getCurrentVersion();
         } catch (e) {
             return `Not Installed (${e})`;
@@ -85,7 +86,8 @@ Some users have reported an `invalid peer certificate: UnknownIssuer` error from
     });
 
     ipcMain.handle("velopack:check-for-update", async () => {
-        const updateManager = new UpdateManager(updateUrl);
+        // This will default to using Velopack Flow as the IUpdateSource
+        const updateManager = new UpdateManager();
         return await updateManager.checkForUpdatesAsync();
     });
 

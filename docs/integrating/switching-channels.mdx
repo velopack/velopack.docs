@@ -7,7 +7,7 @@ If no channel was ever specified (neither at packaging time nor via `ExplicitCha
 However, from time to time, it may be useful to allow a user to switch channels without re-installing the application. For example, a user opts into getting "beta" features via your application settings. In that case, you can provide the channel explicitly:
 
 ```cs
-new UpdateManager("https://the.place/you-host/updates", new UpdateOptions { 
+new UpdateManager(new UpdateOptions { 
     ExplicitChannel = "beta" 
 });
 ```
@@ -24,7 +24,7 @@ Also by default, the UpdateManager will only update to versions which are newer 
 For this reason, when switching channels it's recommended to use the `ExplicitChannel` option together with the `AllowVersionDowngrade` option. For example:
 
 ```cs
-new UpdateManager("https://the.place/you-host/updates", new UpdateOptions { 
+new UpdateManager(new UpdateOptions { 
     ExplicitChannel = "beta",
     AllowVersionDowngrade = true,
 });
