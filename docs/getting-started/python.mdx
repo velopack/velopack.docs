@@ -37,7 +37,8 @@ Get started with our python library.
 
     ```python
     def update_app():
-        manager = velopack.UpdateManager("https://the.place/you-host/updates")
+        # This will default to using Velopack Flow as the IUpdateSource
+        manager = velopack.UpdateManager()
 
         update_info = manager.check_for_updates()
         if not update_info:

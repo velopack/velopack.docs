@@ -52,7 +52,8 @@ Updates can be accomplished by adding [UpdateManager](../reference/cs/Velopack/U
 ```cs
 private static async Task UpdateMyApp()
 {
-    var mgr = new UpdateManager("https://the.place/you-host/updates");
+    // This will default to using Velopack Flow as the IUpdateSource
+    var mgr = new UpdateManager();
 
     // check for new version
     var newVersion = await mgr.CheckForUpdatesAsync();
@@ -72,6 +73,7 @@ Updates can be done silently in the background, or integrated into your applicat
 :::
 
 You can host your update packages basically anywhere, here are a few examples:
+- <FlowLink />:<br/>`new UpdateManager()` 
 - Local directory:<br/>`new UpdateManager("C:\Updates")`
 - HTTP server, or S3, Azure Storage, etc:<br/>`new UpdateManager("https://the.place/you-host/updates")`
 - GitHub Releases:<br/>`new UpdateManager(new GitHubSource("https://github.com/yourName/yourRepo")`
