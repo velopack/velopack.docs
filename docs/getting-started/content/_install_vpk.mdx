@@ -1,0 +1,16 @@
+<FancyStep step={props.step}>
+    <details>
+        <summary>
+            <strong>Install `vpk`</strong>
+        </summary>
+
+        Velopack uses a command line tool called `vpk` to package and publish releases. 
+        It is distributed as a [.NET global tool](https://learn.microsoft.com/dotnet/core/tools/global-tools). Though Velopack can be used with app from [various languages](/#language-support), the .NET is required to install and run `vpk`.
+        You can install the .NET SDK from the [.NET download page](https://dotnet.microsoft.com/download/dotnet).
+
+        Once .NET is installed, you can install `vpk` by running:
+        ```cmd
+        dotnet tool install -g vpk
+        ```
+    </details>
+</FancyStep>

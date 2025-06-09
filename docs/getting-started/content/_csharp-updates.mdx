@@ -1,0 +1,30 @@
+<FancyStep step={props.step}>
+    <details>
+        <summary>
+            <strong>Add update check within your app</strong>
+        </summary>
+
+        Velopack provides a simple way to check for updates and apply them. 
+        The following show how to implement a basic update check within your application. 
+        
+        You can also split up the various methods to allow your users control of when to check for updates, download them, or apply them.
+
+        ```csharp
+        private static async Task UpdateMyApp()
+        {
+            var mgr = new UpdateManager("https://the.place/you-host/updates");
+
+            // check for new version
+            var newVersion = await mgr.CheckForUpdatesAsync();
+            if (newVersion == null)
+                return; // no update available
+
+            // download new version
+            await mgr.DownloadUpdatesAsync(newVersion);
+
+            // install new version and restart app
+            mgr.ApplyUpdatesAndRestart(newVersion);
+        }
+        ```
+    </details>
+</FancyStep>

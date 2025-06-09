@@ -41,9 +41,10 @@ const sidebars: SidebarsConfig = {
     "index",
     {
       type: 'category',
-      label: 'Quick Start',
+      label: 'Getting Started',
       items: [
         doc("getting-started/csharp", "C# / .NET"),
+        doc("getting-started/wpf", "C# / WPF"),
         doc("getting-started/cpp", "C / C++"),
         doc("getting-started/electron", "JS / Electron"),
         doc("getting-started/rust", "Rust"),
