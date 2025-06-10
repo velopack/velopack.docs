@@ -2,10 +2,9 @@ import InstallNuGet from './content/_install-nuget.mdx';
 import CSharpMain from './content/_csharp-main.mdx';
 import CSharpUpdates from './content/_csharp-updates.mdx';
 import InstallVpk from './content/_install-vpk.mdx';
+import CSharpPublish from './content/_csharp-publish.mdx';
 import BuildRelease from './content/_build-release.mdx';
 import Completion from './content/_completion.mdx';
-import Admonition from '@theme/Admonition';
-
 
 # Getting Started: C# / WPF
 <AppliesTo win />
@@ -63,30 +62,7 @@ Get started with .NET 5+ (cross-platform) or .NET Framework.
 
 <InstallVpk step={5}/>
 
-<FancyStep step={6}>
-    <details>
-        <summary>
-            <strong>Publish App</strong>
-        </summary>
-
-        Before building a Velopack release, you must first build your application and publish it to a directory.
-
-        For simplicity, we recommend publishing it as a [self-contained application](https://learn.microsoft.com/en-us/dotnet/core/deploying/#publish-self-contained).
-
-        ```batch
-        dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
-        ```
-        <Admonition type="tip">
-            Starting with .NET 7, the `-o`/`--output` option [can no longer be used with a solution file](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/7.0/solution-level-output-no-longer-valid?WT.mc_id=DT-MVP-5003472).
-        
-            Starting with .NET 8 and later, the `dotnet publish` command defaults to the Release configuration, so you can omit the `-c Release` option.
-            For more details see https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/dotnet-publish-config.
-        
-            If you execute the dotnet publish command from within the same directory as the .csproj file, you can omit the project argument. You can find more details on the [dotnet publish documentation](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?WT.mc_id=DT-MVP-5003472#arguments).
-        </Admonition>
-        
-    </details>
-</FancyStep>
+<CSharpPublish step={6}/>
 
 <BuildRelease step={7}/>
 

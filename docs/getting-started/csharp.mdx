@@ -1,50 +1,25 @@
-# Getting Started: .NET
+import InstallNuGet from './content/_install-nuget.mdx';
+import CSharpMain from './content/_csharp-main.mdx';
+import CSharpUpdates from './content/_csharp-updates.mdx';
+import InstallVpk from './content/_install-vpk.mdx';
+import CSharpPublish from './content/_csharp-publish.mdx';
+import BuildRelease from './content/_build-release.mdx';
+import Completion from './content/_completion.mdx';
+
+# Getting Started: .NET Console / Generic C# App
 <AppliesTo all />
 Get started with .NET 5+ (cross-platform) or .NET Framework.
 
-1. Install the  [Velopack NuGet Package](https://www.nuget.org/packages/velopack) in your main project:
-   ```cmd
-   dotnet add package Velopack
-   ```
-0. Configure your Velopack app at the beginning of `Program.Main`:
-   ```cs
-   static void Main(string[] args)
-   {
-       VelopackApp.Build().Run();
-       // ... your other startup code below
-   }
-   ```
-0. Add automatic updating to your app:
-   ```cs
-   private static async Task UpdateMyApp()
-   {
-       var mgr = new UpdateManager("https://the.place/you-host/updates");
+<InstallNuGet step={1}/>
 
-       // check for new version
-       var newVersion = await mgr.CheckForUpdatesAsync();
-       if (newVersion == null)
-           return; // no update available
+<CSharpMain step={2}/>
 
-       // download new version
-       await mgr.DownloadUpdatesAsync(newVersion);
+<CSharpUpdates step={3}/>
 
-       // install new version and restart app
-       mgr.ApplyUpdatesAndRestart(newVersion);
-   }
-   ```
-0. Install the command line tool `vpk`:
-   ```cmd
-   dotnet tool update -g vpk
-   ```
-0. Publish dotnet and build your first Velopack release! 🎉
-   ```batch
-   dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
-   vpk pack -u YourAppId -v 1.0.0 -p .\publish -e yourMainApp.exe
-   ```
-   :::tip
-   Starting with .NET 7, the `-o`/`--output` option [can no longer be used with a solution file](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/7.0/solution-level-output-no-longer-valid?WT.mc_id=DT-MVP-5003472).
-   If you execute the dotnet publish command from within the same directory as the .csproj file, you can omit the project argument. You can find more details on the [dotnet publish documentation](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?WT.mc_id=DT-MVP-5003472#arguments).
-   :::
+<InstallVpk step={4}/>
 
-✅ You're Done! Your app now has auto-updates and an installer.
-You can upload your release to your website, or use the `vpk upload` command to publish it to the destination of your choice.
+<CSharpPublish step={5}/>
+
+<BuildRelease step={6}/>
+
+<Completion />
