@@ -1,3 +1,5 @@
+import Admonition from '@theme/Admonition';
+
 <FancyStep step={props.step} noline={true}>
     <details>
         <summary>
@@ -6,10 +8,23 @@
 
         You are now ready to build a Velopack release for your application. 
 
+        The `--packId` can be any unique application identifier that you wish to use. Because this must be unique across all applications, 
+        we recommend including your company name: `<CompanyName>.<AppName>`.
+
+        The `--mainExe` option is only required if your executable name is different than the `--packId` of your application.
+
         See the [CLI reference](/reference/cli/) for more details on the available options.
 
         ```cmd
-        vpk pack -u YourAppId -v 1.0.0 -p .\publish -e yourMainApp.exe
+        vpk pack --packId YourAppId --packVersion 1.0.0 --packDir .\publish --mainExe yourMainApp.exe
         ```
+
+        {props.includeWarningTip && (
+        <Admonition type="tip">
+            <code>vpk</code> will produce the a warning saying that the <code>VelopackApp.Run()</code> was 
+            not found in the entry point of your application. 
+            This is expected, and the warning can be safely ignored for this type of application.
+        </Admonition>
+        )}
     </details>
 </FancyStep>

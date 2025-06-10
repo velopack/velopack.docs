@@ -1,68 +1,57 @@
+import InstallNuGet from './content/_install-nuget.mdx';
+import CSharpUpdates from './content/_csharp-updates.mdx';
+import CSharpPublish from './content/_csharp-publish.mdx';
+import InstallVpk from './content/_install-vpk.mdx';
+import BuildRelease from './content/_build-release.mdx';
+import Completion from './content/_completion.mdx';
+
+
 # Getting Started: Uno Platform
 <AppliesTo all />
 
 The Uno Platform provies .NET developers with an open-source platform for building single codebase native mobile, web, desktop and embedded apps quickly. Velopack offers a cross platform solution for deploying the desktop (Windows, macOS, and Linux) versions of those applications. For publishing other platforms see [Uno Platform's documentation](https://platform.uno/docs/articles/uno-publishing-overview.html).
 
-1. Start by creating a new Uno application following [Uno Platform's Getting Started guide](https://platform.uno/docs/articles/get-started.html). 
+<FancyStep step={1}>
+    <details>
+        <summary>
+            <strong>Create Uno Project</strong>
+        </summary>
 
-0. Add the Velopack NuGet package to the Uno project by running 
-   ```cmd
-   dotnet add package Velopack
-   ```
+        Start by creating a new Uno application following [Uno Platform's Getting Started guide](https://platform.uno/docs/articles/get-started.html).
+    </details> 
+</FancyStep>
 
-0. Inside of the App.xaml.cs add the following lines to the beginning of the constructor.
-   ```csharp
-   public App()
-   {
-       // It's important to Run() the VelopackApp as early as possible in app startup.
-       VelopackApp.Build()
-           .WithFirstRun((v) => { /* Your first run code here */ })
-           .Run();
-       this.InitializeComponent();
-   }
-   ```
+<InstallNuGet step={2}/>
 
-0. Add automatic updating somewhere in your app:
-   ```cs
-   private static async Task UpdateMyApp()
-   {
-       var mgr = new UpdateManager("https://the.place/you-host/updates");
+<FancyStep step={3}>
+    <details>
+        <summary>
+            <strong>Configure Velopack at the beginning of App.xaml.cs</strong>
+        </summary>
 
-       // check for new version
-       var newVersion = await mgr.CheckForUpdatesAsync();
-       if (newVersion == null)
-           return; // no update available
+        Add the following code to your `App.xaml.cs` file:
+         ```csharp
+         public App()
+         {
+            // It's important to Run() the VelopackApp as early as possible in app startup.
+            VelopackApp.Build()
+               .WithFirstRun((v) => { /* Your first run code here */ })
+               .Run();
+            this.InitializeComponent();
+         }
+         ```
+    </details>
+</FancyStep>
 
-       // download new version
-       await mgr.DownloadUpdatesAsync(newVersion);
+<CSharpUpdates step={4}/>
 
-       // install new version and restart app
-       mgr.ApplyUpdatesAndRestart(newVersion);
-   }
-   ```
+<CSharpPublish step={5} 
+               showMultipleTfmSuggestion={true}
+               suffix="For additional information on publishing your Uno application see the <a href=&quot;https://platform.uno/docs/articles/uno-publishing-overview.html&quot;>Uno publishing guides</a>"
+               />
+               
+<InstallVpk step={6}/>
 
-0. Compile the artifacts to be deployed. Though it is not strictly necessary to set an assembly version, it is best practice to version the application to match the installer version.  
-   ```cmd
-   dotnet publish -f net8.0-desktop -p:Version=1.0.0 -o .\publish
-   ```
-   This will create the artifacts to be installed inside of the `publish` directory. If you are targeting Windows or Mac Catalyst separately this process will need to be repeated for each of those platforms.
-   For additional information on publishing your Uno application see the [Uno publishing guides](https://platform.uno/docs/articles/uno-publishing-overview.html)
+<BuildRelease step={7} includeWarningTip={true}/>
 
-0. Install the Velopack command line utility. This is installed as a [dotnet global tool](https://learn.microsoft.com/dotnet/core/tools/global-tools). Install it by running
-   ```cmd
-   dotnet tool install -g vpk
-   ```
-
-0. Build the installer. For this example, we will provide the same version number for the installer as we did above for the application version. 
-   ```cmd
-   vpk pack --packId <AppId> --packVersion 1.0.0 --packDir .\publish --mainExe <MyUnoApp>.exe
-   ```
-   The AppId can be any unique application identifier that you wish to use. Typically this will be the same as the name as your application. The --mainExe option is only required if your executable name is different than the --packId of your application.
-   :::tip
-   VPK will produce the following warning that can safely be ignored:
-   `VelopackApp.Run() was found in method 'System.Void <YourAppName>.App::.ctor()', which does not look like your application's entry point. It is strongly recommended that you move this to the very beginning of your Main() method.`
-   :::
-   For more information on this warning see [Integration Overview](../integrating/overview.mdx#application-startup)
-   By default, Velopack will create the installers and the needed installer files inside of a Release directory. This can be configured with the --outputDir option. 
-
-✅ You're Done! These files can then be uploaded it a [variety of locations for distribution](../distributing/overview.mdx).
+<Completion />

@@ -10,9 +10,36 @@ import Admonition from '@theme/Admonition';
 
         For simplicity, we recommend publishing it as a [self-contained application](https://learn.microsoft.com/en-us/dotnet/core/deploying/#publish-self-contained).
 
-        ```batch
-        dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
-        ```
+        {!props.showMultipleTfmSuggestion && (
+            <>
+            <p>
+            <code className="language-bash">
+            dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
+            </code>
+            </p>
+            </>
+        )}
+        
+
+        {props.showMultipleTfmSuggestion && (
+            <>
+                <p>
+                <code className="language-cmd">
+                dotnet publish -f net8.0-desktop -p:Version=1.0.0 -o .\publish
+                </code>
+                </p>
+                <p>
+                This will create the artifacts to be installed inside of the <code>publish</code> directory. If you are targeting multiple platforms this process will need to be repeated for each of those platforms replacing the <code>-f</code> option with the appropriate target framework moniker (TFM) for each platform, such as <code>net8.0-windows</code> or <code>net8.0-maccatalyst</code>.
+                </p>
+            </>
+        )}
+
+        {props.suffix && (
+            <p>
+                <span dangerouslySetInnerHTML={{ __html: props.suffix }} />
+            </p>
+        )}
+
         <Admonition type="tip">
             Starting with .NET 7, the `-o`/`--output` option [can no longer be used with a solution file](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/7.0/solution-level-output-no-longer-valid?WT.mc_id=DT-MVP-5003472).
         
