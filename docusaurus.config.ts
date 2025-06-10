@@ -30,6 +30,7 @@ const config: Config = {
       redirects: [
         { from: '/packaging/rid', to: '/packaging/runtime' },
         { from: '/troubleshooting/cli', to: '/reference/cli' },
+        { from: '/category/quick-start', to: '/category/getting-started' },
       ],
     }],
   ],
