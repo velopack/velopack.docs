@@ -1,4 +1,10 @@
+import InstallVpk from './content/_install-vpk.mdx';
+import BuildRelease from './content/_build-release.mdx';
+import Completion from './content/_completion.mdx';
+
+
 # Getting Started: C / C++
+
 <AppliesTo all />
 Get started with our cross-platform C / C++ library.
 
@@ -11,62 +17,98 @@ All the strings (eg. `char*` or `std::string`) are expected to be UTF-8 encoded.
 On Windows, you may need to convert `wchar_t*` and `std::wstring` to UTF-8 before passing it to the library.
 :::
 
-1. Download the latest `velopack_libc_{version}.zip` from [GitHub Releases](https://github.com/velopack/velopack/releases) and include it into your project.
+<FancyStep step={1}>
+    <details>
+        <summary>
+            <strong>Download Velopack C/C++ library</strong>
+        </summary>
 
-0. Add the `include` directory to your include path, and add the appropriate binary from `lib` to your linker options.
+        Download the latest `velopack_libc_{version}.zip` from [GitHub Releases](https://github.com/velopack/velopack/releases) and include it into your project.
+        Extract the contents of the zip file to a directory you can reference in your project.
+    </details>
+</FancyStep>
 
-0. Add `VelopackApp` to your entry point (eg. `main()` or `wmain()`) as early as possible, ideally the first statement to run:
-    ```cpp
-    #include "Velopack.h"
+<FancyStep step={2}>
+    <details>
+        <summary>
+            <strong>Include Velopack in your project</strong>
+        </summary>
 
-    wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
-    {
-        // This should run as early as possible in the main method.
-        // Velopack may exit / restart the app at this point. 
-        // See VelopackApp class for more options/configuration.
-        Velopack::VelopackApp::Build().Run();
+        Add the `include` directory from the extracted content to your include path, and add the appropriate binary from `lib` to your linker options.
+        You will find both a `lib` and `lib-static` directories in the extracted contents.
+    </details>
+</FancyStep>
 
-        // ... your other startup code here
-    }
-    ```
 
-0. Add auto-updates somewhere to your app:
-    ```cpp
-    #include "Velopack.h"
+<FancyStep step={3}>
+    <details>
+        <summary>
+            <strong>Configure Velopack at the beginning of Main</strong>
+        </summary>
 
-    static void update_app()
-    {
-        Velopack::UpdateManager manager("https://the.place/you-host/updates");
+        Add `VelopackApp` to your entry point (eg. `main()` or `wmain()`) as early as possible, ideally the first statement to run:
+        ```cpp
+        #include "Velopack.h"
 
-        auto updInfo = manager.CheckForUpdates();
-        if (!updInfo.has_value()) {
-            return; // no updates available
+        wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
+        {
+            // This should run as early as possible in the main method.
+            // Velopack may exit / restart the app at this point. 
+            // See VelopackApp class for more options/configuration.
+            Velopack::VelopackApp::Build().Run();
+
+            // ... your other startup code here
         }
+        ```
+    </details>
+</FancyStep>
 
-        // download the update, optionally providing progress callbacks
-        manager.DownloadUpdates(updInfo.value());
+<FancyStep step={4}>
+    <details>
+        <summary>
+            <strong>Add update check within your app</strong>
+        </summary>
 
-        // prepare the Updater in a new process, and wait 60 seconds for this process to exit
-        manager.WaitExitThenApplyUpdate(updInfo.value());
-        exit(0); // exit the app to apply the update
-    }
-    ```
+        Velopack provides a simple way to check for updates and apply them. 
+        The following show how to implement a basic update check within your application. 
+        
+        You can also split up the various methods to allow your users to control when to check for updates, download them, or apply them.
 
-0. Install the `vpk` command line tool:
-    ```sh
-    dotnet tool update -g vpk
-    ```
-    :::tip
-    ***You must have the .NET Core SDK 8 installed to use and update `vpk`***
-    :::
+        ```cpp
+        #include "Velopack.h"
 
+        static void update_app()
+        {
+            Velopack::UpdateManager manager("https://the.place/you-host/updates");
 
-0. Compile your app to a program using your usual compiler (eg. msvc, cmake, gcc, etc)
+            auto updInfo = manager.CheckForUpdates();
+            if (!updInfo.has_value()) {
+                return; // no updates available
+            }
 
-0. Package your Velopack release / installers:
-    ```sh
-    vpk pack -u MyAppUniqueId -v 1.0.0 -p /myBuildDir -e myexename.exe
-    ```
+            // download the update, optionally providing progress callbacks
+            manager.DownloadUpdates(updInfo.value());
 
-✅ You're Done! Your app now has auto-updates and an installer.
-You can upload your release to your website, or use the `vpk upload` command to publish it to the destination of your choice.
+            // prepare the Updater in a new process, and wait 60 seconds for this process to exit
+            manager.WaitExitThenApplyUpdate(updInfo.value());
+            exit(0); // exit the app to apply the update
+        }
+        ```
+    </details>
+</FancyStep>
+
+<InstallVpk step={5}/>
+
+<FancyStep step={6}>
+    <details>
+        <summary>
+            <strong>Compile your app</strong>
+        </summary>
+
+        Compile your app to a program using your usual compiler (eg. msvc, cmake, gcc, etc)
+    </details>
+</FancyStep>
+
+<BuildRelease step={7}/>
+
+<Completion />
