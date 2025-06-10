@@ -1,3 +1,10 @@
+import InstallNpm from './content/_install-npm.mdx';
+import InstallVpk from './content/_install-vpk.mdx';
+import BuildRelease from './content/_build-release.mdx';
+import Completion from './content/_completion.mdx';
+import Admonition from '@theme/Admonition';
+
+
 # Getting Started: JS / Electron
 <AppliesTo all />
 Get started with our NPM package for JS & Electron.
@@ -9,129 +16,136 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
 ```
 :::
 
-1. Add Velopack to your `package.json`:
-    ```txt
-    npm install velopack
-    ```
+<InstallNpm step={1}/>
 
-0. Add the following code to your entry point (eg. `index.ts`) as early as possible (before any electron startup code etc.):
-    ```js
-    const { VelopackApp } = require('velopack');
+<FancyStep step={2}>
+    <details>
+        <summary>
+            <strong>Configure Velopack at the beginning of your entry point</strong>
+        </summary>
 
-    // Velopack builder needs to be the first thing to run in the main process.
-    // In some cases, it might quit/restart the process to perform tasks.
-    VelopackApp.build().run();
+        Add the following code to your entry point (eg. `index.ts`) as early as possible (before any electron startup code etc.):
+        ```js
+        const { VelopackApp } = require('velopack');
 
-    // ... your other app startup code here
-    ```
-    :::warning
-    If you currently have any "Squirrel" startup code you should remove this now. For example:
-    ```
-    npm uninstall electron-squirrel-startup @electron-forge/maker-squirrel 
-    ```
-    :::
+        // Velopack builder needs to be the first thing to run in the main process.
+        // In some cases, it might quit/restart the process to perform tasks.
+        VelopackApp.build().run();
 
-0. Add auto-updates to your app:
-    This has some complexity because of electron's IPC model and that Velopack has a native node module.
+        // ... your other app startup code here
+        ```
 
-    First, you should setup IPC handlers in your main application thread:
-    ```js
-    const { VelopackApp } = require('velopack');
+        <Admonition type="warning" title="Squirrel Startup Code">
+            If you currently have any "Squirrel" startup code you should remove this now. For example:
+            ```
+            npm uninstall electron-squirrel-startup @electron-forge/maker-squirrel 
+            ```
+        </Admonition>
+    </details>
+</FancyStep>
 
-    ipcMain.handle("velopack:get-version", () => {
-        try {
+<FancyStep step={3}>
+    <details>
+        <summary>
+            <strong>Add update check within your app</strong>
+        </summary>
+
+        This has some complexity because of electron's IPC model and that Velopack has a native node module.
+
+        First, you should setup IPC handlers in your main application thread:
+        ```js
+        const { VelopackApp } = require('velopack');
+
+        ipcMain.handle("velopack:get-version", () => {
+            try {
+                const updateManager = new UpdateManager(updateUrl);
+                return updateManager.getCurrentVersion();
+            } catch (e) {
+                return `Not Installed (${e})`;
+            }
+        });
+
+        ipcMain.handle("velopack:check-for-update", async () => {
             const updateManager = new UpdateManager(updateUrl);
-            return updateManager.getCurrentVersion();
-        } catch (e) {
-            return `Not Installed (${e})`;
-        }
-    });
+            return await updateManager.checkForUpdatesAsync();
+        });
 
-    ipcMain.handle("velopack:check-for-update", async () => {
-        const updateManager = new UpdateManager(updateUrl);
-        return await updateManager.checkForUpdatesAsync();
-    });
+        ipcMain.handle("velopack:download-update", async (_, updateInfo) => {
+            const updateManager = new UpdateManager(updateUrl);
+            await updateManager.downloadUpdateAsync(updateInfo);
+            return true;
+        });
 
-    ipcMain.handle("velopack:download-update", async (_, updateInfo) => {
-        const updateManager = new UpdateManager(updateUrl);
-        await updateManager.downloadUpdateAsync(updateInfo);
-        return true;
-    });
+        ipcMain.handle("velopack:apply-update", async (_, updateInfo) => {
+            const updateManager = new UpdateManager(updateUrl);
+            await updateManager.waitExitThenApplyUpdate(updateInfo);
+            app.quit();
+            return true;
+        });
+        ```
 
-    ipcMain.handle("velopack:apply-update", async (_, updateInfo) => {
-        const updateManager = new UpdateManager(updateUrl);
-        await updateManager.waitExitThenApplyUpdate(updateInfo);
-        app.quit();
-        return true;
-    });
-    ```
+        Next, you need to expose these functions to your renderer processes in `preload.ts`
+        ```js
+        import { contextBridge, ipcRenderer } from "electron";
+        import type { UpdateInfo } from "velopack";
 
-    Next, you need to expose these functions to your renderer processes in `preload.ts`
-    ```js
-    import { contextBridge, ipcRenderer } from "electron";
-    import type { UpdateInfo } from "velopack";
-
-    interface VelopackBridgeApi {
-        getVersion: () => Promise<string>,
-        checkForUpdates: () => Promise<UpdateInfo>,
-        downloadUpdates: (updateInfo: UpdateInfo) => Promise<boolean>,
-        applyUpdates: (updateInfo: UpdateInfo) => Promise<boolean>,
-    }
-
-    declare global {
-        interface Window {
-            velopackApi: VelopackBridgeApi;
-        }
-    }
-
-    const velopackApi: VelopackBridgeApi = {
-        getVersion: () => ipcRenderer.invoke("velopack:get-version"),
-        checkForUpdates: () => ipcRenderer.invoke("velopack:check-for-update"),
-        downloadUpdates: (updateInfo: UpdateInfo) => ipcRenderer.invoke("velopack:download-update", updateInfo),
-        applyUpdates: (updateInfo: UpdateInfo) => ipcRenderer.invoke("velopack:apply-update", updateInfo)
-    };
-
-    contextBridge.exposeInMainWorld("velopackApi", velopackApi);
-    ```
-
-    Lastly, you can now use these functions in your renderer to provide an update UI to your users:
-    ```js
-    async function updateApp() {
-        // check for new version
-        const updateInfo = await window.velopackApi.checkForUpdates();
-        if (!updateInfo) {
-            return; // no updates available
+        interface VelopackBridgeApi {
+            getVersion: () => Promise<string>,
+            checkForUpdates: () => Promise<UpdateInfo>,
+            downloadUpdates: (updateInfo: UpdateInfo) => Promise<boolean>,
+            applyUpdates: (updateInfo: UpdateInfo) => Promise<boolean>,
         }
 
-        // download new version
-        await window.velopackApi.downloadUpdates(updateInfo);
+        declare global {
+            interface Window {
+                velopackApi: VelopackBridgeApi;
+            }
+        }
 
-        // install new version and restart app
-        await window.velopackApi.applyUpdates(updateInfo);
-    }
+        const velopackApi: VelopackBridgeApi = {
+            getVersion: () => ipcRenderer.invoke("velopack:get-version"),
+            checkForUpdates: () => ipcRenderer.invoke("velopack:check-for-update"),
+            downloadUpdates: (updateInfo: UpdateInfo) => ipcRenderer.invoke("velopack:download-update", updateInfo),
+            applyUpdates: (updateInfo: UpdateInfo) => ipcRenderer.invoke("velopack:apply-update", updateInfo)
+        };
 
-    ```
+        contextBridge.exposeInMainWorld("velopackApi", velopackApi);
+        ```
 
-    Review our Electron sample app for a more complete example.
- 
+        Lastly, you can now use these functions in your renderer to provide an update UI to your users:
+        ```js
+        async function updateApp() {
+            // check for new version
+            const updateInfo = await window.velopackApi.checkForUpdates();
+            if (!updateInfo) {
+                return; // no updates available
+            }
 
-0. Compile your app to a binary (eg. `.exe` on Windows). Example using electron forge:
-    ```sh
-    npx electron-forge package
-    ```
+            // download new version
+            await window.velopackApi.downloadUpdates(updateInfo);
 
-0. Install the `vpk` command line tool:
-    ```sh
-    dotnet tool update -g vpk
-    ```
-    :::tip
-    ***You must have the .NET Core SDK 8 installed to use and update `vpk`***
-    :::
+            // install new version and restart app
+            await window.velopackApi.applyUpdates(updateInfo);
+        }
+        ```
+    </details>
+</FancyStep>
 
-0. Package your Velopack release / installers:
-    ```sh
-    vpk pack -u MyAppUniqueId -v 1.0.0 -p ./myBuildDir -e myexename.exe
-    ```
+<FancyStep step={4}>
+    <details>
+        <summary>
+            <strong>Build your app</strong>
+        </summary>
 
-✅ You're Done! Your app now has auto-updates and an installer.
-You can upload your release to your website, or use the `vpk upload` command to publish it to the destination of your choice.
+        Compile your app to a binary (eg. `.exe` on Windows). Example using electron forge:
+        ```sh
+        npx electron-forge package
+        ```
+    </details>
+</FancyStep>
+
+<InstallVpk step={5}/>
+
+<BuildRelease step={6}/>
+
+<Completion />
