@@ -19,7 +19,6 @@ import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import ContentVisibility from '@theme/ContentVisibility';
 import Giscus from '@site/src/components/Giscus';
-import HitTracker from '@site/src/components/HitTracker';
 
 import styles from './styles.module.css';
 
@@ -71,7 +70,6 @@ export default function DocItemLayout({children}) {
               <>
                 <br />
                 <br />
-                <HitTracker />
                 <Giscus />
               </>
             )}

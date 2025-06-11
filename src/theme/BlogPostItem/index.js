@@ -13,7 +13,6 @@ import BlogPostItemHeader from '@theme/BlogPostItem/Header';
 import BlogPostItemContent from '@theme/BlogPostItem/Content';
 import BlogPostItemFooter from '@theme/BlogPostItem/Footer';
 import Giscus from '@site/src/components/Giscus';
-import HitTracker from '@site/src/components/HitTracker';
 
 // apply a bottom margin in list view
 function useContainerClassName() {
@@ -36,7 +35,6 @@ export default function BlogPostItem({
       {(!disable_comments && isBlogPostPage) && (
         <>
           <br />
-          <HitTracker />
           <Giscus />
         </>
       )}
