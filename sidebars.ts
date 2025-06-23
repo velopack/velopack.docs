@@ -47,6 +47,7 @@ const sidebars: SidebarsConfig = {
         doc("getting-started/wpf", "C# / WPF"),
         doc("getting-started/cpp", "C / C++"),
         doc("getting-started/electron", "JS / Electron"),
+        doc("getting-started/python", "Python"),
         doc("getting-started/rust", "Rust"),
         doc("getting-started/uno", "C# / Uno Platform"),
       ],
