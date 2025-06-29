@@ -18,97 +18,72 @@ On Windows, you may need to convert `wchar_t*` and `std::wstring` to UTF-8 befor
 :::
 
 <FancyStep step={1}>
-    <details>
-        <summary>
-            <strong>Download Velopack C/C++ library</strong>
-        </summary>
-
-        Download the latest `velopack_libc_{version}.zip` from [GitHub Releases](https://github.com/velopack/velopack/releases) and include it into your project.
-        Extract the contents of the zip file to a directory you can reference in your project.
-    </details>
+    Download the latest `velopack_libc_{version}.zip` from [GitHub Releases](https://github.com/velopack/velopack/releases) and include it into your project.
+    Extract the contents of the zip file to a directory you can reference in your project.
 </FancyStep>
 
 <FancyStep step={2}>
-    <details>
-        <summary>
-            <strong>Include Velopack in your project</strong>
-        </summary>
-
-        Add the `include` directory from the extracted content to your include path, and add the appropriate binary from `lib` to your linker options.
-        You will find both a `lib` and `lib-static` directories in the extracted contents.
-    </details>
+    Add the `include` directory from the extracted content to your include path, and add the appropriate binary from `lib` to your linker options.
+    You will find both a `lib` and `lib-static` directories in the extracted contents.
 </FancyStep>
 
 
 <FancyStep step={3}>
-    <details>
-        <summary>
-            <strong>Configure Velopack at the beginning of Main</strong>
-        </summary>
+    Add `VelopackApp` to your entry point (eg. `main()` or `wmain()`) as early as possible, ideally the first statement to run:
+    ```cpp
+    #include "Velopack.h"
 
-        Add `VelopackApp` to your entry point (eg. `main()` or `wmain()`) as early as possible, ideally the first statement to run:
-        ```cpp
-        #include "Velopack.h"
+    wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
+    {
+        // This should run as early as possible in the main method.
+        // Velopack may exit / restart the app at this point. 
+        // See VelopackApp class for more options/configuration.
+        Velopack::VelopackApp::Build().Run();
 
-        wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
-        {
-            // This should run as early as possible in the main method.
-            // Velopack may exit / restart the app at this point. 
-            // See VelopackApp class for more options/configuration.
-            Velopack::VelopackApp::Build().Run();
-
-            // ... your other startup code here
-        }
-        ```
-    </details>
+        // ... your other startup code here
+    }
+    ```
 </FancyStep>
 
 <FancyStep step={4}>
-    <details>
-        <summary>
-            <strong>Add update check within your app</strong>
-        </summary>
+    Velopack provides a simple way to check for updates and apply them. 
+    The following show how to implement a basic update check within your application. 
+    
+    You can also split up the various methods to allow your users to control when to check for updates, download them, or apply them.
 
-        Velopack provides a simple way to check for updates and apply them. 
-        The following show how to implement a basic update check within your application. 
-        
-        You can also split up the various methods to allow your users to control when to check for updates, download them, or apply them.
+    ```cpp
+    #include "Velopack.h"
 
-        ```cpp
-        #include "Velopack.h"
+    static void update_app()
+    {
+        Velopack::UpdateManager manager("https://the.place/you-host/updates");
 
-        static void update_app()
-        {
-            Velopack::UpdateManager manager("https://the.place/you-host/updates");
-
-            auto updInfo = manager.CheckForUpdates();
-            if (!updInfo.has_value()) {
-                return; // no updates available
-            }
-
-            // download the update, optionally providing progress callbacks
-            manager.DownloadUpdates(updInfo.value());
-
-            // prepare the Updater in a new process, and wait 60 seconds for this process to exit
-            manager.WaitExitThenApplyUpdate(updInfo.value());
-            exit(0); // exit the app to apply the update
+        auto updInfo = manager.CheckForUpdates();
+        if (!updInfo.has_value()) {
+            return; // no updates available
         }
-        ```
-    </details>
+
+        // download the update, optionally providing progress callbacks
+        manager.DownloadUpdates(updInfo.value());
+
+        // prepare the Updater in a new process, and wait 60 seconds for this process to exit
+        manager.WaitExitThenApplyUpdate(updInfo.value());
+        exit(0); // exit the app to apply the update
+    }
+    ```
 </FancyStep>
 
 <FancyStep step={5}>
-    <details>
-        <summary>
-            <strong>Compile your app</strong>
-        </summary>
-
-        Compile your app to a program using your usual compiler (eg. msvc, cmake, gcc, etc)
-    </details>
+    Compile your app to a program using your usual compiler (eg. msvc, cmake, gcc, etc)
+    Make a note of the the output directory, as you will need it to package your app.
 </FancyStep>
 
-<InstallVpk step={6}/>
+<FancyStep step={6}>
+    <InstallVpk />
+</FancyStep>
 
-<BuildRelease step={7}/>
+<FancyStep step={7} noline={true}>
+    <BuildRelease />
+</FancyStep>
 
 <Completion />

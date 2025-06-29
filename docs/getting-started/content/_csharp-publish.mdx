@@ -1,53 +1,46 @@
 import Admonition from '@theme/Admonition';
 
-<FancyStep step={6}>
-    <details>
-        <summary>
-            <strong>Publish App</strong>
-        </summary>
+Before building a Velopack release, you must first build your application and publish it to a directory.
 
-        Before building a Velopack release, you must first build your application and publish it to a directory.
 
-        For simplicity, we recommend publishing it as a [self-contained application](https://learn.microsoft.com/en-us/dotnet/core/deploying/#publish-self-contained).
+{!props.showMultipleTfmSuggestion && (
+    <>
+    <p>
+    For simplicity, we recommend publishing it as a <a href="https://learn.microsoft.com/dotnet/core/deploying/#publish-self-contained">self-contained application</a>.
+    </p>
+    <p>
+    <code className="language-bash">
+    dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
+    </code>
+    </p>
+    </>
+)}
 
-        {!props.showMultipleTfmSuggestion && (
-            <>
-            <p>
-            <code className="language-bash">
-            dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
-            </code>
-            </p>
-            </>
-        )}
-        
 
-        {props.showMultipleTfmSuggestion && (
-            <>
-                <p>
-                <code className="language-cmd">
-                dotnet publish -f net8.0-desktop -p:Version=1.0.0 -o .\publish
-                </code>
-                </p>
-                <p>
-                This will create the artifacts to be installed inside of the <code>publish</code> directory. If you are targeting multiple platforms this process will need to be repeated for each of those platforms replacing the <code>-f</code> option with the appropriate target framework moniker (TFM) for each platform, such as <code>net8.0-windows</code> or <code>net8.0-maccatalyst</code>.
-                </p>
-            </>
-        )}
+{props.showMultipleTfmSuggestion && (
+    <>
+        <p>
+        <code className="language-cmd">
+        dotnet publish -f net8.0-desktop -p:Version=1.0.0 -o .\publish
+        </code>
+        </p>
+        <p>
+        This will create the artifacts to be installed inside of the <code>publish</code> directory. If you are targeting multiple platforms this process will need to be repeated for each of those platforms replacing the <code>-f</code> option with the appropriate target framework moniker (TFM) for each platform, such as <code>net8.0-windows</code> or <code>net8.0-maccatalyst</code>.
+        </p>
+    </>
+)}
 
-        {props.suffix && (
-            <p>
-                <span dangerouslySetInnerHTML={{ __html: props.suffix }} />
-            </p>
-        )}
+{props.suffix && (
+    <p>
+        <span dangerouslySetInnerHTML={{ __html: props.suffix }} />
+    </p>
+)}
 
-        <Admonition type="tip">
-            Starting with .NET 7, the `-o`/`--output` option [can no longer be used with a solution file](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/7.0/solution-level-output-no-longer-valid?WT.mc_id=DT-MVP-5003472).
-        
-            Starting with .NET 8 and later, the `dotnet publish` command defaults to the Release configuration, so you can omit the `-c Release` option.
-            For more details see https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/dotnet-publish-config.
-        
-            If you execute the dotnet publish command from within the same directory as the .csproj file, you can omit the project argument. You can find more details on the [dotnet publish documentation](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?WT.mc_id=DT-MVP-5003472#arguments).
-        </Admonition>
-        
-    </details>
-</FancyStep>
+<Admonition type="tip">
+    Starting with .NET 7, the `-o`/`--output` option [can no longer be used with a solution file][def].
+
+    Starting with .NET 8 and later, the `dotnet publish` command defaults to the Release configuration, so you can omit the `-c Release` option.
+    For more details see https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/dotnet-publish-config.
+
+    If you execute the dotnet publish command from within the same directory as the .csproj file, you can omit the project argument. You can find more details on the [dotnet publish documentation](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?WT.mc_id=DT-MVP-5003472#arguments).
+</Admonition>

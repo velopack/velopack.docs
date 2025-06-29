@@ -1,4 +1,3 @@
-import InstallPip from './content/_install-pip.mdx';
 import InstallVpk from './content/_install-vpk.mdx';
 import BuildRelease from './content/_build-release.mdx';
 import Completion from './content/_completion.mdx';
@@ -9,74 +8,62 @@ import Admonition from '@theme/Admonition';
 <AppliesTo all />
 Get started with our python library.
 
-
-<InstallPip step={1}/>
+<FancyStep step={1}>
+    Install velopack from the Python Package Index:
+    ```txt
+    pip install velopack
+    ```
+</FancyStep>
 
 <FancyStep step={2}>
-    <details>
-        <summary>
-            <strong>Configure Velopack at the beginning of your entry point</strong>
-        </summary>
+    Add the following code to your entry point (eg. `main.py`) as early as possible (before any electron startup code etc.):
+    ```python
+    import velopack
 
-        Add the following code to your entry point (eg. `main.py`) as early as possible (before any electron startup code etc.):
-        ```python
-        import velopack
+    if __name__ == "__main__":
+        # Velopack builder needs to be the first thing to run in the main process.
+        # In some cases, it might quit/restart the process to perform tasks.
+        velopack.App().run()
 
-        if __name__ == "__main__":
-            # Velopack builder needs to be the first thing to run in the main process.
-            # In some cases, it might quit/restart the process to perform tasks.
-            velopack.App().run()
-
-            # ... your other app startup code here
-        ```
-
-    </details>
+        # ... your other app startup code here
+    ```
 </FancyStep>
 
 <FancyStep step={3}>
-    <details>
-        <summary>
-            <strong>Add update check within your app</strong>
-        </summary>
+    Velopack provides a simple way to check for updates and apply them. 
+    The following shows how to implement a basic update check within your application. 
+    
+    You can also split up the various methods to allow your users to control when to check for updates, download them, or apply them.
 
-        Velopack provides a simple way to check for updates and apply them. 
-        The following shows how to implement a basic update check within your application. 
-        
-        You can also split up the various methods to allow your users to control when to check for updates, download them, or apply them.
+    ```python
+    def update_app():
+        manager = velopack.UpdateManager("https://the.place/you-host/updates")
 
-        ```python
-        def update_app():
-            manager = velopack.UpdateManager("https://the.place/you-host/updates")
+        update_info = manager.check_for_updates()
+        if not update_info:
+            return # no updates available
 
-            update_info = manager.check_for_updates()
-            if not update_info:
-                return # no updates available
+        # Download the updates, optionally providing progress callbacks
+        manager.download_updates(update_info)
 
-            # Download the updates, optionally providing progress callbacks
-            manager.download_updates(update_info)
-
-            # Apply the update and restart the app
-            manager.apply_updates_and_restart(update_info)
-        ```
-
-    </details>
+        # Apply the update and restart the app
+        manager.apply_updates_and_restart(update_info)
+    ```
 </FancyStep>
 
 <FancyStep step={4}>
-    <details>
-        <summary>
-            <strong>Build your app</strong>
-        </summary>
-
-        Compile your app to a binary (eg. `.exe` on Windows). Example using PyInstaller:
-        ```sh
-        pyinstaller --onedir app.py
-        ```
-    </details>
+    Compile your app to a binary (eg. `.exe` on Windows). Example using PyInstaller:
+    ```sh
+    pyinstaller --onedir app.py
+    ```
 </FancyStep>
 
-<InstallVpk step={5}/>
+<FancyStep step={5}>
+    <InstallVpk />
+</FancyStep>
 
-<BuildRelease step={6}/>
+<FancyStep step={6} noline={true}>
+    <BuildRelease />
+</FancyStep>
 
 <Completion />

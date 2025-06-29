@@ -1,4 +1,3 @@
-import InstallCargo from './content/_install-cargo.mdx';
 import InstallVpk from './content/_install-vpk.mdx';
 import BuildRelease from './content/_build-release.mdx';
 import Completion from './content/_completion.mdx';
@@ -13,68 +12,60 @@ To find the most accurate and complete documentation for Rust please visit https
 
 
 ## Quick Start
-<InstallCargo step={1}/>
+<FancyStep step={1}>
+    Add Velopack to your `Cargo.toml`:
+    ```toml
+    [dependencies]
+    velopack = { version = "0.0", features = ["async"] } # Replace with actual version and desired features
+    ```
+</FancyStep>
 
 <FancyStep step={2}>
-    <details>
-        <summary>
-            <strong>Configure Velopack at the beginning of main</strong>
-        </summary>
+    Add the following code to your `main()` function:
+    ```rust
+    use velopack::*;
 
-        Add the following code to your `main()` function:
-        ```rust
-        use velopack::*;
-
-        fn main() {
-        // VelopackApp should be the first thing to run, in some circumstances it may terminate/restart the process to perform tasks.
-        VelopackApp::build().run();
-        // Your other app startup code here
-        }
-        ```
-    </details>
+    fn main() {
+    // VelopackApp should be the first thing to run, in some circumstances it may terminate/restart the process to perform tasks.
+    VelopackApp::build().run();
+    // Your other app startup code here
+    }
+    ```
 </FancyStep>
 
 <FancyStep step={3}>
-    <details>
-        <summary>
-            <strong>Add update check within your app</strong>
-        </summary>
+    Add auto-updates somewhere to your app:
+    ```rust
+    use velopack::*;
 
-        Add auto-updates somewhere to your app:
-        ```rust
-        use velopack::*;
+    fn update_my_app() {
+        let source = sources::HttpSource::new("https://the.place/you-host/updates");
+        let um = UpdateManager::new(source, None, None).unwrap();
 
-        fn update_my_app() {
-            let source = sources::HttpSource::new("https://the.place/you-host/updates");
-            let um = UpdateManager::new(source, None, None).unwrap();
+        if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
+            // there was an update available. Download it.
+            um.download_updates(&updates, None).unwrap();
 
-            if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
-                // there was an update available. Download it.
-                um.download_updates(&updates, None).unwrap();
-
-                // download completed, let's restart and update
-                um.apply_updates_and_restart(&updates).unwrap();
-            }
+            // download completed, let's restart and update
+            um.apply_updates_and_restart(&updates).unwrap();
         }
-        ```
-    </details>
+    }
+    ```
 </FancyStep>
 
 <FancyStep step={4}>
-    <details>
-        <summary>
-            <strong>Build your app</strong>
-        </summary>
-
-        Build your app with cargo:
-        ```sh
-        cargo build --release
-        ```
-    </details>
+    Build your app with cargo:
+    ```sh
+    cargo build --release
+    ```
 </FancyStep>
 
-<InstallVpk step={5}/>
+<FancyStep step={5}>
+    <InstallVpk />
+</FancyStep>
 
-<BuildRelease step={6}/>
+<FancyStep step={6} noline={true}>
+    <BuildRelease />
+</FancyStep>
 
 <Completion />
