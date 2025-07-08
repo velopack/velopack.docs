@@ -53,6 +53,7 @@ Get started with .NET 5+ (cross-platform) or .NET Framework.
                 [STAThread]
                 private static void Main(string[] args)
                 {
+                    VelopackApp.Build().Run();
                     App app = new();
                     app.InitializeComponent();
                     app.Run();
