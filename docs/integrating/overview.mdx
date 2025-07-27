@@ -30,10 +30,10 @@ static void Main(string[] args)
 {
     ILogger log = CreateLogger();
     VelopackApp.Build()
-        .WithBeforeUninstallFastCallback((v) => {
+        .OnBeforeUninstallFastCallback((v) => {
             // delete / clean up some files before uninstallation
         })
-        .WithFirstRun((v) => {
+        .OnFirstRun((v) => {
             MessageBox.Show("Thanks for installing my application!");
         })
         .Run(log);

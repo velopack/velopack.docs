@@ -5,7 +5,7 @@
   </auto-generated>   
 -->
 
-# VelopackApp.WithFirstRun Method
+# VelopackApp.OnFirstRun Method
 
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
@@ -15,7 +15,7 @@
 This hook is triggered when the application is started for the first time after installation.
 
 ```csharp
-public VelopackApp WithFirstRun(VelopackHook hook);
+public VelopackApp OnFirstRun(VelopackHook hook);
 ```
 
 ## Parameters

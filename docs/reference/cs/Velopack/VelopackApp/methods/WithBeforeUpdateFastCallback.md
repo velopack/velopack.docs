@@ -5,7 +5,7 @@
   </auto-generated>   
 -->
 
-# VelopackApp.WithBeforeUpdateFastCallback Method
+# VelopackApp.OnBeforeUpdateFastCallback Method
 
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
@@ -15,7 +15,7 @@
 WARNING: FastCallback hooks are run during critical stages of Velopack operations. Your code will be run and then Exit(int) will be called. If your code has not completed within 15 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
 
 ```csharp
-public VelopackApp WithBeforeUpdateFastCallback(VelopackHook hook);
+public VelopackApp OnBeforeUpdateFastCallback(VelopackHook hook);
 ```
 
 ## Parameters

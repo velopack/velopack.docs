@@ -71,7 +71,7 @@ Get started with .NET 5+ (cross-platform) or .NET Framework.
             {
                 // It's important to Run() the VelopackApp as early as possible in app startup.
                 VelopackApp.Build()
-                .WithFirstRun((v) => { /* Your first run code here */ })
+                .OnFirstRun((v) => { /* Your first run code here */ })
                 .Run();
                 this.InitializeComponent();
             }

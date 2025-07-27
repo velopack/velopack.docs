@@ -49,7 +49,7 @@ Here are the general steps needed:
        // Thank the user for installing the app on first run.
        // Note that the MessageBox class below comes from WinForms or WPF.
        VelopackApp.Build()
-           .WithFirstRun(v => MessageBox.Show("Thanks for installing my application!"))
+           .OnFirstRun(v => MessageBox.Show("Thanks for installing my application!"))
            .Run();
    }
    ```

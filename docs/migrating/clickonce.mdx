@@ -23,7 +23,7 @@ We will need to start by publishing your first Velopack release.
 0. Once `ClickOnceUninstaller` is added to your project, we can add a Velopack hook which uninstalls your clickonce app. You should already have `VelopackApp` in your main method at this point, and you'll need to modify it so that we add the clickonce uninstall code on Velopack install:
    ```cs
    VelopackApp.Build()
-       .WithAfterInstallFastCallback((appVersion) =>
+       .OnAfterInstallFastCallback((appVersion) =>
        {
            var uninstallInfo = UninstallInfo.Find("Application Name");
            if (uninstallInfo != null)

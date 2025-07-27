@@ -5,7 +5,7 @@
   </auto-generated>   
 -->
 
-# VelopackApp.WithRestarted Method
+# VelopackApp.OnRestarted Method
 
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
@@ -15,7 +15,7 @@
 This hook is triggered when the application is restarted by Velopack after installing updates.
 
 ```csharp
-public VelopackApp WithRestarted(VelopackHook hook);
+public VelopackApp OnRestarted(VelopackHook hook);
 ```
 
 ## Parameters
