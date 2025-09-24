@@ -37,7 +37,7 @@ public static class CSharpReference
 
         ZipFile.ExtractToDirectory(velopackStream, extractedVelopack);
 
-        var velopackDll = Path.Combine(extractedVelopack, "lib", "netstandard2.0", "Velopack.dll");
+        var velopackDll = Path.Combine(extractedVelopack, "lib", "net9.0", "Velopack.dll");
 
         var p = Process.Start("mddocs", ["apireference", "-a", velopackDll, "-o", outputCsharpReference]);
         await p.WaitForExitAsync();
