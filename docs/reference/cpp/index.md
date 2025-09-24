@@ -6,17 +6,17 @@ sidebar_position: 0
 
   - [`vpkc_app_run`](doc_Velopack.md#standardese-vpkc_app_run-void--) &mdash; VelopackApp helps you to handle app activation events correctly.
 
-  - [`vpkc_app_set_args`](doc_Velopack.md#standardese-vpkc_app_set_args-char---size_t-) &mdash; Override the command line arguments used by VelopackApp. (by default this is env::args().skip(1))
+  - [`vpkc_app_set_args`](doc_Velopack.md#standardese-vpkc_app_set_args-char---size_t-) &mdash; Override the command line arguments used by VelopackApp. (by default this is env::args().skip(1)) @param p\_args An array of command line arguments.
 
   - [`vpkc_app_set_auto_apply_on_startup`](doc_Velopack.md#standardese-vpkc_app_set_auto_apply_on_startup-bool-) &mdash; Set whether to automatically apply downloaded updates on startup. This is ON by default.
 
-  - [`vpkc_app_set_hook_after_install`](doc_Velopack.md#standardese-vpkc_app_set_hook_after_install-vpkc_hook_callback_t-) &mdash; WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+  - [`vpkc_app_set_hook_after_install`](doc_Velopack.md#standardese-vpkc_app_set_hook_after_install-vpkc_hook_callback_t-) &mdash; Sets a callback to be run after the app is installed.
 
-  - [`vpkc_app_set_hook_after_update`](doc_Velopack.md#standardese-vpkc_app_set_hook_after_update-vpkc_hook_callback_t-) &mdash; WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+  - [`vpkc_app_set_hook_after_update`](doc_Velopack.md#standardese-vpkc_app_set_hook_after_update-vpkc_hook_callback_t-) &mdash; Sets a callback to be run after the app is updated.
 
-  - [`vpkc_app_set_hook_before_uninstall`](doc_Velopack.md#standardese-vpkc_app_set_hook_before_uninstall-vpkc_hook_callback_t-) &mdash; WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+  - [`vpkc_app_set_hook_before_uninstall`](doc_Velopack.md#standardese-vpkc_app_set_hook_before_uninstall-vpkc_hook_callback_t-) &mdash; Sets a callback to be run before the app is uninstalled.
 
-  - [`vpkc_app_set_hook_before_update`](doc_Velopack.md#standardese-vpkc_app_set_hook_before_update-vpkc_hook_callback_t-) &mdash; WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+  - [`vpkc_app_set_hook_before_update`](doc_Velopack.md#standardese-vpkc_app_set_hook_before_update-vpkc_hook_callback_t-) &mdash; Sets a callback to be run before the app is updated.
 
   - [`vpkc_app_set_hook_first_run`](doc_Velopack.md#standardese-vpkc_app_set_hook_first_run-vpkc_hook_callback_t-) &mdash; This hook is triggered when the application is started for the first time after installation.
 
@@ -26,7 +26,7 @@ sidebar_position: 0
 
   - [`vpkc_asset_t`](doc_Velopack.md#standardese-vpkc_asset_t) &mdash; An individual Velopack asset, could refer to an asset on-disk or in a remote package feed.
 
-  - [`vpkc_check_for_updates`](doc_Velopack.md#standardese-vpkc_check_for_updates-vpkc_update_manager_t--vpkc_update_info_t--) &mdash; Checks for updates, returning None if there are none available. If there are updates available, this method will return an UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available.
+  - [`vpkc_check_for_updates`](doc_Velopack.md#standardese-vpkc_check_for_updates-vpkc_update_manager_t--vpkc_update_info_t---) &mdash; Checks for updates. If there are updates available, this method will return an UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available.
 
   - [`vpkc_download_asset_delegate_t`](doc_Velopack.md#standardese-vpkc_download_asset_delegate_t) &mdash; User delegate for downloading an asset file. This function is expected to download the provided asset to the provided local file path. Througout, you can use the progress callback to write progress reports.
 
@@ -84,7 +84,7 @@ sidebar_position: 0
 
   - [`vpkc_update_options_t`](doc_Velopack.md#standardese-vpkc_update_options_t) &mdash; Options to customise the behaviour of UpdateManager.
 
-  - [`vpkc_update_pending_restart`](doc_Velopack.md#standardese-vpkc_update_pending_restart-vpkc_update_manager_t--vpkc_asset_t--) &mdash; Returns an UpdateInfo object if there is an update downloaded which still needs to be applied.
+  - [`vpkc_update_pending_restart`](doc_Velopack.md#standardese-vpkc_update_pending_restart-vpkc_update_manager_t--vpkc_asset_t---) &mdash; Returns an asset if there is an update downloaded which still needs to be applied.
 
   - [`vpkc_update_source_t`](doc_Velopack.md#standardese-vpkc_update_source_t) &mdash; Opaque type for a Velopack UpdateSource. Must be freed with `vpkc_free_update_source`.
 

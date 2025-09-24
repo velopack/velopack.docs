@@ -10,20 +10,18 @@
 **Declaring Type:** [HttpClientFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ```csharp
 [AsyncStateMachine(Velopack.Sources.HttpClientFileDownloader/<DownloadBytes>d__3)]
-public Task<byte[]> DownloadBytes(string url, string authorization, string accept, double timeout);
+public Task<byte[]> DownloadBytes(string url, [Nullable(Mono.Cecil.CustomAttributeArgument[])]IDictionary<string, string> headers, double timeout);
 ```
 
 ## Parameters
 
 `url`  string
 
-`authorization`  string
-
-`accept`  string
+`headers`  IDictionary\<string, string\>
 
 `timeout`  double
 

@@ -14,15 +14,19 @@ sidebar_label: GiteaReleaseAsset
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
  Describes a asset (file) uploaded to a Gitea release. 
 
 ```csharp
+[NullableContext(2)]
+[Nullable(0)]
 public class GiteaReleaseAsset
 ```
 
 **Inheritance:** object → GiteaReleaseAsset
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 ## Constructors
 

@@ -14,15 +14,19 @@ sidebar_label: GitlabSource
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Retrieves available releases from a GitLab repository. This class only downloads assets from the very latest GitLab release.
 
 ```csharp
+[NullableContext(1)]
+[Nullable(Mono.Cecil.CustomAttributeArgument[])]
 public class GitlabSource : GitBase<GitlabRelease>
 ```
 
 **Inheritance:** object → [GitBase\<T\>](../GitBase-1/index.md) → GitlabSource
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 ## Constructors
 

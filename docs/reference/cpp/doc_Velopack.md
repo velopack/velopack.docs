@@ -51,9 +51,9 @@
 
     <span class="kwd">bool</span> <a href="#standardese-vpkc_is_portable-vpkc_update_manager_t--"><span class="typ dec var fun">vpkc_is_portable</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">)</span><span class="pun">;</span>
 
-    <span class="kwd">bool</span> <a href="#standardese-vpkc_update_pending_restart-vpkc_update_manager_t--vpkc_asset_t--"><span class="typ dec var fun">vpkc_update_pending_restart</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">)</span><span class="pun">;</span>
+    <span class="kwd">bool</span> <a href="#standardese-vpkc_update_pending_restart-vpkc_update_manager_t--vpkc_asset_t---"><span class="typ dec var fun">vpkc_update_pending_restart</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">)</span><span class="pun">;</span>
 
-    <a href="#standardese-vpkc_update_check_t"><span class="typ dec var fun">vpkc_update_check_t</span></a> <a href="#standardese-vpkc_check_for_updates-vpkc_update_manager_t--vpkc_update_info_t--"><span class="typ dec var fun">vpkc_check_for_updates</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_update</span><span class="pun">)</span><span class="pun">;</span>
+    <a href="#standardese-vpkc_update_check_t"><span class="typ dec var fun">vpkc_update_check_t</span></a> <a href="#standardese-vpkc_check_for_updates-vpkc_update_manager_t--vpkc_update_info_t---"><span class="typ dec var fun">vpkc_check_for_updates</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_update</span><span class="pun">)</span><span class="pun">;</span>
 
     <span class="kwd">bool</span> <a href="#standardese-vpkc_download_updates-vpkc_update_manager_t--vpkc_update_info_t--vpkc_progress_callback_t-void--"><span class="typ dec var fun">vpkc_download_updates</span></a><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_update</span><span class="pun">,</span> <a href="#standardese-vpkc_progress_callback_t"><span class="typ dec var fun">vpkc_progress_callback_t</span></a> <span class="typ dec var fun">cb_progress</span><span class="pun">,</span> <span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
 
@@ -208,6 +208,8 @@ The function should return true if the download was successful, false otherwise.
     <span class="kwd">bool</span> <a href="#standardese-vpkc_update_options_t__AllowVersionDowngrade"><span class="typ dec var fun">AllowVersionDowngrade</span></a><span class="pun">;</span>
 
     <span class="kwd">char</span><span class="pun">*</span> <a href="#standardese-vpkc_update_options_t__ExplicitChannel"><span class="typ dec var fun">ExplicitChannel</span></a><span class="pun">;</span>
+
+    <span class="typ dec var fun">int32_t</span> <a href="#standardese-vpkc_update_options_t__MaximumDeltasBeforeFallback"><span class="typ dec var fun">MaximumDeltasBeforeFallback</span></a><span class="pun">;</span>
 <span class="pun">};</span>
 </code></pre>
 
@@ -233,9 +235,22 @@ This could happen if a release has bugs and was retracted from the release feed,
 <pre><code class="standardese-language-cpp"><span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">ExplicitChannel</span><span class="pun">;</span>
 </code></pre>
 
-**This option should usually be left None**. \<br/\> Overrides the default channel used to fetch updates.
+**This option should usually be left None/NULL**.
 
-The default channel will be whatever channel was specified on the command line when building this release. For example, if the current release was packaged with ‘–channel beta’, then the default channel will be ‘beta’. This allows users to automatically receive updates from the same channel they installed from. This options allows you to explicitly switch channels, for example if the user wished to switch back to the ‘stable’ channel without having to reinstall the application.
+Overrides the default channel used to fetch updates. The default channel will be whatever channel was specified on the command line when building this release. For example, if the current release was packaged with ‘–channel beta’, then the default channel will be ‘beta’. This allows users to automatically receive updates from the same channel they installed from. This options allows you to explicitly switch channels, for example if the user wished to switch back to the ‘stable’ channel without having to reinstall the application.
+
+-----
+
+### Variable `vpkc_update_options_t::MaximumDeltasBeforeFallback`
+
+<span id="standardese-vpkc_update_options_t__MaximumDeltasBeforeFallback"></span>
+
+<pre><code class="standardese-language-cpp"><span class="typ dec var fun">int32_t</span> <span class="typ dec var fun">MaximumDeltasBeforeFallback</span><span class="pun">;</span>
+</code></pre>
+
+Sets the maximum number of deltas to consider before falling back to a full update.
+
+The default is 10. Set to a negative number (eg. -1) to disable deltas.
 
 -----
 
@@ -291,7 +306,13 @@ Opaque type for the Velopack UpdateManager. Must be freed with `vpkc_free_update
 
 <pre><code class="standardese-language-cpp"><span class="kwd">struct</span> <span class="typ dec var fun">vpkc_update_info_t</span>
 <span class="pun">{</span>
-    <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a> <a href="#standardese-vpkc_update_info_t__TargetFullRelease"><span class="typ dec var fun">TargetFullRelease</span></a><span class="pun">;</span>
+    <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_update_info_t__TargetFullRelease"><span class="typ dec var fun">TargetFullRelease</span></a><span class="pun">;</span>
+
+    <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_update_info_t__BaseRelease"><span class="typ dec var fun">BaseRelease</span></a><span class="pun">;</span>
+
+    <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span><span class="pun">*</span> <a href="#standardese-vpkc_update_info_t__DeltasToTarget"><span class="typ dec var fun">DeltasToTarget</span></a><span class="pun">;</span>
+
+    <span class="typ dec var fun">size_t</span> <a href="#standardese-vpkc_update_info_t__DeltasToTargetCount"><span class="typ dec var fun">DeltasToTargetCount</span></a><span class="pun">;</span>
 
     <span class="kwd">bool</span> <a href="#standardese-vpkc_update_info_t__IsDowngrade"><span class="typ dec var fun">IsDowngrade</span></a><span class="pun">;</span>
 <span class="pun">};</span>
@@ -302,6 +323,9 @@ Holds information about the current version and pending updates, such as how man
 #### Member variables
 
   - `TargetFullRelease` &mdash; The available version that we are updating to.
+  - `BaseRelease` &mdash; The base release that this update is based on. This is only available if the update is a delta update.
+  - `DeltasToTarget` &mdash; The list of delta updates that can be applied to the base version to get to the target version.
+  - `DeltasToTargetCount` &mdash; The number of elements in the DeltasToTarget array.
 
 ### Variable `vpkc_update_info_t::IsDowngrade`
 
@@ -360,6 +384,8 @@ Log callback function.
 
 Create a new FileSource update source for a given file path.
 
+@param psz\_file\_path The path to a local directory containing updates. @returns A new vpkc\_update\_source\_t instance, or null on error.
+
 -----
 
 ## Function `vpkc_new_source_http_url`
@@ -370,6 +396,8 @@ Create a new FileSource update source for a given file path.
 </code></pre>
 
 Create a new HttpSource update source for a given HTTP URL.
+
+@param psz\_http\_url The URL to a remote update server. @returns A new vpkc\_update\_source\_t instance, or null on error.
 
 -----
 
@@ -382,7 +410,7 @@ Create a new HttpSource update source for a given HTTP URL.
 
 Create a new *CUSTOM* update source with user-provided callbacks to fetch release feeds and download assets.
 
-You can report download progress using `vpkc_source_report_progress`. Note that the callbacks must be valid for the lifetime of any UpdateManager’s that use this source. You should call `vpkc_free_source` to free the source, but note that if the source is still in use by an UpdateManager, it will not be freed until the UpdateManager is freed. Therefore to avoid possible issues, it is recommended to create this type of source once for the lifetime of your application.
+You can report download progress using `vpkc_source_report_progress`. Note that the callbacks must be valid for the lifetime of any UpdateManager’s that use this source. You should call `vpkc_free_source` to free the source, but note that if the source is still in use by an UpdateManager, it will not be freed until the UpdateManager is freed. Therefore to avoid possible issues, it is recommended to create this type of source once for the lifetime of your application. @param cb\_release\_feed A callback to fetch the release feed. @param cb\_free\_release\_feed A callback to free the memory allocated by `cb_release_feed`. @param cb\_download\_entry A callback to download an asset. @param p\_user\_data Optional user data to be passed to the callbacks. @returns A new vpkc\_update\_source\_t instance, or null on error. If null, the error will be available via `vpkc_get_last_error`.
 
 -----
 
@@ -395,6 +423,8 @@ You can report download progress using `vpkc_source_report_progress`. Note that 
 
 Sends a progress update to the callback with the specified ID. This is used by custom update sources created with `vpkc_new_source_custom_callback` to report download progress.
 
+@param progress\_callback\_id The ID of the progress callback to send the update to. @param progress The progress value to send (0-100).
+
 -----
 
 ## Function `vpkc_free_source`
@@ -405,6 +435,8 @@ Sends a progress update to the callback with the specified ID. This is used by c
 </code></pre>
 
 Frees a vpkc\_update\_source\_t instance.
+
+@param p\_source The source to free.
 
 -----
 
@@ -417,7 +449,7 @@ Frees a vpkc\_update\_source\_t instance.
 
 Create a new UpdateManager instance.
 
-@param urlOrPath Location of the update server or path to the local update directory. @param options Optional extra configuration for update manager. @param locator Override the default locator configuration (usually used for testing / mocks).
+@param psz\_url\_or\_path Location of the http update server url or path to the local update directory. @param p\_options Optional extra configuration for update manager. @param p\_locator Optional explicit path configuration for Velopack. If null, the default locator will be used. @param p\_manager A pointer to where the new vpkc\_update\_manager\_t\* instance will be stored. @returns True if the update manager was created successfully, false otherwise. If false, the error will be available via `vpkc_get_last_error`.
 
 -----
 
@@ -430,7 +462,7 @@ Create a new UpdateManager instance.
 
 Create a new UpdateManager instance with a custom UpdateSource.
 
-@param urlOrPath Location of the update server or path to the local update directory. @param options Optional extra configuration for update manager. @param locator Override the default locator configuration (usually used for testing / mocks).
+@param p\_source A pointer to a custom UpdateSource. @param p\_options Optional extra configuration for update manager. @param p\_locator Optional explicit path configuration for Velopack. If null, the default locator will be used. @param p\_manager A pointer to where the new vpkc\_update\_manager\_t\* instance will be stored. @returns True if the update manager was created successfully, false otherwise. If false, the error will be available via `vpkc_get_last_error`.
 
 -----
 
@@ -443,6 +475,8 @@ Create a new UpdateManager instance with a custom UpdateSource.
 
 Returns the currently installed version of the app.
 
+@param p\_manager The update manager instance. @param psz\_version A buffer to store the version string. @param c\_version The size of the `psz_version` buffer. @returns The number of characters written to `psz_version` (including null terminator), or the required buffer size if the buffer is too small.
+
 -----
 
 ## Function `vpkc_get_app_id`
@@ -453,6 +487,8 @@ Returns the currently installed version of the app.
 </code></pre>
 
 Returns the currently installed app id.
+
+@param p\_manager The update manager instance. @param psz\_id A buffer to store the app id string. @param c\_id The size of the `psz_id` buffer. @returns The number of characters written to `psz_id` (including null terminator), or the required buffer size if the buffer is too small.
 
 -----
 
@@ -465,31 +501,33 @@ Returns the currently installed app id.
 
 Returns whether the app is in portable mode. On Windows this can be true or false.
 
-On MacOS and Linux this will always be true.
+On MacOS and Linux this will always be true. @param p\_manager The update manager instance. @returns True if the app is in portable mode, false otherwise.
 
 -----
 
 ## Function `vpkc_update_pending_restart`
 
-<span id="standardese-vpkc_update_pending_restart-vpkc_update_manager_t--vpkc_asset_t--"></span>
+<span id="standardese-vpkc_update_pending_restart-vpkc_update_manager_t--vpkc_asset_t---"></span>
 
-<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">vpkc_update_pending_restart</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">)</span><span class="pun">;</span>
+<pre><code class="standardese-language-cpp"><span class="kwd">bool</span> <span class="typ dec var fun">vpkc_update_pending_restart</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_asset_t"><span class="typ dec var fun">vpkc_asset_t</span></a><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_asset</span><span class="pun">)</span><span class="pun">;</span>
 </code></pre>
 
-Returns an UpdateInfo object if there is an update downloaded which still needs to be applied.
+Returns an asset if there is an update downloaded which still needs to be applied.
 
-You can pass the UpdateInfo object to waitExitThenApplyUpdate to apply the update.
+You can pass this asset to `vpkc_wait_exit_then_apply_updates` to apply the update. @param p\_manager The update manager instance. @param p\_asset A pointer to where the new vpkc\_asset\_t\* instance will be stored. @returns True if there is an update pending restart, false otherwise.
 
 -----
 
 ## Function `vpkc_check_for_updates`
 
-<span id="standardese-vpkc_check_for_updates-vpkc_update_manager_t--vpkc_update_info_t--"></span>
+<span id="standardese-vpkc_check_for_updates-vpkc_update_manager_t--vpkc_update_info_t---"></span>
 
-<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_check_t"><span class="typ dec var fun">vpkc_update_check_t</span></a> <span class="typ dec var fun">vpkc_check_for_updates</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_update</span><span class="pun">)</span><span class="pun">;</span>
+<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_check_t"><span class="typ dec var fun">vpkc_update_check_t</span></a> <span class="typ dec var fun">vpkc_check_for_updates</span><span class="pun">(</span><a href="#standardese-vpkc_update_manager_t"><span class="typ dec var fun">vpkc_update_manager_t</span></a><span class="pun">*</span> <span class="typ dec var fun">p_manager</span><span class="pun">,</span> <a href="#standardese-vpkc_update_info_t"><span class="typ dec var fun">vpkc_update_info_t</span></a><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_update</span><span class="pun">)</span><span class="pun">;</span>
 </code></pre>
 
-Checks for updates, returning None if there are none available. If there are updates available, this method will return an UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available.
+Checks for updates. If there are updates available, this method will return an UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available.
+
+@param p\_manager The update manager instance. @param p\_update A pointer to where the new vpkc\_update\_info\_t\* instance will be stored if an update is available. @returns A `vpkc_update_check_t` value indicating the result of the check. If an update is available, the value will be `HasUpdate` and `p_update` will be populated.
 
 -----
 
@@ -506,7 +544,7 @@ This function will acquire a global update lock so may fail if there is already 
 
   - If the update contains delta packages and the delta feature is enabled this method will attempt to unpack and prepare them.
 
-  - If there is no delta update available, or there is an error preparing delta packages, this method will fall back to downloading the full version of the update.
+  - If there is no delta update available, or there is an error preparing delta packages, this method will fall back to downloading the full version of the update. @param p\_manager The update manager instance. @param p\_update The update info object from `vpkc_check_for_updates`. @param cb\_progress An optional callback to report download progress (0-100). @param p\_user\_data Optional user data to be passed to the progress callback. @returns true on success, false on failure. If false, the error will be available via `vpkc_get_last_error`.
 
 -----
 
@@ -519,7 +557,7 @@ This function will acquire a global update lock so may fail if there is already 
 
 This will launch the Velopack updater and tell it to wait for this program to exit gracefully.
 
-You should then clean up any state and exit your app. The updater will apply updates and then optionally restart your app. The updater will only wait for 60 seconds before giving up.
+You should then clean up any state and exit your app. The updater will apply updates and then (if specified) restart your app. The updater will only wait for 60 seconds before giving up. @param p\_manager The update manager instance. @param p\_asset The asset to apply. This can be from `vpkc_update_pending_restart` or `vpkc_update_info_get_target_asset`. @param b\_silent True to attempt to apply the update without showing any UI. @param b\_restart True to restart the app after the update is applied. @param p\_restart\_args An array of command line arguments to pass to the new process when it’s restarted. @param c\_restart\_args The number of arguments in `p_restart_args`. @returns true on success, false on failure. If false, the error will be available via `vpkc_get_last_error`.
 
 -----
 
@@ -532,7 +570,7 @@ You should then clean up any state and exit your app. The updater will apply upd
 
 This will launch the Velopack updater and optionally wait for a program to exit gracefully.
 
-This method is unsafe because it does not necessarily wait for any / the correct process to exit before applying updates. The `vpkc_wait_exit_then_apply_updates` method is recommended for most use cases. If dw\_wait\_pid is 0, the updater will not wait for any process to exit before applying updates (Not Recommended).
+This method is unsafe because it does not necessarily wait for any / the correct process to exit before applying updates. The `vpkc_wait_exit_then_apply_updates` method is recommended for most use cases. If dw\_wait\_pid is 0, the updater will not wait for any process to exit before applying updates (Not Recommended). @param p\_manager The update manager instance. @param p\_asset The asset to apply. This can be from `vpkc_update_pending_restart` or `vpkc_update_info_get_target_asset`. @param b\_silent True to attempt to apply the update without showing any UI. @param dw\_wait\_pid The process ID to wait for before applying updates. If 0, the updater will not wait. @param b\_restart True to restart the app after the update is applied. @param p\_restart\_args An array of command line arguments to pass to the new process when it’s restarted. @param c\_restart\_args The number of arguments in `p_restart_args`. @returns true on success, false on failure. If false, the error will be available via `vpkc_get_last_error`.
 
 -----
 
@@ -545,6 +583,8 @@ This method is unsafe because it does not necessarily wait for any / the correct
 
 Frees a vpkc\_update\_manager\_t instance.
 
+@param p\_manager The update manager instance to free.
+
 -----
 
 ## Function `vpkc_free_update_info`
@@ -555,6 +595,8 @@ Frees a vpkc\_update\_manager\_t instance.
 </code></pre>
 
 Frees a vpkc\_update\_info\_t instance.
+
+@param p\_update\_info The update info instance to free.
 
 -----
 
@@ -567,6 +609,8 @@ Frees a vpkc\_update\_info\_t instance.
 
 Frees a vpkc\_asset\_t instance.
 
+@param p\_asset The asset instance to free.
+
 -----
 
 ## Function `vpkc_app_run`
@@ -578,7 +622,7 @@ Frees a vpkc\_asset\_t instance.
 
 VelopackApp helps you to handle app activation events correctly.
 
-This should be used as early as possible in your application startup code. (eg. the beginning of main() or wherever your entry point is)
+This should be used as early as possible in your application startup code. (eg. the beginning of main() or wherever your entry point is). This function will not return in some cases. @param p\_user\_data Optional user data to be passed to the callbacks.
 
 -----
 
@@ -591,6 +635,8 @@ This should be used as early as possible in your application startup code. (eg. 
 
 Set whether to automatically apply downloaded updates on startup. This is ON by default.
 
+@param b\_auto\_apply True to automatically apply updates, false otherwise.
+
 -----
 
 ## Function `vpkc_app_set_args`
@@ -600,7 +646,9 @@ Set whether to automatically apply downloaded updates on startup. This is ON by 
 <pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_args</span><span class="pun">(</span><span class="kwd">char</span><span class="pun">*</span><span class="pun">*</span> <span class="typ dec var fun">p_args</span><span class="pun">,</span> <span class="typ dec var fun">size_t</span> <span class="typ dec var fun">c_args</span><span class="pun">)</span><span class="pun">;</span>
 </code></pre>
 
-Override the command line arguments used by VelopackApp. (by default this is env::args().skip(1))
+Override the command line arguments used by VelopackApp. (by default this is env::args().skip(1)) @param p\_args An array of command line arguments.
+
+@param c\_args The number of arguments in `p_args`.
 
 -----
 
@@ -613,6 +661,8 @@ Override the command line arguments used by VelopackApp. (by default this is env
 
 VelopackLocator provides some utility functions for locating the current app important paths (eg. path to packages, update binary, and so forth).
 
+@param p\_locator The locator configuration to use.
+
 -----
 
 ## Function `vpkc_app_set_hook_after_install`
@@ -622,9 +672,9 @@ VelopackLocator provides some utility functions for locating the current app imp
 <pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_after_install</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_after_install</span><span class="pun">)</span><span class="pun">;</span>
 </code></pre>
 
-WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+Sets a callback to be run after the app is installed.
 
-Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
+WARNING: FastCallback hooks are run during critical stages of Velopack operations. Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called. @param cb\_after\_install The callback to run after the app is installed. The callback takes a user data pointer and the version of the app as a string.
 
 -----
 
@@ -635,9 +685,9 @@ Your code will be run and then the process will exit. If your code has not compl
 <pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_before_uninstall</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_before_uninstall</span><span class="pun">)</span><span class="pun">;</span>
 </code></pre>
 
-WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+Sets a callback to be run before the app is uninstalled.
 
-Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
+WARNING: FastCallback hooks are run during critical stages of Velopack operations. Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called. @param cb\_before\_uninstall The callback to run before the app is uninstalled. The callback takes a user data pointer and the version of the app as a string.
 
 -----
 
@@ -648,9 +698,9 @@ Your code will be run and then the process will exit. If your code has not compl
 <pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_before_update</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_before_update</span><span class="pun">)</span><span class="pun">;</span>
 </code></pre>
 
-WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+Sets a callback to be run before the app is updated.
 
-Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
+WARNING: FastCallback hooks are run during critical stages of Velopack operations. Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called. @param cb\_before\_update The callback to run before the app is updated. The callback takes a user data pointer and the version of the app as a string.
 
 -----
 
@@ -661,9 +711,9 @@ Your code will be run and then the process will exit. If your code has not compl
 <pre><code class="standardese-language-cpp"><span class="kwd">void</span> <span class="typ dec var fun">vpkc_app_set_hook_after_update</span><span class="pun">(</span><a href="#standardese-vpkc_hook_callback_t"><span class="typ dec var fun">vpkc_hook_callback_t</span></a> <span class="typ dec var fun">cb_after_update</span><span class="pun">)</span><span class="pun">;</span>
 </code></pre>
 
-WARNING: FastCallback hooks are run during critical stages of Velopack operations.
+Sets a callback to be run after the app is updated.
 
-Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
+WARNING: FastCallback hooks are run during critical stages of Velopack operations. Your code will be run and then the process will exit. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called. @param cb\_after\_update The callback to run after the app is updated. The callback takes a user data pointer and the version of the app as a string.
 
 -----
 
@@ -676,6 +726,8 @@ Your code will be run and then the process will exit. If your code has not compl
 
 This hook is triggered when the application is started for the first time after installation.
 
+@param cb\_first\_run The callback to run on first run. The callback takes a user data pointer and the version of the app as a string.
+
 -----
 
 ## Function `vpkc_app_set_hook_restarted`
@@ -686,6 +738,8 @@ This hook is triggered when the application is started for the first time after 
 </code></pre>
 
 This hook is triggered when the application is restarted by Velopack after installing updates.
+
+@param cb\_restarted The callback to run after the app is restarted. The callback takes a user data pointer and the version of the app as a string.
 
 -----
 
@@ -698,6 +752,8 @@ This hook is triggered when the application is restarted by Velopack after insta
 
 Get the last error message that occurred in the Velopack library.
 
+@param psz\_error A buffer to store the error message. @param c\_error The size of the `psz_error` buffer. @returns The number of characters written to `psz_error` (including null terminator). If the return value is greater than `c_error`, the buffer was too small and the message was truncated.
+
 -----
 
 ## Function `vpkc_set_logger`
@@ -708,5 +764,7 @@ Get the last error message that occurred in the Velopack library.
 </code></pre>
 
 Set a custom log callback. This will be called for all log messages generated by the Velopack library.
+
+@param cb\_log The callback to call with log messages. The callback takes a user data pointer, a log level, and the log message as a string. @param p\_user\_data Optional user data to be passed to the callback.
 
 -----

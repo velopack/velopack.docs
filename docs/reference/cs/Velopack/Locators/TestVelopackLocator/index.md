@@ -14,25 +14,27 @@ sidebar_label: TestVelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Provides a mock \/ test implementation of [VelopackLocator](../VelopackLocator/index.md). This can be used to verify that your application is able to find and prepare updates from your chosen update source without actually having an installed application. This could be used in a CI\/CD pipeline, or unit tests etc.
 
 ```csharp
+[NullableContext(2)]
+[Nullable(0)]
 [ExcludeFromCodeCoverage]
 public class TestVelopackLocator : VelopackLocator
 ```
 
 **Inheritance:** object → [VelopackLocator](../VelopackLocator/index.md) → TestVelopackLocator
 
-**Attributes:** ExcludeFromCodeCoverageAttribute
+**Attributes:** NullableContextAttribute,NullableAttribute,ExcludeFromCodeCoverageAttribute
 
 ## Constructors
 
-| Name                                                                                                                                                                                                                   | Description |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [TestVelopackLocator(string, string, string, ILogger)](constructors/index.md#testvelopacklocatorstring-string-string-ilogger)                                                                                          |             |
-| [TestVelopackLocator(string, string, string, string, string, string, string, ILogger, VelopackAsset)](constructors/index.md#testvelopacklocatorstring-string-string-string-string-string-string-ilogger-velopackasset) |             |
+| Name                                                                                                                                                                                                                                                  | Description |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [TestVelopackLocator(string, string, string, IVelopackLogger)](constructors/index.md#testvelopacklocatorstring-string-string-ivelopacklogger)                                                                                                         |             |
+| [TestVelopackLocator(string, string, string, string, string, string, string, IVelopackLogger, VelopackAsset, string)](constructors/index.md#testvelopacklocatorstring-string-string-string-string-string-string-ivelopacklogger-velopackasset-string) |             |
 
 ## Properties
 
@@ -42,7 +44,10 @@ public class TestVelopackLocator : VelopackLocator
 | [AppId](properties/AppId.md)                                         |             |
 | [Channel](properties/Channel.md)                                     |             |
 | [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |             |
+| [Log](properties/Log.md)                                             |             |
 | [PackagesDir](properties/PackagesDir.md)                             |             |
+| [ProcessExePath](properties/ProcessExePath.md)                       |             |
+| [ProcessId](properties/ProcessId.md)                                 |             |
 | [RootAppDir](properties/RootAppDir.md)                               |             |
 | [UpdateExePath](properties/UpdateExePath.md)                         |             |
 

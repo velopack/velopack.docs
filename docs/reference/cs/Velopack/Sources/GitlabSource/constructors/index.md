@@ -13,10 +13,10 @@ title: Constructors
 **Declaring Type:** [GitlabSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ```csharp
-public GitlabSource(string repoUrl, string accessToken, bool upcomingRelease, IFileDownloader downloader = null);
+public GitlabSource(string repoUrl, string accessToken, bool upcomingRelease, [Nullable(2)]IFileDownloader downloader = null);
 ```
 
 ## Parameters

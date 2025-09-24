@@ -10,11 +10,12 @@
 **Declaring Type:** [IVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Finds .nupkg files in the PackagesDir and returns a list of ReleaseEntryName objects.
 
 ```csharp
+[NullableContext(1)]
 public List<VelopackAsset> GetLocalPackages();
 ```
 

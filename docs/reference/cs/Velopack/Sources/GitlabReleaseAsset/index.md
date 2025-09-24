@@ -14,15 +14,19 @@ sidebar_label: GitlabReleaseAsset
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Describes a container for the assets attached to a release.
 
 ```csharp
+[NullableContext(1)]
+[Nullable(0)]
 public class GitlabReleaseAsset
 ```
 
 **Inheritance:** object → GitlabReleaseAsset
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 ## Constructors
 

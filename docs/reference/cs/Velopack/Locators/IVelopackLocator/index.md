@@ -14,13 +14,16 @@ sidebar_label: IVelopackLocator Interface
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 An interface describing where Velopack can find key folders and files.
 
 ```csharp
+[NullableContext(2)]
 public interface IVelopackLocator
 ```
+
+**Attributes:** NullableContextAttribute
 
 ## Properties
 
@@ -32,7 +35,10 @@ public interface IVelopackLocator
 | [Channel](properties/Channel.md)                                     |  The release channel this package was built for.                                                                                                                                                                                                                                                                                                                 |
 | [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |  The currently installed version of the application, or null if the app is not installed.                                                                                                                                                                                                                                                                        |
 | [IsPortable](properties/IsPortable.md)                               | A flag indicating if this is a portable build, and that the settings should be self\-contained in the package. On Windows, this is true for portable builds, and false for non\-portable builds which were installed by Setup.exe On OSX and Linux, this is always false, because settings and application files should be stored in the user's  home directory. |
+| [Log](properties/Log.md)                                             |  The logging interface to use for Velopack diagnostic messages.                                                                                                                                                                                                                                                                                                  |
 | [PackagesDir](properties/PackagesDir.md)                             |  The directory in which nupkg files are stored for this application.                                                                                                                                                                                                                                                                                             |
+| [ProcessExePath](properties/ProcessExePath.md)                       | The process for which the Velopack Locator has been constructed. This should usually be the current process path.                                                                                                                                                                                                                                                |
+| [ProcessId](properties/ProcessId.md)                                 | The process ID for which the Velopack Locator has been constructed. This should usually be the current process ID. Setting this to zero will disable some features of Velopack (like the ability to wait for the process to exit before installing updates).                                                                                                     |
 | [RootAppDir](properties/RootAppDir.md)                               | The root directory of the application. On Windows, this folder contains all  the application files, but that may not be the case on other operating systems.                                                                                                                                                                                                     |
 | [ThisExeRelativePath](properties/ThisExeRelativePath.md)             |  The path from [AppContentDir](properties/AppContentDir.md) to this executable.                                                                                                                                                                                                                                                                                  |
 | [UpdateExePath](properties/UpdateExePath.md)                         |  The path to the current Update.exe or similar on other operating systems.                                                                                                                                                                                                                                                                                       |

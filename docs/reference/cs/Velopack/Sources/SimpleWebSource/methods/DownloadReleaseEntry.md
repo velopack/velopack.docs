@@ -10,16 +10,16 @@
 **Declaring Type:** [SimpleWebSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ```csharp
 [AsyncStateMachine(Velopack.Sources.SimpleWebSource/<DownloadReleaseEntry>d__13)]
-public Task DownloadReleaseEntry(ILogger logger, VelopackAsset releaseEntry, string localFile, Action<int> progress, CancellationToken cancelToken);
+public Task DownloadReleaseEntry(IVelopackLogger logger, VelopackAsset releaseEntry, string localFile, Action<int> progress, CancellationToken cancelToken);
 ```
 
 ## Parameters
 
-`logger`  ILogger
+`logger`  [IVelopackLogger](../../../Logging/IVelopackLogger/index.md)
 
 `releaseEntry`  [VelopackAsset](../../../VelopackAsset/index.md)
 

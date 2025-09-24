@@ -13,12 +13,12 @@ title: Constructors
 **Declaring Type:** [UpdateInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Create a new instance of [UpdateInfo](../index.md)
 
 ```csharp
-public UpdateInfo(VelopackAsset targetRelease, bool isDowngrade, VelopackAsset deltaBaseRelease = null, VelopackAsset[] deltasToTarget = null);
+public UpdateInfo(VelopackAsset targetRelease, bool isDowngrade, [Nullable(2)]VelopackAsset deltaBaseRelease = null, [Nullable(Mono.Cecil.CustomAttributeArgument[])]VelopackAsset[] deltasToTarget = null);
 ```
 
 ## Parameters

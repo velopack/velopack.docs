@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackAsset](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
  The name or Id of the package containing this release. 
 

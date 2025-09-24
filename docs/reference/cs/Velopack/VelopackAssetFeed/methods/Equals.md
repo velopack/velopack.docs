@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackAssetFeed](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ## Overloads
 
@@ -22,6 +22,7 @@
 ## Equals(VelopackAssetFeed)
 
 ```csharp
+[NullableContext(2)]
 [CompilerGenerated]
 public bool Equals(VelopackAssetFeed other);
 ```
@@ -37,6 +38,7 @@ bool
 ## Equals(object)
 
 ```csharp
+[NullableContext(2)]
 [CompilerGenerated]
 public bool Equals(object obj);
 ```

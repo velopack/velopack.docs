@@ -14,7 +14,7 @@ sidebar_label: VelopackAsset
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 An individual Velopack asset, could refer to an asset on\-disk or in a remote package feed.
 
@@ -41,7 +41,7 @@ public class VelopackAsset : IEquatable<VelopackAsset>
 | [NotesMarkdown](properties/NotesMarkdown.md) |  The release notes in markdown format, as passed to Velopack when packaging the release.  |
 | [PackageId](properties/PackageId.md)         |  The name or Id of the package containing this release.                                   |
 | [SHA1](properties/SHA1.md)                   |  The SHA1 checksum of the update package containing this release.                         |
-| [SHA256](properties/SHA256.md)               |  The SHA256 checksum (if availible) of the update package containing this release.        |
+| [SHA256](properties/SHA256.md)               |  The SHA256 checksum (if available) of the update package containing this release.        |
 | [Size](properties/Size.md)                   |  The size in bytes of the update package containing this release.                         |
 | [Type](properties/Type.md)                   |  The type of asset (eg. full or delta).                                                   |
 | [Version](properties/Version.md)             |  The version of this release.                                                             |

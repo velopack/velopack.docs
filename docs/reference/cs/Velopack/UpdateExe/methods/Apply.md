@@ -10,12 +10,12 @@
 **Declaring Type:** [UpdateExe](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Runs Update.exe in the current working directory to apply updates, optionally restarting the application.
 
 ```csharp
-public static void Apply(IVelopackLocator locator, VelopackAsset toApply, bool silent, bool restart, string[] restartArgs = null, ILogger logger = null);
+public static void Apply(IVelopackLocator locator, VelopackAsset toApply, bool silent, uint waitPid, bool restart, [Nullable(Mono.Cecil.CustomAttributeArgument[])]string[] restartArgs = null);
 ```
 
 ## Parameters
@@ -32,6 +32,10 @@ The update package you wish to apply, can be left null.
 
 If true, no dialogs will be shown during the update process. This could result              in an update failing to install, such as when we need to ask the user for permission to install              a new framework dependency.
 
+`waitPid`  uint
+
+Optionally wait for the specified process to exit before continuing.
+
 `restart`  bool
 
 If true, restarts the application after updates are applied (or if they failed)
@@ -39,10 +43,6 @@ If true, restarts the application after updates are applied (or if they failed)
 `restartArgs`  string\[\]
 
 The arguments to pass to the application when it is restarted.
-
-`logger`  ILogger
-
-The logger to use for diagnostic messages
 
 ## Exceptions
 

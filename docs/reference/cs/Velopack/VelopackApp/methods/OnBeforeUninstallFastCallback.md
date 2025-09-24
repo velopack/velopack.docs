@@ -10,11 +10,12 @@
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 WARNING: FastCallback hooks are run during critical stages of Velopack operations. Your code will be run and then Exit(int) will be called. If your code has not completed within 30 seconds, it will be terminated. Only supported on windows; On other operating systems, this will never be called.
 
 ```csharp
+[SupportedOSPlatform("windows")]
 public VelopackApp OnBeforeUninstallFastCallback(VelopackHook hook);
 ```
 

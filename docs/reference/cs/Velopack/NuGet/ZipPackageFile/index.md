@@ -14,13 +14,17 @@ sidebar_label: ZipPackageFile
 
 **Namespace:** [Velopack.NuGet](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ```csharp
+[NullableContext(1)]
+[Nullable(0)]
 public class ZipPackageFile : IEquatable<ZipPackageFile>
 ```
 
 **Inheritance:** object → ZipPackageFile
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 **Implements:** IEquatable\<ZipPackageFile\>
 

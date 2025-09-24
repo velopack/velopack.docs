@@ -1,7 +1,3 @@
-import InstallVpk from './content/_install-vpk.mdx';
-import BuildRelease from './content/_build-release.mdx';
-import Completion from './content/_completion.mdx';
-
 # Getting Started: Rust
 <AppliesTo all />
 Get started with our official cross-platform Rust crate.
@@ -9,63 +5,59 @@ Get started with our official cross-platform Rust crate.
 :::tip
 To find the most accurate and complete documentation for Rust please visit https://docs.rs/velopack
 :::
-
-
 ## Quick Start
-<FancyStep step={1}>
-    Add Velopack to your `Cargo.toml`:
-    ```toml
-    [dependencies]
-    velopack = { version = "0.0", features = ["async"] } # Replace with actual version and desired features
-    ```
-</FancyStep>
+1. Add Velopack to your `Cargo.toml`:
+```toml
+[dependencies]
+velopack = { version = "0.0", features = ["async"] } # Replace with actual version and desired features
+```
 
-<FancyStep step={2}>
-    Add the following code to your `main()` function:
-    ```rust
-    use velopack::*;
+2. Add the following code to your `main()` function:
+```rust
+use velopack::*;
 
-    fn main() {
-    // VelopackApp should be the first thing to run, in some circumstances it may terminate/restart the process to perform tasks.
-    VelopackApp::build().run();
-    // Your other app startup code here
-    }
-    ```
-</FancyStep>
+fn main() {
+// VelopackApp should be the first thing to run, in some circumstances it may terminate/restart the process to perform tasks.
+VelopackApp::build().run();
+// Your other app startup code here
+}
+```
 
-<FancyStep step={3}>
-    Add auto-updates somewhere to your app:
-    ```rust
-    use velopack::*;
+3. Add auto-updates somewhere to your app:
+```rust
+use velopack::*;
 
-    fn update_my_app() {
-        let source = sources::HttpSource::new("https://the.place/you-host/updates");
-        let um = UpdateManager::new(source, None, None).unwrap();
+fn update_my_app() {
+let source = sources::HttpSource::new("https://the.place/you-host/updates");
+let um = UpdateManager::new(source, None, None).unwrap();
 
-        if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
-            // there was an update available. Download it.
-            um.download_updates(&updates, None).unwrap();
+if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
+// there was an update available. Download it.
+um.download_updates(&updates, None).unwrap();
 
-            // download completed, let's restart and update
-            um.apply_updates_and_restart(&updates).unwrap();
-        }
-    }
-    ```
-</FancyStep>
+// download completed, let's restart and update
+um.apply_updates_and_restart(&updates).unwrap();
+}
+}
+```
 
-<FancyStep step={4}>
-    Build your app with cargo:
-    ```sh
-    cargo build --release
-    ```
-</FancyStep>
+4. Build your app with cargo:
+```sh
+cargo build --release
+```
 
-<FancyStep step={5}>
-    <InstallVpk />
-</FancyStep>
+5. Install the `vpk` command line tool:
+```sh
+dotnet tool update -g vpk
+```
+***Note: you must have the .NET Core SDK 8 installed to use and update `vpk`***
 
-<FancyStep step={6} noline={true}>
-    <BuildRelease />
-</FancyStep>
+6. Package your Velopack release / installers:
+```sh
+vpk pack -u MyAppUniqueId -v 1.0.0 -p /target/release -e myexename.exe
+```
 
-<Completion />
+✅ You're Done! Your app now has auto-updates and an installer.
+You can upload your release to your website, or use the `vpk upload` command to publish it to the destination of your choice.
+
+Read the Velopack documentation at [https://docs.velopack.io/](https://docs.velopack.io/) for more information.

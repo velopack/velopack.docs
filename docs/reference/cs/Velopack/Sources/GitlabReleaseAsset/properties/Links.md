@@ -10,11 +10,12 @@
 **Declaring Type:** [GitlabReleaseAsset](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 A list of asset (file) links.
 
 ```csharp
+[JsonPropertyName("links")]
 public GitlabReleaseLink[] Links { get; set; }
 ```
 

@@ -10,10 +10,10 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ```csharp
-public void DownloadUpdates(UpdateInfo updates, Action<int> progress = null, bool ignoreDeltas = false);
+public void DownloadUpdates(UpdateInfo updates, [Nullable(2)]Action<int> progress = null);
 ```
 
 ## Parameters
@@ -21,8 +21,6 @@ public void DownloadUpdates(UpdateInfo updates, Action<int> progress = null, boo
 `updates`  [UpdateInfo](../../UpdateInfo/index.md)
 
 `progress`  Action\<int\>
-
-`ignoreDeltas`  bool
 
 ___
 

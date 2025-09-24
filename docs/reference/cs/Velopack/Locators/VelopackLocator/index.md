@@ -14,41 +14,50 @@ sidebar_label: VelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 A base class describing where Velopack can find key folders and files.
 
 ```csharp
+[NullableContext(2)]
+[Nullable(0)]
 public abstract class VelopackLocator : IVelopackLocator
 ```
 
 **Inheritance:** object → VelopackLocator
 
+**Attributes:** NullableContextAttribute,NullableAttribute
+
 **Implements:** [IVelopackLocator](../IVelopackLocator/index.md)
 
 ## Properties
 
-| Name                                                                 | Description |
-| -------------------------------------------------------------------- | ----------- |
-| [AppContentDir](properties/AppContentDir.md)                         |             |
-| [AppId](properties/AppId.md)                                         |             |
-| [AppTempDir](properties/AppTempDir.md)                               |             |
-| [Channel](properties/Channel.md)                                     |             |
-| [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |             |
-| [IsPortable](properties/IsPortable.md)                               |             |
-| [PackagesDir](properties/PackagesDir.md)                             |             |
-| [RootAppDir](properties/RootAppDir.md)                               |             |
-| [ThisExeRelativePath](properties/ThisExeRelativePath.md)             |             |
-| [UpdateExePath](properties/UpdateExePath.md)                         |             |
+| Name                                                                 | Description                                                                                                                                                                                                 |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [AppContentDir](properties/AppContentDir.md)                         |                                                                                                                                                                                                             |
+| [AppId](properties/AppId.md)                                         |                                                                                                                                                                                                             |
+| [AppTempDir](properties/AppTempDir.md)                               |                                                                                                                                                                                                             |
+| [Channel](properties/Channel.md)                                     |                                                                                                                                                                                                             |
+| [Current](properties/Current.md)                                     | Get the current locator in use, this process\-wide locator can be set\/overriden during VelopackApp.Build(). Alternatively, most methods which use locators also accept an IVelopackLocator as a parameter. |
+| [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |                                                                                                                                                                                                             |
+| [IsCurrentSet](properties/IsCurrentSet.md)                           | Check if a VelopackLocator has been set for the current process.                                                                                                                                            |
+| [IsPortable](properties/IsPortable.md)                               |                                                                                                                                                                                                             |
+| [Log](properties/Log.md)                                             |                                                                                                                                                                                                             |
+| [PackagesDir](properties/PackagesDir.md)                             |                                                                                                                                                                                                             |
+| [ProcessExePath](properties/ProcessExePath.md)                       |                                                                                                                                                                                                             |
+| [ProcessId](properties/ProcessId.md)                                 |                                                                                                                                                                                                             |
+| [RootAppDir](properties/RootAppDir.md)                               |                                                                                                                                                                                                             |
+| [ThisExeRelativePath](properties/ThisExeRelativePath.md)             |                                                                                                                                                                                                             |
+| [UpdateExePath](properties/UpdateExePath.md)                         |                                                                                                                                                                                                             |
 
 ## Methods
 
-| Name                                                                | Description                                                  |
-| ------------------------------------------------------------------- | ------------------------------------------------------------ |
-| [GetDefault(ILogger)](methods/GetDefault.md)                        | Auto\-detect the platform from the current operating system. |
-| [GetLatestLocalFullPackage()](methods/GetLatestLocalFullPackage.md) |                                                              |
-| [GetLocalPackages()](methods/GetLocalPackages.md)                   |                                                              |
-| [GetOrCreateStagedUserId()](methods/GetOrCreateStagedUserId.md)     |                                                              |
+| Name                                                                             | Description                                                           |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [CreateDefaultForPlatform(IVelopackLogger)](methods/CreateDefaultForPlatform.md) |  Create a new default locator based on the current operating system.  |
+| [GetLatestLocalFullPackage()](methods/GetLatestLocalFullPackage.md)              |                                                                       |
+| [GetLocalPackages()](methods/GetLocalPackages.md)                                |                                                                       |
+| [GetOrCreateStagedUserId()](methods/GetOrCreateStagedUserId.md)                  |                                                                       |
 
 ___
 

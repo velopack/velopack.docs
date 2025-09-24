@@ -4,7 +4,7 @@
 ## `vpk -H`
 ```
 Description:
-  Velopack CLI 0.0.1053, for distributing applications.  
+  Velopack CLI 0.0.1298, for distributing applications.  
 
 Usage:
   vpk [command] [options]  
@@ -132,6 +132,9 @@ Options:
   --signEntitlements <PATH>          ENV=VPK_SIGN_ENTITLEMENTS  Path to         
                                      entitlements file for hardened             
                                      runtime signing.                           
+  --signDisableDeep                  ENV=VPK_SIGN_DISABLE_DEEP  Disable         
+                                     deep signing, requires you to              
+                                     pre-sign your binaries.                    
   --notaryProfile <NAME>             ENV=VPK_NOTARY_PROFILE  Name of            
                                      profile containing Apple credentials       
                                      stored with notarytool.                    
@@ -214,22 +217,26 @@ Usage:
   vpk download s3 [options]  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
-                         packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
-                         release. [default: osx]                                
-  --keyId <KEYID>        ENV=VPK_KEY_ID  Authentication identifier or           
-                         access key.                                            
-  --secret <KEY>         ENV=VPK_SECRET  Authentication secret key.             
-  --region <REGION>      ENV=VPK_REGION  AWS service region (eg.                
-                         us-west-1).                                            
-  --session <TOKEN>      ENV=VPK_SESSION  Authentication session token.         
-  --endpoint <URL>       ENV=VPK_ENDPOINT  Custom service url (backblaze,       
-                         digital ocean, etc).                                   
-  --bucket <NAME> (REQ)  ENV=VPK_BUCKET  Name of the S3 bucket.                 
-  --prefix <PREFIX>      ENV=VPK_PREFIX  Prefix to the S3 url.                  
-  --timeout <MINUTES>    ENV=VPK_TIMEOUT  Network timeout in minutes. [         
-                         default: 30]
+  -o, --outputDir <DIR>      ENV=VPK_OUTPUT_DIR  Output directory for           
+                             created packages. [default: Releases]              
+  -c, --channel <NAME>       ENV=VPK_CHANNEL  The channel to use for this       
+                             release. [default: osx]                            
+  --keyId <KEYID>            ENV=VPK_KEY_ID  Authentication identifier or       
+                             access key.                                        
+  --secret <KEY>             ENV=VPK_SECRET  Authentication secret key.         
+  --region <REGION>          ENV=VPK_REGION  AWS service region (eg.            
+                             us-west-1).                                        
+  --session <TOKEN>          ENV=VPK_SESSION  Authentication session            
+                             token.                                             
+  --endpoint <URL>           ENV=VPK_ENDPOINT  Custom S3-compatible             
+                             service url (backblaze, digital ocean, etc).       
+  --bucket <NAME> (REQ)      ENV=VPK_BUCKET  Name of the S3 bucket.             
+  --prefix <PREFIX>          ENV=VPK_PREFIX  Prefix to the S3 url.              
+  --disablePathStyle <BOOL>  ENV=VPK_DISABLE_PATH_STYLE  Disable the            
+                             default of path-style endpoint and use a           
+                             subdomain endpoint instead.                        
+  --timeout <MINUTES>        ENV=VPK_TIMEOUT  Network timeout in minutes.       
+                             [default: 30]
 ```
 
 ## `vpk download az -H`
@@ -394,10 +401,14 @@ Options:
                                us-west-1).                                      
   --session <TOKEN>            ENV=VPK_SESSION  Authentication session          
                                token.                                           
-  --endpoint <URL>             ENV=VPK_ENDPOINT  Custom service url             
-                               (backblaze, digital ocean, etc).                 
+  --endpoint <URL>             ENV=VPK_ENDPOINT  Custom S3-compatible           
+                               service url (backblaze, digital ocean,           
+                               etc).                                            
   --bucket <NAME> (REQ)        ENV=VPK_BUCKET  Name of the S3 bucket.           
   --prefix <PREFIX>            ENV=VPK_PREFIX  Prefix to the S3 url.            
+  --disablePathStyle <BOOL>    ENV=VPK_DISABLE_PATH_STYLE  Disable the          
+                               default of path-style endpoint and use a         
+                               subdomain endpoint instead.                      
   --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
                                minutes. [default: 30]                           
   --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           

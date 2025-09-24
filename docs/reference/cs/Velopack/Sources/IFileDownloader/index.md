@@ -14,21 +14,24 @@ sidebar_label: IFileDownloader Interface
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 A simple abstractable file downloader
 
 ```csharp
+[NullableContext(1)]
 public interface IFileDownloader
 ```
 
+**Attributes:** NullableContextAttribute
+
 ## Methods
 
-| Name                                                                                                              | Description                                                                   |
-| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [DownloadBytes(string, string, string, double)](methods/DownloadBytes.md)                                         | Returns a byte array containing the contents of the file at the specified url |
-| [DownloadFile(string, string, Action\<int\>, string, string, double, CancellationToken)](methods/DownloadFile.md) | Downloads a remote file to the specified local path                           |
-| [DownloadString(string, string, string, double)](methods/DownloadString.md)                                       | Returns a string containing the contents of the specified url                 |
+| Name                                                                                                                             | Description                                                                   |
+| -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| [DownloadBytes(string, IDictionary\<string, string\>, double)](methods/DownloadBytes.md)                                         | Returns a byte array containing the contents of the file at the specified url |
+| [DownloadFile(string, string, Action\<int\>, IDictionary\<string, string\>, double, CancellationToken)](methods/DownloadFile.md) | Downloads a remote file to the specified local path                           |
+| [DownloadString(string, IDictionary\<string, string\>, double)](methods/DownloadString.md)                                       | Returns a string containing the contents of the specified url                 |
 
 ___
 

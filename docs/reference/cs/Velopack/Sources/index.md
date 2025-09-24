@@ -32,7 +32,7 @@ sidebar_label: Velopack.Sources
 | [HttpClientFileDownloader](HttpClientFileDownloader/index.md) |                                                                                                                                                                                                                                |
 | [SimpleFileSource](SimpleFileSource/index.md)                 | Retrieves available updates from a local or network\-attached disk. The directory must contain one or more valid packages, as well as a 'releases.{channel}.json' index file.                                                  |
 | [SimpleWebSource](SimpleWebSource/index.md)                   | Retrieves updates from a static file host or other web server.  Will perform a request for '{baseUri}\/RELEASES' to locate the available packages, and provides query parameters to specify the name of the requested package. |
-| [VelopackFlowUpdateSource](VelopackFlowUpdateSource/index.md) | Retrieves updates from the hosted Velopack service.                                                                                                                                                                            |
+| [VelopackFlowSource](VelopackFlowSource/index.md)             | Retrieves updates from the hosted Velopack service.                                                                                                                                                                            |
 
 ## Interfaces
 

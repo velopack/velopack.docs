@@ -14,27 +14,25 @@ sidebar_label: GitBase\<T\>
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Base class to provide some shared implementation between sources which download releases from a Git repository.
 
 ```csharp
+[NullableContext(1)]
+[Nullable(0)]
 public abstract class GitBase<T> : IUpdateSource
 ```
 
 **Inheritance:** object → GitBase\<T\>
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 **Implements:** [IUpdateSource](../IUpdateSource/index.md)
 
 ## Type Parameters
 
 `T`
-
-## Constructors
-
-| Name                                                                    | Description |
-| ----------------------------------------------------------------------- | ----------- |
-| [GitBase(string, string, bool, IFileDownloader)](constructors/index.md) |             |
 
 ## Properties
 
@@ -46,10 +44,10 @@ public abstract class GitBase<T> : IUpdateSource
 
 ## Methods
 
-| Name                                                                                                                      | Description |
-| ------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [DownloadReleaseEntry(ILogger, VelopackAsset, string, Action\<int\>, CancellationToken)](methods/DownloadReleaseEntry.md) |             |
-| [GetReleaseFeed(ILogger, string, Guid?, VelopackAsset)](methods/GetReleaseFeed.md)                                        |             |
+| Name                                                                                                                              | Description |
+| --------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [DownloadReleaseEntry(IVelopackLogger, VelopackAsset, string, Action\<int\>, CancellationToken)](methods/DownloadReleaseEntry.md) |             |
+| [GetReleaseFeed(IVelopackLogger, string, string, Guid?, VelopackAsset)](methods/GetReleaseFeed.md)                                |             |
 
 ___
 

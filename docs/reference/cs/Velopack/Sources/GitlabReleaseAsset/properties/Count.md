@@ -10,11 +10,12 @@
 **Declaring Type:** [GitlabReleaseAsset](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 The amount of assets linked to the release.
 
 ```csharp
+[JsonPropertyName("count")]
 public int Count { get; set; }
 ```
 

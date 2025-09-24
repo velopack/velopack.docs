@@ -14,7 +14,7 @@ sidebar_label: VelopackAssetType
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Represents a Velopack Asset Type.
 
@@ -24,7 +24,8 @@ public enum VelopackAssetType
     Full = 1,
     Delta = 2,
     Portable = 3,
-    Installer = 4
+    Installer = 4,
+    MsiDeploymentTool = 5
 }
 ```
 
@@ -32,12 +33,13 @@ public enum VelopackAssetType
 
 ## Fields
 
-| Name      | Description                           |
-| --------- | ------------------------------------- |
-| Delta     |  A delta update package.              |
-| Full      |  A full update package.               |
-| Installer |  An application installer archive.    |
-| Portable  |  A portable application zip archive.  |
+| Name              | Description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| Delta             |  A delta update package.                                     |
+| Full              |  A full update package.                                      |
+| Installer         |  An application installer archive.                           |
+| MsiDeploymentTool |  A Windows Installer package (.msi) for the deployment tool. |
+| Portable          |  A portable application zip archive.                         |
 
 ___
 

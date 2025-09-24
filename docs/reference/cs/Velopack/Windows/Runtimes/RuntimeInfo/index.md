@@ -15,7 +15,7 @@ sidebar_label: Runtimes.RuntimeInfo
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
  Base type containing information about a runtime in relation to the current operating system 
 
@@ -34,15 +34,15 @@ public abstract class Runtimes.RuntimeInfo
 
 ## Methods
 
-| Name                                                                                         | Description                                                                                                                                                          |
-| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [CheckIsInstalled()](methods/CheckIsInstalled.md)                                            |  Check if a runtime compatible with the current instance is installed on this system                                                                                 |
-| [CheckIsSupported()](methods/CheckIsSupported.md)                                            |  Check if this runtime is supported on the current system                                                                                                            |
-| [DownloadToFile(string, Action\<int\>, IFileDownloader, ILogger)](methods/DownloadToFile.md) |  Download the latest installer for this runtime to the specified file                                                                                                |
-| [GetDownloadUrl()](methods/GetDownloadUrl.md)                                                |  Retrieves the web url to the latest compatible runtime installer exe                                                                                                |
-| [GetHashCode()](methods/GetHashCode.md)                                                      |  The unique hash code of this runtime                                                                                                                                |
-| [InvokeInstaller(string, bool, ILogger)](methods/InvokeInstaller.md)                         |  Execute a runtime installer at a local file path. Typically used after [DownloadToFile(string, Action\<int\>, IFileDownloader, ILogger)](methods/DownloadToFile.md) |
-| [ToString()](methods/ToString.md)                                                            |  The unique string representation of this runtime                                                                                                                    |
+| Name                                                                                                 | Description                                                                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [CheckIsInstalled()](methods/CheckIsInstalled.md)                                                    |  Check if a runtime compatible with the current instance is installed on this system                                                                                         |
+| [CheckIsSupported()](methods/CheckIsSupported.md)                                                    |  Check if this runtime is supported on the current system                                                                                                                    |
+| [DownloadToFile(string, Action\<int\>, IFileDownloader, IVelopackLogger)](methods/DownloadToFile.md) |  Download the latest installer for this runtime to the specified file                                                                                                        |
+| [GetDownloadUrl()](methods/GetDownloadUrl.md)                                                        |  Retrieves the web url to the latest compatible runtime installer exe                                                                                                        |
+| [GetHashCode()](methods/GetHashCode.md)                                                              |  The unique hash code of this runtime                                                                                                                                        |
+| [InvokeInstaller(string, bool, IVelopackLogger)](methods/InvokeInstaller.md)                         |  Execute a runtime installer at a local file path. Typically used after [DownloadToFile(string, Action\<int\>, IFileDownloader, IVelopackLogger)](methods/DownloadToFile.md) |
+| [ToString()](methods/ToString.md)                                                                    |  The unique string representation of this runtime                                                                                                                            |
 
 ___
 

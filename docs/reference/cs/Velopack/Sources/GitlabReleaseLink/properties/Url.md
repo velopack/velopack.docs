@@ -10,11 +10,12 @@
 **Declaring Type:** [GitlabReleaseLink](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 The url for the asset. This make use of the Gitlab API.
 
 ```csharp
+[JsonPropertyName("url")]
 public string Url { get; set; }
 ```
 

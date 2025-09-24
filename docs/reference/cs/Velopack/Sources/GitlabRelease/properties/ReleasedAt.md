@@ -10,11 +10,12 @@
 **Declaring Type:** [GitlabRelease](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 The date which this release was published publicly.
 
 ```csharp
+[JsonPropertyName("released_at")]
 public DateTime? ReleasedAt { get; set; }
 ```
 

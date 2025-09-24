@@ -15,7 +15,7 @@ sidebar_label: Runtimes.VCRedist00
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
  Represents a VC++ redistributable package which is referenced by a permalink 
 

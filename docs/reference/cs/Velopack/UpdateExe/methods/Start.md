@@ -10,12 +10,12 @@
 **Declaring Type:** [UpdateExe](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Runs Update.exe in the current working directory with the 'start' command which will simply start the application. Combined with the \`waitForExit\` parameter, this can be used to gracefully restart the application.
 
 ```csharp
-public static void Start(IVelopackLocator locator = null, bool waitForExit = true, string[] startArgs = null, ILogger logger = null);
+public static void Start(IVelopackLocator locator = null, uint waitPid = 0, [Nullable(Mono.Cecil.CustomAttributeArgument[])]string[] startArgs = null);
 ```
 
 ## Parameters
@@ -24,17 +24,13 @@ public static void Start(IVelopackLocator locator = null, bool waitForExit = tru
 
 The locator to use to find the path to Update.exe and the packages directory.
 
-`waitForExit`  bool
+`waitPid`  uint
 
-If true, Update.exe will wait for the current process to exit before re\-starting the application.
+Optionally wait for the specified process to exit before continuing.
 
 `startArgs`  string\[\]
 
 The arguments to pass to the application when it is restarted.
-
-`logger`  ILogger
-
-The logger to use for diagnostic messages
 
 ___
 

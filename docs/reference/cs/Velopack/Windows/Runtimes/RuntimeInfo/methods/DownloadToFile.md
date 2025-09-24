@@ -10,13 +10,13 @@
 **Declaring Type:** [Runtimes.RuntimeInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
  Download the latest installer for this runtime to the specified file 
 
 ```csharp
 [AsyncStateMachine(Velopack.Windows.Runtimes/RuntimeInfo/<DownloadToFile>d__11)]
-public Task DownloadToFile(string localPath, Action<int> progress = null, IFileDownloader downloader = null, ILogger log = null);
+public Task DownloadToFile(string localPath, Action<int> progress = null, IFileDownloader downloader = null, IVelopackLogger log = null);
 ```
 
 ## Parameters
@@ -27,7 +27,7 @@ public Task DownloadToFile(string localPath, Action<int> progress = null, IFileD
 
 `downloader`  [IFileDownloader](../../../../Sources/IFileDownloader/index.md)
 
-`log`  ILogger
+`log`  [IVelopackLogger](../../../../Logging/IVelopackLogger/index.md)
 
 ## Returns
 

@@ -10,37 +10,39 @@
 **Declaring Type:** [IUpdateSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
-Retrieve the list of available remote releases from the package source. These releases can subsequently be downloaded with [DownloadReleaseEntry(ILogger, VelopackAsset, string, Action\<int\>, CancellationToken)](DownloadReleaseEntry.md).
+Retrieve the list of available remote releases from the package source. These releases can subsequently be downloaded with [DownloadReleaseEntry(IVelopackLogger, VelopackAsset, string, Action\<int\>, CancellationToken)](DownloadReleaseEntry.md).
 
 ```csharp
-public Task<VelopackAssetFeed> GetReleaseFeed(ILogger logger, string channel, Guid? stagingId = null, VelopackAsset latestLocalRelease = null);
+public Task<VelopackAssetFeed> GetReleaseFeed(IVelopackLogger logger, [Nullable(2)]string appId, string channel, Guid? stagingId = null, [Nullable(2)]VelopackAsset latestLocalRelease = null);
 ```
 
 ## Parameters
 
-`logger`  ILogger
+`logger`  [IVelopackLogger](../../../Logging/IVelopackLogger/index.md)
 
 The logger to use for any diagnostic messages.
 
+`appId`  string
+
 `channel`  string
 
-Release channel to filter packages by. Can be null, which is the              default channel for this operating system.
+Release channel to filter packages by. Can be null, which is the                  default channel for this operating system.
 
 `stagingId`  Nullable\<Guid\>
 
-A persistent user\-id, used for calculating whether a specific             release should be available to this user or not. (eg, for the purposes of rolling out             an update to only a small portion of users at a time).
+A persistent user\-id, used for calculating whether a specific                 release should be available to this user or not. (eg, for the purposes of rolling out                 an update to only a small portion of users at a time).
 
 `latestLocalRelease`  [VelopackAsset](../../../VelopackAsset/index.md)
 
-The latest \/ current local release. If specified,             metadata from this package may be provided to the remote server (such as package id,             or cpu architecture) to ensure that the correct package is downloaded for this user.
+The latest \/ current local release. If specified,                 metadata from this package may be provided to the remote server (such as package id,                 or cpu architecture) to ensure that the correct package is downloaded for this user.
 
 ## Returns
 
 Task\<[VelopackAssetFeed](../../../VelopackAssetFeed/index.md)\>
 
-An array of [ReleaseEntry](../../../ReleaseEntry/index.md) objects that are available for download             and are applicable to this user.
+An array of [VelopackAsset](../../../VelopackAsset/index.md) objects that are available for download             and are applicable to this user.
 
 ___
 

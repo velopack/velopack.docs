@@ -10,21 +10,19 @@
 **Declaring Type:** [IFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Returns a string containing the contents of the specified url
 
 ```csharp
-public Task<string> DownloadString(string url, string authorization = null, string accept = null, double timeout = 30);
+public Task<string> DownloadString(string url, [Nullable(Mono.Cecil.CustomAttributeArgument[])]IDictionary<string, string> headers = null, double timeout = 30);
 ```
 
 ## Parameters
 
 `url`  string
 
-`authorization`  string
-
-`accept`  string
+`headers`  IDictionary\<string, string\>
 
 `timeout`  double
 

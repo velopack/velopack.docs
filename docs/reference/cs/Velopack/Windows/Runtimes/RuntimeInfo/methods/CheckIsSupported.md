@@ -10,11 +10,12 @@
 **Declaring Type:** [Runtimes.RuntimeInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
  Check if this runtime is supported on the current system 
 
 ```csharp
+[SupportedOSPlatform("windows")]
 public Task<bool> CheckIsSupported();
 ```
 

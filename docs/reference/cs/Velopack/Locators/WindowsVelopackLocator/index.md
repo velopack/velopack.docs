@@ -14,21 +14,26 @@ sidebar_label: WindowsVelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 An implementation for Windows which uses the default paths.
 
 ```csharp
+[NullableContext(2)]
+[Nullable(0)]
+[SupportedOSPlatform("windows")]
 public class WindowsVelopackLocator : VelopackLocator
 ```
 
 **Inheritance:** object → [VelopackLocator](../VelopackLocator/index.md) → WindowsVelopackLocator
 
+**Attributes:** NullableContextAttribute,NullableAttribute,SupportedOSPlatformAttribute
+
 ## Constructors
 
-| Name                                                     | Description |
-| -------------------------------------------------------- | ----------- |
-| [WindowsVelopackLocator(ILogger)](constructors/index.md) |             |
+| Name                                                                           | Description |
+| ------------------------------------------------------------------------------ | ----------- |
+| [WindowsVelopackLocator(string, uint, IVelopackLogger)](constructors/index.md) |             |
 
 ## Properties
 
@@ -39,7 +44,10 @@ public class WindowsVelopackLocator : VelopackLocator
 | [Channel](properties/Channel.md)                                     |             |
 | [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |             |
 | [IsPortable](properties/IsPortable.md)                               |             |
+| [Log](properties/Log.md)                                             |             |
 | [PackagesDir](properties/PackagesDir.md)                             |             |
+| [ProcessExePath](properties/ProcessExePath.md)                       |             |
+| [ProcessId](properties/ProcessId.md)                                 |             |
 | [RootAppDir](properties/RootAppDir.md)                               |             |
 | [UpdateExePath](properties/UpdateExePath.md)                         |             |
 

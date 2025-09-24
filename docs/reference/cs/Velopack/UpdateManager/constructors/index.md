@@ -13,21 +13,22 @@ title: Constructors
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ## Overloads
 
-| Signature                                                                                                                                    | Description                                                                                                                     |
-| -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| [UpdateManager(IUpdateSource, UpdateOptions, ILogger, IVelopackLocator)](#updatemanageriupdatesource-updateoptions-ilogger-ivelopacklocator) | Creates a new UpdateManager instance using the specified URL or file path to the releases feed, and the specified channel name. |
-| [UpdateManager(string, UpdateOptions, ILogger, IVelopackLocator)](#updatemanagerstring-updateoptions-ilogger-ivelopacklocator)               | Creates a new UpdateManager instance using the specified URL or file path to the releases feed, and the specified channel name. |
+| Signature                                                                                                                   | Description                                                                                                                     |
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| [UpdateManager(IUpdateSource, UpdateOptions, IVelopackLocator)](#updatemanageriupdatesource-updateoptions-ivelopacklocator) | Creates a new UpdateManager instance using the specified URL or file path to the releases feed, and the specified channel name. |
+| [UpdateManager(string, UpdateOptions, IVelopackLocator)](#updatemanagerstring-updateoptions-ivelopacklocator)               | Creates a new UpdateManager instance using the specified URL or file path to the releases feed, and the specified channel name. |
 
-## UpdateManager(IUpdateSource, UpdateOptions, ILogger, IVelopackLocator)
+## UpdateManager(IUpdateSource, UpdateOptions, IVelopackLocator)
 
 Creates a new UpdateManager instance using the specified URL or file path to the releases feed, and the specified channel name.
 
 ```csharp
-public UpdateManager(IUpdateSource source, UpdateOptions options = null, ILogger logger = null, IVelopackLocator locator = null);
+[NullableContext(2)]
+public UpdateManager([Nullable(1)]IUpdateSource source, UpdateOptions options = null, IVelopackLocator locator = null);
 ```
 
 ### Parameters
@@ -40,20 +41,17 @@ The source describing where to search for updates. This can be a custom source, 
 
 Override \/ configure default update behaviors.
 
-`logger`  ILogger
-
-The logger to use for diagnostic messages. If one was provided to [Run(ILogger)](../../VelopackApp/methods/Run.md) but is null here,              it will be cached and used again.
-
 `locator`  [IVelopackLocator](../../Locators/IVelopackLocator/index.md)
 
 This should usually be left null. Providing an [IVelopackLocator](../../Locators/IVelopackLocator/index.md) allows you to mock up certain application paths.              For example, if you wanted to test that updates are working in a unit test, you could provide an instance of [TestVelopackLocator](../../Locators/TestVelopackLocator/index.md). 
 
-## UpdateManager(string, UpdateOptions, ILogger, IVelopackLocator)
+## UpdateManager(string, UpdateOptions, IVelopackLocator)
 
 Creates a new UpdateManager instance using the specified URL or file path to the releases feed, and the specified channel name.
 
 ```csharp
-public UpdateManager(string urlOrPath, UpdateOptions options = null, ILogger logger = null, IVelopackLocator locator = null);
+[NullableContext(2)]
+public UpdateManager([Nullable(1)]string urlOrPath, UpdateOptions options = null, IVelopackLocator locator = null);
 ```
 
 ### Parameters
@@ -65,10 +63,6 @@ A basic URL or file path to use when checking for updates.
 `options`  [UpdateOptions](../../UpdateOptions/index.md)
 
 Override \/ configure default update behaviors.
-
-`logger`  ILogger
-
-The logger to use for diagnostic messages. If one was provided to [Run(ILogger)](../../VelopackApp/methods/Run.md) but is null here,              it will be cached and used again.
 
 `locator`  [IVelopackLocator](../../Locators/IVelopackLocator/index.md)
 

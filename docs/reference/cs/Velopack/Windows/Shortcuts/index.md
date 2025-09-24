@@ -16,24 +16,25 @@ sidebar_label: Shortcuts
 
 **Namespace:** [Velopack.Windows](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 A helper class to create or delete windows shortcuts.
 
 ```csharp
+[SupportedOSPlatform("windows")]
 [Obsolete("Desktop and StartMenuRoot shortcuts are now created and removed automatically when your app is installed / uninstalled.")]
 public class Shortcuts
 ```
 
 **Inheritance:** object → Shortcuts
 
-**Attributes:** ObsoleteAttribute
+**Attributes:** SupportedOSPlatformAttribute,ObsoleteAttribute
 
 ## Constructors
 
-| Name                                                          | Description |
-| ------------------------------------------------------------- | ----------- |
-| [Shortcuts(ILogger, IVelopackLocator)](constructors/index.md) |             |
+| Name                                                 | Description |
+| ---------------------------------------------------- | ----------- |
+| [Shortcuts(IVelopackLocator)](constructors/index.md) |             |
 
 ## Methods
 

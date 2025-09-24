@@ -14,18 +14,19 @@ sidebar_label: ShellLink
 
 **Namespace:** [Velopack.Windows](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Summary description for ShellLink.
 
 ```csharp
+[SupportedOSPlatform("windows")]
 [ExcludeFromCodeCoverage]
 public class ShellLink : IDisposable
 ```
 
 **Inheritance:** object → ShellLink
 
-**Attributes:** ExcludeFromCodeCoverageAttribute
+**Attributes:** SupportedOSPlatformAttribute,ExcludeFromCodeCoverageAttribute
 
 **Implements:** IDisposable
 

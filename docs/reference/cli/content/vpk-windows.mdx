@@ -4,7 +4,7 @@
 ## `vpk -H`
 ```
 Description:
-  Velopack CLI 0.0.1053, for distributing applications.  
+  Velopack CLI 0.0.1298, for distributing applications.  
 
 Usage:
   vpk [command] [options]  
@@ -34,65 +34,77 @@ Usage:
   vpk pack [options]  
 
 Options:
-  -o, --outputDir <DIR>              ENV=VPK_OUTPUT_DIR  Output directory       
-                                     for created packages. [default:            
-                                     Releases]                                  
-  -c, --channel <NAME>               ENV=VPK_CHANNEL  The channel to use        
-                                     for this release. [default: win]           
-  -r, --runtime <RID>                ENV=VPK_RUNTIME  The target runtime        
-                                     to build packages for.                     
-  -u, --packId <ID> (REQ)            ENV=VPK_PACK_ID  Unique Id for             
-                                     application bundle.                        
-  -v, --packVersion <VERSION> (REQ)  ENV=VPK_PACK_VERSION  Current version      
-                                     for application bundle.                    
-  -p, --packDir <DIR> (REQ)          ENV=VPK_PACK_DIR  Directory                
-                                     containing application files for           
-                                     release.                                   
-  --packAuthors <AUTHORS>            ENV=VPK_PACK_AUTHORS  Company name or      
-                                     comma-delimited list of authors.           
-  --packTitle <NAME>                 ENV=VPK_PACK_TITLE  Display/friendly       
-                                     name for application.                      
-  --releaseNotes <PATH>              ENV=VPK_RELEASE_NOTES  File with           
-                                     markdown-formatted notes for this          
-                                     version.                                   
-  --delta <BestSize|BestSpeed|None>  ENV=VPK_DELTA  Disable or set the          
-                                     delta generation mode. [default:           
-                                     BestSpeed]                                 
-  -i, --icon <PATH>                  ENV=VPK_ICON  Path to icon file for        
-                                     package.                                   
-  -e, --mainExe <NAME>               ENV=VPK_MAIN_EXE  The file name (not       
-                                     path) of the main/entry executable.        
-  --exclude <REGEX>                  ENV=VPK_EXCLUDE  A regex which             
-                                     excludes matched files from the            
-                                     package. [default: .*\.pdb]                
-  --noPortable                       ENV=VPK_NO_PORTABLE  Skip generating       
-                                     a portable bundle.                         
-  --noInst                           ENV=VPK_NO_INST  Skip generating an        
-                                     installer package.                         
-  -f, --framework <RUNTIMES>         ENV=VPK_FRAMEWORK  List of required        
-                                     runtimes to install during setup.          
-                                     Example:                                   
-                                     'net6-x64-desktop,vcredist143'.            
-  -s, --splashImage <PATH>           ENV=VPK_SPLASH_IMAGE  Path to image        
-                                     displayed during installation.             
-  --skipVeloAppCheck                 ENV=VPK_SKIP_VELO_APP_CHECK  Skip the      
-                                     VelopackApp builder verification.          
-  --signTemplate <COMMAND>           ENV=VPK_SIGN_TEMPLATE  Use a custom        
-                                     signing command. {{file}} will be          
-                                     substituted.                               
-  --signSkipDll                      ENV=VPK_SIGN_SKIP_DLL  Only signs EXE      
-                                     files, and skips signing DLL files.        
-  --signParallel <NUM>               ENV=VPK_SIGN_PARALLEL  The number of       
-                                     files to sign in each signing              
-                                     command. [default: 10]                     
-  --shortcuts <LOC>                  ENV=VPK_SHORTCUTS  List of locations       
-                                     to install shortcuts to during setup.      
-                                     [default: Desktop,StartMenuRoot]           
-  -n, --signParams <PARAMS>          ENV=VPK_SIGN_PARAMS  Sign files via        
-                                     signtool.exe using these parameters.       
-  --azureTrustedSignFile <PATH>      ENV=VPK_AZURE_TRUSTED_SIGN_FILE  Path      
-                                     to Azure Trusted Signing                   
-                                     metadata.json.
+  -o, --outputDir <DIR>                ENV=VPK_OUTPUT_DIR  Output               
+                                       directory for created packages. [        
+                                       default: Releases]                       
+  -c, --channel <NAME>                 ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: win]         
+  -r, --runtime <RID>                  ENV=VPK_RUNTIME  The target runtime      
+                                       to build packages for.                   
+  -u, --packId <ID> (REQ)              ENV=VPK_PACK_ID  Unique Id for           
+                                       application bundle.                      
+  -v, --packVersion <VERSION> (REQ)    ENV=VPK_PACK_VERSION  Current            
+                                       version for application bundle.          
+  -p, --packDir <DIR> (REQ)            ENV=VPK_PACK_DIR  Directory              
+                                       containing application files for         
+                                       release.                                 
+  --packAuthors <AUTHORS>              ENV=VPK_PACK_AUTHORS  Company name       
+                                       or comma-delimited list of authors.      
+  --packTitle <NAME>                   ENV=VPK_PACK_TITLE                       
+                                       Display/friendly name for                
+                                       application.                             
+  --releaseNotes <PATH>                ENV=VPK_RELEASE_NOTES  File with         
+                                       markdown-formatted notes for this        
+                                       version.                                 
+  --delta <BestSize|BestSpeed|None>    ENV=VPK_DELTA  Disable or set the        
+                                       delta generation mode. [default:         
+                                       BestSpeed]                               
+  -i, --icon <PATH>                    ENV=VPK_ICON  Path to icon file for      
+                                       package.                                 
+  -e, --mainExe <NAME>                 ENV=VPK_MAIN_EXE  The file name          
+                                       (not path) of the main/entry             
+                                       executable.                              
+  --exclude <REGEX>                    ENV=VPK_EXCLUDE  A regex which           
+                                       excludes matched files from the          
+                                       package. [default: .*\.pdb]              
+  --noPortable                         ENV=VPK_NO_PORTABLE  Skip                
+                                       generating a portable bundle.            
+  --noInst                             ENV=VPK_NO_INST  Skip generating an      
+                                       installer package.                       
+  -f, --framework <RUNTIMES>           ENV=VPK_FRAMEWORK  List of required      
+                                       runtimes to install during setup.        
+                                       Example:                                 
+                                       'net6-x64-desktop,vcredist143-x64'.      
+  -s, --splashImage <PATH>             ENV=VPK_SPLASH_IMAGE  Path to image      
+                                       displayed during installation.           
+  --skipVeloAppCheck                   ENV=VPK_SKIP_VELO_APP_CHECK  Skip        
+                                       the VelopackApp builder                  
+                                       verification.                            
+  --signTemplate <COMMAND>             ENV=VPK_SIGN_TEMPLATE  Use a custom      
+                                       signing command. {{file}} will be        
+                                       substituted.                             
+  --signExclude                        ENV=VPK_SIGN_EXCLUDE  A regex which      
+                                       excludes matched files from              
+                                       signing.                                 
+  --signParallel <NUM>                 ENV=VPK_SIGN_PARALLEL  The number        
+                                       of files to sign in each signing         
+                                       command. [default: 10]                   
+  --shortcuts <LOC>                    ENV=VPK_SHORTCUTS  List of               
+                                       locations to install shortcuts to        
+                                       during setup. [default:                  
+                                       Desktop,StartMenuRoot]                   
+  -n, --signParams <PARAMS>            ENV=VPK_SIGN_PARAMS  Sign files via      
+                                       signtool.exe using these                 
+                                       parameters.                              
+  --azureTrustedSignFile <PATH>        ENV=VPK_AZURE_TRUSTED_SIGN_FILE          
+                                       Path to Azure Trusted Signing            
+                                       metadata.json.                           
+  --msiDeploymentTool                  ENV=VPK_MSI_DEPLOYMENT_TOOL              
+                                       Compile a .msi machine-wide              
+                                       deployment tool.                         
+  --msiDeploymentToolVersion           ENV=VPK_MSI_DEPLOYMENT_TOOL_VERSION      
+  <VERSION>                            Override the product version for         
+                                       the generated msi.
 ```
 
 ## `vpk download -H`
@@ -169,22 +181,26 @@ Usage:
   vpk download s3 [options]  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
-                         packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
-                         release. [default: win]                                
-  --keyId <KEYID>        ENV=VPK_KEY_ID  Authentication identifier or           
-                         access key.                                            
-  --secret <KEY>         ENV=VPK_SECRET  Authentication secret key.             
-  --region <REGION>      ENV=VPK_REGION  AWS service region (eg.                
-                         us-west-1).                                            
-  --session <TOKEN>      ENV=VPK_SESSION  Authentication session token.         
-  --endpoint <URL>       ENV=VPK_ENDPOINT  Custom service url (backblaze,       
-                         digital ocean, etc).                                   
-  --bucket <NAME> (REQ)  ENV=VPK_BUCKET  Name of the S3 bucket.                 
-  --prefix <PREFIX>      ENV=VPK_PREFIX  Prefix to the S3 url.                  
-  --timeout <MINUTES>    ENV=VPK_TIMEOUT  Network timeout in minutes. [         
-                         default: 30]
+  -o, --outputDir <DIR>      ENV=VPK_OUTPUT_DIR  Output directory for           
+                             created packages. [default: Releases]              
+  -c, --channel <NAME>       ENV=VPK_CHANNEL  The channel to use for this       
+                             release. [default: win]                            
+  --keyId <KEYID>            ENV=VPK_KEY_ID  Authentication identifier or       
+                             access key.                                        
+  --secret <KEY>             ENV=VPK_SECRET  Authentication secret key.         
+  --region <REGION>          ENV=VPK_REGION  AWS service region (eg.            
+                             us-west-1).                                        
+  --session <TOKEN>          ENV=VPK_SESSION  Authentication session            
+                             token.                                             
+  --endpoint <URL>           ENV=VPK_ENDPOINT  Custom S3-compatible             
+                             service url (backblaze, digital ocean, etc).       
+  --bucket <NAME> (REQ)      ENV=VPK_BUCKET  Name of the S3 bucket.             
+  --prefix <PREFIX>          ENV=VPK_PREFIX  Prefix to the S3 url.              
+  --disablePathStyle <BOOL>  ENV=VPK_DISABLE_PATH_STYLE  Disable the            
+                             default of path-style endpoint and use a           
+                             subdomain endpoint instead.                        
+  --timeout <MINUTES>        ENV=VPK_TIMEOUT  Network timeout in minutes.       
+                             [default: 30]
 ```
 
 ## `vpk download az -H`
@@ -349,10 +365,14 @@ Options:
                                us-west-1).                                      
   --session <TOKEN>            ENV=VPK_SESSION  Authentication session          
                                token.                                           
-  --endpoint <URL>             ENV=VPK_ENDPOINT  Custom service url             
-                               (backblaze, digital ocean, etc).                 
+  --endpoint <URL>             ENV=VPK_ENDPOINT  Custom S3-compatible           
+                               service url (backblaze, digital ocean,           
+                               etc).                                            
   --bucket <NAME> (REQ)        ENV=VPK_BUCKET  Name of the S3 bucket.           
   --prefix <PREFIX>            ENV=VPK_PREFIX  Prefix to the S3 url.            
+  --disablePathStyle <BOOL>    ENV=VPK_DISABLE_PATH_STYLE  Disable the          
+                               default of path-style endpoint and use a         
+                               subdomain endpoint instead.                      
   --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
                                minutes. [default: 30]                           
   --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           

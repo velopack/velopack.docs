@@ -10,7 +10,7 @@
 **Declaring Type:** [RuntimeVersion](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ```csharp
 public static bool operator <(RuntimeVersion v1, RuntimeVersion v2);

@@ -10,11 +10,11 @@
 **Declaring Type:** [UpdateExe](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ```csharp
 [AsyncStateMachine(Velopack.UpdateExe/<ApplyAsync>d__5)]
-public static Task ApplyAsync(IVelopackLocator locator, VelopackAsset toApply, bool silent, bool restart, string[] restartArgs = null, ILogger logger = null);
+public static Task ApplyAsync(IVelopackLocator locator, VelopackAsset toApply, bool silent, uint waitPid, bool restart, [Nullable(Mono.Cecil.CustomAttributeArgument[])]string[] restartArgs = null);
 ```
 
 ## Parameters
@@ -25,11 +25,11 @@ public static Task ApplyAsync(IVelopackLocator locator, VelopackAsset toApply, b
 
 `silent`  bool
 
+`waitPid`  uint
+
 `restart`  bool
 
 `restartArgs`  string\[\]
-
-`logger`  ILogger
 
 ## Returns
 

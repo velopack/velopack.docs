@@ -14,15 +14,19 @@ sidebar_label: GithubSource
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Retrieves available releases from a GitHub repository.
 
 ```csharp
+[NullableContext(1)]
+[Nullable(Mono.Cecil.CustomAttributeArgument[])]
 public class GithubSource : GitBase<GithubRelease>
 ```
 
 **Inheritance:** object → [GitBase\<T\>](../GitBase-1/index.md) → GithubSource
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 ## Constructors
 

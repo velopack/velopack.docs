@@ -10,17 +10,17 @@
 **Declaring Type:** [IUpdateSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Download the specified [VelopackAsset](../../../VelopackAsset/index.md) to the provided local file path.
 
 ```csharp
-public Task DownloadReleaseEntry(ILogger logger, VelopackAsset releaseEntry, string localFile, Action<int> progress, CancellationToken cancelToken = default);
+public Task DownloadReleaseEntry(IVelopackLogger logger, VelopackAsset releaseEntry, string localFile, Action<int> progress, CancellationToken cancelToken = default);
 ```
 
 ## Parameters
 
-`logger`  ILogger
+`logger`  [IVelopackLogger](../../../Logging/IVelopackLogger/index.md)
 
 The logger to use for any diagnostic messages.
 

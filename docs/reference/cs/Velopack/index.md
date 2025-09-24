@@ -14,8 +14,9 @@ sidebar_label: Velopack
 
 ## Namespaces
 
-- [Velopack.Compression](Compression/index.md)
+- [Velopack.Exceptions](Exceptions/index.md)
 - [Velopack.Locators](Locators/index.md)
+- [Velopack.Logging](Logging/index.md)
 - [Velopack.NuGet](NuGet/index.md)
 - [Velopack.Sources](Sources/index.md)
 - [Velopack.Windows](Windows/index.md)
@@ -25,8 +26,6 @@ sidebar_label: Velopack
 | Name                                                | Description                                                                                                                                                                                                                                                                                                                                                                                                          |
 | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [RID](RID/index.md)                                 |                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| [ReleaseEntry](ReleaseEntry/index.md)               | Represents a Velopack release, as described in a RELEASES file \- usually also with an  accompanying package containing the files needed to apply the release.                                                                                                                                                                                                                                                       |
-| [ReleaseEntryName](ReleaseEntryName/index.md)       | Represents the information that can be parsed from a release entry filename.                                                                                                                                                                                                                                                                                                                                         |
 | [RuntimeVersion](RuntimeVersion/index.md)           | A Version class that also supports a single integer (major only)                                                                                                                                                                                                                                                                                                                                                     |
 | [UpdateExe](UpdateExe/index.md)                     | A static helper class to assist in running Update.exe CLI commands. You probably should not invoke this directly,  instead you should use the relevant methods on [UpdateManager](UpdateManager/index.md). For example: [ApplyUpdatesAndExit(VelopackAsset)](UpdateManager/methods/ApplyUpdatesAndExit.md), or [ApplyUpdatesAndRestart(VelopackAsset, string\[\])](UpdateManager/methods/ApplyUpdatesAndRestart.md). |
 | [UpdateInfo](UpdateInfo/index.md)                   | Holds information about the current version and pending updates, such as how many there are, and access to release notes.                                                                                                                                                                                                                                                                                            |
@@ -40,13 +39,12 @@ sidebar_label: Velopack
 
 ## Enums
 
-| Name                                              | Description                                        |
-| ------------------------------------------------- | -------------------------------------------------- |
-| [ReleaseNotesFormat](ReleaseNotesFormat/index.md) | Describes the requested release notes text format. |
-| [RidDisplayType](RidDisplayType/index.md)         |                                                    |
-| [RuntimeCpu](RuntimeCpu/index.md)                 |  The Runtime CPU Architecture                      |
-| [RuntimeOs](RuntimeOs/index.md)                   |  The Runtime OS                                    |
-| [VelopackAssetType](VelopackAssetType/index.md)   | Represents a Velopack Asset Type.                  |
+| Name                                            | Description                       |
+| ----------------------------------------------- | --------------------------------- |
+| [RidDisplayType](RidDisplayType/index.md)       |                                   |
+| [RuntimeCpu](RuntimeCpu/index.md)               |  The Runtime CPU Architecture     |
+| [RuntimeOs](RuntimeOs/index.md)                 |  The Runtime OS                   |
+| [VelopackAssetType](VelopackAssetType/index.md) | Represents a Velopack Asset Type. |
 
 ___
 

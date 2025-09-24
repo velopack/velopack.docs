@@ -14,15 +14,19 @@ sidebar_label: SimpleWebSource
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Retrieves updates from a static file host or other web server.  Will perform a request for '{baseUri}\/RELEASES' to locate the available packages, and provides query parameters to specify the name of the requested package.
 
 ```csharp
+[NullableContext(1)]
+[Nullable(0)]
 public class SimpleWebSource : IUpdateSource
 ```
 
 **Inheritance:** object → SimpleWebSource
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 **Implements:** [IUpdateSource](../IUpdateSource/index.md)
 
@@ -43,10 +47,10 @@ public class SimpleWebSource : IUpdateSource
 
 ## Methods
 
-| Name                                                                                                                      | Description |
-| ------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [DownloadReleaseEntry(ILogger, VelopackAsset, string, Action\<int\>, CancellationToken)](methods/DownloadReleaseEntry.md) |             |
-| [GetReleaseFeed(ILogger, string, Guid?, VelopackAsset)](methods/GetReleaseFeed.md)                                        |             |
+| Name                                                                                                                              | Description |
+| --------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [DownloadReleaseEntry(IVelopackLogger, VelopackAsset, string, Action\<int\>, CancellationToken)](methods/DownloadReleaseEntry.md) |             |
+| [GetReleaseFeed(IVelopackLogger, string, string, Guid?, VelopackAsset)](methods/GetReleaseFeed.md)                                |             |
 
 ___
 

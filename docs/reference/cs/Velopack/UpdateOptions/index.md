@@ -14,15 +14,19 @@ sidebar_label: UpdateOptions
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Options to customise the behaviour of [UpdateManager](../UpdateManager/index.md).
 
 ```csharp
+[NullableContext(2)]
+[Nullable(0)]
 public class UpdateOptions
 ```
 
 **Inheritance:** object → UpdateOptions
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 ## Constructors
 
@@ -32,10 +36,11 @@ public class UpdateOptions
 
 ## Properties
 
-| Name                                                         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [AllowVersionDowngrade](properties/AllowVersionDowngrade.md) | Allows UpdateManager to update to a version that's lower than the current version (i.e. downgrading). This could happen if a release has bugs and was retracted from the release feed, or if you're using [ExplicitChannel](properties/ExplicitChannel.md) to switch channels to another channel where the latest version on that  channel is lower than the current version.                                                                                                                                                                                                                                              |
-| [ExplicitChannel](properties/ExplicitChannel.md)             | . Overrides the default channel used to fetch updates.              The default channel will be whatever channel was specified on the command line when building this release.              For example, if the current release was packaged with '\-\-channel beta', then the default channel will be 'beta'.             This allows users to automatically receive updates from the same channel they installed from. This options             allows you to explicitly switch channels, for example if the user wished to switch back to the 'stable' channel             without having to reinstall the application. |
+| Name                                                                     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [AllowVersionDowngrade](properties/AllowVersionDowngrade.md)             | Allows UpdateManager to update to a version that's lower than the current version (i.e. downgrading). This could happen if a release has bugs and was retracted from the release feed, or if you're using [ExplicitChannel](properties/ExplicitChannel.md) to switch channels to another channel where the latest version on that  channel is lower than the current version.                                                                                                                                                                                                                                              |
+| [ExplicitChannel](properties/ExplicitChannel.md)                         | . Overrides the default channel used to fetch updates.              The default channel will be whatever channel was specified on the command line when building this release.              For example, if the current release was packaged with '\-\-channel beta', then the default channel will be 'beta'.             This allows users to automatically receive updates from the same channel they installed from. This options             allows you to explicitly switch channels, for example if the user wished to switch back to the 'stable' channel             without having to reinstall the application. |
+| [MaximumDeltasBeforeFallback](properties/MaximumDeltasBeforeFallback.md) | Sets the maximum number of deltas to consider before falling back to a full update. The default is 10. Set to a negative number to disable deltas.                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 
 ___
 

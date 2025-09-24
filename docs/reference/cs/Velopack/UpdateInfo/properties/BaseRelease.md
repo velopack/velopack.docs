@@ -10,11 +10,12 @@
 **Declaring Type:** [UpdateInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 The base release that we are to apply delta updates from. If null, we can try doing a delta update from the currently installed version.
 
 ```csharp
+[Nullable(2)]
 public VelopackAsset BaseRelease { get; }
 ```
 

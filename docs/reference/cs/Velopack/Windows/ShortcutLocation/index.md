@@ -14,7 +14,7 @@ sidebar_label: ShortcutLocation
 
 **Namespace:** [Velopack.Windows](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Specifies several common places where shortcuts can be installed on a user's system
 
@@ -44,7 +44,7 @@ public enum ShortcutLocation
 | None          | Represents no shortcut location                                                                                                                 |
 | StartMenu     | A shortcut in ProgramFiles within a publisher sub\-directory                                                                                    |
 | StartMenuRoot | A shortcut in ProgramFiles root folder (not in a company\/publisher sub\-directory). This is commonplace as of more recent versions of windows. |
-| Startup       | A shortcut in Startup\/Run folder will cause the app to be automatially started on user login.                                                  |
+| Startup       | A shortcut in Startup\/Run folder will cause the app to be automatically started on user login.                                                 |
 
 ___
 

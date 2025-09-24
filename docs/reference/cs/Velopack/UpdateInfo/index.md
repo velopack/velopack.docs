@@ -14,15 +14,19 @@ sidebar_label: UpdateInfo
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Holds information about the current version and pending updates, such as how many there are, and access to release notes.
 
 ```csharp
+[NullableContext(1)]
+[Nullable(0)]
 public class UpdateInfo
 ```
 
 **Inheritance:** object → UpdateInfo
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 ## Constructors
 

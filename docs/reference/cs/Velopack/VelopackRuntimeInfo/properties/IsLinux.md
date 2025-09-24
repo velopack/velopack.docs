@@ -10,11 +10,12 @@
 **Declaring Type:** [VelopackRuntimeInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
  True if executing on a Linux platform. 
 
 ```csharp
+[SupportedOSPlatformGuard("linux")]
 public static bool IsLinux { get; }
 ```
 

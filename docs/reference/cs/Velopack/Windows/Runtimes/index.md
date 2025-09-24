@@ -12,16 +12,16 @@ sidebar_label: Runtimes
 
 # Runtimes Class
 
-⚠️ **Warning:** These classes are no longer used by Velopack, and does not represent the current supported runtimes. https:\/\/github.com\/velopack\/velopack\/blob\/master\/docs\/bootstrapping.md
+⚠️ **Warning:** These classes are no longer used by Velopack, and does not represent the current supported runtimes. https:\/\/docs.velopack.io\/packaging\/bootstrapping
 
 **Namespace:** [Velopack.Windows](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Contains static properties to access common supported runtimes, and a function to search for a runtime by name
 
 ```csharp
-[Obsolete("These classes are no longer used by Velopack, and does not represent the current supported runtimes. https://github.com/velopack/velopack/blob/master/docs/bootstrapping.md")]
+[Obsolete("These classes are no longer used by Velopack, and does not represent the current supported runtimes. https://docs.velopack.io/packaging/bootstrapping")]
 public static class Runtimes
 ```
 

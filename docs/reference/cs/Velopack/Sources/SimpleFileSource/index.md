@@ -14,15 +14,19 @@ sidebar_label: SimpleFileSource
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Retrieves available updates from a local or network\-attached disk. The directory must contain one or more valid packages, as well as a 'releases.{channel}.json' index file.
 
 ```csharp
+[NullableContext(1)]
+[Nullable(0)]
 public class SimpleFileSource : IUpdateSource
 ```
 
 **Inheritance:** object → SimpleFileSource
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 **Implements:** [IUpdateSource](../IUpdateSource/index.md)
 
@@ -40,10 +44,10 @@ public class SimpleFileSource : IUpdateSource
 
 ## Methods
 
-| Name                                                                                                                      | Description |
-| ------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [DownloadReleaseEntry(ILogger, VelopackAsset, string, Action\<int\>, CancellationToken)](methods/DownloadReleaseEntry.md) |             |
-| [GetReleaseFeed(ILogger, string, Guid?, VelopackAsset)](methods/GetReleaseFeed.md)                                        |             |
+| Name                                                                                                                              | Description |
+| --------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [DownloadReleaseEntry(IVelopackLogger, VelopackAsset, string, Action\<int\>, CancellationToken)](methods/DownloadReleaseEntry.md) |             |
+| [GetReleaseFeed(IVelopackLogger, string, string, Guid?, VelopackAsset)](methods/GetReleaseFeed.md)                                |             |
 
 ___
 

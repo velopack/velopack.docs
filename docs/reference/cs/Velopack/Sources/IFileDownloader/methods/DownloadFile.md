@@ -10,12 +10,12 @@
 **Declaring Type:** [IFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Downloads a remote file to the specified local path
 
 ```csharp
-public Task DownloadFile(string url, string targetFile, Action<int> progress, string authorization = null, string accept = null, double timeout = 30, CancellationToken cancelToken = default);
+public Task DownloadFile(string url, string targetFile, Action<int> progress, [Nullable(Mono.Cecil.CustomAttributeArgument[])]IDictionary<string, string> headers = null, double timeout = 30, CancellationToken cancelToken = default);
 ```
 
 ## Parameters
@@ -32,13 +32,9 @@ The local path where the file will be stored If a file exists at this path, it w
 
 A delegate for reporting download progress, with expected values from 0\-100.
 
-`authorization`  string
+`headers`  IDictionary\<string, string\>
 
-Text to be sent in the 'Authorization' header of the request.
-
-`accept`  string
-
-Text to be sent in the 'Accept' header of the request.
+Headers that can be passed to Http Downloader, e.g. Accept or Authorization.
 
 `timeout`  double
 

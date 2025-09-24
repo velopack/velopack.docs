@@ -10,11 +10,12 @@
 **Declaring Type:** [GithubReleaseAsset](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 The asset URL for this release asset. Requests to this URL will use API quota and return JSON unless the 'Accept' header is "application\/octet\-stream". 
 
 ```csharp
+[JsonPropertyName("url")]
 public string Url { get; set; }
 ```
 

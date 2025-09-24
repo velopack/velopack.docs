@@ -13,19 +13,20 @@ title: Constructors
 **Declaring Type:** [TestVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ## Overloads
 
-| Signature                                                                                                                                                                                         | Description |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [TestVelopackLocator(string, string, string, ILogger)](#testvelopacklocatorstring-string-string-ilogger)                                                                                          |             |
-| [TestVelopackLocator(string, string, string, string, string, string, string, ILogger, VelopackAsset)](#testvelopacklocatorstring-string-string-string-string-string-string-ilogger-velopackasset) |             |
+| Signature                                                                                                                                                                                                                        | Description |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [TestVelopackLocator(string, string, string, IVelopackLogger)](#testvelopacklocatorstring-string-string-ivelopacklogger)                                                                                                         |             |
+| [TestVelopackLocator(string, string, string, string, string, string, string, IVelopackLogger, VelopackAsset, string)](#testvelopacklocatorstring-string-string-string-string-string-string-ivelopacklogger-velopackasset-string) |             |
 
-## TestVelopackLocator(string, string, string, ILogger)
+## TestVelopackLocator(string, string, string, IVelopackLogger)
 
 ```csharp
-public TestVelopackLocator(string appId, string version, string packagesDir, ILogger logger = null);
+[NullableContext(1)]
+public TestVelopackLocator(string appId, string version, string packagesDir, [Nullable(2)]IVelopackLogger logger = null);
 ```
 
 ### Parameters
@@ -36,12 +37,12 @@ public TestVelopackLocator(string appId, string version, string packagesDir, ILo
 
 `packagesDir`  string
 
-`logger`  ILogger
+`logger`  [IVelopackLogger](../../../Logging/IVelopackLogger/index.md)
 
-## TestVelopackLocator(string, string, string, string, string, string, string, ILogger, VelopackAsset)
+## TestVelopackLocator(string, string, string, string, string, string, string, IVelopackLogger, VelopackAsset, string)
 
 ```csharp
-public TestVelopackLocator(string appId, string version, string packagesDir, string appDir, string rootDir, string updateExe, string channel = null, ILogger logger = null, VelopackAsset localPackage = null);
+public TestVelopackLocator([Nullable(1)]string appId, [Nullable(1)]string version, [Nullable(1)]string packagesDir, string appDir, string rootDir, string updateExe, string channel = null, IVelopackLogger logger = null, VelopackAsset localPackage = null, [Nullable(1)]string processPath = null);
 ```
 
 ### Parameters
@@ -60,9 +61,11 @@ public TestVelopackLocator(string appId, string version, string packagesDir, str
 
 `channel`  string
 
-`logger`  ILogger
+`logger`  [IVelopackLogger](../../../Logging/IVelopackLogger/index.md)
 
 `localPackage`  [VelopackAsset](../../../VelopackAsset/index.md)
+
+`processPath`  string
 
 ___
 

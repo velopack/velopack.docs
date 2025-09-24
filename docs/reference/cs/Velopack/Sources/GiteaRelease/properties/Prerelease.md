@@ -10,11 +10,12 @@
 **Declaring Type:** [GiteaRelease](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
  True if this release is a prerelease. 
 
 ```csharp
+[JsonPropertyName("prerelease")]
 public bool Prerelease { get; set; }
 ```
 

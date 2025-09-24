@@ -10,13 +10,14 @@
 **Declaring Type:** [Runtimes.RuntimeInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
- Execute a runtime installer at a local file path. Typically used after [DownloadToFile(string, Action\<int\>, IFileDownloader, ILogger)](DownloadToFile.md)
+ Execute a runtime installer at a local file path. Typically used after [DownloadToFile(string, Action\<int\>, IFileDownloader, IVelopackLogger)](DownloadToFile.md)
 
 ```csharp
 [AsyncStateMachine(Velopack.Windows.Runtimes/RuntimeInfo/<InvokeInstaller>d__12)]
-public Task<Runtimes.RuntimeInstallResult> InvokeInstaller(string pathToInstaller, bool isQuiet, ILogger log = null);
+[SupportedOSPlatform("windows")]
+public Task<Runtimes.RuntimeInstallResult> InvokeInstaller(string pathToInstaller, bool isQuiet, IVelopackLogger log = null);
 ```
 
 ## Parameters
@@ -25,7 +26,7 @@ public Task<Runtimes.RuntimeInstallResult> InvokeInstaller(string pathToInstalle
 
 `isQuiet`  bool
 
-`log`  ILogger
+`log`  [IVelopackLogger](../../../../Logging/IVelopackLogger/index.md)
 
 ## Returns
 

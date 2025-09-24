@@ -14,13 +14,17 @@ sidebar_label: HttpClientFileDownloader
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ```csharp
+[NullableContext(1)]
+[Nullable(0)]
 public class HttpClientFileDownloader : IFileDownloader
 ```
 
 **Inheritance:** object → HttpClientFileDownloader
+
+**Attributes:** NullableContextAttribute,NullableAttribute
 
 **Implements:** [IFileDownloader](../IFileDownloader/index.md)
 
@@ -38,11 +42,11 @@ public class HttpClientFileDownloader : IFileDownloader
 
 ## Methods
 
-| Name                                                                                                              | Description |
-| ----------------------------------------------------------------------------------------------------------------- | ----------- |
-| [DownloadBytes(string, string, string, double)](methods/DownloadBytes.md)                                         |             |
-| [DownloadFile(string, string, Action\<int\>, string, string, double, CancellationToken)](methods/DownloadFile.md) |             |
-| [DownloadString(string, string, string, double)](methods/DownloadString.md)                                       |             |
+| Name                                                                                                                             | Description |
+| -------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [DownloadBytes(string, IDictionary\<string, string\>, double)](methods/DownloadBytes.md)                                         |             |
+| [DownloadFile(string, string, Action\<int\>, IDictionary\<string, string\>, double, CancellationToken)](methods/DownloadFile.md) |             |
+| [DownloadString(string, IDictionary\<string, string\>, double)](methods/DownloadString.md)                                       |             |
 
 ___
 

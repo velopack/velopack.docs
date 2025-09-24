@@ -10,11 +10,11 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 ```csharp
-[AsyncStateMachine(Velopack.UpdateManager/<WaitExitThenApplyUpdatesAsync>d__47)]
-public Task WaitExitThenApplyUpdatesAsync(VelopackAsset toApply, bool silent = false, bool restart = true, string[] restartArgs = null);
+[AsyncStateMachine(Velopack.UpdateManager/<WaitExitThenApplyUpdatesAsync>d__50)]
+public Task WaitExitThenApplyUpdatesAsync([Nullable(2)]VelopackAsset toApply, bool silent = false, bool restart = true, [Nullable(Mono.Cecil.CustomAttributeArgument[])]string[] restartArgs = null);
 ```
 
 ## Parameters

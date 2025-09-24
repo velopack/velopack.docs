@@ -14,7 +14,7 @@ sidebar_label: VelopackRuntimeInfo
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1053+0cec039
+**Assembly Version:** 0.0.1298+ed8600e
 
 Convenience class which provides runtime information about the current executing process,  in a way that is safe in older and newer versions of the framework.
 
@@ -28,7 +28,6 @@ public static class VelopackRuntimeInfo
 
 | Name                                                           | Description                                                                          |
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [EntryExePath](properties/EntryExePath.md)                     |  The path on disk of the entry assembly.                                             |
 | [IsLinux](properties/IsLinux.md)                               |  True if executing on a Linux platform.                                              |
 | [IsOSX](properties/IsOSX.md)                                   |  True if executing on a MacOS \/ OSX platform.                                       |
 | [IsWindows](properties/IsWindows.md)                           |  True if executing on a Windows platform.                                            |
