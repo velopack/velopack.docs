@@ -17,12 +17,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '9.x'
       - name: Generate CLI Reference
         working-directory: generator
         run: dotnet run -- cli refout
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: cli-${{ matrix.os }}
           path: generator/refout/*
@@ -30,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Generate
         working-directory: generator
         run: dotnet run
@@ -40,7 +44,7 @@ jobs:
           max_wait_seconds: 900
           artifacts: cli-macos-latest,cli-windows-latest
       - name: Download Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: docs/reference/cli/content
           pattern: cli-*

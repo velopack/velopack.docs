@@ -63,6 +63,7 @@ const sidebars: SidebarsConfig = {
         link("C# / Uno", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUno", "Velopack in a cross-platform app with [Uno Platform](https://github.com/unoplatform/uno)."),
         link("C# / Wpf", "https://github.com/velopack/velopack/tree/develop/samples/CSharpWpf", "Velopack with WPF on Windows."),
         link("NodeJS / Electron", "https://github.com/velopack/velopack/tree/develop/samples/NodeJSElectron", "Velopack in a cross-platform JavaScript app with [Electron](https://www.electronjs.org/)."),
+        link("Python / WXPython", "https://github.com/velopack/velopack/tree/develop/samples/PythonWXPython", "Velopack in a cross-platform python app with the [WXPython](https://wxpython.org/) ui framework."),
         link("Rust / Iced", "https://github.com/velopack/velopack/tree/develop/samples/RustIced", "Velopack in a cross-platform app with [Iced](https://github.com/iced-rs/iced)."),
         //!! AUTO-GENERATED-END SAMPLES-TOC
       ],

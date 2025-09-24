@@ -36,9 +36,7 @@ public static class JavaScriptReference
                     "--indexFormat",
                     "table",
                     "--parametersFormat",
-                    "table",
-                    "--disableSources",
-                    "lib/index.d.ts"
+                    "table"
                 ],
                 packageDir);
 
