@@ -1,0 +1,29 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Docusaurus Dev Server",
+			"type": "shell",
+			"command": "npm install && npm run start",
+			"isBackground": true,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Install dependencies",
+			"type": "shell",
+			"command": "npm install",
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "Start Docusaurus Dev Server",
+			"type": "shell",
+			"command": "npm run start",
+			"isBackground": true,
+			"group": "build"
+		}
+	]
+}

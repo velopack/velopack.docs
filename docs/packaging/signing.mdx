@@ -254,6 +254,17 @@ It is also posible to store your certificates and notary credentials as Action S
              --notaryProfile "velopack-profile" \
              --keychain $RUNNER_TEMP/app-signing.keychain-db
 
+         # Or use dnx instead of installing globally:
+         # - name: Create Velopack Release
+         #   run: |
+         #     dnx vpk --version 1.0.0 pack ... \
+         #     --signAppIdentity "Developer ID Application: Your Name" \
+         #     --signInstallIdentity "Developer ID Installer: Your Name" \
+         #     --notaryProfile "velopack-profile" \
+         #     --keychain $RUNNER_TEMP/app-signing.keychain-db
+         # Replace 1.0.0 with your Velopack package version
+         # Learn more: https://learn.microsoft.com/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472
+
          - name: Clean up keychain
            if: ${{ always() }}
            run: security delete-keychain $RUNNER_TEMP/app-signing.keychain-db

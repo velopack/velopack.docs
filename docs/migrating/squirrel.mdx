@@ -15,6 +15,13 @@ Here are the general steps needed:
    Make sure you are using the same version of vpk and the Velopack package, this is the only officially supported configuration.
    :::
 
+   Alternatively, you can run `vpk` without installing it globally using the [`dnx`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472) command:
+   ```cmd
+   dnx vpk --version 1.0.0
+   ```
+   
+   Replace `1.0.0` with the version of the Velopack package you're using in your application.
+
 0. You will need to replace `Squirrel.SquirrelAwareApp` at the beginning of your app to `Velopack.VelopackApp.Build().Run()`.
 
    Shortcuts [[Read more]](integrating/shortcuts.mdx) and registry entries are managed automatically for you in Velopack, so if you are currently doing this in `SquirrelAwareApp` hooks they should be removed. For example, if your hooks were this before:

@@ -6,3 +6,14 @@ Once .NET is installed, you can install `vpk` by running:
 ```cmd
 dotnet tool install -g vpk
 ```
+
+:::tip
+It's recommended to use the same version of `vpk` as the Velopack package referenced in your application to ensure compatibility.
+:::
+
+Alternatively, you can run `vpk` without installing it globally using the [`dnx`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472) command:
+```cmd
+dnx vpk --version 1.0.0
+```
+
+Replace `1.0.0` with the version of the Velopack package you're using in your application.
