@@ -52,17 +52,6 @@ dotnet tool update -g vpk
 ```
 ***Note: you must have the .NET Core SDK 8 installed to use and update `vpk`***
 
-:::tip
-It's recommended to use the same version of `vpk` as the Velopack package referenced in your application to ensure compatibility.
-:::
-
-Alternatively, you can run `vpk` without installing it globally using the [`dnx`](https://learn.microsoft.com/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472) command:
-```sh
-dnx vpk --version 1.0.0
-```
-
-Replace `1.0.0` with the version of the Velopack package you're using in your application.
-
 6. Package your Velopack release / installers:
 ```sh
 vpk pack -u MyAppUniqueId -v 1.0.0 -p /target/release -e myexename.exe
