@@ -1,0 +1,177 @@
+---
+sidebar_position: 6
+---
+
+# Testing Updates
+<AppliesTo all />
+
+When developing applications with Velopack, you'll want to test your update logic without requiring a full installation. This guide shows you how to test updates, hooks, and other Velopack features in development and CI/CD environments.
+
+## Testing in Development
+
+The simplest way to test Velopack integration during development is to use the built-in test helpers provided by the SDK.
+
+### C# - TestVelopackLocator
+
+The `TestVelopackLocator` class allows you to mock a Velopack installation:
+
+```csharp
+var locator = new TestVelopackLocator(
+    appId: "MyApp",
+    version: "1.0.0",
+    packagesDir: "/path/to/packages"
+);
+
+VelopackApp.Build()
+    .SetLocator(locator)
+    .Run();
+```
+
+You can then test update checking and downloading:
+
+```csharp
+var updateManager = new UpdateManager(source, null, locator);
+var updateInfo = await updateManager.CheckForUpdatesAsync();
+
+if (updateInfo != null) {
+    await updateManager.DownloadUpdatesAsync(updateInfo);
+}
+```
+
+### Other Languages
+
+For languages without a built-in test locator, you can test by:
+
+1. **Creating a minimal package** - Build a test release with `vpk pack` and install it locally
+2. **Using a local update source** - Point your UpdateManager at a local directory
+3. **Mocking the update source** - Create a mock HTTP server or file source for testing
+
+## Testing Update Downloads
+
+To test that your application can correctly check for and download updates:
+
+```csharp
+// Create a mock update source
+var source = new SimpleWebSource("http://localhost:8080/releases");
+
+// Or use a local directory
+var source = new SimpleWebSource("file:///C:/my-test-updates");
+
+var updateManager = new UpdateManager(source);
+var updateInfo = await updateManager.CheckForUpdatesAsync();
+
+Assert.NotNull(updateInfo);
+Assert.True(updateInfo.TargetFullRelease.Version > currentVersion);
+
+await updateManager.DownloadUpdatesAsync(updateInfo);
+```
+
+## Testing Channels
+
+Test [channel switching](./switching-channels.mdx) by explicitly specifying a channel:
+
+```csharp
+var options = new UpdateOptions {
+    ExplicitChannel = "beta",
+    AllowVersionDowngrade = true
+};
+
+var updateManager = new UpdateManager(source, options);
+var updateInfo = await updateManager.CheckForUpdatesAsync();
+```
+
+Read more about channels in the [Channels documentation](../packaging/channels.mdx).
+
+## Testing Hooks
+
+To test install/update/uninstall hooks without going through a full install:
+
+**Option 1: Run your app with hook arguments**
+
+```bash
+MyApp.exe --veloapp-install 1.0.0
+MyApp.exe --veloapp-updated 1.1.0
+MyApp.exe --veloapp-uninstall 1.0.0
+```
+
+Your app should handle these arguments and exit quickly.
+
+**Option 2: Set environment variables**
+
+```bash
+# Windows
+$env:VELOPACK_FIRSTRUN="true"
+.\MyApp.exe
+
+# Linux/macOS
+VELOPACK_FIRSTRUN=true ./MyApp
+```
+
+See the [Hooks documentation](./hooks.mdx) for more details on available hooks.
+
+## Testing in CI/CD
+
+You can verify your Velopack integration in automated tests without a full installation.
+
+### Unit Testing Example (C#)
+
+```csharp
+[Fact]
+public async Task CanCheckForUpdates()
+{
+    var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+    Directory.CreateDirectory(tempDir);
+
+    try {
+        var locator = new TestVelopackLocator("TestApp", "1.0.0", tempDir);
+        var source = new SimpleWebSource("https://my-updates.com");
+        var updateManager = new UpdateManager(source, null, locator);
+
+        var updateInfo = await updateManager.CheckForUpdatesAsync();
+        // Assert your expectations
+    } finally {
+        Directory.Delete(tempDir, true);
+    }
+}
+```
+
+## Common Testing Scenarios
+
+### Test Version Downgrade
+
+```csharp
+var options = new UpdateOptions { AllowVersionDowngrade = true };
+var updateManager = new UpdateManager(source, options, locator);
+```
+
+### Test First Run Detection
+
+```csharp
+VelopackApp.Build()
+    .OnFirstRun((v) => {
+        // This code runs only on first launch after install
+        Console.WriteLine($"First run of version {v}");
+    })
+    .Run();
+```
+
+### Test Update Restart
+
+```csharp
+VelopackApp.Build()
+    .OnAfterUpdateFastCallback((v) => {
+        // This runs after an update is applied
+        Console.WriteLine($"Updated to version {v}");
+    })
+    .Run();
+```
+
+## Debugging Tips
+
+When testing updates:
+
+1. **Check logs** - Enable logging to see what Velopack is doing
+2. **Inspect packages directory** - Verify packages are downloaded correctly
+3. **Check release feed** - Ensure your `releases.{channel}.json` is valid
+
+For more debugging guidance, see the [Debugging documentation](../troubleshooting/debugging.mdx).
