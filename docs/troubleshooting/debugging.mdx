@@ -5,25 +5,39 @@ Find or configure application logs to find runtime issues.
 All parts of Velopack have logging built in to help troubleshoot issues, and you should provide these logs when opening a GitHub issue about a potential bug.
 
 ## Logging UpdateManager
-You should provide an instance of `Microsoft.Extensions.Logging.ILogger` to `VelopackApp.Run(ILogger)` and to `UpdateManager` to record potential issues. If you are not using Microsoft Hosting or Logging already, it is very simple to implement this interface yourself and log to a file, or integrate with another logging framework. 
-
+You can provide your own instance of `Velopack.Logging.IVelopackLogger` to `VelopackApp.SetLogger(IVelopackLogger)`. A logger can also be provided to the `UpdateManager` via its `IVelopackLocator``Log` property. The built-in locators support passing in an `IVelopackLocator` instance to their constructors.
+You cna also create a default locator using the `Velopack.Locators.VelopackLocator.CreateDefaultForPlatform(ILogger)` method.
 For example:
 ```cs
-using Microsoft.Extensions.Logging;
 
 // ...
 
-class ConsoleLogger : ILogger
+public class ConsoleVelopackLogger : IVelopackLogger
 {
-    public IDisposable BeginScope<TState>(TState state) where TState : notnull => null;
-    public bool IsEnabled(LogLevel logLevel) => true;
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-        => Console.WriteLine(formatter(state, exception));
+    public void Log(VelopackLogLevel logLevel, string? message, Exception? exception)
+    {
+        var logMessage = $"[{DateTime.Now.ToShortTimeString()}] [{logLevel}] {message}";
+        if (exception != null) {
+            logMessage += Environment.NewLine + exception;
+        }
+
+        Console.WriteLine(logMessage);
+    }
 }
 
 // ...
+using Velopack.Logging;
 
-new UpdateManager("https://path.to/your-updates", logger: new ConsoleLogger());
+VelopackApp.Build()
+    .SetLogger(new ConsoleVelopackLogger())
+    .Run();
+
+// ...
+using Velopack.Locators;
+using Velopack.Logging;
+
+var locator = VelopackLocator.CreateDefaultForPlatform(new ConsoleVelopackLogger());
+var updateManager = new UpdateManager("your-update-url", null, locator);
 ```
 
 ## Logging in the Velopack binaries
