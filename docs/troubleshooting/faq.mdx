@@ -5,11 +5,11 @@ Commonly asked questions about Velopack.
 - **My application was detected as a virus?** <br/>
   Velopack can't help with this, but you can [code-sign](packaging/signing.mdx) your app and check [other suggestions here](https://github.com/clowd/Clowd.Squirrel/issues/28#issuecomment-1016241760).
 - **What happened to SquirrelAwareApp? / Shortcuts** <br/>
-  This concept no longer exists in Velopack. You can create hooks on install/update in a similar way using the `VelopackApp` builder. Although note that reating shortcuts or registry entries yourself during hooks is no longer required.
+  This concept no longer exists in Velopack. You can create hooks on install/update in a similar way using the `VelopackApp` builder. Although note that recreating shortcuts or registry entries yourself during hooks is no longer required.
 - **Can Velopack bootstrap new runtimes during updates?** <br/>
   Yes, this is fully supported. Before installing updates, Velopack will prompt the user to install any missing updates.
 - **How do I install the `vpk` tool? / I've installed the tool but it doesn't work**
-  For now, you need to install `dotnet` runtime 6.0 or 8.0 for your platform, and then run `dotnet tool update -g vpk`. 
+  For now, you need to install `dotnet` runtime 6.0 or later for your platform, and then run `dotnet tool update -g vpk`. 
   It's recommended to use the same version of `vpk` as the Velopack package referenced in your application to ensure compatibility.
   Alternatively, you can run `vpk` without installing it globally using the [`dnx`](https://learn.microsoft.com/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472) command: `dnx vpk --version 1.0.0` (replace `1.0.0` with your Velopack package version).
   If you get a message that it was installed successfully, but running it in your terminal results in a "binary/command not found" message, it's probably because your PATH is not set-up properly. For windows, `%USERPROFILE%\.dotnet\tools` should be on the PATH. For macos, [see this issue](https://github.com/dotnet/sdk/issues/9415). In general, dotnet should set these paths up for you, but that is what you should check if things are not working.
