@@ -31,6 +31,44 @@ The Windows installer will extract the application to `%LocalAppData%\{packId}`,
 
 The `current` directory will be fully replaced [while doing updates](../integrating/overview.mdx). The other two files added by Velopack (`Update.exe` and `sq.version`) are crucial and are required files for Velopack to be able to properly update your application.
 
+### Windows MSI Installer
+In addition to `Setup.exe`, Velopack can generate a `.msi` installer using WiX 5. The MSI provides full Windows Installer integration, including support for per-machine installs to Program Files, Group Policy deployment, and standard Add/Remove Programs entries.
+
+To enable MSI generation, add the `--msi` flag to your `vpk pack` command. The MSI is built alongside `Setup.exe` during packaging.
+
+#### Install Location
+The `--instLocation` option controls where the MSI will install:
+- `PerUser` — installs to `%LocalAppData%\{packId}` (HKCU registry, no elevation required)
+- `PerMachine` — installs to `Program Files\{publisher}\{packTitle}` (HKLM registry, requires elevation)
+- `Either` (default) — the user chooses during installation
+
+#### MSI Options
+| Option | Description |
+|--------|-------------|
+| `--msi` | Enable MSI generation |
+| `--msiVersion` | Override the product version (must be a valid MSI version, i.e. `x.x.x.x`) |
+| `--instLocation` | Set install scope: `PerUser`, `PerMachine`, or `Either` (default) |
+| `--instWelcome {path}` | Welcome message shown during install (`.txt` or `.md`) |
+| `--instLicense {path}` | License agreement (`.txt`, `.md`, or `.rtf`) |
+| `--instReadme {path}` | Readme message (`.txt` or `.md`) |
+| `--instConclusion {path}` | Conclusion message (`.txt` or `.md`) |
+| `--msiBanner {path}` | Top banner image for MSI dialogs (`.bmp`, 493x58) |
+| `--msiLogo {path}` | Background logo for MSI dialogs (`.bmp`, 493x312) |
+
+#### Directory Structure
+The MSI installs the same directory layout as `Setup.exe`:
+```
+{installFolder}
+├── current
+│   ├── YourFile.dll
+│   ├── sq.version
+│   └── YourApp.exe
+├── Update.exe
+└── YourApp.exe          (execution stub)
+```
+
+After installation, updates work identically via `Update.exe` regardless of whether the app was installed with `Setup.exe` or the `.msi`.
+
 ## MacOS Overview
 The MacOS installer will be a standard `.pkg` - which is just a bundle where the UI is provided by the operating system, allowing the user to pick the install location. The app will be launched automatically after the install (mirroring the behavior on Windows) because of a `postinstall` script added by Velopack.
 
