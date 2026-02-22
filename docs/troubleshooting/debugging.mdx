@@ -4,15 +4,36 @@ Find or configure application logs to find runtime issues.
 
 All parts of Velopack have logging built in to help troubleshoot issues, and you should provide these logs when opening a GitHub issue about a potential bug.
 
-## Logging UpdateManager
-You can provide your own instance of `Velopack.Logging.IVelopackLogger` to `VelopackApp.SetLogger(IVelopackLogger)`. A logger can also be provided to the `UpdateManager` via its `IVelopackLocator``Log` property. The built-in locators support passing in an `IVelopackLocator` instance to their constructors.
-You cna also create a default locator using the `Velopack.Locators.VelopackLocator.CreateDefaultForPlatform(ILogger)` method.
+## Logging in Velopack
+
+All Velopack components (binaries, libraries, and the UpdateManager) log to a shared file by default. The log file name includes the app ID from `sq.version` when available (e.g. `velopack_myapp.log`), or falls back to `velopack.log` when no app context exists (such as during initial setup/install). Log files are automatically rotated at 1 MB.
+
+For the Update.exe and Setup.exe binaries, you can override the log location with the `--log {path}` parameter. You can also use the `--verbose` flag to capture debug/trace output to the log file.
+Please see the [command line reference](../reference/cli) for a comprehensive list of arguments supported.
+
+### Windows
+- **Default**: `%LocalAppData%\velopack\velopack_{appid}.log`
+- **Setup.exe**: `%LocalAppData%\velopack\velopack.log` (no app context at install time)
+- **Fallback**: If `%LocalAppData%` is not accessible, logs are written to the system temp directory.
+
+On Windows, to avoid showing up as a console window, the Velopack binaries are compiled as a WinExe and there will be no console output by default.
+
+### Linux
+All logs will be sent to `/tmp/velopack_{appid}.log` (or `/tmp/velopack.log` without app context).
+
+### macOS
+Logs are sent to `~/Library/Logs/velopack_{appid}.log`. If `~/Library/Logs` does not exist, falls back to `/tmp/velopack_{appid}.log`.
+
+## Advanced Log Handling
+By default, the C# library logs to the same file as the Velopack binaries. You can provide an additional custom logger via `VelopackApp.SetLogger(IVelopackLogger)` — this will receive all diagnostic messages **in addition to** the default file log. A logger can also be provided to the `UpdateManager` via its `IVelopackLocator` `Log` property.
+
+Note: If you provide a custom locator, the logger passed to `SetLogger` will be ignored — attach your logger to the custom locator instead.
+
 For example:
 ```cs
+using Velopack.Logging;
 
-// ...
-
-public class ConsoleVelopackLogger : IVelopackLogger
+public class MyConsoleLogger : IVelopackLogger
 {
     public void Log(VelopackLogLevel logLevel, string? message, Exception? exception)
     {
@@ -25,35 +46,18 @@ public class ConsoleVelopackLogger : IVelopackLogger
     }
 }
 
-// ...
-using Velopack.Logging;
-
+// Option 1: Pass to VelopackApp (used alongside default file logger)
 VelopackApp.Build()
-    .SetLogger(new ConsoleVelopackLogger())
+    .SetLogger(new MyConsoleLogger())
     .Run();
 
-// ...
-using Velopack.Locators;
-using Velopack.Logging;
-
-var locator = VelopackLocator.CreateDefaultForPlatform(new ConsoleVelopackLogger());
+// Option 2: Pass to a custom locator
+var locator = VelopackLocator.CreateDefaultForPlatform(new MyConsoleLogger());
 var updateManager = new UpdateManager("your-update-url", null, locator);
 ```
 
-## Logging in the Velopack binaries
-
-### Windows
-Running Update.exe will log most output to it's base directory as `Velopack.log`. Setup.exe will not log to file by default. However, you can override the log location for both binaries with the `--log {path}` parameter. You can also use the `--verbose` flag to capture debug/trace output to log. Unfortunately, on Windows, to avoid showing up as a console window, these binaries are compiled as a WinExe and there will be no console output by default.  
-Please see the [command line reference](../reference/cli) for a comprehensive list of arguments supported.
-
-### Linux
-All logs will be sent to `/tmp/velopack.log`.
-
-### MacOS
-Logs will be sent to `/tmp/velopack.log` or `~Library/Logs/velopack.log` depending on your version of Velopack.
-
 ## Advanced Debugging
-The debug builds of Velopack binaries have additional logging/debugging capabilities, and will produce console output. In some instances, it may be useful to [compile Velopack](../contributing/compiling.mdx) for your platform, and replace the release binaries of Setup.exe and Update.exe with debug versions. 
+The debug builds of Velopack binaries have additional logging/debugging capabilities, and will produce console output. In some instances, it may be useful to [compile Velopack](../contributing/compiling.mdx) for your platform, and replace the release binaries of Setup.exe and Update.exe with debug versions.
 
 If your issue is with package building, after building the rust binaries in Debug mode, it can also be useful to run the Velopack.Vpk project from Visual Studio with your intended command line arguments rather than running the `vpk` tool directly.
 
