@@ -235,7 +235,7 @@ This could happen if a release has bugs and was retracted from the release feed,
 <pre><code class="standardese-language-cpp"><span class="kwd">char</span><span class="pun">*</span> <span class="typ dec var fun">ExplicitChannel</span><span class="pun">;</span>
 </code></pre>
 
-**This option should usually be left None/NULL**.
+**This option should usually be left None**.
 
 Overrides the default channel used to fetch updates. The default channel will be whatever channel was specified on the command line when building this release. For example, if the current release was packaged with ‘–channel beta’, then the default channel will be ‘beta’. This allows users to automatically receive updates from the same channel they installed from. This options allows you to explicitly switch channels, for example if the user wished to switch back to the ‘stable’ channel without having to reinstall the application.
 
