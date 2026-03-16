@@ -60,7 +60,15 @@ sidebar_position: 0
 
   - [`vpkc_new_source_file`](doc_Velopack.md#standardese-vpkc_new_source_file-charconst--) &mdash; Create a new FileSource update source for a given file path.
 
+  - [`vpkc_new_source_gitea`](doc_Velopack.md#standardese-vpkc_new_source_gitea-charconst--charconst--bool-) &mdash; Create a new GiteaSource update source for a Gitea repository.
+
+  - [`vpkc_new_source_github`](doc_Velopack.md#standardese-vpkc_new_source_github-charconst--charconst--bool-) &mdash; Create a new GithubSource update source for a GitHub repository.
+
+  - [`vpkc_new_source_gitlab`](doc_Velopack.md#standardese-vpkc_new_source_gitlab-charconst--charconst--bool-) &mdash; Create a new GitlabSource update source for a GitLab repository.
+
   - [`vpkc_new_source_http_url`](doc_Velopack.md#standardese-vpkc_new_source_http_url-charconst--) &mdash; Create a new HttpSource update source for a given HTTP URL.
+
+  - [`vpkc_new_source_velopack_flow`](doc_Velopack.md#standardese-vpkc_new_source_velopack_flow-charconst--) &mdash; Create a new VelopackFlowSource update source for Velopack Flow.
 
   - [`vpkc_new_update_manager`](doc_Velopack.md#standardese-vpkc_new_update_manager-charconst--vpkc_update_options_t--vpkc_locator_config_t--vpkc_update_manager_t---) &mdash; Create a new UpdateManager instance.
 

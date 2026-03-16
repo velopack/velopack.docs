@@ -35,6 +35,14 @@
 
     <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_new_source_http_url-charconst--"><span class="typ dec var fun">vpkc_new_source_http_url</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_http_url</span><span class="pun">)</span><span class="pun">;</span>
 
+    <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_new_source_github-charconst--charconst--bool-"><span class="typ dec var fun">vpkc_new_source_github</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_repo_url</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_access_token</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_prerelease</span><span class="pun">)</span><span class="pun">;</span>
+
+    <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_new_source_gitlab-charconst--charconst--bool-"><span class="typ dec var fun">vpkc_new_source_gitlab</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_repo_url</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_access_token</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_prerelease</span><span class="pun">)</span><span class="pun">;</span>
+
+    <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_new_source_gitea-charconst--charconst--bool-"><span class="typ dec var fun">vpkc_new_source_gitea</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_repo_url</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_access_token</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_prerelease</span><span class="pun">)</span><span class="pun">;</span>
+
+    <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_new_source_velopack_flow-charconst--"><span class="typ dec var fun">vpkc_new_source_velopack_flow</span></a><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_base_uri</span><span class="pun">)</span><span class="pun">;</span>
+
     <a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <a href="#standardese-vpkc_new_source_custom_callback-vpkc_release_feed_delegate_t-vpkc_free_release_feed_t-vpkc_download_asset_delegate_t-void--"><span class="typ dec var fun">vpkc_new_source_custom_callback</span></a><span class="pun">(</span><a href="#standardese-vpkc_release_feed_delegate_t"><span class="typ dec var fun">vpkc_release_feed_delegate_t</span></a> <span class="typ dec var fun">cb_release_feed</span><span class="pun">,</span> <a href="#standardese-vpkc_free_release_feed_t"><span class="typ dec var fun">vpkc_free_release_feed_t</span></a> <span class="typ dec var fun">cb_free_release_feed</span><span class="pun">,</span> <a href="#standardese-vpkc_download_asset_delegate_t"><span class="typ dec var fun">vpkc_download_asset_delegate_t</span></a> <span class="typ dec var fun">cb_download_entry</span><span class="pun">,</span> <span class="kwd">void</span><span class="pun">*</span> <span class="typ dec var fun">p_user_data</span><span class="pun">)</span><span class="pun">;</span>
 
     <span class="kwd">void</span> <a href="#standardese-vpkc_source_report_progress-size_t-int16_t-"><span class="typ dec var fun">vpkc_source_report_progress</span></a><span class="pun">(</span><span class="typ dec var fun">size_t</span> <span class="typ dec var fun">progress_callback_id</span><span class="pun">,</span> <span class="typ dec var fun">int16_t</span> <span class="typ dec var fun">progress</span><span class="pun">)</span><span class="pun">;</span>
@@ -398,6 +406,58 @@ Create a new FileSource update source for a given file path.
 Create a new HttpSource update source for a given HTTP URL.
 
 @param psz\_http\_url The URL to a remote update server. @returns A new vpkc\_update\_source\_t instance, or null on error.
+
+-----
+
+## Function `vpkc_new_source_github`
+
+<span id="standardese-vpkc_new_source_github-charconst--charconst--bool-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">vpkc_new_source_github</span><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_repo_url</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_access_token</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_prerelease</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Create a new GithubSource update source for a GitHub repository.
+
+@param psz\_repo\_url The GitHub repository URL (e.g. “https://github.com/user/repo”). @param psz\_access\_token Optional access token for private repositories (can be null). @param b\_prerelease Whether to include pre-release versions. @returns A new vpkc\_update\_source\_t instance, or null on error.
+
+-----
+
+## Function `vpkc_new_source_gitlab`
+
+<span id="standardese-vpkc_new_source_gitlab-charconst--charconst--bool-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">vpkc_new_source_gitlab</span><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_repo_url</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_access_token</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_prerelease</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Create a new GitlabSource update source for a GitLab repository.
+
+@param psz\_repo\_url The GitLab repository URL (e.g. “https://gitlab.com/user/repo”). @param psz\_access\_token Optional access token for private repositories (can be null). @param b\_prerelease Whether to include pre-release versions. @returns A new vpkc\_update\_source\_t instance, or null on error.
+
+-----
+
+## Function `vpkc_new_source_gitea`
+
+<span id="standardese-vpkc_new_source_gitea-charconst--charconst--bool-"></span>
+
+<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">vpkc_new_source_gitea</span><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_repo_url</span><span class="pun">,</span> <span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_access_token</span><span class="pun">,</span> <span class="kwd">bool</span> <span class="typ dec var fun">b_prerelease</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Create a new GiteaSource update source for a Gitea repository.
+
+@param psz\_repo\_url The Gitea repository URL (e.g. “https://gitea.example.com/user/repo”). @param psz\_access\_token Optional access token for private repositories (can be null). @param b\_prerelease Whether to include pre-release versions. @returns A new vpkc\_update\_source\_t instance, or null on error.
+
+-----
+
+## Function `vpkc_new_source_velopack_flow`
+
+<span id="standardese-vpkc_new_source_velopack_flow-charconst--"></span>
+
+<pre><code class="standardese-language-cpp"><a href="#standardese-vpkc_update_source_t"><span class="typ dec var fun">vpkc_update_source_t</span></a><span class="pun">*</span> <span class="typ dec var fun">vpkc_new_source_velopack_flow</span><span class="pun">(</span><span class="kwd">char</span> <span class="kwd">const</span><span class="pun">*</span> <span class="typ dec var fun">psz_base_uri</span><span class="pun">)</span><span class="pun">;</span>
+</code></pre>
+
+Create a new VelopackFlowSource update source for Velopack Flow.
+
+@param psz\_base\_uri Optional base URI for the Velopack Flow API (can be null for default). @returns A new vpkc\_update\_source\_t instance, or null on error.
 
 -----
 
