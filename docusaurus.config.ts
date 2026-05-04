@@ -17,6 +17,9 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  customFields: {
+    flowBaseUrl: 'https://app.velopack.io',
+  },
   themes: [
     ['@easyops-cn/docusaurus-search-local', {
       hashed: true,
@@ -24,6 +27,7 @@ const config: Config = {
       docsRouteBasePath: '/',
       ignoreFiles: new RegExp(".*reference/.*"),
     }],
+    '@docusaurus/theme-mermaid'
   ],
   plugins: [
     ['@docusaurus/plugin-client-redirects', {
@@ -46,7 +50,8 @@ const config: Config = {
     { tagName: 'meta', attributes: { name: 'theme-color', content: '#ffffff' } },
   ],
   markdown: {
-    format: 'detect'
+    format: 'detect',
+    mermaid: true,
   },
   presets: [
     [

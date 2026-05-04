@@ -1,0 +1,5 @@
+# Authentication
+<FlowLink /> supports OAuth, forms authentication, and API keys for authentication. You can use any of these methods to authenticate with the Flow service. The recommended method is to use OAuth, as it provides the most secure and flexible authentication mechanism.
+
+To perform an interactive login use the `vpk login` command. This will persist your authentication locally inside of `~/.vpk`. For running commands without interaction, such as a CI/CD pipeline, you can specify the `--api-key` option to the `vpk` commands that interact with Flow. 
+
