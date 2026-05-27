@@ -14,7 +14,7 @@ sidebar_label: UpdateExe
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 A static helper class to assist in running Update.exe CLI commands. You probably should not invoke this directly,  instead you should use the relevant methods on [UpdateManager](../UpdateManager/index.md). For example: [ApplyUpdatesAndExit(VelopackAsset)](../UpdateManager/methods/ApplyUpdatesAndExit.md), or [ApplyUpdatesAndRestart(VelopackAsset, string\[\])](../UpdateManager/methods/ApplyUpdatesAndRestart.md).
 
@@ -30,11 +30,10 @@ public static class UpdateExe
 
 ## Methods
 
-| Name                                                                                               | Description                                                                                                                                                                                                             |
-| -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Apply(IVelopackLocator, VelopackAsset, bool, uint, bool, string\[\])](methods/Apply.md)           | Runs Update.exe in the current working directory to apply updates, optionally restarting the application.                                                                                                               |
-| [ApplyAsync(IVelopackLocator, VelopackAsset, bool, uint, bool, string\[\])](methods/ApplyAsync.md) |                                                                                                                                                                                                                         |
-| [Start(IVelopackLocator, uint, string\[\])](methods/Start.md)                                      | Runs Update.exe in the current working directory with the 'start' command which will simply start the application. Combined with the \`waitForExit\` parameter, this can be used to gracefully restart the application. |
+| Name                                                                                     | Description                                                                                                                                                                                                             |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Apply(IVelopackLocator, VelopackAsset, bool, uint, bool, string\[\])](methods/Apply.md) | Runs Update.exe in the current working directory to apply updates, optionally restarting the application.                                                                                                               |
+| [Start(IVelopackLocator, uint, string\[\])](methods/Start.md)                            | Runs Update.exe in the current working directory with the 'start' command which will simply start the application. Combined with the \`waitForExit\` parameter, this can be used to gracefully restart the application. |
 
 ___
 

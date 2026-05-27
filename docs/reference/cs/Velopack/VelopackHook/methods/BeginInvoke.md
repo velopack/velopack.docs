@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackHook](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 ```csharp
 public IAsyncResult BeginInvoke([Nullable(1)]SemanticVersion version, AsyncCallback callback, object object);
@@ -18,7 +18,7 @@ public IAsyncResult BeginInvoke([Nullable(1)]SemanticVersion version, AsyncCallb
 
 ## Parameters
 
-`version`  SemanticVersion
+`version`  [SemanticVersion](../../SemanticVersion/index.md)
 
 `callback`  AsyncCallback
 

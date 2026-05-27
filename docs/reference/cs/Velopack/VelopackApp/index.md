@@ -14,7 +14,7 @@ sidebar_label: VelopackApp
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 VelopackApp helps you to handle app activation events correctly. This should be used as early as possible in your application startup code. (eg. the beginning of Main() in Program.cs)
 
@@ -40,6 +40,7 @@ public sealed class VelopackApp
 | [OnFirstRun(VelopackHook)](methods/OnFirstRun.md)                                       | This hook is triggered when the application is started for the first time after installation.                                                                                                                                                                                                                |
 | [OnRestarted(VelopackHook)](methods/OnRestarted.md)                                     | This hook is triggered when the application is restarted by Velopack after installing updates.                                                                                                                                                                                                               |
 | [Run()](methods/Run.md)                                                                 | Runs the Velopack application startup code and triggers any configured hooks.                                                                                                                                                                                                                                |
+| [SetAppUserModelId(string)](methods/SetAppUserModelId.md)                               | Override the Application User Model ID (AUMID) set for this process on Windows. By default, the AUMID is read from the package manifest (shortcutAumid), falling back to "velopack.{AppId}".                                                                                                                 |
 | [SetArgs(string\[\])](methods/SetArgs.md)                                               | Override the command line arguments used to determine the Velopack hook to run. If this is not set, the command line arguments passed to the application will be used.                                                                                                                                       |
 | [SetAutoApplyOnStartup(bool)](methods/SetAutoApplyOnStartup.md)                         | Set whether to automatically apply downloaded updates on startup. This is ON by default.                                                                                                                                                                                                                     |
 | [SetLocator(IVelopackLocator)](methods/SetLocator.md)                                   | Override the default [IVelopackLocator](../Locators/IVelopackLocator/index.md) used to search for application paths. This will be cached and potentially re\-used throughout the lifetime of the application.                                                                                                |

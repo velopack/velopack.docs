@@ -14,7 +14,7 @@ sidebar_label: VelopackAsset
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 An individual Velopack asset, could refer to an asset on\-disk or in a remote package feed.
 
@@ -48,15 +48,17 @@ public class VelopackAsset : IEquatable<VelopackAsset>
 
 ## Methods
 
-| Name                                                           | Description                                                              |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| [\<Clone\>$()](methods/%253CClone%253E$.md)                    |                                                                          |
-| [Equals(VelopackAsset)](methods/Equals.md#equalsvelopackasset) |                                                                          |
-| [Equals(object)](methods/Equals.md#equalsobject)               |                                                                          |
-| [FromNupkg(string)](methods/FromNupkg.md)                      | Load a VelopackAsset from a .nupkg file on disk.                         |
-| [FromZipPackage(ZipPackage)](methods/FromZipPackage.md)        | Convert a [ZipPackage](../NuGet/ZipPackage/index.md) to a VelopackAsset. |
-| [GetHashCode()](methods/GetHashCode.md)                        |                                                                          |
-| [ToString()](methods/ToString.md)                              |                                                                          |
+| Name                                                                                              | Description                                                                                                                  |
+| ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [\<Clone\>$()](methods/%253CClone%253E$.md)                                                       |                                                                                                                              |
+| [Equals(VelopackAsset)](methods/Equals.md#equalsvelopackasset)                                    |                                                                                                                              |
+| [Equals(object)](methods/Equals.md#equalsobject)                                                  |                                                                                                                              |
+| [FromNupkgGenerateChecksumAsync(string)](methods/FromNupkgGenerateChecksumAsync.md)               | Load a VelopackAsset from a .nupkg file on disk, computing SHA1 and SHA256 checksums asynchronously.                         |
+| [FromNupkgNoChecksum(string)](methods/FromNupkgNoChecksum.md)                                     | Load a VelopackAsset from a .nupkg file on disk without computing checksums.                                                 |
+| [FromZipPackageGenerateChecksumAsync(ZipPackage)](methods/FromZipPackageGenerateChecksumAsync.md) | Convert a [ZipPackage](../NuGet/ZipPackage/index.md) to a VelopackAsset, computing SHA1 and SHA256 checksums asynchronously. |
+| [FromZipPackageNoChecksum(ZipPackage)](methods/FromZipPackageNoChecksum.md)                       | Convert a [ZipPackage](../NuGet/ZipPackage/index.md) to a VelopackAsset without computing checksums.                         |
+| [GetHashCode()](methods/GetHashCode.md)                                                           |                                                                                                                              |
+| [ToString()](methods/ToString.md)                                                                 |                                                                                                                              |
 
 ## Operators
 

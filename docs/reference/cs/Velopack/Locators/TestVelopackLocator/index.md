@@ -14,7 +14,7 @@ sidebar_label: TestVelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 Provides a mock \/ test implementation of [VelopackLocator](../VelopackLocator/index.md). This can be used to verify that your application is able to find and prepare updates from your chosen update source without actually having an installed application. This could be used in a CI\/CD pipeline, or unit tests etc.
 
@@ -22,12 +22,14 @@ Provides a mock \/ test implementation of [VelopackLocator](../VelopackLocator/i
 [NullableContext(2)]
 [Nullable(0)]
 [ExcludeFromCodeCoverage]
-public class TestVelopackLocator : VelopackLocator
+public class TestVelopackLocator : VelopackLocator, IProcessImpl
 ```
 
 **Inheritance:** object → [VelopackLocator](../VelopackLocator/index.md) → TestVelopackLocator
 
 **Attributes:** NullableContextAttribute,NullableAttribute,ExcludeFromCodeCoverageAttribute
+
+**Implements:** [IProcessImpl](../IProcessImpl/index.md)
 
 ## Constructors
 
@@ -44,18 +46,22 @@ public class TestVelopackLocator : VelopackLocator
 | [AppId](properties/AppId.md)                                         |             |
 | [Channel](properties/Channel.md)                                     |             |
 | [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |             |
+| [ExitCode](properties/ExitCode.md)                                   |             |
 | [Log](properties/Log.md)                                             |             |
 | [PackagesDir](properties/PackagesDir.md)                             |             |
-| [ProcessExePath](properties/ProcessExePath.md)                       |             |
-| [ProcessId](properties/ProcessId.md)                                 |             |
+| [Process](properties/Process.md)                                     |             |
 | [RootAppDir](properties/RootAppDir.md)                               |             |
 | [UpdateExePath](properties/UpdateExePath.md)                         |             |
 
 ## Methods
 
-| Name                                                                | Description |
-| ------------------------------------------------------------------- | ----------- |
-| [GetLatestLocalFullPackage()](methods/GetLatestLocalFullPackage.md) |             |
+| Name                                                                                 | Description |
+| ------------------------------------------------------------------------------------ | ----------- |
+| [Exit(int)](methods/Exit.md)                                                         |             |
+| [GetCurrentProcessId()](methods/GetCurrentProcessId.md)                              |             |
+| [GetCurrentProcessPath()](methods/GetCurrentProcessPath.md)                          |             |
+| [GetLatestLocalFullPackage()](methods/GetLatestLocalFullPackage.md)                  |             |
+| [StartProcess(string, IEnumerable\<string\>, string, bool)](methods/StartProcess.md) |             |
 
 ___
 

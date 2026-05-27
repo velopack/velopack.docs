@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackApp](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 Adds a custom logger to the Velopack application. This will be used for all Velopack diagnostic messages in addition to the default log file location. This will be cached and re\-used throughout the lifetime of the application. If you have also provided a custom locator, this logger will be ignored.
 

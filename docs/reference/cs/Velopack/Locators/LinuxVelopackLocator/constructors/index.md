@@ -13,20 +13,17 @@ title: Constructors
 **Declaring Type:** [LinuxVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 Creates a new [OsxVelopackLocator](../../OsxVelopackLocator/index.md) and auto\-detects the app information from metadata embedded in the .app.
 
 ```csharp
-[NullableContext(1)]
-public LinuxVelopackLocator(string currentProcessPath, uint currentProcessId, [Nullable(2)]IVelopackLogger customLog);
+public LinuxVelopackLocator(IProcessImpl processImpl, IVelopackLogger customLog);
 ```
 
 ## Parameters
 
-`currentProcessPath`  string
-
-`currentProcessId`  uint
+`processImpl`  [IProcessImpl](../../IProcessImpl/index.md)
 
 `customLog`  [IVelopackLogger](../../../Logging/IVelopackLogger/index.md)
 

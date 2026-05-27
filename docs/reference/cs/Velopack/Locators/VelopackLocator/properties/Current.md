@@ -10,9 +10,9 @@
 **Declaring Type:** [VelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
-Get the current locator in use, this process\-wide locator can be set\/overriden during VelopackApp.Build(). Alternatively, most methods which use locators also accept an IVelopackLocator as a parameter.
+Get the current locator in use, this process\-wide locator can be set\/overridden during VelopackApp.Build(). Alternatively, most methods which use locators also accept an IVelopackLocator as a parameter.
 
 ```csharp
 [Nullable(1)]

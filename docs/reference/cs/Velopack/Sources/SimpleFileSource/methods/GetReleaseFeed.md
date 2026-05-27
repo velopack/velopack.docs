@@ -10,9 +10,10 @@
 **Declaring Type:** [SimpleFileSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 ```csharp
+[AsyncStateMachine(Velopack.Sources.SimpleFileSource/<GetReleaseFeed>d__4)]
 public Task<VelopackAssetFeed> GetReleaseFeed(IVelopackLogger logger, [Nullable(2)]string appId, string channel, Guid? stagingId = null, [Nullable(2)]VelopackAsset latestLocalRelease = null);
 ```
 

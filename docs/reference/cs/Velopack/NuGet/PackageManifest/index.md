@@ -14,7 +14,7 @@ sidebar_label: PackageManifest
 
 **Namespace:** [Velopack.NuGet](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 ```csharp
 [NullableContext(2)]
@@ -46,7 +46,7 @@ public class PackageManifest
 | [ReleaseNotes](properties/ReleaseNotes.md)               |             |
 | [ReleaseNotesHtml](properties/ReleaseNotesHtml.md)       |             |
 | [RuntimeDependencies](properties/RuntimeDependencies.md) |             |
-| [ShortcutAmuid](properties/ShortcutAmuid.md)             |             |
+| [ShortcutAumid](properties/ShortcutAumid.md)             |             |
 | [ShortcutLocations](properties/ShortcutLocations.md)     |             |
 | [Summary](properties/Summary.md)                         |             |
 | [Title](properties/Title.md)                             |             |

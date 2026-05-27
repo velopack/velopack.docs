@@ -10,7 +10,7 @@
 **Declaring Type:** [IFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 Downloads a remote file to the specified local path
 

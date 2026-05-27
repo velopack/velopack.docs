@@ -14,7 +14,7 @@ sidebar_label: VelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 A base class describing where Velopack can find key folders and files.
 
@@ -32,32 +32,33 @@ public abstract class VelopackLocator : IVelopackLocator
 
 ## Properties
 
-| Name                                                                 | Description                                                                                                                                                                                                 |
-| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [AppContentDir](properties/AppContentDir.md)                         |                                                                                                                                                                                                             |
-| [AppId](properties/AppId.md)                                         |                                                                                                                                                                                                             |
-| [AppTempDir](properties/AppTempDir.md)                               |                                                                                                                                                                                                             |
-| [Channel](properties/Channel.md)                                     |                                                                                                                                                                                                             |
-| [Current](properties/Current.md)                                     | Get the current locator in use, this process\-wide locator can be set\/overriden during VelopackApp.Build(). Alternatively, most methods which use locators also accept an IVelopackLocator as a parameter. |
-| [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |                                                                                                                                                                                                             |
-| [IsCurrentSet](properties/IsCurrentSet.md)                           | Check if a VelopackLocator has been set for the current process.                                                                                                                                            |
-| [IsPortable](properties/IsPortable.md)                               |                                                                                                                                                                                                             |
-| [Log](properties/Log.md)                                             |                                                                                                                                                                                                             |
-| [PackagesDir](properties/PackagesDir.md)                             |                                                                                                                                                                                                             |
-| [ProcessExePath](properties/ProcessExePath.md)                       |                                                                                                                                                                                                             |
-| [ProcessId](properties/ProcessId.md)                                 |                                                                                                                                                                                                             |
-| [RootAppDir](properties/RootAppDir.md)                               |                                                                                                                                                                                                             |
-| [ThisExeRelativePath](properties/ThisExeRelativePath.md)             |                                                                                                                                                                                                             |
-| [UpdateExePath](properties/UpdateExePath.md)                         |                                                                                                                                                                                                             |
+| Name                                                                 | Description                                                                                                                                                                                                  |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [AppContentDir](properties/AppContentDir.md)                         |                                                                                                                                                                                                              |
+| [AppId](properties/AppId.md)                                         |                                                                                                                                                                                                              |
+| [AppTempDir](properties/AppTempDir.md)                               |                                                                                                                                                                                                              |
+| [AppUserModelId](properties/AppUserModelId.md)                       |                                                                                                                                                                                                              |
+| [Channel](properties/Channel.md)                                     |                                                                                                                                                                                                              |
+| [Current](properties/Current.md)                                     | Get the current locator in use, this process\-wide locator can be set\/overridden during VelopackApp.Build(). Alternatively, most methods which use locators also accept an IVelopackLocator as a parameter. |
+| [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |                                                                                                                                                                                                              |
+| [IsCurrentSet](properties/IsCurrentSet.md)                           | Check if a VelopackLocator has been set for the current process.                                                                                                                                             |
+| [IsPortable](properties/IsPortable.md)                               |                                                                                                                                                                                                              |
+| [Log](properties/Log.md)                                             |                                                                                                                                                                                                              |
+| [PackagesDir](properties/PackagesDir.md)                             |                                                                                                                                                                                                              |
+| [Process](properties/Process.md)                                     |                                                                                                                                                                                                              |
+| [RootAppDir](properties/RootAppDir.md)                               |                                                                                                                                                                                                              |
+| [ThisExeRelativePath](properties/ThisExeRelativePath.md)             |                                                                                                                                                                                                              |
+| [UpdateExePath](properties/UpdateExePath.md)                         |                                                                                                                                                                                                              |
 
 ## Methods
 
-| Name                                                                             | Description                                                           |
-| -------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| [CreateDefaultForPlatform(IVelopackLogger)](methods/CreateDefaultForPlatform.md) |  Create a new default locator based on the current operating system.  |
-| [GetLatestLocalFullPackage()](methods/GetLatestLocalFullPackage.md)              |                                                                       |
-| [GetLocalPackages()](methods/GetLocalPackages.md)                                |                                                                       |
-| [GetOrCreateStagedUserId()](methods/GetOrCreateStagedUserId.md)                  |                                                                       |
+| Name                                                                                           | Description                                                           |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [AddLogger(IVelopackLogger)](methods/AddLogger.md)                                             |                                                                       |
+| [CreateDefaultForPlatform(IProcessImpl, IVelopackLogger)](methods/CreateDefaultForPlatform.md) |  Create a new default locator based on the current operating system.  |
+| [GetLatestLocalFullPackage()](methods/GetLatestLocalFullPackage.md)                            |                                                                       |
+| [GetLocalPackages()](methods/GetLocalPackages.md)                                              |                                                                       |
+| [GetOrCreateStagedUserId()](methods/GetOrCreateStagedUserId.md)                                |                                                                       |
 
 ___
 

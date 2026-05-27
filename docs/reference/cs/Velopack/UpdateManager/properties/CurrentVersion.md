@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
  The currently installed app version when you created your release. Null if this is not a currently installed app. 
 
@@ -21,7 +21,7 @@ public SemanticVersion CurrentVersion { get; }
 
 ## Property Value
 
-SemanticVersion
+[SemanticVersion](../../SemanticVersion/index.md)
 
 ___
 

@@ -12,7 +12,7 @@
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
  Runtime for .NET Framework 4.5.1 
 

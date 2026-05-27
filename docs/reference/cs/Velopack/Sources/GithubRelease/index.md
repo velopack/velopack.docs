@@ -14,7 +14,7 @@ sidebar_label: GithubRelease
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
  Describes a GitHub release, including attached assets. 
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [PackageManifest](../index.md)  
 **Namespace:** [Velopack.NuGet](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 ```csharp
 public SemanticVersion Version { get; }
@@ -18,7 +18,7 @@ public SemanticVersion Version { get; }
 
 ## Property Value
 
-SemanticVersion
+[SemanticVersion](../../../SemanticVersion/index.md)
 
 ___
 

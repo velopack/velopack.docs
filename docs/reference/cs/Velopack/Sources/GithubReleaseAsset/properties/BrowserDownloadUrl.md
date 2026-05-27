@@ -10,7 +10,7 @@
 **Declaring Type:** [GithubReleaseAsset](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 The browser URL for this release asset. This does not use API quota, however this URL only works for public repositories. If downloading assets from a private repository, the [Url](Url.md) property must be used with an appropriate access token.
 

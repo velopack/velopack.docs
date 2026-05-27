@@ -14,7 +14,7 @@ sidebar_label: WindowsVelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 An implementation for Windows which uses the default paths.
 
@@ -33,7 +33,7 @@ public class WindowsVelopackLocator : VelopackLocator
 
 | Name                                                                           | Description |
 | ------------------------------------------------------------------------------ | ----------- |
-| [WindowsVelopackLocator(string, uint, IVelopackLogger)](constructors/index.md) |             |
+| [WindowsVelopackLocator(IProcessImpl, IVelopackLogger)](constructors/index.md) |             |
 
 ## Properties
 
@@ -41,13 +41,12 @@ public class WindowsVelopackLocator : VelopackLocator
 | -------------------------------------------------------------------- | ----------- |
 | [AppContentDir](properties/AppContentDir.md)                         |             |
 | [AppId](properties/AppId.md)                                         |             |
+| [AppUserModelId](properties/AppUserModelId.md)                       |             |
 | [Channel](properties/Channel.md)                                     |             |
 | [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |             |
 | [IsPortable](properties/IsPortable.md)                               |             |
-| [Log](properties/Log.md)                                             |             |
 | [PackagesDir](properties/PackagesDir.md)                             |             |
-| [ProcessExePath](properties/ProcessExePath.md)                       |             |
-| [ProcessId](properties/ProcessId.md)                                 |             |
+| [Process](properties/Process.md)                                     |             |
 | [RootAppDir](properties/RootAppDir.md)                               |             |
 | [UpdateExePath](properties/UpdateExePath.md)                         |             |
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateExe](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 Runs Update.exe in the current working directory to apply updates, optionally restarting the application.
 
@@ -43,12 +43,6 @@ If true, restarts the application after updates are applied (or if they failed)
 `restartArgs`  string\[\]
 
 The arguments to pass to the application when it is restarted.
-
-## Exceptions
-
-Exception
-
-Thrown if Update.exe does not initialize properly.
 
 ___
 

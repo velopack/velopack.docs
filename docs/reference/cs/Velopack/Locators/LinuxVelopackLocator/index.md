@@ -14,7 +14,7 @@ sidebar_label: LinuxVelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 The default for OSX. All application files will remain in the '.app'. All additional files (log, etc) will be placed in a temporary directory.
 
@@ -33,7 +33,7 @@ public class LinuxVelopackLocator : VelopackLocator
 
 | Name                                                                         | Description                                                                                                                                  |
 | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| [LinuxVelopackLocator(string, uint, IVelopackLogger)](constructors/index.md) | Creates a new [OsxVelopackLocator](../OsxVelopackLocator/index.md) and auto\-detects the app information from metadata embedded in the .app. |
+| [LinuxVelopackLocator(IProcessImpl, IVelopackLogger)](constructors/index.md) | Creates a new [OsxVelopackLocator](../OsxVelopackLocator/index.md) and auto\-detects the app information from metadata embedded in the .app. |
 
 ## Properties
 
@@ -45,12 +45,10 @@ public class LinuxVelopackLocator : VelopackLocator
 | [AppTempDir](properties/AppTempDir.md)                               |                                                                                               |
 | [Channel](properties/Channel.md)                                     |                                                                                               |
 | [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |                                                                                               |
-| [Log](properties/Log.md)                                             |                                                                                               |
 | [PackagesDir](properties/PackagesDir.md)                             |                                                                                               |
 | [PersistentTempDir](properties/PersistentTempDir.md)                 |  \/var\/tmp\/{velopack}\/{appid}, for storing app specific files which need to be preserved.  |
 | [PersistentVelopackDir](properties/PersistentVelopackDir.md)         |  A pointer to \/var\/tmp\/{velopack}, a location on linux which is semi\-persistent.          |
-| [ProcessExePath](properties/ProcessExePath.md)                       |                                                                                               |
-| [ProcessId](properties/ProcessId.md)                                 |                                                                                               |
+| [Process](properties/Process.md)                                     |                                                                                               |
 | [RootAppDir](properties/RootAppDir.md)                               |                                                                                               |
 | [UpdateExePath](properties/UpdateExePath.md)                         |                                                                                               |
 

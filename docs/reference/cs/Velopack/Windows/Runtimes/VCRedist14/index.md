@@ -15,7 +15,7 @@ sidebar_label: Runtimes.VCRedist14
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
  Represents a VC++ 2015\-2022 redistributable package. 
 
@@ -27,9 +27,9 @@ public class Runtimes.VCRedist14 : Runtimes.VCRedistInfo
 
 ## Constructors
 
-| Name                                                                          | Description |
-| ----------------------------------------------------------------------------- | ----------- |
-| [VCRedist14(string, string, NuGetVersion, RuntimeCpu)](constructors/index.md) |             |
+| Name                                                                     | Description |
+| ------------------------------------------------------------------------ | ----------- |
+| [VCRedist14(string, string, Version, RuntimeCpu)](constructors/index.md) |             |
 
 ## Methods
 

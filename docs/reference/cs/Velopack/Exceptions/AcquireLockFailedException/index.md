@@ -14,7 +14,7 @@ sidebar_label: AcquireLockFailedException
 
 **Namespace:** [Velopack.Exceptions](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 Thrown when an exclusive lock for an application cannot be acquired. Usually this means another instance of the application is running Velopack operations and the current instance cannot proceed.
 

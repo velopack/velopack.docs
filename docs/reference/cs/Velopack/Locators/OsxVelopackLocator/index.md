@@ -14,7 +14,7 @@ sidebar_label: OsxVelopackLocator
 
 **Namespace:** [Velopack.Locators](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 The default for OSX. All application files will remain in the '.app'. All additional files (log, etc) will be placed in a temporary directory.
 
@@ -33,7 +33,7 @@ public class OsxVelopackLocator : VelopackLocator
 
 | Name                                                                       | Description                                                                                                |
 | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [OsxVelopackLocator(string, uint, IVelopackLogger)](constructors/index.md) | Creates a new OsxVelopackLocator and auto\-detects the app information from metadata embedded in the .app. |
+| [OsxVelopackLocator(IProcessImpl, IVelopackLogger)](constructors/index.md) | Creates a new OsxVelopackLocator and auto\-detects the app information from metadata embedded in the .app. |
 
 ## Properties
 
@@ -44,10 +44,8 @@ public class OsxVelopackLocator : VelopackLocator
 | [AppTempDir](properties/AppTempDir.md)                               |             |
 | [Channel](properties/Channel.md)                                     |             |
 | [CurrentlyInstalledVersion](properties/CurrentlyInstalledVersion.md) |             |
-| [Log](properties/Log.md)                                             |             |
 | [PackagesDir](properties/PackagesDir.md)                             |             |
-| [ProcessExePath](properties/ProcessExePath.md)                       |             |
-| [ProcessId](properties/ProcessId.md)                                 |             |
+| [Process](properties/Process.md)                                     |             |
 | [RootAppDir](properties/RootAppDir.md)                               |             |
 | [UpdateExePath](properties/UpdateExePath.md)                         |             |
 

@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackAsset](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
  The version of this release. 
 
@@ -20,7 +20,7 @@ public SemanticVersion Version { get; set; }
 
 ## Property Value
 
-SemanticVersion
+[SemanticVersion](../../SemanticVersion/index.md)
 
 ___
 

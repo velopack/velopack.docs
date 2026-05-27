@@ -4,19 +4,23 @@
 ## `vpk -H`
 ```
 Description:
-  Velopack CLI 0.0.1298, for distributing applications.  
+  Velopack CLI 1.0.1, for distributing applications.  
 
 Usage:
   vpk [command] [options]  
 
 Options:
-  -h, -H, --help, --vhelp  Show help (-h) or extended help (-H).                
-  -x, --legacyConsole      Disable console colors and interactive               
-                           components.                                          
-  -y, --yes                'yes' by instead of 'no' in non-interactive          
-                           prompts.                                             
-  --verbose                Print diagnostic messages.                           
-  --skip-updates           Skip update checks                                   
+  --help, -h, -H, --vhelp              Show help (-h) or extended help          
+                                       (-H). [default: False]                   
+  --legacyConsole, -x <legacyConsole>  Disable console colors and               
+                                       interactive components. [default:        
+                                       False]                                   
+  --yes, -y <yes>                      'yes' by instead of 'no' in              
+                                       non-interactive prompts. [default:       
+                                       False]                                   
+  --verbose <verbose>                  Print diagnostic messages.               
+                                       [default: False]                         
+  --skip-updates <skip-updates>        Skip update checks [default: False]      
 
 Commands:
   bundle    Create's an OSX .app bundle from a folder containing                
@@ -36,35 +40,42 @@ Usage:
   vpk bundle [options]  
 
 Options:
-  -o, --outputDir <DIR>              ENV=VPK_OUTPUT_DIR  Output directory       
-                                     for created packages. [default:            
-                                     Releases]                                  
-  -c, --channel <NAME>               ENV=VPK_CHANNEL  The channel to use        
-                                     for this release. [default: osx]           
-  -r, --runtime <RID>                ENV=VPK_RUNTIME  The target runtime        
-                                     to build packages for.                     
-  -u, --packId <ID> (REQ)            ENV=VPK_PACK_ID  Unique Id for             
-                                     application bundle.                        
-  -v, --packVersion <VERSION> (REQ)  ENV=VPK_PACK_VERSION  Current version      
-                                     for application bundle.                    
-  -p, --packDir <DIR> (REQ)          ENV=VPK_PACK_DIR  Directory                
-                                     containing application files for           
-                                     release.                                   
-  --packAuthors <AUTHORS>            ENV=VPK_PACK_AUTHORS  Company name or      
-                                     comma-delimited list of authors.           
-  --packTitle <NAME>                 ENV=VPK_PACK_TITLE  Display/friendly       
-                                     name for application.                      
-  -i, --icon <PATH>                  ENV=VPK_ICON  Path to icon file for        
-                                     package.                                   
-  -e, --mainExe <NAME>               ENV=VPK_MAIN_EXE  The file name (not       
-                                     path) of the main/entry executable.        
-  --exclude <REGEX>                  ENV=VPK_EXCLUDE  A regex which             
-                                     excludes matched files from the            
-                                     package. [default: .*\.pdb]                
-  --bundleId <ID>                    ENV=VPK_BUNDLE_ID  Optional Apple          
-                                     bundle Id.                                 
-  --plist <PATH>                     ENV=VPK_PLIST  A custom Info.plist to      
-                                     use in the app bundle.
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+                                       directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --runtime, -r, --runtime <RID>       ENV=VPK_RUNTIME  The target runtime      
+                                       to build packages for.                   
+  --packId, --packId, -u <ID> (REQ)    ENV=VPK_PACK_ID  Unique Id for           
+                                       application bundle.                      
+  --packVersion, --packVersion, -v     ENV=VPK_PACK_VERSION  Current            
+  <VERSION> (REQ)                      version for application bundle.          
+  --packDir, --packDir, -p <DIR>       ENV=VPK_PACK_DIR  Directory              
+  (REQ)                                containing application files for         
+                                       release.                                 
+  --packAuthors, --packAuthors         ENV=VPK_PACK_AUTHORS  Company name       
+  <AUTHORS>                            or comma-delimited list of authors.      
+  --packTitle, --packTitle <NAME>      ENV=VPK_PACK_TITLE                       
+                                       Display/friendly name for                
+                                       application.                             
+  --icon, -i, --icon <PATH>            ENV=VPK_ICON  Path to icon file for      
+                                       package.                                 
+  --mainExe, -e, --mainExe <NAME>      ENV=VPK_MAIN_EXE  The file name          
+                                       (not path) of the main/entry             
+                                       executable.                              
+  --exclude, --exclude <REGEX>         ENV=VPK_EXCLUDE  A regex which           
+                                       excludes matched files from the          
+                                       package (in addition to built-in         
+                                       defaults). [default: .*\.pdb]            
+  --noDefaultExclude,                  ENV=VPK_NO_DEFAULT_EXCLUDE  Do not       
+  --noDefaultExclude                   exclude built-in default file            
+  <noDefaultExclude>                   patterns (eg. .nupkg, createdump,        
+                                       .vshost.). [default: False]              
+  --bundleId, --bundleId <ID>          ENV=VPK_BUNDLE_ID  Optional Apple        
+                                       bundle Id.                               
+  --plist, --plist <PATH>              ENV=VPK_PLIST  A custom Info.plist       
+                                       to use in the app bundle.
 ```
 
 ## `vpk pack -H`
@@ -76,71 +87,81 @@ Usage:
   vpk pack [options]  
 
 Options:
-  -o, --outputDir <DIR>              ENV=VPK_OUTPUT_DIR  Output directory       
-                                     for created packages. [default:            
-                                     Releases]                                  
-  -c, --channel <NAME>               ENV=VPK_CHANNEL  The channel to use        
-                                     for this release. [default: osx]           
-  -r, --runtime <RID>                ENV=VPK_RUNTIME  The target runtime        
-                                     to build packages for.                     
-  -u, --packId <ID> (REQ)            ENV=VPK_PACK_ID  Unique Id for             
-                                     application bundle.                        
-  -v, --packVersion <VERSION> (REQ)  ENV=VPK_PACK_VERSION  Current version      
-                                     for application bundle.                    
-  -p, --packDir <DIR> (REQ)          ENV=VPK_PACK_DIR  Directory                
-                                     containing application files for           
-                                     release.                                   
-  --packAuthors <AUTHORS>            ENV=VPK_PACK_AUTHORS  Company name or      
-                                     comma-delimited list of authors.           
-  --packTitle <NAME>                 ENV=VPK_PACK_TITLE  Display/friendly       
-                                     name for application.                      
-  --releaseNotes <PATH>              ENV=VPK_RELEASE_NOTES  File with           
-                                     markdown-formatted notes for this          
-                                     version.                                   
-  --delta <BestSize|BestSpeed|None>  ENV=VPK_DELTA  Disable or set the          
-                                     delta generation mode. [default:           
-                                     BestSpeed]                                 
-  -i, --icon <PATH>                  ENV=VPK_ICON  Path to icon file for        
-                                     package.                                   
-  -e, --mainExe <NAME>               ENV=VPK_MAIN_EXE  The file name (not       
-                                     path) of the main/entry executable.        
-  --exclude <REGEX>                  ENV=VPK_EXCLUDE  A regex which             
-                                     excludes matched files from the            
-                                     package. [default: .*\.pdb]                
-  --noPortable                       ENV=VPK_NO_PORTABLE  Skip generating       
-                                     a portable bundle.                         
-  --noInst                           ENV=VPK_NO_INST  Skip generating an        
-                                     installer package.                         
-  --bundleId <ID>                    ENV=VPK_BUNDLE_ID  Optional Apple          
-                                     bundle Id.                                 
-  --plist <PATH>                     ENV=VPK_PLIST  A custom Info.plist to      
-                                     use in the app bundle.                     
-  --instWelcome <PATH>               ENV=VPK_INST_WELCOME  Set the              
-                                     installer package welcome content.         
-  --instReadme <PATH>                ENV=VPK_INST_README  Set the               
-                                     installer package readme content.          
-  --instLicense <PATH>               ENV=VPK_INST_LICENSE  Set the              
-                                     installer package license content.         
-  --instConclusion <PATH>            ENV=VPK_INST_CONCLUSION  Set the           
-                                     installer package conclusion content.      
-  --signAppIdentity <SUBJECT>        ENV=VPK_SIGN_APP_IDENTITY  The             
-                                     subject name of the cert to use for        
-                                     app code signing.                          
-  --signInstallIdentity <SUBJECT>    ENV=VPK_SIGN_INSTALL_IDENTITY  The         
-                                     subject name of the cert to use for        
-                                     installation packages.                     
-  --signEntitlements <PATH>          ENV=VPK_SIGN_ENTITLEMENTS  Path to         
-                                     entitlements file for hardened             
-                                     runtime signing.                           
-  --signDisableDeep                  ENV=VPK_SIGN_DISABLE_DEEP  Disable         
-                                     deep signing, requires you to              
-                                     pre-sign your binaries.                    
-  --notaryProfile <NAME>             ENV=VPK_NOTARY_PROFILE  Name of            
-                                     profile containing Apple credentials       
-                                     stored with notarytool.                    
-  --keychain <PATH>                  ENV=VPK_KEYCHAIN  Path to keychain         
-                                     file to use for codesign and               
-                                     notarytool.
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+                                       directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --runtime, -r, --runtime <RID>       ENV=VPK_RUNTIME  The target runtime      
+                                       to build packages for.                   
+  --packId, --packId, -u <ID> (REQ)    ENV=VPK_PACK_ID  Unique Id for           
+                                       application bundle.                      
+  --packVersion, --packVersion, -v     ENV=VPK_PACK_VERSION  Current            
+  <VERSION> (REQ)                      version for application bundle.          
+  --packDir, --packDir, -p <DIR>       ENV=VPK_PACK_DIR  Directory              
+  (REQ)                                containing application files for         
+                                       release.                                 
+  --packAuthors, --packAuthors         ENV=VPK_PACK_AUTHORS  Company name       
+  <AUTHORS>                            or comma-delimited list of authors.      
+  --packTitle, --packTitle <NAME>      ENV=VPK_PACK_TITLE                       
+                                       Display/friendly name for                
+                                       application.                             
+  --releaseNotes, --releaseNotes       ENV=VPK_RELEASE_NOTES  File with         
+  <PATH>                               markdown-formatted notes for this        
+                                       version.                                 
+  --delta, --delta <delta>             ENV=VPK_DELTA  Disable or set the        
+                                       delta generation mode. [default:         
+                                       BestSpeed]                               
+  --icon, -i, --icon <PATH>            ENV=VPK_ICON  Path to icon file for      
+                                       package.                                 
+  --mainExe, -e, --mainExe <NAME>      ENV=VPK_MAIN_EXE  The file name          
+                                       (not path) of the main/entry             
+                                       executable.                              
+  --exclude, --exclude <REGEX>         ENV=VPK_EXCLUDE  A regex which           
+                                       excludes matched files from the          
+                                       package (in addition to built-in         
+                                       defaults). [default: .*\.pdb]            
+  --noDefaultExclude,                  ENV=VPK_NO_DEFAULT_EXCLUDE  Do not       
+  --noDefaultExclude                   exclude built-in default file            
+  <noDefaultExclude>                   patterns (eg. .nupkg, createdump,        
+                                       .vshost.). [default: False]              
+  --noPortable, --noPortable           ENV=VPK_NO_PORTABLE  Skip                
+  <noPortable>                         generating a portable bundle.            
+                                       [default: False]                         
+  --noInst, --noInst <noInst>          ENV=VPK_NO_INST  Skip generating an      
+                                       installer package. [default: False]      
+  --bundleId, --bundleId <ID>          ENV=VPK_BUNDLE_ID  Optional Apple        
+                                       bundle Id.                               
+  --plist, --plist <PATH>              ENV=VPK_PLIST  A custom Info.plist       
+                                       to use in the app bundle.                
+  --instWelcome, --instWelcome <PATH>  ENV=VPK_INST_WELCOME  Set the            
+                                       installer package welcome content.       
+  --instReadme, --instReadme <PATH>    ENV=VPK_INST_README  Set the             
+                                       installer package readme content.        
+  --instLicense, --instLicense <PATH>  ENV=VPK_INST_LICENSE  Set the            
+                                       installer package license content.       
+  --instConclusion, --instConclusion   ENV=VPK_INST_CONCLUSION  Set the         
+  <PATH>                               installer package conclusion             
+                                       content.                                 
+  --signAppIdentity,                   ENV=VPK_SIGN_APP_IDENTITY  The           
+  --signAppIdentity <SUBJECT>          subject name of the cert to use for      
+                                       app code signing.                        
+  --signInstallIdentity,               ENV=VPK_SIGN_INSTALL_IDENTITY  The       
+  --signInstallIdentity <SUBJECT>      subject name of the cert to use for      
+                                       installation packages.                   
+  --signEntitlements,                  ENV=VPK_SIGN_ENTITLEMENTS  Path to       
+  --signEntitlements <PATH>            entitlements file for hardened           
+                                       runtime signing.                         
+  --signDisableDeep,                   ENV=VPK_SIGN_DISABLE_DEEP  Disable       
+  --signDisableDeep <signDisableDeep>  deep signing, requires you to            
+                                       pre-sign your binaries. [default:        
+                                       False]                                   
+  --notaryProfile, --notaryProfile     ENV=VPK_NOTARY_PROFILE  Name of          
+  <NAME>                               profile containing Apple                 
+                                       credentials stored with notarytool.      
+  --keychain, --keychain <PATH>        ENV=VPK_KEYCHAIN  Path to keychain       
+                                       file to use for codesign and             
+                                       notarytool.
 ```
 
 ## `vpk download -H`
@@ -169,19 +190,21 @@ Usage:
   vpk download github [options]  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
-                         packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
-                         release. [default: osx]                                
-  --repoUrl (REQ)        ENV=VPK_REPO_URL  Full url to the github               
-                         repository (eg.                                        
-                         'https://github.com/myname/myrepo').                   
-  --token                ENV=VPK_TOKEN  OAuth token to use as login             
-                         credentials.                                           
-  --timeout <MINUTES>    ENV=VPK_TIMEOUT  Network timeout in minutes. [         
-                         default: 30]                                           
-  --pre                  ENV=VPK_PRE  Get latest pre-release instead of         
-                         stable.
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+                                       directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --repoUrl, --repoUrl <repoUrl>       ENV=VPK_REPO_URL  Full url to the        
+  (REQ)                                github repository (eg.                   
+                                       'https://github.com/myname/myrepo')      
+                                       .                                        
+  --token, --token <token>             ENV=VPK_TOKEN  OAuth token to use        
+                                       as login credentials.                    
+  --timeout, --timeout <MINUTES>       ENV=VPK_TIMEOUT  Network timeout in      
+                                       minutes. [default: 30]                   
+  --pre, --pre <pre>                   ENV=VPK_PRE  Get latest pre-release      
+                                       instead of stable. [default: False]
 ```
 
 ## `vpk download gitea -H`
@@ -193,19 +216,20 @@ Usage:
   vpk download gitea [options]  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
-                         packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
-                         release. [default: osx]                                
-  --repoUrl (REQ)        ENV=VPK_REPO_URL  Full url to the gitea                
-                         repository (eg.                                        
-                         'https://gitea.com/myname/myrepo').                    
-  --token                ENV=VPK_TOKEN  OAuth token to use as login             
-                         credentials.                                           
-  --timeout <MINUTES>    ENV=VPK_TIMEOUT  Network timeout in minutes. [         
-                         default: 30]                                           
-  --pre                  ENV=VPK_PRE  Get latest pre-release instead of         
-                         stable.
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+                                       directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --repoUrl, --repoUrl <repoUrl>       ENV=VPK_REPO_URL  Full url to the        
+  (REQ)                                gitea repository (eg.                    
+                                       'https://gitea.com/myname/myrepo').      
+  --token, --token <token>             ENV=VPK_TOKEN  OAuth token to use        
+                                       as login credentials.                    
+  --timeout, --timeout <MINUTES>       ENV=VPK_TIMEOUT  Network timeout in      
+                                       minutes. [default: 30]                   
+  --pre, --pre <pre>                   ENV=VPK_PRE  Get latest pre-release      
+                                       instead of stable. [default: False]
 ```
 
 ## `vpk download s3 -H`
@@ -217,26 +241,32 @@ Usage:
   vpk download s3 [options]  
 
 Options:
-  -o, --outputDir <DIR>      ENV=VPK_OUTPUT_DIR  Output directory for           
-                             created packages. [default: Releases]              
-  -c, --channel <NAME>       ENV=VPK_CHANNEL  The channel to use for this       
-                             release. [default: osx]                            
-  --keyId <KEYID>            ENV=VPK_KEY_ID  Authentication identifier or       
-                             access key.                                        
-  --secret <KEY>             ENV=VPK_SECRET  Authentication secret key.         
-  --region <REGION>          ENV=VPK_REGION  AWS service region (eg.            
-                             us-west-1).                                        
-  --session <TOKEN>          ENV=VPK_SESSION  Authentication session            
-                             token.                                             
-  --endpoint <URL>           ENV=VPK_ENDPOINT  Custom S3-compatible             
-                             service url (backblaze, digital ocean, etc).       
-  --bucket <NAME> (REQ)      ENV=VPK_BUCKET  Name of the S3 bucket.             
-  --prefix <PREFIX>          ENV=VPK_PREFIX  Prefix to the S3 url.              
-  --disablePathStyle <BOOL>  ENV=VPK_DISABLE_PATH_STYLE  Disable the            
-                             default of path-style endpoint and use a           
-                             subdomain endpoint instead.                        
-  --timeout <MINUTES>        ENV=VPK_TIMEOUT  Network timeout in minutes.       
-                             [default: 30]
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+                                       directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --keyId, --keyId <KEYID>             ENV=VPK_KEY_ID  Authentication           
+                                       identifier or access key.                
+  --secret, --secret <KEY>             ENV=VPK_SECRET  Authentication           
+                                       secret key.                              
+  --region, --region <REGION>          ENV=VPK_REGION  AWS service region       
+                                       (eg. us-west-1).                         
+  --session, --session <TOKEN>         ENV=VPK_SESSION  Authentication          
+                                       session token.                           
+  --endpoint, --endpoint <URL>         ENV=VPK_ENDPOINT  Custom                 
+                                       S3-compatible service url                
+                                       (backblaze, digital ocean, etc).         
+  --bucket, --bucket <NAME> (REQ)      ENV=VPK_BUCKET  Name of the S3           
+                                       bucket.                                  
+  --prefix, --prefix <PREFIX>          ENV=VPK_PREFIX  Optional filename        
+                                       path prefix.                             
+  --disablePathStyle,                  ENV=VPK_DISABLE_PATH_STYLE  Disable      
+  --disablePathStyle <BOOL>            the default of path-style endpoint       
+                                       and use a subdomain endpoint             
+                                       instead. [default: False]                
+  --timeout, --timeout <MINUTES>       ENV=VPK_TIMEOUT  Network timeout in      
+                                       minutes. [default: 30]
 ```
 
 ## `vpk download az -H`
@@ -248,19 +278,25 @@ Usage:
   vpk download az [options]  
 
 Options:
-  -o, --outputDir <DIR>      ENV=VPK_OUTPUT_DIR  Output directory for           
-                             created packages. [default: Releases]              
-  -c, --channel <NAME>       ENV=VPK_CHANNEL  The channel to use for this       
-                             release. [default: osx]                            
-  --account <ACCOUNT> (REQ)  ENV=VPK_ACCOUNT  Account name                      
-  --key <KEY>                ENV=VPK_KEY  Account secret key                    
-  --sas <TOKEN>              ENV=VPK_SAS  Shared access signature token         
-                             (not the url)                                      
-  --container <NAME> (REQ)   ENV=VPK_CONTAINER  Azure container name            
-  --endpoint <URL>           ENV=VPK_ENDPOINT  Service url (eg.                 
-                             https://<account-name>.blob.core.windows.net)      
-  --timeout <MINUTES>        ENV=VPK_TIMEOUT  Network timeout in minutes.       
-                             [default: 30]
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+                                       directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --account, --account <ACCOUNT>       ENV=VPK_ACCOUNT  Account name.           
+  (REQ)                                                                         
+  --key, --key <KEY>                   ENV=VPK_KEY  Account secret key.         
+  --sas, --sas <TOKEN>                 ENV=VPK_SAS  Shared access               
+                                       signature token (not the url).           
+  --container, --container <NAME>      ENV=VPK_CONTAINER  Azure storage         
+  (REQ)                                container name.                          
+  --prefix, --prefix <PREFIX>          ENV=VPK_PREFIX  Optional blob            
+                                       filename path prefix.                    
+  --endpoint, --endpoint <URL>         ENV=VPK_ENDPOINT  Service url (eg.       
+                                       https://<account-name>.blob.core.wi      
+                                       ndows.net).                              
+  --timeout, --timeout <MINUTES>       ENV=VPK_TIMEOUT  Network timeout in      
+                                       minutes. [default: 30]
 ```
 
 ## `vpk download local -H`
@@ -272,12 +308,13 @@ Usage:
   vpk download local [options]  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
-                         packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
-                         release. [default: osx]                                
-  --path <PATH> (REQ)    ENV=VPK_PATH  Target file path to copy releases        
-                         to/from.
+  --outputDir, -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory      
+                                      for created packages. [default:           
+                                      Releases]                                 
+  --channel, -c, --channel <NAME>     ENV=VPK_CHANNEL  The channel to use       
+                                      for this release. [default: osx]          
+  --path, --path <PATH> (REQ)         ENV=VPK_PATH  Target file path to         
+                                      copy releases to/from.
 ```
 
 ## `vpk download http -H`
@@ -289,14 +326,15 @@ Usage:
   vpk download http [options]  
 
 Options:
-  -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory for created       
-                         packages. [default: Releases]                          
-  -c, --channel <NAME>   ENV=VPK_CHANNEL  The channel to use for this           
-                         release. [default: osx]                                
-  --url (REQ)            ENV=VPK_URL  Url to download remote releases           
-                         from.                                                  
-  --timeout <MINUTES>    ENV=VPK_TIMEOUT  Network timeout in minutes. [         
-                         default: 30]
+  --outputDir, -o, --outputDir <DIR>  ENV=VPK_OUTPUT_DIR  Output directory      
+                                      for created packages. [default:           
+                                      Releases]                                 
+  --channel, -c, --channel <NAME>     ENV=VPK_CHANNEL  The channel to use       
+                                      for this release. [default: osx]          
+  --url, --url <url> (REQ)            ENV=VPK_URL  Url to download remote       
+                                      releases from.                            
+  --timeout, --timeout <MINUTES>      ENV=VPK_TIMEOUT  Network timeout in       
+                                      minutes. [default: 30]
 ```
 
 ## `vpk upload -H`
@@ -324,28 +362,34 @@ Usage:
   vpk upload github [options]  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
-                               created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
-                               this release. [default: osx]                     
-  --repoUrl (REQ)              ENV=VPK_REPO_URL  Full url to the github         
-                               repository (eg.                                  
-                               'https://github.com/myname/myrepo').             
-  --token                      ENV=VPK_TOKEN  OAuth token to use as login       
-                               credentials.                                     
-  --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
-                               minutes. [default: 30]                           
-  --publish                    ENV=VPK_PUBLISH  Create and publish instead      
-                               of leaving as draft.                             
-  --pre                        ENV=VPK_PRE  Create as pre-release instead       
-                               of stable.                                       
-  --merge                      ENV=VPK_MERGE  Allow merging this upload         
-                               with an existing release.                        
-  --releaseName <NAME>         ENV=VPK_RELEASE_NAME  A custom name for the      
-                               release.                                         
-  --tag <NAME>                 ENV=VPK_TAG  A custom tag for the release.       
-  --targetCommitish <NAME>     ENV=VPK_TARGET_COMMITISH  A commitish value      
-                               for tag (branch or commit SHA).
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+  (REQ)                                directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --repoUrl, --repoUrl <repoUrl>       ENV=VPK_REPO_URL  Full url to the        
+  (REQ)                                github repository (eg.                   
+                                       'https://github.com/myname/myrepo')      
+                                       .                                        
+  --token, --token <token>             ENV=VPK_TOKEN  OAuth token to use        
+                                       as login credentials.                    
+  --timeout, --timeout <MINUTES>       ENV=VPK_TIMEOUT  Network timeout in      
+                                       minutes. [default: 30]                   
+  --publish, --publish <publish>       ENV=VPK_PUBLISH  Create and publish      
+                                       instead of leaving as draft.             
+                                       [default: False]                         
+  --pre, --pre <pre>                   ENV=VPK_PRE  Create as pre-release       
+                                       instead of stable. [default: False]      
+  --merge, --merge <merge>             ENV=VPK_MERGE  Allow merging this        
+                                       upload with an existing release.         
+                                       [default: False]                         
+  --releaseName, --releaseName <NAME>  ENV=VPK_RELEASE_NAME  A custom name      
+                                       for the release.                         
+  --tag, --tag <NAME>                  ENV=VPK_TAG  A custom tag for the        
+                                       release.                                 
+  --targetCommitish,                   ENV=VPK_TARGET_COMMITISH  A              
+  --targetCommitish <NAME>             commitish value for tag (branch or       
+                                       commit SHA).
 ```
 
 ## `vpk upload gitea -H`
@@ -357,28 +401,33 @@ Usage:
   vpk upload gitea [options]  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
-                               created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
-                               this release. [default: osx]                     
-  --repoUrl (REQ)              ENV=VPK_REPO_URL  Full url to the gitea          
-                               repository (eg.                                  
-                               'https://gitea.com/myname/myrepo').              
-  --token                      ENV=VPK_TOKEN  OAuth token to use as login       
-                               credentials.                                     
-  --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
-                               minutes. [default: 30]                           
-  --publish                    ENV=VPK_PUBLISH  Create and publish instead      
-                               of leaving as draft.                             
-  --pre                        ENV=VPK_PRE  Create as pre-release instead       
-                               of stable.                                       
-  --merge                      ENV=VPK_MERGE  Allow merging this upload         
-                               with an existing release.                        
-  --releaseName <NAME>         ENV=VPK_RELEASE_NAME  A custom name for the      
-                               release.                                         
-  --tag <NAME>                 ENV=VPK_TAG  A custom tag for the release.       
-  --targetCommitish <NAME>     ENV=VPK_TARGET_COMMITISH  A commitish value      
-                               for tag (branch or commit SHA).
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+  (REQ)                                directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --repoUrl, --repoUrl <repoUrl>       ENV=VPK_REPO_URL  Full url to the        
+  (REQ)                                gitea repository (eg.                    
+                                       'https://gitea.com/myname/myrepo').      
+  --token, --token <token>             ENV=VPK_TOKEN  OAuth token to use        
+                                       as login credentials.                    
+  --timeout, --timeout <MINUTES>       ENV=VPK_TIMEOUT  Network timeout in      
+                                       minutes. [default: 30]                   
+  --publish, --publish <publish>       ENV=VPK_PUBLISH  Create and publish      
+                                       instead of leaving as draft.             
+                                       [default: False]                         
+  --pre, --pre <pre>                   ENV=VPK_PRE  Create as pre-release       
+                                       instead of stable. [default: False]      
+  --merge, --merge <merge>             ENV=VPK_MERGE  Allow merging this        
+                                       upload with an existing release.         
+                                       [default: False]                         
+  --releaseName, --releaseName <NAME>  ENV=VPK_RELEASE_NAME  A custom name      
+                                       for the release.                         
+  --tag, --tag <NAME>                  ENV=VPK_TAG  A custom tag for the        
+                                       release.                                 
+  --targetCommitish,                   ENV=VPK_TARGET_COMMITISH  A              
+  --targetCommitish <NAME>             commitish value for tag (branch or       
+                                       commit SHA).
 ```
 
 ## `vpk upload s3 -H`
@@ -390,30 +439,36 @@ Usage:
   vpk upload s3 [options]  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
-                               created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
-                               this release. [default: osx]                     
-  --keyId <KEYID>              ENV=VPK_KEY_ID  Authentication identifier        
-                               or access key.                                   
-  --secret <KEY>               ENV=VPK_SECRET  Authentication secret key.       
-  --region <REGION>            ENV=VPK_REGION  AWS service region (eg.          
-                               us-west-1).                                      
-  --session <TOKEN>            ENV=VPK_SESSION  Authentication session          
-                               token.                                           
-  --endpoint <URL>             ENV=VPK_ENDPOINT  Custom S3-compatible           
-                               service url (backblaze, digital ocean,           
-                               etc).                                            
-  --bucket <NAME> (REQ)        ENV=VPK_BUCKET  Name of the S3 bucket.           
-  --prefix <PREFIX>            ENV=VPK_PREFIX  Prefix to the S3 url.            
-  --disablePathStyle <BOOL>    ENV=VPK_DISABLE_PATH_STYLE  Disable the          
-                               default of path-style endpoint and use a         
-                               subdomain endpoint instead.                      
-  --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
-                               minutes. [default: 30]                           
-  --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           
-                               number of releases to keep in the bucket,        
-                               anything older will be deleted.
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+  (REQ)                                directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --keyId, --keyId <KEYID>             ENV=VPK_KEY_ID  Authentication           
+                                       identifier or access key.                
+  --secret, --secret <KEY>             ENV=VPK_SECRET  Authentication           
+                                       secret key.                              
+  --region, --region <REGION>          ENV=VPK_REGION  AWS service region       
+                                       (eg. us-west-1).                         
+  --session, --session <TOKEN>         ENV=VPK_SESSION  Authentication          
+                                       session token.                           
+  --endpoint, --endpoint <URL>         ENV=VPK_ENDPOINT  Custom                 
+                                       S3-compatible service url                
+                                       (backblaze, digital ocean, etc).         
+  --bucket, --bucket <NAME> (REQ)      ENV=VPK_BUCKET  Name of the S3           
+                                       bucket.                                  
+  --prefix, --prefix <PREFIX>          ENV=VPK_PREFIX  Optional filename        
+                                       path prefix.                             
+  --disablePathStyle,                  ENV=VPK_DISABLE_PATH_STYLE  Disable      
+  --disablePathStyle <BOOL>            the default of path-style endpoint       
+                                       and use a subdomain endpoint             
+                                       instead. [default: False]                
+  --timeout, --timeout <MINUTES>       ENV=VPK_TIMEOUT  Network timeout in      
+                                       minutes. [default: 30]                   
+  --keepMaxReleases,                   ENV=VPK_KEEP_MAX_RELEASES  The           
+  --keepMaxReleases <COUNT>            maximum number of releases to keep       
+                                       in the bucket, anything older will       
+                                       be deleted.
 ```
 
 ## `vpk upload az -H`
@@ -425,23 +480,29 @@ Usage:
   vpk upload az [options]  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
-                               created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
-                               this release. [default: osx]                     
-  --account <ACCOUNT> (REQ)    ENV=VPK_ACCOUNT  Account name                    
-  --key <KEY>                  ENV=VPK_KEY  Account secret key                  
-  --sas <TOKEN>                ENV=VPK_SAS  Shared access signature token       
-                               (not the url)                                    
-  --container <NAME> (REQ)     ENV=VPK_CONTAINER  Azure container name          
-  --endpoint <URL>             ENV=VPK_ENDPOINT  Service url (eg.               
-                               https://<account-name>.blob.core.windows.ne      
-                               t)                                               
-  --timeout <MINUTES>          ENV=VPK_TIMEOUT  Network timeout in              
-                               minutes. [default: 30]                           
-  --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           
-                               number of releases to keep in the                
-                               container, anything older will be deleted.
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+  (REQ)                                directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --account, --account <ACCOUNT>       ENV=VPK_ACCOUNT  Account name.           
+  (REQ)                                                                         
+  --key, --key <KEY>                   ENV=VPK_KEY  Account secret key.         
+  --sas, --sas <TOKEN>                 ENV=VPK_SAS  Shared access               
+                                       signature token (not the url).           
+  --container, --container <NAME>      ENV=VPK_CONTAINER  Azure storage         
+  (REQ)                                container name.                          
+  --prefix, --prefix <PREFIX>          ENV=VPK_PREFIX  Optional blob            
+                                       filename path prefix.                    
+  --endpoint, --endpoint <URL>         ENV=VPK_ENDPOINT  Service url (eg.       
+                                       https://<account-name>.blob.core.wi      
+                                       ndows.net).                              
+  --timeout, --timeout <MINUTES>       ENV=VPK_TIMEOUT  Network timeout in      
+                                       minutes. [default: 30]                   
+  --keepMaxReleases,                   ENV=VPK_KEEP_MAX_RELEASES  The           
+  --keepMaxReleases <COUNT>            maximum number of releases to keep       
+                                       in the container, anything older         
+                                       will be deleted.
 ```
 
 ## `vpk upload local -H`
@@ -453,18 +514,21 @@ Usage:
   vpk upload local [options]  
 
 Options:
-  -o, --outputDir <DIR> (REQ)  ENV=VPK_OUTPUT_DIR  Output directory for         
-                               created packages. [default: Releases]            
-  -c, --channel <NAME>         ENV=VPK_CHANNEL  The channel to use for          
-                               this release. [default: osx]                     
-  --path <PATH> (REQ)          ENV=VPK_PATH  Target file path to copy           
-                               releases to/from.                                
-  --keepMaxReleases <COUNT>    ENV=VPK_KEEP_MAX_RELEASES  The maximum           
-                               number of releases to keep in the target         
-                               directory, anything older will be deleted.       
-  --regenerate                 ENV=VPK_REGENERATE  Force regenerate the         
-                               releases.{channel}.json file in the target       
-                               directory.
+  --outputDir, -o, --outputDir <DIR>   ENV=VPK_OUTPUT_DIR  Output               
+  (REQ)                                directory for created packages.          
+                                       [default: Releases]                      
+  --channel, -c, --channel <NAME>      ENV=VPK_CHANNEL  The channel to use      
+                                       for this release. [default: osx]         
+  --path, --path <PATH> (REQ)          ENV=VPK_PATH  Target file path to        
+                                       copy releases to/from.                   
+  --keepMaxReleases,                   ENV=VPK_KEEP_MAX_RELEASES  The           
+  --keepMaxReleases <COUNT>            maximum number of releases to keep       
+                                       in the target directory, anything        
+                                       older will be deleted.                   
+  --regenerate, --regenerate           ENV=VPK_REGENERATE  Force                
+  <regenerate>                         regenerate the                           
+                                       releases.{channel}.json file in the      
+                                       target directory. [default: False]
 ```
 
 ## `vpk delta -H`
@@ -489,14 +553,15 @@ Usage:
   vpk delta generate [options]  
 
 Options:
-  --mode <BestSize|BestSpeed|None>  ENV=VPK_MODE  Set the delta generation      
-                                    mode. [default: BestSpeed]                  
-  -b, --base <PATH> (REQ)           ENV=VPK_BASE  The base package for the      
-                                    created patch.                              
-  -n, --new <PATH> (REQ)            ENV=VPK_NEW  The resulting package for      
-                                    the created patch.                          
-  -o, --output <PATH> (REQ)         ENV=VPK_OUTPUT  The output file path        
-                                    for the created patch.
+  --mode, --mode <mode>                ENV=VPK_MODE  Set the delta              
+                                       generation mode. [default:               
+                                       BestSpeed]                               
+  --base, --base, -b <PATH> (REQ)      ENV=VPK_BASE  The base package for       
+                                       the created patch.                       
+  --new, --new, -n <PATH> (REQ)        ENV=VPK_NEW  The resulting package       
+                                       for the created patch.                   
+  --output, --output, -o <PATH> (REQ)  ENV=VPK_OUTPUT  The output file          
+                                       path for the created patch.
 ```
 
 ## `vpk delta patch -H`
@@ -508,10 +573,10 @@ Usage:
   vpk delta patch [options]  
 
 Options:
-  -b, --base <PATH> (REQ)    ENV=VPK_BASE  The base package for the             
-                             created patch.                                     
-  -p, --patch <PATH>         ENV=VPK_PATCH  The resulting package for the       
-                             created patch.                                     
-  -o, --output <PATH> (REQ)  ENV=VPK_OUTPUT  The output file path for the       
-                             created patch.
+  --base, --base, -b <PATH> (REQ)      ENV=VPK_BASE  The base package for       
+                                       the created patch.                       
+  --patch, --patch, -p <PATH>          ENV=VPK_PATCH  The resulting             
+                                       package for the created patch.           
+  --output, --output, -o <PATH> (REQ)  ENV=VPK_OUTPUT  The output file          
+                                       path for the created patch.
 ```

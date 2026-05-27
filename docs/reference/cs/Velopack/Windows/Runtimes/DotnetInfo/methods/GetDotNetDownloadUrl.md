@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes.DotnetInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 Get download url for a specific version of dotnet. Version must be an absolute version, such as one returned by [GetLatestDotNetVersion(Runtimes.DotnetRuntimeType, string, IFileDownloader)](GetLatestDotNetVersion.md). cpuarch should be either 'x86', 'x64', or 'arm64'.
 

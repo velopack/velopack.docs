@@ -10,17 +10,17 @@
 **Declaring Type:** [VelopackRuntimeInfo](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
  The current compiled Velopack NuGetVersion. 
 
 ```csharp
-public static NuGetVersion VelopackNugetVersion { get; }
+public static SemanticVersion VelopackNugetVersion { get; }
 ```
 
 ## Property Value
 
-NuGetVersion
+[SemanticVersion](../../SemanticVersion/index.md)
 
 ___
 

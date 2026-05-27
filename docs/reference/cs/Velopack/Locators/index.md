@@ -18,6 +18,7 @@ sidebar_label: Velopack.Locators
 
 | Name                                                      | Description                                                                                                                                                                                                                                                                                                              |
 | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [DefaultProcessImpl](DefaultProcessImpl/index.md)         |                                                                                                                                                                                                                                                                                                                          |
 | [LinuxVelopackLocator](LinuxVelopackLocator/index.md)     | The default for OSX. All application files will remain in the '.app'. All additional files (log, etc) will be placed in a temporary directory.                                                                                                                                                                           |
 | [OsxVelopackLocator](OsxVelopackLocator/index.md)         | The default for OSX. All application files will remain in the '.app'. All additional files (log, etc) will be placed in a temporary directory.                                                                                                                                                                           |
 | [TestVelopackLocator](TestVelopackLocator/index.md)       | Provides a mock \/ test implementation of [VelopackLocator](VelopackLocator/index.md). This can be used to verify that your application is able to find and prepare updates from your chosen update source without actually having an installed application. This could be used in a CI\/CD pipeline, or unit tests etc. |
@@ -26,9 +27,10 @@ sidebar_label: Velopack.Locators
 
 ## Interfaces
 
-| Name                                          | Description                                                            |
-| --------------------------------------------- | ---------------------------------------------------------------------- |
-| [IVelopackLocator](IVelopackLocator/index.md) | An interface describing where Velopack can find key folders and files. |
+| Name                                          | Description                                                                                               |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [IProcessImpl](IProcessImpl/index.md)         | Provides an abstraction for process\-related operations, allowing for platform\-specific implementations. |
+| [IVelopackLocator](IVelopackLocator/index.md) | An interface describing where Velopack can find key folders and files.                                    |
 
 ___
 

@@ -16,7 +16,7 @@ sidebar_label: Runtimes
 
 **Namespace:** [Velopack.Windows](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 Contains static properties to access common supported runtimes, and a function to search for a runtime by name
 

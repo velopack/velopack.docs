@@ -15,7 +15,7 @@ sidebar_label: Runtimes.VCRedistInfo
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
  The base class for a VC++ redistributable package. 
 
@@ -27,9 +27,9 @@ public abstract class Runtimes.VCRedistInfo : Runtimes.RuntimeInfo
 
 ## Constructors
 
-| Name                                                                            | Description |
-| ------------------------------------------------------------------------------- | ----------- |
-| [VCRedistInfo(string, string, NuGetVersion, RuntimeCpu)](constructors/index.md) |             |
+| Name                                                                       | Description |
+| -------------------------------------------------------------------------- | ----------- |
+| [VCRedistInfo(string, string, Version, RuntimeCpu)](constructors/index.md) |             |
 
 ## Properties
 

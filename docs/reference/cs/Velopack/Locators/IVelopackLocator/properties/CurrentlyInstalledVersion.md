@@ -10,7 +10,7 @@
 **Declaring Type:** [IVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
  The currently installed version of the application, or null if the app is not installed. 
 
@@ -20,7 +20,7 @@ public SemanticVersion CurrentlyInstalledVersion { get; }
 
 ## Property Value
 
-SemanticVersion
+[SemanticVersion](../../../SemanticVersion/index.md)
 
 ___
 

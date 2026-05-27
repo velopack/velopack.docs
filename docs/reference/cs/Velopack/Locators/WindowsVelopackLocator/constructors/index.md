@@ -13,18 +13,15 @@ title: Constructors
 **Declaring Type:** [WindowsVelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
 ```csharp
-[NullableContext(1)]
-public WindowsVelopackLocator(string currentProcessPath, uint currentProcessId, [Nullable(2)]IVelopackLogger customLog);
+public WindowsVelopackLocator(IProcessImpl processImpl, IVelopackLogger customLog);
 ```
 
 ## Parameters
 
-`currentProcessPath`  string
-
-`currentProcessId`  uint
+`processImpl`  [IProcessImpl](../../IProcessImpl/index.md)
 
 `customLog`  [IVelopackLogger](../../../Logging/IVelopackLogger/index.md)
 

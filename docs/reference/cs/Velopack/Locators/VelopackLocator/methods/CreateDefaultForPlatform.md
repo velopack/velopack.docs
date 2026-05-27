@@ -10,16 +10,17 @@
 **Declaring Type:** [VelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 0.0.1298+ed8600e
+**Assembly Version:** 1.0.1+f2ee712
 
  Create a new default locator based on the current operating system. 
 
 ```csharp
-[NullableContext(1)]
-public static IVelopackLocator CreateDefaultForPlatform([Nullable(2)]IVelopackLogger logger = null);
+public static IVelopackLocator CreateDefaultForPlatform(IProcessImpl processImpl = null, IVelopackLogger logger = null);
 ```
 
 ## Parameters
+
+`processImpl`  [IProcessImpl](../../IProcessImpl/index.md)
 
 `logger`  [IVelopackLogger](../../../Logging/IVelopackLogger/index.md)
 
