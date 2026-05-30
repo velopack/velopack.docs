@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   id-token: write
+  actions: write
 
 jobs:
   vpk-cli:
@@ -54,15 +55,19 @@ jobs:
           pattern: cli-*
           merge-multiple: true
       - name: Commit and Push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           if git diff --staged --quiet; then
             echo "No changes to commit."
-          else 
+          else
             echo "Changes detected. Committing..."
             git commit -m "automatic update"
             git push
+            echo "Dispatching deploy workflow..."
+            gh workflow run deploy.yml --ref master
           fi
    
