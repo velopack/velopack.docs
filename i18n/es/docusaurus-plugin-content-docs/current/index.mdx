@@ -1,0 +1,53 @@
+---
+disable_comments: true
+---
+import DocCardList from '@theme/DocCardList';
+
+# Introducción
+Velopack es un framework de instalación y actualización automática para aplicaciones de escritorio multiplataforma. Es opinado, extremadamente fácil de usar y no requiere ninguna configuración. Con un solo comando puedes tener en marcha una aplicación instalable, y además es ultrarrápido para tus usuarios.
+
+¡No dejes de visitarnos en [GitHub](https://github.com/velopack/velopack) y [únete a nuestro Discord](https://discord.gg/CjrCrNzd3F) para cualquier pregunta o soporte!
+
+## Resumen
+Para que tu aplicación aproveche al máximo Velopack, debes hacer 3 cosas:
+
+<FancyStep step={1}>
+### Integra el SDK y comprueba si hay actualizaciones
+Tenemos bibliotecas cliente para varios [lenguajes a continuación](#language-support), o si aún no soportamos tu lenguaje puedes [**abrir una incidencia para solicitarlo**](https://github.com/velopack/velopack/issues). <br/>
+[Leer más →](integrating/overview.mdx)
+</FancyStep>
+
+<FancyStep step={2}>
+### Crea una release de Velopack
+Nuestra herramienta de línea de comandos `vpk` puede ayudarte a crear paquetes de actualización e instaladores con un solo comando. <br/>
+[Leer más →](packaging/overview.mdx)
+</FancyStep>
+
+<FancyStep step={3} noline>
+### Sube tus releases a algún lugar
+Puedes alojar las actualizaciones en cualquier lugar donde se puedan servir archivos estáticos, p. ej. almacenamiento de archivos en la nube, GitHub Releases y más. <br/>
+[Leer más →](distributing/overview.mdx)
+</FancyStep>
+
+## Soporte de lenguajes {#language-support}
+Hay bibliotecas planificadas o soportadas para los lenguajes a continuación.
+
+| Lenguaje | Estado | Enlaces |
+|:-:|---|---|
+| C# | ✅ Listo | [inicio rápido](./getting-started/csharp.mdx), [docs](./reference/cs/Velopack/), [nuget.org](https://nuget.org/packages/velopack) |
+| Rust | ✅ Listo | [inicio rápido](./getting-started/rust.mdx), [docs](https://docs.rs/velopack), [crates.io](https://crates.io/crates/velopack) |
+| JS | ✅ Listo | [inicio rápido](./getting-started/javascript.mdx), [docs](./reference/js), [npmjs.com](https://www.npmjs.com/package/velopack) |
+| C++ | ✅ Listo | [inicio rápido](./getting-started/cpp.mdx), [docs](./reference/cpp), [gh-releases](https://github.com/velopack/velopack/releases) |
+| Python | ✅ Listo | [inicio rápido](./getting-started/python.mdx) |
+| Java | Planificado | - |
+| Swift | Planificado | - | 
+| Go | Planificado | - |
+
+¿No ves tu lenguaje aquí? [Abre una incidencia](https://github.com/velopack/velopack/issues/new) para solicitarlo y cuéntanos lo genial que es.
+
+## Migrar a Velopack
+Debería ser fácil migrar a Velopack desde otros frameworks de actualización. Tenemos algunas guías, pero si nos falta una para tu caso, ¡háznoslo saber en GitHub o Discord!
+<DocCardList items={[
+    { type: 'link', docId: 'migrating/squirrel', href: 'migrating/squirrel', label: 'From Squirrel' },
+    { type: 'link', docId: 'migrating/clickonce', href: 'migrating/clickonce', label: 'From ClickOnce' },
+]} />

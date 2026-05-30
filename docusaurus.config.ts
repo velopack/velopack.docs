@@ -12,10 +12,13 @@ const config: Config = {
   organizationName: 'velopack',
   projectName: 'velopack.docs',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'es'],
+    localeConfigs: {
+      en: { label: 'English', htmlLang: 'en' },
+      es: { label: 'Español', htmlLang: 'es' },
+    },
   },
   customFields: {
     flowBaseUrl: 'https://app.velopack.io',
@@ -26,6 +29,7 @@ const config: Config = {
       indexBlog: false,
       docsRouteBasePath: '/',
       ignoreFiles: new RegExp(".*reference/.*"),
+      language: ['en', 'es'],
     }],
     '@docusaurus/theme-mermaid'
   ],
@@ -52,6 +56,9 @@ const config: Config = {
   markdown: {
     format: 'detect',
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'throw',
+    },
   },
   presets: [
     [
@@ -119,18 +126,10 @@ const config: Config = {
           label: 'Blog',
           position: 'left'
         },
-        // {
-        //   type: 'localeDropdown',
-        //   position: 'right',
-        //   dropdownItemsAfter: [
-        //     {
-        //       href: 'https://crowdin.com/project/velopack/invite?h=88bec14b5657f004fe5ba325090df5ba2031736',
-        //       label: 'Help Translate',
-        //       target: '_blank',
-        //       rel: null,
-        //     },
-        //   ],
-        // },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
         {
           href: 'https://github.com/velopack/velopack',
           position: 'right',

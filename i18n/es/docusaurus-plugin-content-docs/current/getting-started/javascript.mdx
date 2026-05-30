@@ -1,0 +1,141 @@
+import InstallVpk from './content/_install-vpk.mdx';
+import BuildRelease from './content/_build-release.mdx';
+import Completion from './content/_completion.mdx';
+import Admonition from '@theme/Admonition';
+
+
+# Primeros pasos: JS / Electron
+<AppliesTo all />
+Comience con nuestro paquete de NPM para JS y Electron.
+
+:::tip
+Esta guía asume que está creando una aplicación de Electron con Electron Forge y el empaquetador Webpack. Dado que Velopack contiene un módulo binario nativo (`.node`), es posible que no sea compatible con los empaquetadores `vite` o `rollup`. Para generar un proyecto completamente nuevo, puede usar la plantilla oficial de electron forge:
+```
+npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
+```
+:::
+
+<FancyStep step={1}>
+    Agregue Velopack a su `package.json`:
+    ```txt
+    npm install velopack
+    ```
+</FancyStep>
+
+<FancyStep step={2}>
+    Agregue el siguiente código a su punto de entrada (por ejemplo, `index.ts`) lo antes posible (antes de cualquier código de inicio de electron, etc.):
+    ```js
+    const { VelopackApp } = require('velopack');
+
+    // Velopack builder needs to be the first thing to run in the main process.
+    // In some cases, it might quit/restart the process to perform tasks.
+    VelopackApp.build().run();
+
+    // ... your other app startup code here
+    ```
+
+    <Admonition type="warning" title="Squirrel Startup Code">
+        Si actualmente tiene algún código de inicio de "Squirrel", debería eliminarlo ahora. Por ejemplo:
+        ```
+        npm uninstall electron-squirrel-startup @electron-forge/maker-squirrel 
+        ```
+    </Admonition>
+</FancyStep>
+
+<FancyStep step={3}>
+    Esto tiene cierta complejidad debido al modelo de IPC de electron y a que Velopack tiene un módulo nativo de node.
+
+    Primero, debe configurar los manejadores de IPC en el hilo principal de su aplicación:
+    ```js
+    const { VelopackApp } = require('velopack');
+
+    ipcMain.handle("velopack:get-version", () => {
+        try {
+            const updateManager = new UpdateManager(updateUrl);
+            return updateManager.getCurrentVersion();
+        } catch (e) {
+            return `Not Installed (${e})`;
+        }
+    });
+
+    ipcMain.handle("velopack:check-for-update", async () => {
+        const updateManager = new UpdateManager(updateUrl);
+        return await updateManager.checkForUpdatesAsync();
+    });
+
+    ipcMain.handle("velopack:download-update", async (_, updateInfo) => {
+        const updateManager = new UpdateManager(updateUrl);
+        await updateManager.downloadUpdateAsync(updateInfo);
+        return true;
+    });
+
+    ipcMain.handle("velopack:apply-update", async (_, updateInfo) => {
+        const updateManager = new UpdateManager(updateUrl);
+        await updateManager.waitExitThenApplyUpdate(updateInfo);
+        app.quit();
+        return true;
+    });
+    ```
+
+    A continuación, debe exponer estas funciones a sus procesos de renderizado en `preload.ts`
+    ```js
+    import { contextBridge, ipcRenderer } from "electron";
+    import type { UpdateInfo } from "velopack";
+
+    interface VelopackBridgeApi {
+        getVersion: () => Promise<string>,
+        checkForUpdates: () => Promise<UpdateInfo>,
+        downloadUpdates: (updateInfo: UpdateInfo) => Promise<boolean>,
+        applyUpdates: (updateInfo: UpdateInfo) => Promise<boolean>,
+    }
+
+    declare global {
+        interface Window {
+            velopackApi: VelopackBridgeApi;
+        }
+    }
+
+    const velopackApi: VelopackBridgeApi = {
+        getVersion: () => ipcRenderer.invoke("velopack:get-version"),
+        checkForUpdates: () => ipcRenderer.invoke("velopack:check-for-update"),
+        downloadUpdates: (updateInfo: UpdateInfo) => ipcRenderer.invoke("velopack:download-update", updateInfo),
+        applyUpdates: (updateInfo: UpdateInfo) => ipcRenderer.invoke("velopack:apply-update", updateInfo)
+    };
+
+    contextBridge.exposeInMainWorld("velopackApi", velopackApi);
+    ```
+
+    Por último, ahora puede usar estas funciones en su renderizador para proporcionar una interfaz de actualización a sus usuarios:
+    ```js
+    async function updateApp() {
+        // check for new version
+        const updateInfo = await window.velopackApi.checkForUpdates();
+        if (!updateInfo) {
+            return; // no updates available
+        }
+
+        // download new version
+        await window.velopackApi.downloadUpdates(updateInfo);
+
+        // install new version and restart app
+        await window.velopackApi.applyUpdates(updateInfo);
+    }
+    ```
+</FancyStep>
+
+<FancyStep step={4}>
+    Compile su aplicación en un binario (por ejemplo, `.exe` en Windows). Ejemplo usando electron forge:
+    ```sh
+    npx electron-forge package
+    ```
+</FancyStep>
+
+<FancyStep step={5}>
+    <InstallVpk />
+</FancyStep>
+
+<FancyStep step={6} noline={true}>
+    <BuildRelease />
+</FancyStep>
+
+<Completion />

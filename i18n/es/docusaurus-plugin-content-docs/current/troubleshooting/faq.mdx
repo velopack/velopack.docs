@@ -1,0 +1,17 @@
+# Preguntas frecuentes
+<AppliesTo all />
+Preguntas frecuentes sobre Velopack.
+
+- **¿Mi aplicación fue detectada como un virus?** <br/>
+  Velopack no puede ayudar con esto, pero puedes [firmar el código](packaging/signing.mdx) de tu aplicación y revisar [otras sugerencias aquí](https://github.com/clowd/Clowd.Squirrel/issues/28#issuecomment-1016241760).
+- **¿Qué pasó con SquirrelAwareApp? / Accesos directos** <br/>
+  Este concepto ya no existe en Velopack. Puedes crear hooks de instalación/actualización de manera similar usando el builder `VelopackApp`. Aunque ten en cuenta que recrear accesos directos o entradas del registro tú mismo durante los hooks ya no es necesario.
+- **¿Puede Velopack inicializar nuevos runtimes durante las actualizaciones?** <br/>
+  Sí, esto es totalmente compatible. Antes de instalar las actualizaciones, Velopack le pedirá al usuario que instale cualquier actualización que falte.
+- **¿Cómo instalo la herramienta `vpk`? / He instalado la herramienta pero no funciona**
+  Por ahora, necesitas instalar el runtime de `dotnet` 6.0 o posterior para tu plataforma, y luego ejecutar `dotnet tool update -g vpk`. 
+  Se recomienda usar la misma versión de `vpk` que el paquete de Velopack referenciado en tu aplicación para garantizar la compatibilidad.
+  Alternativamente, puedes ejecutar `vpk` sin instalarlo globalmente usando el comando [`dnx`](https://learn.microsoft.com/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472): `dnx vpk --version 1.0.0` (reemplaza `1.0.0` con la versión de tu paquete de Velopack).
+  Si recibes un mensaje de que se instaló correctamente, pero ejecutarlo en tu terminal da como resultado un mensaje de "binario/comando no encontrado", probablemente sea porque tu PATH no está configurado correctamente. Para windows, `%USERPROFILE%\.dotnet\tools` debería estar en el PATH. Para macos, [consulta esta incidencia](https://github.com/dotnet/sdk/issues/9415). En general, dotnet debería configurar estas rutas por ti, pero eso es lo que deberías comprobar si las cosas no funcionan.
+- **¿Puedo usar una versión de 4 partes (1.0.0.0) en lugar de SemVer2?**
+  Velopack solo admite una versión de 3 partes con etiquetas y metadatos (1.0.0-build.23+metadata) siguiendo el estándar SemVer2. Algunas personas eligen versionar con la fecha, 2024.01.12 por ejemplo. También es posible obtener un versionado automatizado basado en commits de git [usando algo como nbgv](https://github.com/dotnet/Nerdbank.GitVersioning). La razón por la que Velopack admite SemVer2 y no las versiones tradicionales de 4 partes es que es posible proporcionar mucha más información en las versiones SemVer2, y no es factible para nosotros admitir ambos formatos en todo el framework.

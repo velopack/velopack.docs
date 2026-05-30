@@ -1,0 +1,28 @@
+# Runtime / SO compatible
+<AppliesTo all />
+
+De forma similar a como proporcionas un RID a dotnet para designar tu sistema operativo y arquitectura de destino, puedes hacer lo mismo con Velopack para indicarle qué soporta tu aplicación. 
+
+Un RID se compone de tres partes (`{os}{version?}-{arch}`)
+ - os: sistema operativo (`win`, `osx` o `linux`)
+ - version: opcionalmente, especifica la versión mínima soportada (p. ej. `win7`, `win8.1`, `win10.0.18362`)
+ - arch: opcionalmente, especifica la arquitectura de CPU soportada (p. ej. `win-x86`, `win-x64`, `win-arm64`)
+
+Si proporcionaras el RID `--runtime win10-arm64`, cualquier usuario que intentara instalar tu app en Windows 7, 8 u 8.1 recibiría un mensaje indicando que su sistema operativo 
+no es compatible. De forma similar, si un usuario de Windows 11 con una CPU x64 intentara instalarla, también fallaría con un mensaje útil indicando que su CPU no es compatible.
+
+Si intentas dirigirte a Windows 11, no incrementaron el número de versión principal de 10 a 11. Cualquier compilación >= 22000 se clasifica como Windows 11. Por ejemplo:
+ - `win11 == win10.0.22000`
+ - `win11.0.22621 == win10.0.22621`
+
+En MacOS, el RID (versión mínima y arquitectura) simplemente se almacena como metadatos en el `.pkg`, que serán gestionados de forma nativa por el sistema operativo.
+
+:::tip
+Los runtimes indican qué versión y arquitectura soporta tu aplicación, pero no habilitan la _compilación cruzada_, que te permite compilar lanzamientos 
+para un SO distinto del que estás usando. [Consulta más sobre la compilación cruzada aquí](./cross-compiling.mdx).
+:::
+
+#### Lee también
+- [Historial de versiones de Windows 10](https://en.wikipedia.org/wiki/Windows_10_version_history)
+- [Historial de versiones de Windows 11](https://en.wikipedia.org/wiki/Windows_11_version_history)
+- [Catálogo de RID de .NET](https://learn.microsoft.com/dotnet/core/rid-catalog)

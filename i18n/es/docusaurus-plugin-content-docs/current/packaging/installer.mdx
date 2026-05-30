@@ -1,0 +1,85 @@
+# Instaladores
+<AppliesTo win mac />
+Velopack adopta un enfoque relativamente ligero en lo que respecta a los instaladores, por lo que no hay mucha personalización disponible como la que encontrarías en otros frameworks de instalación. Este es el compromiso que hace Velopack para garantizar que la experiencia del desarrollador/usuario sea lo más rápida y sencilla posible.
+
+En ambos sistemas operativos, si [la firma de código está configurada](signing.mdx), el instalador también será firmado. (Esto es _obligatorio_ en MacOS)
+
+## Resumen de Windows
+El instalador de Windows es actualmente un instalador "de un clic", lo que significa que cuando se ejecuta el binario `Setup.exe`, Velopack no mostrará ninguna pregunta / asistente al usuario, simplemente intentará instalar la app lo más rápido posible y luego la iniciará. 
+
+La instalación creará de forma predeterminada un acceso directo en `StartMenuRoot` y `Desktop`. [[Lee más]](../integrating/shortcuts.mdx)
+
+Las opciones clave que personalizarán el instalador son las siguientes:
+- `--packTitle {app name}` personaliza los nombres de los accesos directos, el nombre en Aplicaciones y características, y el nombre del exe de la entrada portable.
+- `--icon {path}` establece el .ico en Update.exe y Setup.exe (y también el icono de cualquier diálogo que se muestre)
+- `--splashImage {path}` establece la imagen de bienvenida (posiblemente animada) que se mostrará durante la instalación.
+
+La imagen de bienvenida puede ser un `jpeg`, `png` o `gif`. En este último caso, será animada.
+
+También puedes [instalar los frameworks requeridos mediante bootstrap](bootstrapping.mdx) antes de instalar tu app.
+
+El instalador de Windows extraerá la aplicación a `%LocalAppData%\{packId}`, y la estructura de directorios se verá así:
+
+```
+{packId}
+├── current
+│   ├── YourFile.dll
+│   ├── sq.version
+│   └── YourApp.exe
+└── Update.exe
+```
+
+El directorio `current` se reemplazará por completo [al hacer las actualizaciones](../integrating/overview.mdx). Los otros dos archivos añadidos por Velopack (`Update.exe` y `sq.version`) son cruciales y son archivos requeridos para que Velopack pueda actualizar tu aplicación correctamente.
+
+### Instalador MSI de Windows
+Además de `Setup.exe`, Velopack puede generar un instalador `.msi` usando WiX 5. El MSI proporciona una integración completa con Windows Installer, incluyendo soporte para instalaciones por máquina en Program Files, despliegue mediante directivas de grupo (Group Policy) y entradas estándar en Agregar o quitar programas.
+
+Para habilitar la generación de MSI, añade el indicador `--msi` a tu comando `vpk pack`. El MSI se compila junto con `Setup.exe` durante el empaquetado.
+
+#### Ubicación de instalación
+La opción `--instLocation` controla dónde se instalará el MSI:
+- `PerUser` — instala en `%LocalAppData%\{packId}` (registro HKCU, no requiere elevación)
+- `PerMachine` — instala en `Program Files\{publisher}\{packTitle}` (registro HKLM, requiere elevación)
+- `Either` (predeterminado) — el usuario elige durante la instalación
+
+#### Opciones de MSI
+| Opción | Descripción |
+|--------|-------------|
+| `--msi` | Habilita la generación de MSI |
+| `--msiVersion` | Sobrescribe la versión del producto (debe ser una versión MSI válida, es decir, `x.x.x.x`) |
+| `--instLocation` | Establece el ámbito de instalación: `PerUser`, `PerMachine` o `Either` (predeterminado) |
+| `--instWelcome {path}` | Mensaje de bienvenida mostrado durante la instalación (`.txt` o `.md`) |
+| `--instLicense {path}` | Acuerdo de licencia (`.txt`, `.md` o `.rtf`) |
+| `--instReadme {path}` | Mensaje del léeme (`.txt` o `.md`) |
+| `--instConclusion {path}` | Mensaje de conclusión (`.txt` o `.md`) |
+| `--msiBanner {path}` | Imagen del banner superior para los diálogos del MSI (`.bmp`, 493x58) |
+| `--msiLogo {path}` | Logo de fondo para los diálogos del MSI (`.bmp`, 493x312) |
+
+#### Estructura de directorios
+El MSI instala la misma disposición de directorios que `Setup.exe`:
+```
+{installFolder}
+├── current
+│   ├── YourFile.dll
+│   ├── sq.version
+│   └── YourApp.exe
+├── Update.exe
+└── YourApp.exe          (execution stub)
+```
+
+Después de la instalación, las actualizaciones funcionan de forma idéntica a través de `Update.exe` independientemente de si la app se instaló con `Setup.exe` o con el `.msi`.
+
+## Resumen de MacOS
+El instalador de MacOS será un `.pkg` estándar, que no es más que un paquete en el que la interfaz de usuario la proporciona el sistema operativo, permitiendo al usuario elegir la ubicación de instalación. La app se iniciará automáticamente después de la instalación (reflejando el comportamiento en Windows) debido a un script `postinstall` añadido por Velopack.
+
+Las opciones clave que personalizarán el instalador son las siguientes:
+- `--packTitle {app name}` personaliza el nombre del paquete `.app` y el nombre de la app mostrado en el `.pkg`
+- `--pkgWelcome {path}` añade una página de bienvenida
+- `--pkgReadme {path}` añade una página de léeme
+- `--pkgLicense {path}` añade una página de aceptación de licencia
+- `--pkgConclusion {path}` añade una página de conclusión
+- `--noPkg` desactiva por completo la generación de un instalador `.pkg`
+
+Los argumentos pkgPage pueden ser un archivo `.rtf` o `.html`.
+
+El paquete `.app` puede extraerse a `/Applications` o `~/Applications`, lo cual selecciona el usuario durante la instalación.

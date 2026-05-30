@@ -1,0 +1,36 @@
+# Compilación cruzada
+<AppliesTo all />
+Compilar lanzamientos para un sistema operativo distinto del que estás usando.
+
+## Runtime vs. compilación cruzada
+
+Usar el argumento `--runtime` [[Lee más]](./runtime.mdx) es una excelente forma de indicar a Velopack qué _versión_ de CPU o SO soporta tu software, pero no 
+habilita la compilación cruzada de forma predeterminada y, si intentas usar `--runtime linux-x64` en una máquina Windows, recibirás un mensaje de error "Not Supported".
+
+Esto se debe a que, de forma predeterminada, Velopack cree que siempre intentas compilar un lanzamiento para el SO que estás usando actualmente.
+
+## Cómo compilar de forma cruzada
+Dado que los argumentos de línea de comandos disponibles para cada SO son ligeramente diferentes, debes optar explícitamente por la compilación cruzada usando una directiva de la CLI. 
+
+Las siguientes directivas están disponibles:
+- `vpk [win]`
+- `vpk [linux]`
+- `vpk [osx]`
+
+Por ejemplo, si deseas compilar un paquete de linux mientras usas una máquina Windows, usarías los siguientes comandos:
+- `vpk [linux] -h`
+- `vpk [linux] pack -h`
+- `vpk [linux] pack --runtime linux-x64 --mainExe yourExeName --packId YourAppId ...`
+
+Antes de ejecutar un comando para un SO diferente, deberías revisar el texto de ayuda de ese comando usando `vpk [os] -h` para ver las opciones disponibles.
+
+## Configuraciones compatibles
+
+- Es posible crear paquetes de Windows en cualquier SO (Windows, Linux o MacOS). 
+- Es posible crear paquetes de Linux en cualquier SO (Windows, Linux o MacOS).
+- No es posible crear paquetes de MacOS en Windows o Linux. Debido a las dependencias estrictas de herramientas como `codesign`, `xcrun`, `productbuild`, etc., 
+  debes usar una máquina MacOS para crear paquetes de MacOS.
+
+
+
+

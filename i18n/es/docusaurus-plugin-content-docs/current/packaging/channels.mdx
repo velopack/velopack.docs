@@ -1,0 +1,37 @@
+# Canales de lanzamiento
+<AppliesTo all />
+Los canales son una parte fundamental de cómo Velopack entiende y compila los lanzamientos. Cada lanzamiento debe pertenecer a un canal. Si no especificas un canal al compilar un lanzamiento (mediante el argumento `--channel`), el canal predeterminado será el nombre del sistema operativo de destino (p. ej. `win`, `osx` o `linux`). 
+
+Al compilar lanzamientos, Velopack creará un archivo `releases.{channel}.json` que debe subirse junto con tus otros recursos (p. ej. `.nupkg`). Así es como `UpdateManager` sabe qué lanzamientos están disponibles.
+
+En general, no deberías proporcionar un canal al constructor de `UpdateManager` (déjalo como null). En este caso, solo buscará paquetes de actualización en el mismo canal para el que se compiló el lanzamiento actual. Por ejemplo, si proporcionaste el argumento `--channel stable` a `vpk` e instalaste tu app, entonces `UpdateManager` buscará automáticamente el archivo `releases.stable.json` al comprobar si hay actualizaciones.
+
+:::tip
+Por motivos heredados, Velopack también generará un archivo `RELEASES` (para el canal `win`), o un archivo `RELEASES-{channel}` (para cualquier otro canal). Al desplegar estos archivos junto con `releases.{channel}.json` permitirás que las apps heredadas se actualicen a Velopack. Si no tienes ningún usuario en versiones heredadas de tu software, puedes ignorar estos archivos.
+:::
+
+## Cambiar de canal en apps instaladas
+A menudo es deseable permitir que los usuarios cambien de canal fácilmente. Por ejemplo, si tus usuarios descargaron un instalador para una versión "stable" de tu app, solo recibirán actualizaciones del canal "stable". Más adelante, deciden que desean cambiar al canal "beta" para probar algunas funciones experimentales de tu app. 
+
+[Lee más sobre cómo cambiar de canal aquí.](../integrating/switching-channels.mdx)
+
+## Desplegar apps multiplataforma
+
+Es importante, al desplegar apps multiplataforma (o multiarquitectura), que cada os/rid único tenga su propio canal. ¡No sería bueno que tu app de Windows intentara instalar un paquete de OSX, etc.!
+
+Los canales predeterminados son `win`, `osx` o `linux`, así que si solo distribuyes un lanzamiento por plataforma, no necesitas especificar un argumento de canal; todo debería funcionar automáticamente. Si distribuyes canales de funciones (p. ej. 'stable', 'beta') o necesitas distribuir varias versiones de tu app por sistema operativo (p. ej. `win-x64`, `win-arm64`), entonces tendrás que definir una estrategia de canales que no genere colisiones. 
+
+Por ejemplo, si distribuyera una app en windows y osx que necesitara soportar x64 y arm64, y también necesitara soportar "stable" y "beta", entonces necesitaría los siguientes 8 canales:
+- win-x64-stable
+- win-x64-beta
+- win-arm64-stable
+- win-arm64-beta
+- osx-x64-stable
+- osx-x64-beta
+- osx-arm64-stable
+- osx-arm64-beta
+
+## Renombrar un canal
+No puedes renombrar un canal como tal, pero puedes reemplazarlo (es decir, forzar a todos tus usuarios a cambiar al nuevo canal). Imagina que hasta ahora has estado publicando una app que solo soporta windows x64 en el canal `stable`, pero ahora te gustaría lanzar una versión arm64 de tu app. Así que quieres migrar a todos los usuarios de `stable` a `win-x64`, mientras también creas un nuevo canal llamado `win-arm64`. 
+
+Deberías publicar tu próxima actualización (digamos v2.0.0) usando `--channel win-x64`, lo que creará un nuevo archivo `releases.win-x64.json`. Ahora puedes copiar este archivo y renombrarlo a `releases.stable.json` y desplegar ambos archivos junto con tu `.nupkg` v2.0.0 en tu servidor de actualizaciones. Cualquier usuario en el canal "stable" encontrará el archivo `releases.stable.json` y se actualizará a tu lanzamiento v2.0.0 win-x64, y una vez hecho buscará futuras actualizaciones en `releases.win-x64.json`. Solo necesitas hacer esto una vez; no necesitarás actualizar el archivo `releases.stable.json` de nuevo, sin embargo quizás no quieras eliminarlo para que los usuarios que no hayan abierto tu app durante algún tiempo aún puedan encontrar las nuevas actualizaciones.

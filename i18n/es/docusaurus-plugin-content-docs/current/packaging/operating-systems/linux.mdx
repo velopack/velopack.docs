@@ -1,0 +1,66 @@
+# Resumen de Linux
+<AppliesTo nix />
+Notas específicas de Linux sobre la creación y el uso de paquetes de Velopack.
+
+En Linux, Velopack no crea un instalador, simplemente crea un archivo `.AppImage`. 
+
+El usuario:
+- Descargará el archivo `.AppImage`
+- Establecerá los permisos con `chmod +x YourFile.AppImage`
+- Lo ejecutará con `./YourFile.AppImage`
+
+## Empaquetado
+Se requiere un icono para crear un AppImage, e idealmente debería estar en formato PNG. Esto se puede proporcionar con el argumento `--icon`.
+
+Es posible que `vpk` cree completamente la estructura AppImage/AppDir por ti de forma automática, dado tu directorio de compilación como de costumbre. 
+Opcionalmente, puedes pre-compilar tu estructura AppImage/AppDir según la [siguiente especificación](https://github.com/AppImage/AppImageKit/wiki/AppDir).
+Si has preparado tu AppDir, puedes proporcionarlo al argumento `--packDir / -p`. Ten en cuenta que la carpeta ***debe*** terminar en `.AppDir`. 
+Si usas un AppDir pre-compilado, se espera que el icono y el archivo `.desktop` ya existan, y los argumentos `--icon` / `--categories` serán ignorados.
+
+## Actualización
+Durante las actualizaciones, los paquetes se descargan a una ubicación temporal (`/var/tmp`) y luego se reemplaza el `.AppImage`. 
+Si el `.AppImage` está en una carpeta privilegiada, el actualizador solicitará automáticamente sudo usando `pkexec`.
+Técnicamente la aplicación puede actualizarse mientras se está ejecutando, aunque Velopack hará un esfuerzo por cerrarla/reiniciarla para eliminar cualquier versión antigua que se esté ejecutando actualmente.
+
+## ¿Qué es un AppImage?
+AppImage no instala el software en el sentido tradicional (es decir, no coloca archivos por todas partes en el sistema).
+
+Usa un archivo por aplicación. Cada uno es autónomo: incluye todas las bibliotecas de las que depende la aplicación y que no forman parte del sistema base. 
+En este sentido, es similar a la "virtualización de aplicaciones". 
+Uno puede usar un archivo AppImage incluso si no es superusuario, o si está usando un live CD. 
+Los archivos AppImage suelen ser más sencillos que compilar e instalar una aplicación, ya que en realidad no se realiza ninguna instalación. 
+El archivo AppImage es una imagen comprimida que se monta temporalmente para permitir el acceso al programa, sin tener que extraer el programa ni modificar el sistema subyacente.
+
+## ¿Por qué AppImage, y no deb, snap, etc.?
+- AppImage es un formato para la distribución de software binario. El software empaquetado como AppImage está pensado para ser lo más compatible a nivel binario posible con tantos sistemas como sea posible. 
+- Un AppImage debería ejecutarse en prácticamente todos los sistemas operativos base (distribuciones). Por ejemplo, podrías apuntar a Ubuntu 9.10, openSUSE 11.2 y Fedora 13 (y versiones posteriores) al mismo tiempo, sin tener que crear y mantener paquetes separados para cada sistema de destino.
+- Los AppImage son reubicables y portables, y no modifican el sistema operativo de ninguna manera. Esto significa que se pueden ejecutar directamente en un Live CD, una memoria USB, etc. 
+
+## Dependencia de FUSE / libfuse
+Un AppImage es un único archivo que contiene un sistema de archivos squashfs incrustado. Cuando el AppImage se ejecuta, ese sistema de archivos se monta usando libfuse, por lo que debe estar instalado
+antes de intentar ejecutar un AppImage. En Ubuntu esto se puede hacer con lo siguiente
+
+```
+sudo add-apt-repository universe
+sudo apt install libfuse2
+```
+
+## ¿Se puede "instalar" un AppImage?
+Sí, se puede, pero este ejercicio generalmente se deja en manos del usuario. Hay frameworks que instalarán un AppImage en la primera ejecución, moviéndolo a una ubicación predeterminada (normalmente `~/Applications`), añadiendo un acceso directo al dock/lanzador/escritorio, etc. 
+Uno de estos frameworks es [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher), pero también hay otros.
+
+### AppImageLauncher
+La instalación de AppImageLauncher en Ubuntu se puede hacer con los siguientes comandos:
+
+```
+sudo add-apt-repository ppa:appimagelauncher-team/stable
+sudo apt install software-properties-common appimagelauncher
+```
+
+Para otras distribuciones de linux, [consulta la wiki](https://github.com/TheAssassin/AppImageLauncher/wiki).
+
+Una vez instalado AppImageLauncher, el usuario verá un diálogo de instalación cada vez que descargue y ejecute un nuevo AppImage:
+
+![captura de pantalla de appimagelauncher](/images/appimagelauncher.png)
+
+También es posible instalar un AppImage manualmente (es decir, sin AppImageLauncher) [aunque es un poco complicado](https://askubuntu.com/a/1311653/15694).

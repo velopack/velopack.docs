@@ -1,0 +1,33 @@
+# Resumen de MacOS
+<AppliesTo mac />
+Notas específicas de MacOS sobre la creación y el uso de paquetes de Velopack.
+
+Para Mac, las aplicaciones se distribuyen como paquetes `.app`. Estas son carpetas especiales que aparecen en el Finder como si fueran un único archivo.
+
+## Empaquetado
+Si estás creando un paquete personalizado, puedes proporcionar una carpeta que termine en `.app` al argumento `--packDir` / `-p`, y Velopack la copiará y usará directamente.
+Si no deseas crear el paquete `.app` manualmente, Velopack puede hacerlo por ti, así que simplemente proporciona cualquier otra carpeta (que no termine en `.app`) al argumento `--packDir`.
+
+Si deseas que Velopack cree automáticamente un paquete, el único argumento adicional que necesitas proporcionar es `--icon`, y este debe ser un archivo `.icns` válido.
+
+:::warning
+Apple requiere [la firma de código y la notarización](../signing.mdx) antes de enviar tus versiones a los usuarios, o tu aplicación no se ejecutará.
+:::
+
+## Actualización
+Durante las actualizaciones, los paquetes se descargan a `/tmp`, y durante el paso de aplicación el paquete `.app` se extraerá y reemplazará. 
+
+Si el `.app` está instalado en `/Applications` (y no en `~/Applications`, por ejemplo), puede ser necesaria una elevación de privilegios. 
+En este caso, el actualizador usará AppleScript para solicitar la elevación y completar la actualización. 
+El paquete `.app` creado por Velopack no necesita estar en `/Applications` para admitir actualizaciones, es un paquete portable / autónomo
+y, si el usuario lo mueve, sigue siendo capaz de aplicar actualizaciones.
+
+Técnicamente la aplicación puede actualizarse mientras se está ejecutando, aunque Velopack hará un esfuerzo por cerrarla/reiniciarla para eliminar cualquier versión antigua que se esté ejecutando actualmente.
+
+## Instalación
+Velopack generará y firmará automáticamente un instalador `.pkg` por ti, que te permite mostrar un léeme, una conclusión, una página de licencia, etc. 
+Consulta la ayuda de la línea de comandos para obtener una lista completa de opciones.
+También permite al usuario elegir si instalar en `/Applications` o `~/Applications`, y lanzará la aplicación automáticamente después de que se haya instalado. 
+
+Si no deseas enviar un pkg, Velopack también crea un `.zip` portable que se extraerá automáticamente si el usuario hace clic en él en el Finder.
+Si deseas enviar un DMG en su lugar, puedes descomprimir este paquete portable y crear un DMG de esa manera.

@@ -1,0 +1,85 @@
+# Bootstrapping
+<AppliesTo win />
+Instala .NET, vcredist, webview2 y más mientras instalas aplicaciones Velopack en Windows usando el argumento `--framework` / `-f`.
+
+Es posible especificar más de un requisito, usando una lista delimitada por comas. Por ejemplo:
+```cmd
+vpk pack ... --framework net6.0-x64-desktop,vcredist142-x64
+```
+
+Estas dependencias se descargarán e instalarán antes de que se instale tu aplicación.
+
+:::warning
+Si estás compilando una aplicación dotnet con `--self-contained`, **NO** debes proporcionar un argumento `--framework` que especifique que tu app requiere que dotnet esté instalado, porque tu aplicación ya tiene el runtime incluido. Si estás publicando tu aplicación con `--no-self-contained`, entonces debes proporcionar el argumento `--framework`.
+:::
+
+:::note
+El bootstrapping de dotnet no está disponible en macOS ni Linux. Se recomienda distribuir tu aplicación como un [paquete autocontenido](https://learn.microsoft.com/dotnet/core/deploying/?pivots=visualstudio#self-contained-deployment) en su lugar. 
+:::
+
+## Añadir dependencias durante las actualizaciones
+
+Velopack comprobará que todas las dependencias requeridas estén instaladas antes de aplicar nuevas actualizaciones. Esto significa que si una nueva versión de tu app añade una nueva dependencia, se le pedirá al usuario que la instale antes de que se aplique tu nueva versión.
+
+## Lista de frameworks compatibles
+Cualquiera de los siguientes puede pasarse mediante el argumento `--framework`.
+
+### Edge WebView2
+- `webview2`
+
+### vcredist
+- `vcredist100-x86` (VC++ 10.0 / VS 2010)
+- `vcredist100-x64` (VC++ 10.0 / VS 2010)
+- `vcredist110-x86` (VC++ 11.0 / VS 2012)
+- `vcredist110-x64` (VC++ 11.0 / VS 2012)
+- `vcredist120-x86` (VC++ 12.0 / VS 2013)
+- `vcredist120-x64` (VC++ 12.0 / VS 2013)
+- `vcredist140-x86` (VC++ 14.0 / VS 2015)
+- `vcredist140-x64` (VC++ 14.0 / VS 2015)
+- `vcredist141-x86` (VC++ 14.1 / VS 2017)
+- `vcredist141-x64` (VC++ 14.1 / VS 2017)
+- `vcredist142-x86` (VC++ 14.2 / VS 2019)
+- `vcredist142-x64` (VC++ 14.2 / VS 2019)
+- `vcredist143-x86` (VC++ 14.3 / VS 2022)
+- `vcredist143-x64` (VC++ 14.3 / VS 2022)
+- `vcredist143-arm64` (VC++ 14.3 / VS 2022)
+- `vcredist144-x86` (VC++ 14.4 / VS 2022)
+- `vcredist144-x64` (VC++ 14.4 / VS 2022)
+- `vcredist144-arm64` (VC++ 14.4 / VS 2022)
+
+### .Net Framework
+- `net45`
+- `net451`
+- `net452`
+- `net46`
+- `net461`
+- `net462`
+- `net47`
+- `net471`
+- `net472`
+- `net48`
+- `net481`
+
+### dotnet
+Se admite cualquier versión de dotnet >= 5.0. El argumento de framework debe suministrarse en el formato `$"net{major.minor}-{arch}-{type}"`.
+
+Los valores válidos de `{arch}` son
+- x86
+- x64
+- arm64
+
+Los valores válidos de `{type}` son
+- runtime
+- aspnetcore
+- desktop
+- sdk
+
+Aquí tienes algunos ejemplos:
+- .NET 6.0 Desktop Runtime (x64)  `--framework net6.0-x64-desktop`
+- .NET 8.0 Runtime (arm64)  `--framework net8.0-arm64-runtime`
+- .NET 5.0 AspNetCore (x86)  `--framework net5.0-x86-aspnetcore`
+- .NET 9.0 SDK (x64)  `--framework net9.0-x64-sdk`
+
+De forma predeterminada, Velopack aceptará cualquier versión instalada, pero siempre instalará la más reciente. Es decir, si tu dependencia se especifica como `net6.0-x64-desktop` y está instalada la versión `6.0.2`, será aceptada. Si no está instalada, Velopack descargará la última versión disponible (en el momento de escribir esto, esa es `6.0.26`). 
+
+Si necesitas una versión específica de dotnet (p. ej. `6.0.11`), puedes especificar una tercera parte de versión en tu cadena de dependencia: `--framework net6.0.11-x64-desktop`. En este caso, si la versión instalada es `< 6.0.11`, se actualizará a la última disponible.

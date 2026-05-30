@@ -1,0 +1,90 @@
+---
+sidebar_label: Resumen
+sidebar_position: 0
+---
+
+# Resumen de Distribución
+<AppliesTo all />
+La aplicación de Velopack se puede distribuir fácilmente con <FlowLink /> o subiéndola manualmente a algún lugar desde donde se pueda descargar mediante HTTP. Esto significa que podrías alojarlas en un sitio de IIS o nodejs, en almacenamiento de archivos compartido como AWS S3, Azure Storage, BackBlaze B2, o incluso de forma gratuita en las releases de GitHub/GitLab si tu proyecto es de código abierto.
+
+Los pasos generales para crear y desplegar una versión de Velopack son:
+1. Descargar la última versión publicada (por ejemplo, 1.0.0).
+0. Ejecutar `vpk pack` para crear tu nueva versión (por ejemplo, 1.0.1).
+0. Subir los nuevos activos 1.0.1 que has creado.
+0. Actualizar el `releases.{channel}.json` remoto para reflejar los activos recién subidos.
+
+Consulta también: los [comandos de despliegue](deploy-cli.mdx) pueden facilitar mucho este proceso.
+
+## Lista de activos producidos
+Después de empaquetar una versión con Velopack, deberías tener algo como lo siguiente en tu directorio de salida:
+
+```
+Releases
+├── YourAppId-1.0.1-full.nupkg
+├── YourAppId-1.0.1-delta.nupkg
+├── YourAppId-Setup.exe
+├── YourAppId-Portable.zip
+├── releases.{channel}.json
+├── assets.{channel}.json
+└── RELEASES
+```
+
+### nupkg completos y delta
+Estos son los paquetes de actualización que las aplicaciones instaladas usan para encontrar/instalar la última versión. Los paquetes completos contienen una réplica entera de tus archivos de entrada, más algunos archivos que añade Velopack. Un paquete delta es un diff respecto al paquete completo creado previamente. Necesitas tener descargada la versión anterior (por ejemplo, 1.0.0 en el ejemplo anterior) y en el directorio de salida para que se cree un delta (en este caso, `1.0.0->1.0.0`). Existen útiles [comandos de despliegue](deploy-cli.mdx) que pueden descargar la última versión por ti, de modo que los deltas se generen automáticamente. 
+
+Debes distribuir estos paquetes en la misma carpeta que el archivo `releases.{channel}.json` para que las actualizaciones funcionen. 
+
+### Setup y portable
+Esto es lo que tu usuario debería descargar y ejecutar para instalar tu aplicación. En MacOS, obtendrás un `.pkg` en lugar de un `-Setup.exe`. En Linux, no se produce ningún setup, solo un `.AppImage` portable. La razón de esto es que los `.AppImage` son completamente portables a cualquier distribución de linux relativamente reciente.
+
+### Feed de versiones (`releases.{channel}.json`)
+Este archivo debe distribuirse en la misma carpeta donde se despliegan los archivos `nupkg`. Contiene una lista de todas las versiones disponibles. 
+
+Cuando proporcionas una URL HTTP a `UpdateManager`, este buscará este archivo. Por ejemplo, si haces `new UpdateManager("https://the.place/you-host/updates")`, entonces UpdateManager solicitará `https://the.place/you-host/updates/releases.{channel}.json`. El canal que usa UpdateManager en la solicitud es automático, puedes [leer más aquí sobre los canales](../packaging/channels.mdx). 
+
+Por ejemplo, si empaquetaste `1.0.0` e inmediatamente después `1.0.1`, el contenido de este archivo podría verse así:
+
+```json title="releases.win.json"
+{
+  "Assets": [
+    {
+      "PackageId": "YourAppId",
+      "Version": "1.0.1",
+      "Type": "Full",
+      "FileName": "YourAppId-1.0.1-full.nupkg",
+      "SHA1": "537EC0F4E1C4263A230353FAB4150216E5AF3724",
+      "Size": 1588612
+    },
+    {
+      "PackageId": "YourAppId",
+      "Version": "1.0.1",
+      "Type": "Delta",
+      "FileName": "YourAppId-1.0.1-delta.nupkg",
+      "SHA1": "9615D266DDBCADF3B9CD82BABF9DA571A0EE2B83",
+      "Size": 3606
+    },
+    {
+      "PackageId": "YourAppId",
+      "Version": "1.0.0",
+      "Type": "Full",
+      "FileName": "YourAppId-1.0.0-full.nupkg",
+      "SHA1": "69122BABCEEEF9F653BFE59D87DDAEF363F9476F",
+      "Size": 1588613
+    }
+  ]
+}
+```
+
+El archivo de versiones siempre debe reflejar qué archivos están _realmente disponibles_ en la carpeta remota que contiene el archivo de versiones. Así que si eliminas una versión nupkg del servidor remoto, también deberías eliminarla de tu archivo de versiones remoto. Si estás desplegando archivos locales recién creados en un servidor remoto que ya contiene algunas versiones, entonces deberías copiar los activos desde tu archivo local al archivo de versiones remoto. 
+
+:::warning
+Este archivo es la única forma en que UpdateManager puede descubrir versiones; si no lo actualizas correctamente, puede que tus usuarios no reciban actualizaciones.
+:::
+
+Es tedioso actualizar este archivo manualmente, así que el CLI de Velopack proporciona comandos de despliegue que pueden desplegar activos y actualizar este archivo automáticamente por ti, además de aplicar políticas de retención sobre el número de versiones a conservar. [[Leer más]](deploy-cli.mdx)
+
+### Feed de versiones heredado (`RELEASES`)
+Este formato de versiones era usado por Clowd.Squirrel y Squirrel.Windows, y Velopack sigue produciéndolo para permitirte migrar a Velopack una aplicación que use uno de esos frameworks. Si no tienes ningún usuario heredado que necesite migrar a Velopack, puedes ignorar este archivo de forma segura.
+
+### Archivo de activos
+Este archivo contiene una lista de los activos producidos por el último comando `pack`. Es usado por los [comandos de despliegue de Velopack](deploy-cli.mdx) para saber qué archivos deben subirse. Se puede ignorar / eliminar si no tienes intención de usar estos comandos para desplegar versiones y actualizar automáticamente tu feed de versiones.

@@ -1,0 +1,69 @@
+import InstallVpk from './content/_install-vpk.mdx';
+import BuildRelease from './content/_build-release.mdx';
+import Completion from './content/_completion.mdx';
+import Admonition from '@theme/Admonition';
+
+
+# Primeros pasos: Python
+<AppliesTo all />
+Comience con nuestra biblioteca de python.
+
+<FancyStep step={1}>
+    Instale velopack desde el Python Package Index:
+    ```txt
+    pip install velopack
+    ```
+</FancyStep>
+
+<FancyStep step={2}>
+    Agregue el siguiente código a su punto de entrada (por ejemplo, `main.py`) lo antes posible (antes de cualquier código de inicio de electron, etc.):
+    ```python
+    import velopack
+
+    if __name__ == "__main__":
+        # Velopack builder needs to be the first thing to run in the main process.
+        # In some cases, it might quit/restart the process to perform tasks.
+        velopack.App().run()
+
+        # ... your other app startup code here
+    ```
+</FancyStep>
+
+<FancyStep step={3}>
+    Velopack ofrece una forma sencilla de buscar actualizaciones y aplicarlas. 
+    A continuación se muestra cómo implementar una comprobación básica de actualizaciones dentro de su aplicación. 
+    
+    También puede dividir los distintos métodos para permitir que sus usuarios controlen cuándo buscar actualizaciones, descargarlas o aplicarlas.
+
+    ```python
+    def update_app():
+        manager = velopack.UpdateManager("https://the.place/you-host/updates")
+
+        update_info = manager.check_for_updates()
+        if not update_info:
+            return # no updates available
+
+        # Download the updates, optionally providing progress callbacks
+        manager.download_updates(update_info)
+
+        # Apply the update and restart the app
+        manager.apply_updates_and_restart(update_info)
+    ```
+</FancyStep>
+
+<FancyStep step={4}>
+    Compile su aplicación en un binario (por ejemplo, `.exe` en Windows). Ejemplo usando PyInstaller:
+    ```sh
+    pyinstaller --onedir app.py
+    ```
+</FancyStep>
+
+<FancyStep step={5}>
+    <InstallVpk />
+</FancyStep>
+
+<FancyStep step={6} noline={true}>
+    <BuildRelease />
+</FancyStep>
+
+<Completion />

@@ -1,0 +1,41 @@
+# CLI de Despliegue
+<AppliesTo all />
+El proceso general para desplegar una versión de Velopack (`download -> pack -> upload`) puede simplificarse enormemente usando los comandos `download` y `upload` que están integrados en la herramienta de línea de comandos `vpk`.
+
+## Empaquetar tu nueva versión con deltas
+
+Para que se generen deltas durante el comando `pack`, primero necesitas descargar la última versión actual. Esto debe hacerse con el comando download:
+
+```cmd
+vpk download http --url https://the.place/you-host/updates
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+```
+
+Hay proveedores para diversas fuentes, como GitHub, S3, HTTP, etc.
+
+## Desplegar versiones
+En el ejemplo anterior, usamos la fuente `http`; aunque es muy genérica, no proporciona ninguna información sobre cómo subir las versiones, así que en el siguiente ejemplo de despliegue usaremos [AWS S3](https://aws.amazon.com/s3/). 
+
+:::tip
+La mayoría de los proveedores de almacenamiento en la nube de hoy en día tienen una API compatible con S3 ([GCP](https://cloud.google.com/storage/docs/interoperability), [BackBlaze B2](https://www.backblaze.com/docs/cloud-storage-s3-compatible-api), [DigitalOcean](https://docs.digitalocean.com/products/spaces/how-to/use-aws-sdks/), [Linode](https://www.linode.com/docs/products/storage/object-storage/), [IBM Cloud](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-compatibility-api), etc.) y se puede usar con este comando; no está limitado a AWS.
+:::
+
+Con AWS, puedes [autenticarte usando la herramienta de línea de comandos `aws`](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-idc.html) o puedes proporcionar claves de acceso como se muestra a continuación. 
+
+Si estás usando AWS SSO, deberías consultar la documentación de [AWS CLI SSO](https://aws.amazon.com/blogs/security/aws-single-sign-on-now-enables-command-line-interface-access-for-aws-accounts-using-corporate-credentials/) y la [autenticación de sesión de AWS](https://docs.aws.amazon.com/STS/latest/APIReference/API_GetSessionToken.html).
+
+```cmd
+vpk download s3 --bucket MyApp --region us-west-1 --keyId {accessKeyId} --secret {accessKeySecret}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload s3 --bucket MyApp --region us-west-1 --keyId {accessKeyId} --secret {accessKeySecret} 
+```
+
+Ten en cuenta que también puedes especificar la mayoría de estos argumentos como variables de entorno. Puedes revisar las [variables de entorno del SDK de AWS aquí](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) y cada opción de `vpk` también se puede proporcionar como una variable de entorno; para listarlas en el texto de ayuda usa `vpk -H` en lugar de `vpk -h`. 
+
+Cuando uses una API compatible con S3 que no sea de AWS (por ejemplo, BackBlaze B2), necesitas especificar un endpoint en lugar de una región:
+
+```cmd
+vpk download s3 --bucket MyApp --endpoint https://s3.eu-central-003.backblazeb2.com --keyId {accessKeyId} --secret {accessKeySecret}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload s3 --bucket MyApp --endpoint https://s3.eu-central-003.backblazeb2.com --keyId {accessKeyId} --secret {accessKeySecret} 
+```

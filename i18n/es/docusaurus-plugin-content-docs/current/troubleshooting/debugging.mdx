@@ -1,0 +1,64 @@
+# Depuración y Registro
+<AppliesTo all />
+Encuentra o configura los registros de la aplicación para identificar problemas en tiempo de ejecución.
+
+Todas las partes de Velopack tienen registro integrado para ayudar a solucionar problemas, y deberías proporcionar estos registros al abrir una incidencia en GitHub sobre un posible error.
+
+## Registro en Velopack
+
+Todos los componentes de Velopack (binarios, bibliotecas y el UpdateManager) registran en un archivo compartido de forma predeterminada. El nombre del archivo de registro incluye el ID de la aplicación de `sq.version` cuando está disponible (por ejemplo, `velopack_myapp.log`), o recurre a `velopack.log` cuando no existe ningún contexto de aplicación (como durante la configuración/instalación inicial). Los archivos de registro se rotan automáticamente a 1 MB.
+
+Para los binarios Update.exe y Setup.exe, puedes anular la ubicación del registro con el parámetro `--log {path}`. También puedes usar el indicador `--verbose` para capturar la salida de depuración/rastreo en el archivo de registro.
+Por favor, consulta la [referencia de la línea de comandos](../reference/cli) para obtener una lista completa de los argumentos admitidos.
+
+### Windows
+- **Predeterminado**: `%LocalAppData%\velopack\velopack_{appid}.log`
+- **Setup.exe**: `%LocalAppData%\velopack\velopack.log` (sin contexto de aplicación en el momento de la instalación)
+- **Alternativa**: Si no se puede acceder a `%LocalAppData%`, los registros se escriben en el directorio temporal del sistema.
+
+En Windows, para evitar aparecer como una ventana de consola, los binarios de Velopack se compilan como un WinExe y no habrá salida de consola de forma predeterminada.
+
+### Linux
+Todos los registros se enviarán a `/tmp/velopack_{appid}.log` (o `/tmp/velopack.log` sin contexto de aplicación).
+
+### macOS
+Los registros se envían a `~/Library/Logs/velopack_{appid}.log`. Si `~/Library/Logs` no existe, recurre a `/tmp/velopack_{appid}.log`.
+
+## Manejo Avanzado de Registros
+De forma predeterminada, la biblioteca de C# registra en el mismo archivo que los binarios de Velopack. Puedes proporcionar un registrador personalizado adicional a través de `VelopackApp.SetLogger(IVelopackLogger)` — este recibirá todos los mensajes de diagnóstico **además del** registro de archivo predeterminado. También se puede proporcionar un registrador al `UpdateManager` a través de la propiedad `Log` de su `IVelopackLocator`.
+
+Nota: Si proporcionas un localizador personalizado, el registrador pasado a `SetLogger` se ignorará — adjunta tu registrador al localizador personalizado en su lugar.
+
+Por ejemplo:
+```cs
+using Velopack.Logging;
+
+public class MyConsoleLogger : IVelopackLogger
+{
+    public void Log(VelopackLogLevel logLevel, string? message, Exception? exception)
+    {
+        var logMessage = $"[{DateTime.Now.ToShortTimeString()}] [{logLevel}] {message}";
+        if (exception != null) {
+            logMessage += Environment.NewLine + exception;
+        }
+
+        Console.WriteLine(logMessage);
+    }
+}
+
+// Option 1: Pass to VelopackApp (used alongside default file logger)
+VelopackApp.Build()
+    .SetLogger(new MyConsoleLogger())
+    .Run();
+
+// Option 2: Pass to a custom locator
+var locator = VelopackLocator.CreateDefaultForPlatform(new MyConsoleLogger());
+var updateManager = new UpdateManager("your-update-url", null, locator);
+```
+
+## Depuración Avanzada
+Las compilaciones de depuración de los binarios de Velopack tienen capacidades adicionales de registro/depuración, y producirán salida de consola. En algunos casos, puede ser útil [compilar Velopack](../contributing/compiling.mdx) para tu plataforma, y reemplazar los binarios de versión de Setup.exe y Update.exe con versiones de depuración.
+
+Si tu problema es con la construcción de paquetes, después de construir los binarios de rust en modo Debug, también puede ser útil ejecutar el proyecto Velopack.Vpk desde Visual Studio con tus argumentos de línea de comandos previstos en lugar de ejecutar la herramienta `vpk` directamente.
+
+Si hacer esto no ha ayudado, es posible que necesites depurar y recorrer paso a paso los binarios de rust, para lo cual recomiendo la extensión de VSCode CodeLLDB.

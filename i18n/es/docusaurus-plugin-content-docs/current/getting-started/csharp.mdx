@@ -1,0 +1,142 @@
+import CSharpPublish from './content/_csharp-publish.mdx';
+import InstallVpk from './content/_install-vpk.mdx';
+import BuildRelease from './content/_build-release.mdx';
+import Completion from './content/_completion.mdx';
+import Admonition from '@theme/Admonition';
+
+# Primeros pasos: aplicación de consola .NET / aplicación genérica de C#
+<AppliesTo all />
+Comienza con .NET 5+ (multiplataforma) o .NET Framework.
+
+<FancyStep step={1}>
+    Instala el <a href="https://www.nuget.org/packages/velopack" target="_blank">paquete NuGet de Velopack</a> en tu proyecto principal.
+    Este es el proyecto que contendrá el método Main de tu aplicación.
+</FancyStep>
+
+<FancyStep step={2}>
+    <Tabs queryString="platform">
+        <TabItem value="csharp" label="Generic C#" default>
+            Velopack necesita poder iniciar tu aplicación y gestionar las actualizaciones. Puedes hacer esto llamando a `VelopackApp.Build().Run()` al inicio de tu método `Main`.
+
+            ```csharp
+            static void Main(string[] args)
+            {
+                VelopackApp.Build().Run();
+                // ... your other startup code below
+            }
+            ```
+        </TabItem>
+        <TabItem value="wpf" label="WPF">
+            Aunque es posible simplemente colocar la llamada de arranque de Velopack dentro de `App.xaml.cs`, recomendamos crear un método `Main` personalizado para evitar cualquier sobrecarga de WPF al aplicar actualizaciones.
+
+            Primero, cambia la Build Action de `App.xaml` a `Page` (haz clic derecho en el archivo en el Explorador de soluciones, selecciona Propiedades y cambia la Build Action). 
+            El archivo de proyecto debe contener las siguientes líneas:
+            ```xml
+            <ItemGroup>
+                <ApplicationDefinition Remove="App.xaml"/>
+                <Page Include="App.xaml"/>
+            </ItemGroup>
+            ```
+
+            Mientras editas el archivo de proyecto, cambia el StartupObject para que apunte a tu clase `App`.
+            Agrega el siguiente PropertyGroup a tu archivo `.csproj`:
+            ```xml
+            <PropertyGroup>
+                <StartupObject>YourNamespace.App</StartupObject>
+            </PropertyGroup>
+            ```
+
+            Agrega un método `Main` a tu archivo `App.xaml.cs`. Debería verse similar a esto:
+            ```csharp
+            public partial class App : Application
+            {
+                [STAThread]
+                private static void Main(string[] args)
+                {
+                    VelopackApp.Build().Run();
+                    App app = new();
+                    app.InitializeComponent();
+                    app.Run();
+                }
+                // The rest of your App.xaml.cs code goes here
+            }
+            ```
+
+            Verifica los cambios asegurándote de que tu aplicación siga iniciándose correctamente.
+        </TabItem>
+        <TabItem value="uno" label="Uno Platform">
+            Agrega el siguiente código a tu archivo `App.xaml.cs`:
+            ```csharp
+            public App()
+            {
+                // It's important to Run() the VelopackApp as early as possible in app startup.
+                VelopackApp.Build()
+                .OnFirstRun((v) => { /* Your first run code here */ })
+                .Run();
+                this.InitializeComponent();
+            }
+            ```
+        </TabItem>
+    </Tabs>
+</FancyStep>
+
+<FancyStep step={3}>
+    Velopack ofrece una forma sencilla de comprobar si hay actualizaciones y aplicarlas. 
+    A continuación se muestra cómo implementar una comprobación básica de actualizaciones dentro de tu aplicación. 
+    
+    También puedes separar los distintos métodos para permitir que tus usuarios controlen cuándo comprobar si hay actualizaciones, descargarlas o aplicarlas.
+
+    ```csharp
+    private static async Task UpdateMyApp()
+    {
+        var mgr = new UpdateManager("https://the.place/you-host/updates");
+
+        // check for new version
+        var newVersion = await mgr.CheckForUpdatesAsync();
+        if (newVersion == null)
+            return; // no update available
+
+        // download new version
+        await mgr.DownloadUpdatesAsync(newVersion);
+
+        // install new version and restart app
+        mgr.ApplyUpdatesAndRestart(newVersion);
+    }
+    ```
+</FancyStep>
+
+<FancyStep step={4}>
+    <Tabs queryString="platform">
+        <TabItem value="csharp" label="Generic C#" default>
+            <CSharpPublish />
+        </TabItem>
+        <TabItem value="wpf" label="WPF">
+            <CSharpPublish />
+        </TabItem>
+        <TabItem value="uno" label="Uno Platform">
+            <CSharpPublish showMultipleTfmSuggestion={true}
+               suffix="For additional information on publishing your Uno application see the <a href=&quot;https://platform.uno/docs/articles/uno-publishing-overview.html&quot;>Uno publishing guides</a>"/>
+        </TabItem>
+    </Tabs>
+</FancyStep>
+
+<FancyStep step={5}>
+    <InstallVpk />
+</FancyStep>
+
+<FancyStep step={6} noline={true}>
+    <Tabs queryString="platform">
+        <TabItem value="csharp" label="Generic C#" default>
+            <BuildRelease step={6}/>
+        </TabItem>
+        <TabItem value="wpf" label="WPF">
+            <BuildRelease step={6}/>
+        </TabItem>
+        <TabItem value="uno" label="Uno Platform">
+            <BuildRelease step={6} includeWarningTip={true}/>
+        </TabItem>
+    </Tabs>
+</FancyStep>
+
+
+<Completion />

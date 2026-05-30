@@ -51,18 +51,26 @@ public static class CSharpReference
             var categoryPath = Path.Combine(dir.FullName, "_category_.yml");
             var indexPath = Path.Combine(dir.FullName, "index.md");
 
+            // Category labels like "Methods"/"Properties" repeat across every type, which
+            // produces duplicate sidebar translation keys and breaks non-default-locale
+            // builds (see i18n pipeline). Give each category a unique `key` derived from its
+            // path so the translation key is unique. Keep it in sync with the committed tree.
+            var categoryKey = "cs-" + Path.GetRelativePath(outputCsharpReference, dir.FullName)
+                .Replace('\\', '-')
+                .Replace('/', '-');
+
             if (dir.Name == "methods") {
-                File.WriteAllText(categoryPath, "label: Methods");
+                File.WriteAllText(categoryPath, $"label: Methods\nkey: {categoryKey}");
             } else if (dir.Name == "properties") {
-                File.WriteAllText(categoryPath, "label: Properties");
+                File.WriteAllText(categoryPath, $"label: Properties\nkey: {categoryKey}");
             } else if (dir.Name == "events") {
-                File.WriteAllText(categoryPath, "label: Events");
+                File.WriteAllText(categoryPath, $"label: Events\nkey: {categoryKey}");
             } else if (dir.Name == "fields") {
-                File.WriteAllText(categoryPath, "label: Fields");
+                File.WriteAllText(categoryPath, $"label: Fields\nkey: {categoryKey}");
             } else if (dir.Name == "operators") {
-                File.WriteAllText(categoryPath, "label: Operators");
+                File.WriteAllText(categoryPath, $"label: Operators\nkey: {categoryKey}");
             } else if (dir.Name == "constructors") {
-                File.WriteAllText(categoryPath, "label: Constructors");
+                File.WriteAllText(categoryPath, $"label: Constructors\nkey: {categoryKey}");
                 if (File.Exists(indexPath)) {
                     var indexContent = File.ReadAllText(indexPath);
                     File.WriteAllText(

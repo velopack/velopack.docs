@@ -1,0 +1,126 @@
+# GitHub Actions
+<AppliesTo all />
+
+Esta sección asume que tienes un conocimiento básico de GitHub Actions. Puedes aprender más sobre
+la creación de flujos de trabajo [aquí](https://docs.github.com/en/actions/deployment/about-deployments/deploying-with-github-actions).
+
+### Crear el flujo de trabajo
+
+El siguiente ejemplo asume que estás compilando para Windows, pero puedes adaptar el flujo de trabajo para otras plataformas también.
+
+Primero crea un flujo de trabajo en tu repositorio en `.github/workflows` con la extensión `.yml`, por ejemplo
+`.github/workflows/main.yml`. Este flujo de trabajo de ejemplo se ejecutará cuando se haga push de código a la rama `main`. Consulta la
+documentación enlazada arriba si prefieres un disparador diferente.
+
+```yml
+name: Deploy to GitHub Releases
+
+on:
+  push:
+    branches:
+      - main
+```
+
+Crea el trabajo que se ejecutará cuando se active el disparador. Este ejemplo se ejecutará en una máquina `windows-latest` ya que estamos
+empaquetando para Windows.
+
+```yml
+jobs:
+  deploy-to-github-releases:
+    runs-on: windows-latest
+    steps:
+```
+
+### Compilar la aplicación
+
+Primero, añade un paso para hacer checkout de tu repositorio y obtener todos los archivos necesarios para compilar tu aplicación.
+
+```yml
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+```
+
+Necesitarás el número de versión de tu release para empaquetar con Velopack. Hay muchas maneras de manejar esto.
+Si estás usando variables de GitHub Action para manejar esto, puedes omitir este paso. Este ejemplo extraerá el
+número de versión de la etiqueta `<Version>` en el `.csproj` de la aplicación. La shell `bash` se define aquí
+ya que de lo contrario este comando fallaría al ejecutarse en Windows. El comando funciona usando una expresión regular
+con `grep` para extraer el valor entre `<Version>` y `</Version>` en el archivo csproj, y lo almacena en una
+variable llamada `version` en la ejecución actual del flujo de trabajo.
+
+```yml
+      - name: Get Version from Project File
+        id: get-version
+        shell: bash
+        run: echo "version=$(grep -oE '<Version>[^<]+' MyApplication/MyApplication.csproj | sed 's/<Version>//')" >> $GITHUB_OUTPUT
+```
+
+A continuación, añade un paso para instalar .NET de modo que la aplicación pueda compilarse. Establece `dotnet-version` a la versión que necesite
+tu aplicación.
+
+```yml
+      - name: Install .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+```
+
+Compila tu aplicación. Este ejemplo lo hará publicando la aplicación en una carpeta de forma autónoma.
+Puedes publicar sin la opción self-contained si usas Velopack para instalar dichas dependencias
+(consulta [Bootstrapping](../packaging/bootstrapping.mdx) para más detalles). Este comando usa la opción `-c` para establecer la configuración de compilación
+en modo `Release`, `-o` para establecer el directorio de salida en `publish`, `-r` para establecer el runtime
+en `win-x64` para distribuir en Windows de 64 bits, y `--self-contained` para publicar el runtime de .NET con la
+aplicación. Adapta este comando a tus necesidades. Puedes aprender más sobre
+`dotnet publish` en la [documentación de Microsoft](https://learn.microsoft.com/dotnet/core/tools/dotnet-publish).
+
+```yml
+      - name: Publish Application
+        run: dotnet publish MyProject/MyProject.csproj -c Release -o publish -r win-x64 --self-contained true
+```
+
+### Desplegar la versión
+
+Finalmente, usa Velopack para empaquetar tu aplicación y desplegar tu versión. Crea un paso que ejecute varios comandos
+en la línea de comandos.
+
+Desglosemos lo que hace cada línea.
+
+1. Instala el CLI de Velopack.
+2. Descarga la última versión de tu repositorio. Esto es necesario para que Velopack pueda crear el paquete delta
+entre la versión actual y la nueva, así como poblar los archivos de las versiones.
+3. Invoca el CLI de Velopack para empaquetar tu aplicación. El argumento `-v` recurre a
+la variable `version` asignada anteriormente, a la que se accede usando el `id` del paso que la asignó (`get-version`).
+`-p` apunta al directorio `publish` que se usó en el paso anterior. Para más información sobre el CLI de Velopack
+y qué opciones están disponibles para el comando `pack`, [consulta aquí](../packaging/overview.mdx).
+4. Crea una nueva versión en tu repositorio y sube automáticamente los archivos necesarios a ella.
+
+:::tip
+Si tu repositorio es privado, deberás proporcionar a Velopack un token OAuth al usar los comandos `vpk download`
+y `vpk upload`. Simplemente añade lo siguiente a ambos comandos: `--token ${{ secrets.GITHUB_TOKEN }}`.
+
+Para permitir que github suba los archivos de la versión usando tu GITHUB_TOKEN, añade lo siguiente al principio de tu archivo yml 
+```yml
+permissions:
+  contents: write
+```
+:::
+
+```yml
+      - name: Create Velopack Release
+        run: |
+          dotnet tool install -g vpk
+          vpk download github --repoUrl https://github.com/${{ github.repository }}
+          vpk pack -u MyUniqueIdentifier -v ${{ steps.get-version.outputs.version }} -p publish
+          vpk upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "MyProject ${{ steps.get-version.outputs.version }}" --tag v${{ steps.get-version.outputs.version }}
+```
+
+Alternativamente, puedes ejecutar `vpk` sin instalarlo globalmente usando el comando [`dnx`](https://learn.microsoft.com/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472). Asegúrate de especificar la misma versión que el paquete de Velopack al que se hace referencia en tu aplicación:
+
+```yml
+      - name: Create Velopack Release
+        run: |
+          dnx vpk --version 1.0.0 download github --repoUrl https://github.com/${{ github.repository }}
+          dnx vpk --version 1.0.0 pack -u MyUniqueIdentifier -v ${{ steps.get-version.outputs.version }} -p publish
+          dnx vpk --version 1.0.0 upload github --repoUrl https://github.com/${{ github.repository }} --publish --releaseName "MyProject ${{ steps.get-version.outputs.version }}" --tag v${{ steps.get-version.outputs.version }}
+```
+
+Reemplaza `1.0.0` con la versión del paquete de Velopack que estés usando en tu aplicación.

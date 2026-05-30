@@ -1,0 +1,66 @@
+---
+sidebar_label: Resumen
+sidebar_position: 0
+---
+
+# Resumen del empaquetado
+<AppliesTo all />
+
+El empaquetado de un lanzamiento se realiza con el comando `pack` en Velopack. Independientemente de tu sistema operativo, los argumentos comunes requeridos son aproximadamente los mismos. 
+
+## Crear tu primer lanzamiento
+Primero deberías compilar tu aplicación con la cadena de herramientas que normalmente usarías (p. ej. `dotnet publish`, `msbuild.exe`, etc.). 
+De ahora en adelante esto se llamará `{build_dir}`.
+
+### Argumentos requeridos
+- `--packId {id}` El ID único de tu aplicación. Este debería ser lo suficientemente único como para evitar que otros autores de aplicaciones colisionen con tu app.
+- `--packVersion {version}` La versión actual que estás lanzando, en [formato semver2](https://semver.org/) (p. ej. `1.0.0-build.23+metadata`). 
+- `--packDir {build_dir}` La carpeta que contiene tu aplicación compilada.
+- `--mainExe {exeName}` El ejecutable principal que se iniciará tras la instalación, y el binario que [gestionará los Velopack Hooks](../integrating/overview.mdx).
+
+:::tip
+Velopack no admite versiones de 4 partes (p. ej. `1.0.0.0`), ya que no sería práctico admitir ambos formatos simultáneamente y semver2 ofrece mucha más flexibilidad.
+:::
+
+Un ejemplo completo:
+```cmd
+dotnet publish -c Release -r win-x64 -o publish
+vpk pack --packId MyAppId --packVersion 1.0.0 --packDir publish --mainExe MyApp.exe
+```
+
+### Argumentos opcionales recomendados
+Hay muchos argumentos opcionales; la mejor forma de ver qué funciones están disponibles para tu sistema operativo es consultar `vpk pack -h`. Por mencionar un par:
+- `--packTitle {name}` El nombre descriptivo de tu app, mostrado a los usuarios en diálogos, accesos directos, etc.
+- `--outputDir {path}` La ubicación donde Velopack debe crear los lanzamientos finales (por defecto `.\Releases`)
+- `--icon {path}` El icono usado para empaquetar tu app.
+
+### Salida del lanzamiento
+Cuando la compilación de un lanzamiento haya terminado, deberías tener los siguientes recursos en tu `--outputDir`:
+- `MyAppId-1.0.0-full.nupkg` - Lanzamiento completo: contiene todo tu paquete de actualización.
+- `MyAppId-1.0.0-delta.nupkg` - Lanzamiento delta: solo si hubo un lanzamiento previo a partir del cual construir un delta. Estos son opcionales de construir/desplegar, pero aceleran el proceso de actualización para los usuarios porque solo necesitan descargar lo que ha cambiado entre versiones en lugar del paquete completo.
+- `MyAppId-Portable.zip` - Lanzamiento portable: puedes desplegar esto opcionalmente para permitir que los usuarios ejecuten y actualicen tu app sin instalarla.
+- `MyAppId-Setup.exe` - Instalador: usado por la mayoría de los usuarios para instalar la app en el sistema de archivos local.
+- `releases.{channel}.json` - Índice de lanzamientos: una lista de todos los lanzamientos disponibles. Usado por `UpdateManager` para localizar el último lanzamiento aplicable.
+- `RELEASES` - Archivo de lanzamientos heredado: solo usado por clientes que [migran a Velopack](../migrating/squirrel.mdx) desde Squirrel.
+- `assets.{channel}.json` - Recursos de compilación: una lista de los recursos creados en la compilación más reciente. Usado por los [comandos de despliegue de Velopack](../distributing/overview.mdx).
+
+No necesitas desplegar todos estos archivos para permitir que los usuarios se actualicen, así que deberías revisar la [guía de despliegue](../distributing/overview.mdx) para obtener más información sobre qué archivos distribuir.
+
+:::tip
+No hay paquete de configuración/instalador para Linux. El programa se distribuye como un `.AppImage` que se actualiza solo. La razón es que `.AppImage` se ejecutará prácticamente en cualquier distribución moderna sin necesidad de dependencias adicionales. Simplemente descarga el `.AppImage`, ejecuta `chmod +x` y haz clic en él para iniciarlo. Es posible instalar un `.AppImage`, pero esto se deja a criterio del usuario, que puede instalar algo como [appimaged](https://github.com/probonopd/go-appimage/blob/master/src/appimaged/README.mdx) o [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher).
+:::
+
+## Firma de código
+Aunque esto no es necesario para compilaciones/pruebas locales, siempre deberías firmar tu aplicación con código antes de distribuirla a los usuarios. 
+
+:::tip
+Si no firmas con código, es posible que tu aplicación no se ejecute. [[Lee más]](signing.mdx)
+:::
+
+## Personalizar el instalador
+En las plataformas que incluyen instaladores, puedes personalizar el comportamiento. [[Lee más]](installer.mdx)
+
+## Otros argumentos recomendados
+- Si tu aplicación es específica de un sistema operativo o arquitectura de CPU, deberías considerar añadir un `--runtime`. [[Lee más]](runtime.mdx)
+- Si planeas distribuir canales de lanzamiento para diferentes arquitecturas o funciones, considera añadir un `--channel` [[Lee más]](channels.mdx)
+- Si tu app requiere frameworks adicionales (p. ej. vcredist), considera `--framework` [[Lee más]](bootstrapping.mdx)

@@ -1,0 +1,19 @@
+# Preservar archivos y configuración
+<AppliesTo all />
+Los archivos binarios de tu aplicación se reemplazan por completo durante las actualizaciones, por lo que no deberías almacenar archivos importantes en el mismo directorio que los archivos binarios de tu aplicación.
+
+## Configuración de la aplicación
+
+Si quieres crear configuración que persista a través de las actualizaciones, pero que se borre cuando se desinstale la aplicación, en Windows deberías almacenarla un nivel por encima (`..\`) fuera del directorio `current`. 
+
+Si quieres crear archivos que persistan incluso si la aplicación se desinstala (p. ej. configuración importante del usuario), entonces deberías almacenarlos en `%AppData%\{packId}` (esos son los ***datos de aplicación itinerantes (roaming)***, no los datos de aplicación locales donde reside la aplicación).
+
+## Sentry / Crashpad / Informes de errores
+Muchas utilidades de gestión de fallos almacenarán los informes de error/fallo en el directorio de la aplicación de forma predeterminada, y los subirán como un informe la próxima vez que se inicie la aplicación.
+
+Debes asegurarte de que cualquiera de estas bibliotecas pueda configurarse con un directorio de base de datos / almacenamiento fuera del directorio actual de la aplicación en algún lugar. 
+En Windows, solo necesitas estar fuera del directorio `%LocalAppData%\{packId}\current`. Así que podrías usar `..\` (esto es lo mismo que `%LocalAppData%\{packId}`). 
+
+## No Windows
+Para otros sistemas operativos que no sean Windows, deberías buscar en línea las mejores prácticas sobre dónde almacenar archivos de configuración/registro para las aplicaciones instaladas. 
+La ubicación recomendada es específica del sistema operativo / distribución, y podría estar en `/var` o en algún lugar del directorio home del usuario `~` (p. ej. `~/Library/Application Support` en MacOS).

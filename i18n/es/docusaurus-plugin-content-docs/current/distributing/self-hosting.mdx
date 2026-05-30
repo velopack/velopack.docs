@@ -1,0 +1,49 @@
+# Alojamiento propio
+<AppliesTo all />
+
+<FlowLink /> proporciona una solución totalmente gestionada para distribuir aplicaciones. Se encarga de gestionar las actualizaciones y los rollbacks administrando la lista de versiones. Gestiona la organización y distribución de los activos de las versiones dentro de canales separados, y proporciona funciones adicionales como el despliegue escalonado.
+
+Si en cambio prefieres gestionar tu propia infraestructura, Velopack proporciona herramientas para descargar y subir activos de versiones a muchos proveedores de almacenamiento comunes. La herramienta `vpk` tiene soporte para descargar la última versión, y, para varios proveedores, subir nuevos activos de versiones después de ejecutar `vpk pack` (consulta [Resumen](overview.mdx)).
+
+## Amazon S3
+
+[Amazon S3](https://aws.amazon.com/s3/) es un servicio de almacenamiento de objetos altamente escalable, duradero y seguro. 
+
+Para subir o descargar desde un bucket de S3 necesitarás especificar el endpoint de S3 o la región. La autenticación se puede hacer usando un token de sesión existente o mediante un ID de clave de acceso y un secreto.
+
+Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+
+## Azure Blob storage
+
+[Azure Blob Storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction) es una solución de almacenamiento en la nube escalable y rentable para datos no estructurados. 
+
+Puedes autenticarte en Azure Blob Storage usando un nombre de cuenta de almacenamiento y una clave de acceso, o usando una firma de acceso compartido (SAS). 
+
+Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+
+## Sistema de archivos
+Velopack admite rutas del sistema de archivos local tanto para "subir" como para "descargar". Esto es útil para pruebas o para el desarrollo local a través de unidades de red. La herramienta `vpk` se puede usar para empaquetar versiones y luego copiarlas a un directorio local.
+
+Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+
+## Gitea
+
+[Gitea](https://gitea.io) es un servicio Git ligero y de alojamiento propio. Proporciona una plataforma de DevOps privada, rápida y fiable.
+
+Al publicar en Gitea, el nombre de la versión será el mismo que el número de versión a menos que se especifique lo contrario. Si no se encuentra una versión existente, se creará una nueva. Opcionalmente, si prefieres actualizar una versión existente, puedes especificar la opción `--merge`.
+
+Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+
+## GitHub
+
+[GitHub](https://github.com) es una plataforma ampliamente utilizada para alojar repositorios Git y colaborar en el desarrollo de software. Proporciona funciones como pull requests, seguimiento de incidencias e integraciones de CI/CD.
+
+Al publicar en GitHub, el nombre de la versión será por defecto el número de versión a menos que se especifique. Si existe una versión con el mismo nombre, se puede actualizar usando la opción `--merge`.
+
+Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+
+## Servidor HTTP
+Velopack admite endpoints HTTP arbitrarios para la descarga. Este endpoint debe ser capaz de servir el archivo `releases.{channel}.json`, así como los archivos `nupkg`. `vpk` no ofrece soporte de subida, y depende de ti subir los archivos actualizados al servidor después de compilar una nueva versión.
+
+Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+

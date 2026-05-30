@@ -1,0 +1,8 @@
+# Despliegue escalonado
+El despliegue escalonado es una característica de <FlowLink /> que te permite liberar gradualmente una nueva versión de tu aplicación a un subconjunto de usuarios. Esto resulta útil para probar nuevas funciones o cambios antes de desplegarlos a todos los usuarios. Puedes especificar un porcentaje aproximado de usuarios que deben recibir la nueva versión ajustando el control deslizante en la página de detalles de una versión determinada. 
+
+![Control deslizante de despliegue escalonado](/images/tiered-rollout-slider.png)
+
+Cuando un usuario instala una aplicación de Velopack, se le asigna un ID aleatorio. Cuando el `UpdateManager` consulta las actualizaciones, este ID se pasa al servicio Flow. Para determinar si un usuario debe recibir la nueva versión de la aplicación, el servicio Flow aplica un hash a este ID y comprueba si cae dentro del rango de porcentaje especificado para la versión. Si es así, el usuario recibirá la nueva versión de la aplicación.
+
+

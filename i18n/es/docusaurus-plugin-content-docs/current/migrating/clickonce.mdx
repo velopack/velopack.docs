@@ -1,0 +1,48 @@
+# Desde ClickOnce
+<AppliesTo win />
+Migra `ClickOnce` a Velopack.
+
+:::warning
+Esta es una guía relativamente poco probada escrita con comentarios de la comunidad. Si te has encontrado con algún problema que pueda mejorar la documentación, [por favor envía un PR o una incidencia](https://github.com/velopack/velopack.docs/issues/new).
+:::
+
+No es una migración sencilla, ya que las aplicaciones de clickonce son muy diferentes a Velopack. La descripción general del proceso a alto nivel es algo así:
+- Publica una actualización de ClickOnce que descargue y ejecute tu aplicación de Velopack.
+- Cuando la aplicación de Velopack se inicie, desinstala tu aplicación de ClickOnce.
+
+
+### Tu Primera Publicación de Velopack
+Necesitaremos comenzar publicando tu primera versión de Velopack.
+1. Si estás usando alguna de las API de `ApplicationDeployment` para comprobar actualizaciones, tendrás que eliminarlas.
+0. Desactiva las actualizaciones de ClickOnce en la configuración de tu proyecto, luego abre manualmente el `.csproj` y elimina todas las propiedades relacionadas con ClickOnce.
+   :::tip
+   Si todavía estás en el formato heredado de msbuild/csproj, deberías considerar migrar al proyecto de estilo SDK usando el [dotnet/upgrade-assistant](https://github.com/dotnet/upgrade-assistant) (La [extensión de VS](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.upgradeassistant) también es muy fácil de usar). Puedes continuar usando .Net Framework, y el formato heredado de csproj podría funcionar, sin embargo no es oficialmente compatible con Velopack, por lo que se recomienda una actualización.
+   :::
+0. Sigue la guía [QuickStart de C# de Velopack](../getting-started/csharp.mdx) y/o revisa los ejemplos para añadir actualizaciones de Velopack a tu aplicación.
+0. Tu primera instalación de Velopack debería desinstalar tu aplicación de ClickOnce. Lo ideal sería simplemente ejecutar el desinstalador predeterminado, pero como no se puede usar de forma desatendida/silenciosa, necesitamos incluir el código de [Wunder.ClickOnceUninstaller](https://github.com/rongchunzhang/Wunder.ClickOnceUninstaller). Actualmente no se distribuye en NuGet, por lo que quizás quieras descargar e incluir el código directamente en tu proyecto.
+0. Una vez que `ClickOnceUninstaller` esté añadido a tu proyecto, podemos añadir un hook de Velopack que desinstale tu aplicación de clickonce. A estas alturas ya deberías tener `VelopackApp` en tu método principal, y tendrás que modificarlo para añadir el código de desinstalación de clickonce durante la instalación de Velopack:
+   ```cs
+   VelopackApp.Build()
+       .OnAfterInstallFastCallback((appVersion) =>
+       {
+           var uninstallInfo = UninstallInfo.Find("Application Name");
+           if (uninstallInfo != null)
+           {
+               var uninstaller = new Uninstaller();
+               uninstaller.Uninstall(uninstallInfo);
+           }
+       })
+       .Run();
+   ```
+   Asegúrate de probar este código de forma independiente para verificar que puede desinstalar tu aplicación de clickonce con éxito antes de continuar.
+0. 🎉 Compila tu aplicación y construye tu primera versión con `vpk pack`. Deberías ver `YourAppSetup.exe` y algunos otros archivos. Ahora estamos listos para publicar una actualización de ClickOnce que descargue y ejecute el instalador de Velopack.
+   
+### Tu Última Actualización de ClickOnce
+El código de tu actualización final de ClickOnce solo instalará el `YourAppSetup.exe` que creamos en la sección anterior y será bastante sencillo.
+1. Probablemente querrás incluir `YourAppSetup.exe` en tu aplicación como un recurso incrustado.
+0. Al iniciar (por ejemplo, en el método `Main`), quizás quieras mostrar un diálogo/mensaje al usuario para informarle de que estás a punto de migrar/actualizar la aplicación. 
+0. Luego, extrae `YourAppSetup.exe` a una ubicación temporal (por ejemplo, la carpeta de descargas del usuario) y ejecútalo. Si quieres que esto sea invisible, puedes añadir el argumento `YourAppSetup.exe --silent`. De lo contrario, si omites este argumento, se le mostrará al usuario un diálogo de progreso.
+0. Tan pronto como hayas ejecutado `YourAppSetup.exe`, deberías cerrar tu aplicación, ya sea mediante `return 0;` desde `Main()` o a través de `Environment.Exit(0)`. Una vez que tu Velopack se haya instalado, eliminará esta aplicación.
+   :::tip
+   Para reducir el tamaño de tu aplicación de ClickOnce, quizás quieras eliminar cualquier código/dependencia sin usar en esta actualización. Dado que el único propósito de esta actualización es ejecutar el instalador de Velopack, cualquier código/dependencia que no cumpla este propósito es solo tiempo/retraso adicional para el usuario.
+   :::

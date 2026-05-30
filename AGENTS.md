@@ -200,6 +200,97 @@ Velopack supports multiple programming languages. When adding documentation:
 | C++       | ✅ Ready | `docs/getting-started/cpp.mdx` | `docs/reference/cpp/` |
 | Python    | ✅ Ready | `docs/getting-started/python.mdx` | - |
 
+## i18n / Translations
+
+The docs are translated into other languages (Spanish first) and the translations are
+**written and maintained by AI**, not by hand. The pipeline keeps them in sync as the
+English docs evolve.
+
+### Golden rule
+
+**Never hand-edit anything under `i18n/`.** Edit the English source in `docs/` (or the
+site UI), and let the pipeline regenerate the localized content. Manual edits to
+`i18n/` will be overwritten the next time the corresponding English source changes.
+
+### What is and isn't translated
+
+- ✅ The 44 guide pages under `docs/` (everything except `docs/reference/**`).
+- ❌ Theme/UI strings (navbar, search box, sidebar/category labels, buttons) — **not in
+  scope**. Docusaurus ships its own bundled translations for most of them; anything it
+  doesn't cover falls back to English. We deliberately don't own these (owning them means
+  maintaining strings that aren't ours and overriding Docusaurus on every upgrade). Can be
+  added later if needed — see "Adding UI strings" below.
+- ❌ The auto-generated API reference (`docs/reference/**`) — ~569 files, regenerated
+  daily. Docusaurus automatically falls back to the English page when a localized doc
+  is missing, so these stay English **by design**.
+- ❌ The blog — stays English.
+
+### How the pipeline works
+
+- **`scripts/translate.config.json`** — declares `locales` and the docs source globs
+  (`docs/**` minus `reference/**`).
+- **`scripts/translate.mjs`** — dependency-free Node 18+ script (built-in `fetch`, no
+  new npm packages). It hashes each English source and compares against
+  `i18n/translation-manifest.json`; only changed/missing pages are re-translated via the
+  Anthropic Messages API and written to
+  `i18n/<locale>/docusaurus-plugin-content-docs/current/<relPath>`.
+  - Env: `ANTHROPIC_API_KEY` (required), `TRANSLATE_MODEL` (optional, default
+    `claude-sonnet-4-6`).
+  - Flags: `--locale <id>`, `--force` (ignore the manifest), `--dry-run`.
+- **`.github/workflows/translate.yml`** — on push to `master` touching `docs/**` (or
+  manual dispatch): `npm ci` → `npm run translate` → commit any `i18n/**` changes as
+  `github-actions[bot]` → dispatch `deploy.yml`. The commit only touches `i18n/**`, which
+  is **not** in the workflow's trigger paths, so it never re-triggers itself (mirrors the
+  `generate.yml` pattern).
+  - Requires the **`ANTHROPIC_API_KEY`** repo secret (set in GitHub repo settings).
+
+### npm scripts
+
+- `npm run translate` — run the translation engine locally (needs `ANTHROPIC_API_KEY`).
+
+### Reference sidebar & non-default-locale builds
+
+Building a non-default locale (e.g. `es`) makes Docusaurus generate sidebar translation
+keys, and it **throws on duplicate keys**. The auto-generated C# reference repeats category
+labels (`Methods`, `Properties`, etc.) across every type, so each `_category_.yml` must
+carry a unique `key:`. This is emitted by the generator (`generator/CSharpReference.cs`)
+and present in the committed tree — don't remove it, or `npm run build` will fail for `es`.
+
+### Images in docs
+
+Reference images with **absolute** site paths (`/images/foo.png`, served from
+`static/images/`) so they resolve from both `docs/` and the relocated `i18n/` copies. Avoid
+relative (`../../../static/...`) or co-located (`foo.png`) image paths — they break in the
+translated build. Likewise, if a heading is the target of an in-page `#anchor` link, give it
+an explicit stable id (`## Heading {#stable-id}`) so the link survives translation of the
+heading text.
+
+### Adding a new language
+
+1. Add the locale to `docusaurus.config.ts`: `i18n.locales`, `i18n.localeConfigs`
+   (label + `htmlLang`), and the search theme's `language: [...]` array.
+2. Add the locale to `scripts/translate.config.json` (`locales` and `localeLabels`).
+3. Run `npm run translate` (or just push to `master` and let CI do it).
+4. Verify with `npm run build` (builds all locales, `onBrokenLinks: 'throw'` applies to
+   every locale).
+
+### Adding UI strings (future)
+
+If specific theme/UI strings need translating, generate the scaffolding with
+`docusaurus write-translations --locale <id>` (append `|| true` — it throws after writing
+the theme files because of the reference-sidebar duplicate labels), keep only the strings
+Docusaurus doesn't already translate, and wire them into the pipeline.
+
+### Translation rules (enforced by the script's prompt)
+
+Translate prose, headings, table cell text, alt text, and link *text* only. Never touch:
+frontmatter keys (only `title`/`sidebar_label`/`description` values are translated), code
+fences & inline code, JSX tags/attributes/props, `import` lines, URLs/paths, HTML tags,
+anchor ids, or Velopack product/CLI terms (`vpk`, `Velopack`, `Squirrel`, `ClickOnce`,
+command names).
+
+See [`i18n/README.md`](i18n/README.md) for a shorter summary.
+
 ## Important Conventions
 
 ### Linking

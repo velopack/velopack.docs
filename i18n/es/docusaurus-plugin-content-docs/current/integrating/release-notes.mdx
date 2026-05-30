@@ -1,0 +1,25 @@
+# Notas de la versión
+<AppliesTo all />
+Es posible almacenar notas de la versión (Markdown) en los paquetes de actualización y acceder a ellas durante la actualización. Esto podría ser útil, por ejemplo, para mostrar al usuario una lista de cambios antes de descargar una actualización.
+
+- Escribe tus notas de la versión en un archivo (p. ej. releasenotes.mdx).
+- Al empaquetar tu versión, proporciónalas a Velopack con `--releaseNotes {path/to/releasenotes.md}`
+
+El compilador de Velopack las renderizará a HTML para tu comodidad, y almacenará tanto el HTML como el markdown en tu paquete de actualización.
+
+Ahora, las notas de la versión estarán disponibles al comprobar actualizaciones, por ejemplo:
+
+```cs
+private static async Task UpdateMyApp()
+{
+    var mgr = new UpdateManager("https://the.place/you-host/updates");
+
+    var newVersion = await mgr.CheckForUpdatesAsync();
+    if (newVersion != null) {
+        var releaseNotesHtml = newVersion.TargetFullRelease.ReleaseNotesHtml;
+        // show a window here with the release notes
+        // possibly ask the user if they wish to update or not?
+        // eg. new ReleaseNotesHtmlWindow(releaseNotesHtml).Show();
+    }
+}
+```

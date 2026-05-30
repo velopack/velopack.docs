@@ -1,0 +1,13 @@
+{
+  "locales": ["es"],
+  "localeLabels": {
+    "es": "Spanish"
+  },
+  "docs": {
+    "sourceDir": "docs",
+    "include": ["**/*.md", "**/*.mdx"],
+    "exclude": ["reference/**"],
+    "targetTemplate": "i18n/{locale}/docusaurus-plugin-content-docs/current/{relPath}"
+  },
+  "manifest": "i18n/translation-manifest.json"
+}

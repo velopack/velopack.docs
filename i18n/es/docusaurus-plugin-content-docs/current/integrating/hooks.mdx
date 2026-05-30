@@ -1,0 +1,28 @@
+# Hooks de la aplicación
+<AppliesTo win />
+
+Los hooks permiten que tu aplicación ejecute lógica en varias etapas del proceso de instalación/actualización/desinstalación.
+
+En general, no recomiendo intentar gestionar los hooks manualmente; en su lugar, consulta las opciones disponibles de [VelopackApp](../reference/cs/Velopack/VelopackApp).
+
+Si deseas gestionarlos tú mismo, no existe un SDK para tu lenguaje, o simplemente quieres aprender más sobre ello, sigue leyendo.
+
+## Hooks de línea de comandos
+En varias etapas del proceso de instalación/actualización/desinstalación, Velopack ejecutará tu ejecutable principal (el especificado al empaquetar con `--mainExe {exeName}`) con ciertos argumentos de línea de comandos y esperará que tu aplicación se cierre lo más rápido posible. 
+
+- `--veloapp-install {version}` Ocurre después de que el programa se ha extraído, pero antes de que finalice la instalación. La aplicación debe gestionarlo y cerrarse en un plazo de 30 segundos.
+- `--veloapp-obsolete {version}` Se ejecuta en la versión antigua de la aplicación, antes de aplicar una actualización. La aplicación debe gestionarlo y cerrarse en un plazo de 15 segundos.
+- `--veloapp-updated {version}` Se ejecuta en la nueva versión de la aplicación, después de aplicar una actualización. La aplicación debe gestionarlo y cerrarse en un plazo de 15 segundos.
+- `--veloapp-uninstall {version}` Se ejecuta antes de que tenga lugar una desinstalación. La aplicación debe gestionarlo y cerrarse en un plazo de 30 segundos.
+
+Por el momento, no hay forma de proporcionar feedback durante los hooks para indicar que deseas cancelar la instalación/desinstalación/actualización, etc., y no puedes mostrar ninguna interfaz de usuario al usuario.
+
+:::warning
+Si tu aplicación recibe uno de estos argumentos y no se cierra dentro del tiempo asignado, será terminada.
+:::
+
+## Hooks de variables de entorno
+También hay dos variables de entorno que se establecen; si se detectan, tu aplicación no necesita cerrarse.
+
+- `VELOPACK_FIRSTRUN` es verdadero si esta es la primera ejecución después de que se instaló la aplicación.
+- `VELOPACK_RESTART` es verdadero si la aplicación fue reiniciada por Velopack (normalmente porque se aplicó una actualización).

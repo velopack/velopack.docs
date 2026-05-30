@@ -1,0 +1,63 @@
+# Primeros pasos: Rust
+<AppliesTo all />
+Comience con nuestro crate oficial multiplataforma de Rust.
+
+:::tip
+Para encontrar la documentación más precisa y completa de Rust, visite https://docs.rs/velopack
+:::
+## Inicio rápido
+1. Agregue Velopack a su `Cargo.toml`:
+```toml
+[dependencies]
+velopack = "0.0" # Replace with actual version
+```
+
+2. Agregue el siguiente código a su función `main()`:
+```rust
+use velopack::*;
+
+fn main() {
+// VelopackApp should be the first thing to run, in some circumstances it may terminate/restart the process to perform tasks.
+VelopackApp::build().run();
+// Your other app startup code here
+}
+```
+
+3. Agregue las actualizaciones automáticas en algún lugar de su aplicación:
+```rust
+use velopack::*;
+
+fn update_my_app() {
+let source = sources::HttpSource::new("https://the.place/you-host/updates");
+let um = UpdateManager::new(source, None, None).unwrap();
+
+if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
+// there was an update available. Download it.
+um.download_updates(&updates, None).unwrap();
+
+// download completed, let's restart and update
+um.apply_updates_and_restart(&updates).unwrap();
+}
+}
+```
+
+4. Compile su aplicación con cargo:
+```sh
+cargo build --release
+```
+
+5. Instale la herramienta de línea de comandos `vpk`:
+```sh
+dotnet tool update -g vpk
+```
+***Nota: debe tener instalado el .NET Core SDK 8 para usar y actualizar `vpk`***
+
+6. Empaquete su versión / instaladores de Velopack:
+```sh
+vpk pack -u MyAppUniqueId -v 1.0.0 -p /target/release -e myexename.exe
+```
+
+✅ ¡Listo! Su aplicación ahora tiene actualizaciones automáticas y un instalador.
+Puede subir su versión a su sitio web, o usar el comando `vpk upload` para publicarla en el destino que elija.
+
+Lea la documentación de Velopack en [https://docs.velopack.io/](https://docs.velopack.io/) para obtener más información.

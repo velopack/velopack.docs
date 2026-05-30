@@ -1,0 +1,89 @@
+import InstallVpk from './content/_install-vpk.mdx';
+import BuildRelease from './content/_build-release.mdx';
+import Completion from './content/_completion.mdx';
+
+
+# Primeros pasos: C / C++
+
+<AppliesTo all />
+Comience con nuestra biblioteca multiplataforma de C / C++.
+
+La biblioteca de C / C++ de Velopack es una biblioteca dinámica precompilada que puede enlazar en su aplicación para habilitar las actualizaciones automáticas y los instaladores.
+Hay disponible una API de C y otra de C++ en [Velopack.h](https://github.com/velopack/velopack/blob/develop/src/lib-cpp/include/Velopack.h),
+por lo que esta biblioteca es adecuada para aplicaciones de C / C++ así como para otros lenguajes de programación que admitan la llamada a funciones de C, por ejemplo, p/invoke. 
+
+:::tip
+Se espera que todas las cadenas (por ejemplo, `char*` o `std::string`) estén codificadas en UTF-8. 
+En Windows, es posible que necesite convertir `wchar_t*` y `std::wstring` a UTF-8 antes de pasarlos a la biblioteca.
+:::
+
+<FancyStep step={1}>
+    Descargue el `velopack_libc_{version}.zip` más reciente desde [GitHub Releases](https://github.com/velopack/velopack/releases) e inclúyalo en su proyecto.
+    Extraiga el contenido del archivo zip en un directorio al que pueda hacer referencia en su proyecto.
+</FancyStep>
+
+<FancyStep step={2}>
+    Agregue el directorio `include` del contenido extraído a su ruta de inclusión y agregue el binario apropiado de `lib` a las opciones de su enlazador.
+    Encontrará tanto un directorio `lib` como uno `lib-static` en el contenido extraído.
+</FancyStep>
+
+
+<FancyStep step={3}>
+    Agregue `VelopackApp` a su punto de entrada (por ejemplo, `main()` o `wmain()`) lo antes posible, idealmente como la primera instrucción que se ejecute:
+    ```cpp
+    #include "Velopack.h"
+
+    wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
+    {
+        // This should run as early as possible in the main method.
+        // Velopack may exit / restart the app at this point. 
+        // See VelopackApp class for more options/configuration.
+        Velopack::VelopackApp::Build().Run();
+
+        // ... your other startup code here
+    }
+    ```
+</FancyStep>
+
+<FancyStep step={4}>
+    Velopack ofrece una forma sencilla de buscar actualizaciones y aplicarlas. 
+    A continuación se muestra cómo implementar una comprobación básica de actualizaciones dentro de su aplicación. 
+    
+    También puede dividir los distintos métodos para permitir que sus usuarios controlen cuándo buscar actualizaciones, descargarlas o aplicarlas.
+
+    ```cpp
+    #include "Velopack.h"
+
+    static void update_app()
+    {
+        Velopack::UpdateManager manager("https://the.place/you-host/updates");
+
+        auto updInfo = manager.CheckForUpdates();
+        if (!updInfo.has_value()) {
+            return; // no updates available
+        }
+
+        // download the update, optionally providing progress callbacks
+        manager.DownloadUpdates(updInfo.value());
+
+        // prepare the Updater in a new process, and wait 60 seconds for this process to exit
+        manager.WaitExitThenApplyUpdate(updInfo.value());
+        exit(0); // exit the app to apply the update
+    }
+    ```
+</FancyStep>
+
+<FancyStep step={5}>
+    Compile su aplicación en un programa utilizando su compilador habitual (por ejemplo, msvc, cmake, gcc, etc.)
+    Tome nota del directorio de salida, ya que lo necesitará para empaquetar su aplicación.
+</FancyStep>
+
+<FancyStep step={6}>
+    <InstallVpk />
+</FancyStep>
+
+<FancyStep step={7} noline={true}>
+    <BuildRelease />
+</FancyStep>
+
+<Completion />
