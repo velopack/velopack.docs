@@ -154,7 +154,7 @@ public static class CSharpReference
             Console.WriteLine("Generating Win Setup.exe");
             try {
                 var setupExe = Path.Combine(extractedVpk, "vendor", "setup.exe");
-                var setupHelp = await RunCaptureStdOut(setupExe, ["-h"]);
+                var setupHelp = await RunCaptureHelp(setupExe, ["-h"]);
                 File.WriteAllText(
                     Path.Combine(outputCliReference, "setup-windows.mdx"),
                     $"""
@@ -169,7 +169,7 @@ public static class CSharpReference
 
             Console.WriteLine("Generating Win Update.exe");
             var updateExe = Path.Combine(extractedVpk, "vendor", "update.exe");
-            var updateHelp = await RunCaptureStdOut(updateExe, ["-h"]);
+            var updateHelp = await RunCaptureHelp(updateExe, ["-h"]);
             File.WriteAllText(
                 Path.Combine(outputCliReference, "update-windows.mdx"),
                 $"""
@@ -198,7 +198,7 @@ public static class CSharpReference
             Console.WriteLine("Generating Linux UpdateNix_x64");
             var updateExe = Path.Combine(extractedVpk, "vendor", "UpdateNix_x64");
             Util.ChmodFileAsExecutable(updateExe);
-            var updateHelp = await RunCaptureStdOut(updateExe, ["-h"]);
+            var updateHelp = await RunCaptureHelp(updateExe, ["-h"]);
             File.WriteAllText(
                 Path.Combine(outputCliReference, "update-linux.mdx"),
                 $"""
@@ -227,7 +227,7 @@ public static class CSharpReference
             Console.WriteLine("Generating MacOS UpdateMac");
             var updateExe = Path.Combine(extractedVpk, "vendor", "UpdateMac");
             Util.ChmodFileAsExecutable(updateExe);
-            var updateHelp = await RunCaptureStdOut(updateExe, ["-h"]);
+            var updateHelp = await RunCaptureHelp(updateExe, ["-h"]);
             File.WriteAllText(
                 Path.Combine(outputCliReference, "update-osx.mdx"),
                 $"""
@@ -340,6 +340,22 @@ public static class CSharpReference
         return commands;
     }
 
+    // Captures help output. Ideally a binary that exits without printing help (e.g. Update.exe before
+    // the clap --help handler was restored) should fail the build loudly rather than silently committing
+    // an empty CLI reference doc. That hardening is temporarily disabled so the generator keeps running
+    // against the current (still-buggy) released vpk; re-enable the throw once a fixed vpk has shipped.
+    static async Task<string> RunCaptureHelp(string exePath, string[] args)
+    {
+        var help = await RunCaptureStdOut(exePath, args);
+        // TODO: re-enable once a vpk release prints Update.exe help again.
+        // if (string.IsNullOrWhiteSpace(help)) {
+        //     throw new Exception(
+        //         $"No help text was captured from '{exePath} {string.Join(" ", args)}'. The binary exited " +
+        //         "without printing help, so the CLI reference doc would be empty. Did the tool's --help behaviour change?");
+        // }
+        return help;
+    }
+
     static async Task<string> RunCaptureStdOut(string exePath, string[] args)
     {
         var psi = new ProcessStartInfo {
@@ -359,15 +375,25 @@ public static class CSharpReference
 
     static async Task<string> RunCaptureStdOut(ProcessStartInfo psi)
     {
-        var p = new Process();
+        using var p = new Process();
         p.StartInfo = psi;
-        var sw = new StringBuilder();
-        p.OutputDataReceived += (sender, e) => sw.AppendLine(e?.Data);
         p.Start();
-        p.BeginOutputReadLine();
 
         var timeout = new CancellationTokenSource(60 * 1000);
+
+        // Read both streams to EOF rather than relying on the process-exit signal. WaitForExitAsync
+        // returns as soon as the process exits, which races fast-exiting native binaries (e.g.
+        // Update.exe / UpdateMac / UpdateNix_x64): they print their help and exit in a few ms before
+        // the captured output has been drained, producing an empty result. Reading to EOF waits for
+        // the output itself. Reading both streams concurrently also avoids a pipe-buffer deadlock.
+        var stdoutTask = p.StandardOutput.ReadToEndAsync(timeout.Token);
+        var stderrTask = p.StandardError.ReadToEndAsync(timeout.Token);
+
         await p.WaitForExitAsync(timeout.Token);
-        return sw.ToString();
+        var stdout = await stdoutTask;
+        var stderr = await stderrTask;
+
+        // Prefer stdout, but fall back to stderr in case a tool writes its help text there.
+        return string.IsNullOrWhiteSpace(stdout) ? stderr : stdout;
     }
 }
