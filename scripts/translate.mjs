@@ -15,7 +15,7 @@
 //   TRANSLATE_MODEL    optional  model id (default: claude-sonnet-4-6)
 
 import { createHash } from 'node:crypto';
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync, rmSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -165,6 +165,19 @@ NEVER TRANSLATE / NEVER MODIFY (copy verbatim):
 Preserve all whitespace, blank lines, indentation, and the overall structure exactly. The output must remain valid MDX that renders identically except for the translated prose.`;
 }
 
+function uiSystemPrompt(languageName) {
+  return `You are a professional technical translator translating UI labels for the Velopack documentation website (navbar items and sidebar category labels) from English into ${languageName}.
+
+You will receive a JSON object. Each top-level key maps to an object with a "message" field (and maybe a "description").
+
+Rules:
+- Translate ONLY the value of each "message" field into ${languageName}.
+- Do NOT translate or alter the JSON keys, and copy any "description" fields verbatim.
+- Keep proper nouns and technology/language names exactly as written: Velopack, vpk, Squirrel, ClickOnce, Velopack Flow, Flow, Blog, C#, C / C++, JavaScript, Python, Rust.
+- Preserve ICU placeholders exactly (e.g. {count}).
+- Output ONLY valid JSON with the same keys and structure. No commentary, no code fences.`;
+}
+
 // ---------------------------------------------------------------------------
 // Doc translation
 // ---------------------------------------------------------------------------
@@ -218,6 +231,108 @@ async function translateDocs(cfg, locale, languageName, manifest) {
 }
 
 // ---------------------------------------------------------------------------
+// UI label translation (navbar + sidebar categories)
+// ---------------------------------------------------------------------------
+// These live in JSON files produced by `docusaurus write-translations`. Unlike the doc
+// pages, every key here is *our own* string (Docusaurus never translates navbar/sidebar
+// labels), so the rule is simply: translate any key whose message is still the English
+// default. We compare against the English baseline (i18n/en/...), so existing translations
+// are never re-translated (no drift) and new/renamed labels are picked up automatically.
+// Re-translation is gated on a hash of the pruned English baseline, so it only runs when a
+// label actually changed in docusaurus.config.ts / sidebars.ts — not on every push.
+
+function pruneUiKeys(json, entry) {
+  const drop = entry.dropKeyPrefixes || [];
+  const keep = new Set(entry.keepKeys || []);
+  for (const k of Object.keys(json)) {
+    if (keep.has(k)) continue;
+    if (drop.some((p) => k.startsWith(p))) delete json[k];
+  }
+  return json;
+}
+
+async function translateUi(cfg, locale, languageName, manifest) {
+  if (!Array.isArray(cfg.ui) || cfg.ui.length === 0) return;
+  const defaultLocale = cfg.defaultLocale || 'en';
+  const uiManifest = (manifest.__ui ||= {});
+  let updated = 0;
+  let skipped = 0;
+
+  for (const entry of cfg.ui) {
+    const localeRel = entry.file.replace('{locale}', locale);
+    const localePath = join(ROOT, localeRel);
+    if (!existsSync(localePath)) {
+      log(`  (skip ${localeRel} — not found; run i18n:scaffold first)`);
+      continue;
+    }
+    // UI diffing needs the English baseline (produced by `docusaurus write-translations
+    // --locale <defaultLocale>`, which CI / `i18n:scaffold` runs first). Without it we can't
+    // tell which labels are untranslated, so skip UI entirely rather than corrupt anything.
+    const enPath = join(ROOT, entry.file.replace('{locale}', defaultLocale));
+    if (!existsSync(enPath)) {
+      log(`  (skip ${localeRel} — no English baseline; run i18n:scaffold first)`);
+      continue;
+    }
+
+    // Prune keys we don't own (e.g. auto-generated reference sidebar categories) so the
+    // committed file stays small and doesn't churn when the reference regenerates.
+    const json = pruneUiKeys(JSON.parse(readFileSync(localePath, 'utf8')), entry);
+    const enJson = pruneUiKeys(JSON.parse(readFileSync(enPath, 'utf8')), entry);
+    const enHash = sha256(JSON.stringify(enJson));
+
+    // A key needs translating when its message still equals the English baseline.
+    const untranslated = Object.keys(json).filter(
+      (k) =>
+        json[k] &&
+        typeof json[k].message === 'string' &&
+        enJson[k] &&
+        enJson[k].message === json[k].message,
+    );
+
+    // Gate purely on the English-baseline hash. If the English labels are unchanged since
+    // the last run, there's nothing to (re)translate — any keys still equal to English are
+    // intentionally so (proper nouns like Blog, Flow, C#, Python). Only a label add/rename/
+    // remove in docusaurus.config.ts / sidebars.ts changes the hash and triggers work.
+    if (!FORCE && uiManifest[localeRel] === enHash) {
+      // Still write the pruned file so any scaffold-added keys we don't own are removed.
+      if (!DRY_RUN) writeFileSync(localePath, JSON.stringify(json, null, 2) + '\n', 'utf8');
+      skipped++;
+      continue;
+    }
+
+    if (untranslated.length > 0) {
+      log(`  → ${localeRel} (${untranslated.length} label${untranslated.length > 1 ? 's' : ''})`);
+      if (!DRY_RUN) {
+        const subset = {};
+        for (const k of untranslated) subset[k] = json[k];
+        const out = await callAnthropic(uiSystemPrompt(languageName), JSON.stringify(subset, null, 2));
+        let parsed;
+        try {
+          parsed = JSON.parse(out);
+        } catch {
+          const m = out.match(/\{[\s\S]*\}/);
+          if (!m) throw new Error(`UI translation for ${localeRel} did not return valid JSON`);
+          parsed = JSON.parse(m[0]);
+        }
+        for (const k of untranslated) {
+          if (parsed[k] && typeof parsed[k].message === 'string') json[k].message = parsed[k].message;
+        }
+      }
+      updated++;
+    } else {
+      skipped++;
+    }
+
+    if (!DRY_RUN) {
+      writeFileSync(localePath, JSON.stringify(json, null, 2) + '\n', 'utf8');
+      uiManifest[localeRel] = enHash;
+    }
+  }
+
+  log(`  ui: ${updated} updated, ${skipped} up-to-date`);
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 async function main() {
@@ -240,6 +355,7 @@ async function main() {
     const languageName = (cfg.localeLabels && cfg.localeLabels[locale]) || locale;
     log(`\n[${locale}] ${languageName}`);
     await translateDocs(cfg, locale, languageName, manifest);
+    await translateUi(cfg, locale, languageName, manifest);
   }
 
   if (!DRY_RUN) {
@@ -247,6 +363,7 @@ async function main() {
     // file only — when it changes, every locale for that page is considered stale. A page's
     // hash is recorded only once *all* configured locales have it translated, so a missing
     // (e.g. newly added) locale is still picked up next run. Deleted sources drop out.
+    // The `__ui` section (maintained by translateUi) is carried over unchanged.
     const sourceDir = join(ROOT, cfg.docs.sourceDir);
     const newManifest = {};
     for (const relPath of collectDocSources(cfg)) {
@@ -262,8 +379,16 @@ async function main() {
       if (allLocalesPresent) newManifest[relPath] = hash;
       else if (manifest[relPath] !== undefined) newManifest[relPath] = manifest[relPath];
     }
+    if (manifest.__ui) newManifest.__ui = manifest.__ui;
     writeFileEnsured(manifestPath, JSON.stringify(newManifest, null, 2) + '\n');
     log(`\nManifest written to ${cfg.manifest}`);
+
+    // Clean up transient scaffolding: the English baseline used for UI diffing, and the
+    // theme/blog JSON that `write-translations` emits but we don't own (see translate.config).
+    for (const junk of cfg.cleanupAfter || []) {
+      const p = join(ROOT, junk);
+      if (existsSync(p)) rmSync(p, { recursive: true, force: true });
+    }
   }
 }
 

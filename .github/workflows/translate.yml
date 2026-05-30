@@ -7,6 +7,9 @@ on:
       - 'docs/**'
       - 'scripts/translate.mjs'
       - 'scripts/translate.config.json'
+      # nav / sidebar labels are derived from these, so changes here re-translate the UI JSON
+      - 'sidebars.ts'
+      - 'docusaurus.config.ts'
   workflow_dispatch:
 
 permissions:
@@ -28,6 +31,11 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: npm ci
+      # Refresh the English baseline + locale scaffolding for the navbar/sidebar UI labels.
+      # The translate step diffs against it; scaffolding byproducts we don't own are cleaned
+      # up by the script (see cleanupAfter in translate.config.json).
+      - name: Scaffold UI translations
+        run: npm run i18n:scaffold
       - name: Translate
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

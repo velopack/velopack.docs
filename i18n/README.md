@@ -9,15 +9,17 @@ the next time a source page changes.
 
 | Content | Translated? | Where |
 |---|---|---|
-| Guide pages (44 `.mdx` under `docs/`, minus `docs/reference/**`) | ✅ Yes | `i18n/<locale>/docusaurus-plugin-content-docs/current/` |
-| Theme / UI strings (navbar, search box, sidebar/category labels, buttons) | ❌ Not in scope | Docusaurus's own bundled locale translations apply; anything without one falls back to English |
+| Guide pages (44 `.mdx` under `docs/`, minus `docs/reference/**`) | ✅ AI pipeline | `i18n/<locale>/docusaurus-plugin-content-docs/current/` |
+| Top nav + sidebar category labels | ✅ Hand-maintained | `.../docusaurus-theme-classic/navbar.json`, `.../docusaurus-plugin-content-docs/current.json` |
+| Generic theme strings (search box, buttons, pagination) | ❌ Not in scope | Docusaurus's bundled locale translations apply; anything without one falls back to English |
 | API reference (auto-generated, `docs/reference/**`) | ❌ No (English fallback) | — |
 | Blog | ❌ No (English) | — |
 
-We translate **only our own Markdown content**. Theme/UI strings are intentionally out of
-scope: Docusaurus already ships translations for most of them, and owning the rest would
-mean maintaining strings that aren't ours (and overriding Docusaurus on every upgrade). If
-specific UI strings need translating later, that can be added to the pipeline as a follow-up.
+The AI pipeline translates **our Markdown guides**. The top-nav and sidebar-category labels
+are small and config-driven, so they're hand-maintained in two small JSON files (see
+[`AGENTS.md`](../AGENTS.md) → "Localizing nav & sidebar"). Generic theme chrome (`code.json`)
+is intentionally left to Docusaurus's own bundled translations — owning it would mean
+overriding Docusaurus on every upgrade.
 
 Reference docs are intentionally left untranslated: there are ~569 of them, they're
 regenerated daily, and Docusaurus automatically falls back to the English page when a

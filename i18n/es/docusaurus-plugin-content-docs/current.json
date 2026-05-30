@@ -1,0 +1,74 @@
+{
+  "sidebar.mainSidebar.category.Getting Started": {
+    "message": "Primeros pasos",
+    "description": "The label for category 'Getting Started' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.category.Sample Apps": {
+    "message": "Aplicaciones de ejemplo",
+    "description": "The label for category 'Sample Apps' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.category.Integrating": {
+    "message": "Integración",
+    "description": "The label for category 'Integrating' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.category.Packaging": {
+    "message": "Empaquetado",
+    "description": "The label for category 'Packaging' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.category.Operating Systems": {
+    "message": "Sistemas operativos",
+    "description": "The label for category 'Operating Systems' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.category.Operating Systems.link.generated-index.title": {
+    "message": "Resumen de sistemas operativos",
+    "description": "The generated-index page title for category 'Operating Systems' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.category.Distributing": {
+    "message": "Distribución",
+    "description": "The label for category 'Distributing' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.category.Flow": {
+    "message": "Flow",
+    "description": "The label for category 'Flow' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.category.Contributing": {
+    "message": "Contribución",
+    "description": "The label for category 'Contributing' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.category.Migrating": {
+    "message": "Migración",
+    "description": "The label for category 'Migrating' in sidebar 'mainSidebar'"
+  },
+  "sidebar.mainSidebar.doc.C#": {
+    "message": "C#",
+    "description": "The label for the doc item 'C#' in sidebar 'mainSidebar', linking to the doc getting-started/csharp"
+  },
+  "sidebar.mainSidebar.doc.C / C++": {
+    "message": "C / C++",
+    "description": "The label for the doc item 'C / C++' in sidebar 'mainSidebar', linking to the doc getting-started/cpp"
+  },
+  "sidebar.mainSidebar.doc.JavaScript": {
+    "message": "JavaScript",
+    "description": "The label for the doc item 'JavaScript' in sidebar 'mainSidebar', linking to the doc getting-started/javascript"
+  },
+  "sidebar.mainSidebar.doc.Python": {
+    "message": "Python",
+    "description": "The label for the doc item 'Python' in sidebar 'mainSidebar', linking to the doc getting-started/python"
+  },
+  "sidebar.mainSidebar.doc.Rust": {
+    "message": "Rust",
+    "description": "The label for the doc item 'Rust' in sidebar 'mainSidebar', linking to the doc getting-started/rust"
+  },
+  "sidebar.mainSidebar.doc.Debugging & Logging": {
+    "message": "Depuración y registro",
+    "description": "The label for the doc item 'Debugging & Logging' in sidebar 'mainSidebar', linking to the doc troubleshooting/debugging"
+  },
+  "sidebar.mainSidebar.doc.FAQ": {
+    "message": "Preguntas frecuentes",
+    "description": "The label for the doc item 'FAQ' in sidebar 'mainSidebar', linking to the doc troubleshooting/faq"
+  },
+  "sidebar.referenceSidebar.category.Reference": {
+    "message": "Referencia",
+    "description": "The label for category 'Reference' in sidebar 'referenceSidebar'"
+  }
+}

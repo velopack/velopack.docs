@@ -214,12 +214,15 @@ site UI), and let the pipeline regenerate the localized content. Manual edits to
 
 ### What is and isn't translated
 
-- ✅ The 44 guide pages under `docs/` (everything except `docs/reference/**`).
-- ❌ Theme/UI strings (navbar, search box, sidebar/category labels, buttons) — **not in
+- ✅ The 44 guide pages under `docs/` (everything except `docs/reference/**`) — fully
+  AI-translated by the pipeline below.
+- ✅ Top nav + sidebar category labels — also **AI-maintained by the pipeline** (see
+  "Localizing nav & sidebar"). They re-translate automatically when you change a label in
+  `docusaurus.config.ts` / `sidebars.ts`.
+- ❌ Generic theme strings — search box, buttons, pagination, etc. (`code.json`) — **not in
   scope**. Docusaurus ships its own bundled translations for most of them; anything it
   doesn't cover falls back to English. We deliberately don't own these (owning them means
-  maintaining strings that aren't ours and overriding Docusaurus on every upgrade). Can be
-  added later if needed — see "Adding UI strings" below.
+  maintaining strings that aren't ours and overriding Docusaurus on every upgrade).
 - ❌ The auto-generated API reference (`docs/reference/**`) — ~569 files, regenerated
   daily. Docusaurus automatically falls back to the English page when a localized doc
   is missing, so these stay English **by design**.
@@ -265,21 +268,48 @@ translated build. Likewise, if a heading is the target of an in-page `#anchor` l
 an explicit stable id (`## Heading {#stable-id}`) so the link survives translation of the
 heading text.
 
+### Localizing nav & sidebar
+
+The top-nav and sidebar-category labels are translated by the **same pipeline** as the
+guides, via a small `ui` section in `scripts/translate.config.json`. Two files per locale:
+
+- `i18n/<locale>/docusaurus-theme-classic/navbar.json` — top-nav item labels (Guides,
+  Reference, Blog) + logo alt text.
+- `i18n/<locale>/docusaurus-plugin-content-docs/current.json` — sidebar category labels
+  (Getting Started, Integrating, …). `dropKeyPrefixes` strips the auto-generated reference
+  sub-categories (Methods, Properties, per-class — they stay English and would churn daily),
+  the Sample-Apps links (tech-stack names), and `version.label`; `keepKeys` retains the
+  single stable top-level `Reference` label.
+
+How it stays in sync (in `translate.mjs` → `translateUi`):
+- CI runs `npm run i18n:scaffold` first (`write-translations` for the locale **and** for
+  `en`), producing the English baseline.
+- A key is (re)translated only when its message still equals the English baseline, so
+  existing translations never drift and new/renamed labels are picked up automatically.
+- Re-translation is gated on a hash of the **pruned English baseline** (stored in the
+  manifest's `__ui` section), so it only fires when a label actually changes in
+  `docusaurus.config.ts` / `sidebars.ts` — hence those two files are in `translate.yml`'s
+  trigger paths. Proper nouns (Blog, Flow, C#, Python…) correctly stay as-is.
+- `cleanupAfter` deletes the transient `i18n/en` baseline and the scaffold byproducts we
+  don't own (`code.json`, blog options) so they're never committed.
+
+Per-page sidebar entries (C#, FAQ, …) localize automatically via each doc's translated
+`sidebar_label` frontmatter — no JSON needed.
+
+**`code.json` is intentionally NOT committed.** It's generic theme chrome (search box,
+buttons, pagination) that Docusaurus already translates via its bundled locale data;
+owning it would mean overriding Docusaurus on every upgrade. Anything it doesn't cover
+falls back to English.
+
 ### Adding a new language
 
 1. Add the locale to `docusaurus.config.ts`: `i18n.locales`, `i18n.localeConfigs`
    (label + `htmlLang`), and the search theme's `language: [...]` array.
 2. Add the locale to `scripts/translate.config.json` (`locales` and `localeLabels`).
-3. Run `npm run translate` (or just push to `master` and let CI do it).
-4. Verify with `npm run build` (builds all locales, `onBrokenLinks: 'throw'` applies to
+3. Run `npm run translate` (or just push to `master` and let CI do it) for the guide pages.
+4. Add the locale's `navbar.json` + `current.json` (see "Localizing nav & sidebar").
+5. Verify with `npm run build` (builds all locales, `onBrokenLinks: 'throw'` applies to
    every locale).
-
-### Adding UI strings (future)
-
-If specific theme/UI strings need translating, generate the scaffolding with
-`docusaurus write-translations --locale <id>` (append `|| true` — it throws after writing
-the theme files because of the reference-sidebar duplicate labels), keep only the strings
-Docusaurus doesn't already translate, and wire them into the pipeline.
 
 ### Translation rules (enforced by the script's prompt)
 

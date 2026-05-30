@@ -1,0 +1,18 @@
+{
+  "logo.alt": {
+    "message": "Logotipo de Velopack",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Guides": {
+    "message": "Guías",
+    "description": "Navbar item with label Guides"
+  },
+  "item.label.Reference": {
+    "message": "Referencia",
+    "description": "Navbar item with label Reference"
+  },
+  "item.label.Blog": {
+    "message": "Blog",
+    "description": "Navbar item with label Blog"
+  }
+}

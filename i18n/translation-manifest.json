@@ -42,5 +42,9 @@
   "packaging/runtime.mdx": "7ff89e14f3cac3ecc840d9628a31b3dbb091522ad7ffd284785f1e6f9595295f",
   "packaging/signing.mdx": "af46055e38759383b96ce40d761bfc6287b3a909102bde7262ed103459468e68",
   "troubleshooting/debugging.mdx": "39b2052e4f7f5a2afb99e769c6a668233cafbd425d43f0a67862e3690698f3d3",
-  "troubleshooting/faq.mdx": "bb8d0b0746aef690c9fcf836157654ab8c0e44f0364dd7c77e0b809ec99cb7d2"
+  "troubleshooting/faq.mdx": "bb8d0b0746aef690c9fcf836157654ab8c0e44f0364dd7c77e0b809ec99cb7d2",
+  "__ui": {
+    "i18n/es/docusaurus-theme-classic/navbar.json": "b4d5e6bc67936937fe72eff4ffd6f1b6d971390687585189b9f8da42054ae088",
+    "i18n/es/docusaurus-plugin-content-docs/current.json": "dce32e2c6325b425140eb57d62283c2d38e78e9e1a0a4f53c86c8c6030b3d5d1"
+  }
 }

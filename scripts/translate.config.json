@@ -1,5 +1,6 @@
 {
   "locales": ["es"],
+  "defaultLocale": "en",
   "localeLabels": {
     "es": "Spanish"
   },
@@ -9,5 +10,22 @@
     "exclude": ["reference/**"],
     "targetTemplate": "i18n/{locale}/docusaurus-plugin-content-docs/current/{relPath}"
   },
+  "ui": [
+    {
+      "comment": "Top navbar item labels (Guides, Reference, Blog) + logo alt text.",
+      "file": "i18n/{locale}/docusaurus-theme-classic/navbar.json"
+    },
+    {
+      "comment": "Sidebar category labels. Drop: the auto-generated reference sidebar categories (Methods, Properties, per-class, ...) which stay English and would churn daily; the Sample Apps links (tech-stack names, universal); and version.label (unused on this unversioned site). Keep the single stable top-level 'Reference' label (defined in sidebars.ts).",
+      "file": "i18n/{locale}/docusaurus-plugin-content-docs/current.json",
+      "dropKeyPrefixes": ["sidebar.referenceSidebar.", "sidebar.mainSidebar.link.", "version.label"],
+      "keepKeys": ["sidebar.referenceSidebar.category.Reference"]
+    }
+  ],
+  "cleanupAfter": [
+    "i18n/en",
+    "i18n/es/code.json",
+    "i18n/es/docusaurus-plugin-content-blog"
+  ],
   "manifest": "i18n/translation-manifest.json"
 }
