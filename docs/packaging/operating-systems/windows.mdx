@@ -11,8 +11,11 @@ For Windows, Velopack creates and installs a folder structure which looks like t
     │   ├── YourFile.dll
     │   ├── sq.version
     │   └── YourApp.exe
-    └── Update.exe
+    ├── Update.exe
+    └── YourApp.exe          (execution stub)
 ```
+
+The root-level `YourApp.exe` is a small execution stub which launches the real executable inside `current`. It is created by both `Setup.exe` and the [`.msi`](../installer.mdx#windows-msi-installer) installer, so shortcuts/launchers can point at a stable path that survives updates.
 
 ## Packaging
 There are no special requirements to package a program for Windows, although you may wish to customise the installer 
@@ -30,7 +33,7 @@ There are lots of things that could lock this folder. For example:
 - A process running inside `current`
 - A process running outside of `current`, which has opened a file inside `current` for reading. 
 - Anti-virus / Windows Defender, etc
-- A process with it's CWD (current working dir) inside that folder (for example, a `cmd.exe` process).
+- A process with its CWD (current working dir) inside that folder (for example, a `cmd.exe` process).
 
 If the folder can not be renamed during the update process, Velopack's updater will attempt to automatically kill any processes running inside `current`.
 If the folder is still locked and can not be renamed, the updater will search for other processes on the system which may be locking the folder - 
@@ -39,7 +42,7 @@ and if any are found, it will open a dialog to the user offering to kill them or
 application will be launched.
 
 :::info
-Currently, neither the updater nor the installer support privileged directories such as `C:\Program Files`, but support for this is planned in the future.
+The `Setup.exe` installer is per-user and installs to `%LocalAppData%\{packId}`, so it does not require elevation or use privileged directories. If you need a per-machine install to `Program Files`, use the [MSI installer](../installer.mdx#windows-msi-installer) with `--msi --instLocation PerMachine`, which installs to `Program Files\{publisher}\{packTitle}` (HKLM registry, requires elevation).
 :::
 
 ## Installing

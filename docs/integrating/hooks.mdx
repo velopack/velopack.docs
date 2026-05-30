@@ -1,11 +1,13 @@
 # App Hooks
-<AppliesTo win />
+<AppliesTo all />
 
 Hooks allow your application to run logic at various stages of the install/update/uninstall process.
 
-In general, I don't recommend trying to handle hooks manually - and instead refer to the available [VelopackApp](../reference/cs/Velopack/VelopackApp) options.
+In general, handling hooks manually is not recommended - instead, prefer the available [VelopackApp](../reference/cs/Velopack/VelopackApp) options.
 
 If you wish to handle these yourself, an SDK doesn't exist for your language, or you just want to learn more about it, read on.
+
+The command-line argument and environment-variable mechanisms described below are cross-platform. The C# `VelopackApp` builder also offers convenience "FastCallback" methods (`OnAfterInstallFastCallback`, `OnAfterUpdateFastCallback`, `OnBeforeUpdateFastCallback`, `OnBeforeUninstallFastCallback`) which wrap these hooks — but those are **Windows-only** and are no-ops on macOS and Linux.
 
 ## Command line hooks
 At various stages of the install/update/uninstall process, Velopack will execute your main executable (the one specified when packaging with `--mainExe {exeName}`) with certain cli arguments and expect your app to exit as quickly as possible. 
@@ -26,3 +28,7 @@ There are also two environment variables that get set, if these are detected you
 
 - `VELOPACK_FIRSTRUN` is true if this is the first run after the app was installed.
 - `VELOPACK_RESTART` is true if the application was restarted by Velopack (usually because an update was applied.)
+
+In C#, you don't need to read these variables directly. `VelopackApp.Build().OnFirstRun(...)` fires when `VELOPACK_FIRSTRUN` is set, and `VelopackApp.Build().OnRestarted(...)` fires when `VELOPACK_RESTART` is set. Unlike the FastCallback hooks above, these run during a normal launch and your app continues running afterwards.
+
+For the full set of Velopack environment variables, see [Debugging](../troubleshooting/debugging.mdx#environment-variables).

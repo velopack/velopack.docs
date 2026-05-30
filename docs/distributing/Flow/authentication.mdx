@@ -1,5 +1,30 @@
 # Authentication
 <FlowLink /> supports OAuth, forms authentication, and API keys for authentication. You can use any of these methods to authenticate with the Flow service. The recommended method is to use OAuth, as it provides the most secure and flexible authentication mechanism.
 
-To perform an interactive login use the `vpk login` command. This will persist your authentication locally inside of `~/.vpk`. For running commands without interaction, such as a CI/CD pipeline, you can specify the `--api-key` option to the `vpk` commands that interact with Flow. 
+## Interactive login
 
+To perform an interactive login use the `vpk login` command. This opens a browser to authenticate via OAuth and persists your credentials locally so subsequent commands don't need to log in again. You can clear them with `vpk logout`.
+
+```bash
+vpk login
+```
+
+Credentials are stored under `~/.vpk` (the file `creds.bin`), backed by the OS secret store where available (the keychain on macOS and the keyring on Linux). This is the same directory used for your Flow profile.
+
+## Non-interactive login (CI/CD)
+
+For running commands without interaction, such as a CI/CD pipeline, create an API key and pass it via the `--api-key` option. API keys are managed from the Flow dashboard under **Account Settings** (see [Account Management](account.mdx)).
+
+```bash
+vpk publish --api-key {yourApiKey} --outputDir <OutputDir> --channel <Channel>
+```
+
+As with all `vpk` options, you can supply the API key as the `VPK_API_KEY` environment variable instead of putting it on the command line, which is safer in CI logs.
+
+## Flow commands
+
+The `vpk` commands that interact with Flow all accept `--api-key`:
+
+- `vpk login` / `vpk logout` — start or clear an interactive OAuth session.
+- `vpk publish` — upload a release to Flow (used in the [Velopack Flow](../flow.mdx) guide).
+- `vpk flow api` — make raw REST calls against the Flow API (see [API](api.mdx)).

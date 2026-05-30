@@ -17,7 +17,7 @@ It is often desirable to allow users to switch channels easily. For example, if 
 
 ## Deploying cross-platform apps
 
-It's important when deploying cross platform (or cross-architecture) apps that every unique os/rid has it's own channel. It wouldn't be good if your Windows app tried to install an OSX package etc!
+It's important when deploying cross platform (or cross-architecture) apps that every unique os/rid has its own channel. It wouldn't be good if your Windows app tried to install an OSX package etc!
 
 The default channels are, `win`, `osx`, or `linux`, so if you are only distributing one release per platform, you do not need to specify a channel argument, everything should work automatically. If you are distributing feature channels (eg. 'stable', 'beta') or need to distribute multiple versions of your app per os (eg. `win-x64`, `win-arm64`) then you will need to define a channel strategy that does not collide. 
 
@@ -32,6 +32,19 @@ For example, if I was distributing an app on windows and osx which needed to sup
 - osx-arm64-beta
 
 ## Renaming a channel
-You can't rename a channel per-say, but you can supercede it (ie. force all your users to switch to the new channel). Imagine you have been publishing an app that only supports x64 windows to the channel `stable` until now, but you now would like to release an arm64 version of your app. So you want to migrate all the users on `stable` to `win-x64`, while also creating a new channel named `win-arm64`. 
+You can't rename a channel per se, but you can supersede it (ie. force all your users to switch to the new channel). Imagine you have been publishing an app that only supports x64 windows to the channel `stable` until now, but you now would like to release an arm64 version of your app. So you want to migrate all the users on `stable` to `win-x64`, while also creating a new channel named `win-arm64`. 
 
 You should publish your next update (say v2.0.0) using `--channel win-x64`, which will create a new `releases.win-x64.json` file. You can now copy this file and rename it to `releases.stable.json` and deploy both files along with your v2.0.0 `.nupkg` to your update server. Any users on the "stable" channel will find the `releases.stable.json` file and update to your v2.0.0 win-x64 release, and once done will search for future updates at `releases.win-x64.json`. You only need to do this once, you will not need to update the `releases.stable.json` file again, however you may not want to delete it so users who have not opened your app in some time can still find the new updates.
+
+Concretely, your update server goes from this:
+
+```
+releases.stable.json          (points at v1.x.x win-x64 releases)
+```
+
+to this (after publishing v2.0.0 on `win-x64` and copying the index):
+
+```
+releases.win-x64.json         (v2.0.0 — the new canonical channel)
+releases.stable.json          (a copy of releases.win-x64.json, so legacy "stable" users find v2.0.0)
+```

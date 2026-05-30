@@ -1,0 +1,86 @@
+---
+sidebar_position: 4
+---
+
+# Targeting a Specific Version
+<AppliesTo all />
+
+By default, `UpdateManager` only ever moves *forward*: `CheckForUpdatesAsync` returns an update when the latest remote version is **greater** than the currently installed version. Sometimes you need something different:
+
+- **Downgrade to the latest-lower version** — a bad release was pulled from the feed, or you're [switching a user to a channel](./switching-channels.mdx) whose latest version is lower than what they have installed.
+- **Jump to an exact version** — pin a particular build (older *or* newer than the latest), for example to roll a specific user back to a known-good version, or to step a user up to a specific build during staged testing.
+
+The first case is handled by `AllowVersionDowngrade` + `CheckForUpdatesAsync`. The second bypasses the check entirely and builds the `UpdateInfo` by hand.
+
+## Downgrading to the latest-lower version
+Set `AllowVersionDowngrade = true` in `UpdateOptions`:
+
+```cs
+var mgr = new UpdateManager("https://the.place/you-host/updates", new UpdateOptions {
+    AllowVersionDowngrade = true,
+});
+
+var update = await mgr.CheckForUpdatesAsync();
+if (update != null) {
+    await mgr.DownloadUpdatesAsync(update);
+    mgr.ApplyUpdatesAndRestart(update); // explicit apply is required, see below
+}
+```
+
+With this option enabled, `CheckForUpdatesAsync` will return an `UpdateInfo` in two additional cases:
+- the latest remote version is **lower** than the current version;
+- (when combined with [`ExplicitChannel`](./switching-channels.mdx)) the latest remote version on the *other* channel is the **same** version number as the current one — a lateral channel move.
+
+Note that `CheckForUpdatesAsync` always targets the *latest applicable* release for the channel. If you need a specific version that isn't the latest, use the manual approach below.
+
+## Installing an exact version
+To move to an arbitrary version — regardless of what the "latest" release is — you can skip `CheckForUpdatesAsync` and construct the `UpdateInfo` yourself. The workflow is:
+
+1. Instantiate the [update source](./update-sources.mdx) directly and ask it for the feed of available releases.
+2. Find the `VelopackAsset` for the exact version you want.
+3. Build an `UpdateInfo` by hand, setting `isDowngrade` when the target is older than what's installed.
+4. Download and apply it as usual.
+
+```cs
+// 1. Point a source at wherever you host releases, and read its feed.
+//    (pass the channel your app uses, or null for this OS's default channel)
+var source = new SimpleWebSource("https://the.place/you-host/updates");
+var mgr = new UpdateManager(source);
+
+var feed = await source.GetReleaseFeed(NullVelopackLogger.Instance, mgr.AppId, channel: null);
+
+// 2. Find the full package for the exact version you want.
+var target = feed.Assets
+    .Where(a => a.Type == VelopackAssetType.Full)
+    .Single(a => a.Version == SemanticVersion.Parse("1.2.3"));
+
+// 3. Build an UpdateInfo by hand. Mark it as a downgrade if the target is
+//    older than the installed version (this disables deltas and removes any
+//    newer local packages — see below).
+var isDowngrade = mgr.CurrentVersion != null && target.Version < mgr.CurrentVersion;
+var info = new UpdateInfo(target, isDowngrade);
+
+// 4. Download and apply — no CheckForUpdatesAsync involved.
+await mgr.DownloadUpdatesAsync(info);
+mgr.ApplyUpdatesAndRestart(info);
+```
+
+Because you're constructing the `UpdateInfo` directly, the `AllowVersionDowngrade` option is **not** involved — that option only affects what `CheckForUpdatesAsync` is willing to return. `DownloadUpdatesAsync` simply downloads whatever `UpdateInfo.TargetFullRelease` you give it, so you are responsible for setting `isDowngrade` correctly.
+
+:::tip
+`GetReleaseFeed` returns every applicable asset, including deltas. Filter to `VelopackAssetType.Full` (as above) so you select a full package you can apply directly.
+:::
+
+## You must apply explicitly
+The auto-apply-on-startup behavior **only applies versions greater than the current version**, so it will never apply a downgrade or a lateral move for you. Whenever the target is lower than or equal to the installed version you must call an explicit apply method such as `ApplyUpdatesAndRestart` or `ApplyUpdatesAndExit`. Relying on auto-apply will silently do nothing.
+
+## Deltas and local packages
+When the update is a downgrade or lateral move, `UpdateInfo.IsDowngrade` is `true` (either set by `CheckForUpdatesAsync`, or by you in the manual approach). In that case:
+- delta updates are disabled — the full target package is always downloaded;
+- any local packages on disk that are *newer* than the downloaded target version are deleted, so the app cannot "re-upgrade" itself back on the next launch.
+
+## The deploy side
+Targeting an older version only works if that version is actually present in the feed your client reads. If you previously superseded or removed it, you need to make it available again — re-publish or `vpk upload` the older version, or point the client at a channel/feed where that version is present. See [self-hosting](../distributing/self-hosting.mdx) and [channels](../packaging/channels.mdx).
+
+## Interaction with channels
+Downgrading and channel switching are commonly used together: opting a user out of a `beta` channel back onto `stable` usually means moving to a lower version. Pair `ExplicitChannel` with `AllowVersionDowngrade` for the latest-lower case — see [Switching Channels](./switching-channels.mdx).

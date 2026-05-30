@@ -18,18 +18,9 @@ The splash image can be a `jpeg`, `png`, or `gif`. In the latter case, it will b
 
 You can also [bootstrap required frameworks](bootstrapping.mdx) before installing your app.
 
-The Windows installer will extract the application to `%LocalAppData%\{packId}`, and the directory structure will look like:
+The Windows installer will extract the application to `%LocalAppData%\{packId}`. For the resulting directory structure, see [the canonical layout on the Windows page](operating-systems/windows.mdx).
 
-```
-{packId}
-├── current
-│   ├── YourFile.dll
-│   ├── sq.version
-│   └── YourApp.exe
-└── Update.exe
-```
-
-The `current` directory will be fully replaced [while doing updates](../integrating/overview.mdx). The other two files added by Velopack (`Update.exe` and `sq.version`) are crucial and are required files for Velopack to be able to properly update your application.
+The `current` directory will be fully replaced [while doing updates](../integrating/overview.mdx). The other files added by Velopack (`Update.exe` and `sq.version`) are crucial and are required files for Velopack to be able to properly update your application.
 
 ### Windows MSI Installer
 In addition to `Setup.exe`, Velopack can generate a `.msi` installer using WiX 5. The MSI provides full Windows Installer integration, including support for per-machine installs to Program Files, Group Policy deployment, and standard Add/Remove Programs entries.
@@ -56,30 +47,38 @@ The `--instLocation` option controls where the MSI will install:
 | `--msiLogo {path}` | Background logo for MSI dialogs (`.bmp`, 493x312) |
 
 #### Directory Structure
-The MSI installs the same directory layout as `Setup.exe`:
-```
-{installFolder}
-├── current
-│   ├── YourFile.dll
-│   ├── sq.version
-│   └── YourApp.exe
-├── Update.exe
-└── YourApp.exe          (execution stub)
-```
+The MSI installs the same directory layout as `Setup.exe` (see [the canonical layout on the Windows page](operating-systems/windows.mdx)), under `{installFolder}` instead of `%LocalAppData%\{packId}`.
 
 After installation, updates work identically via `Update.exe` regardless of whether the app was installed with `Setup.exe` or the `.msi`.
+
+#### Overriding the install location at install time
+By default the MSI installs to the location implied by `--instLocation` (see above). A system administrator can override the destination at install time by setting the secure `VELOPACK_INSTALLDIR` property when running `msiexec`:
+
+```cmd
+msiexec /i MyApp.msi /qn VELOPACK_INSTALLDIR="D:\Apps\MyApp"
+```
+
+When set, `VELOPACK_INSTALLDIR` takes precedence over the default per-user/per-machine path in both the UI and silent installs. This is the MSI equivalent of `Setup.exe --installto`.
+
+## Overriding the install location
+Velopack offers three ways to control where your app is installed:
+
+| Mechanism | When | Notes |
+|-----------|------|-------|
+| `Setup.exe --installto <DIR>` | install time | Overrides the default `%LocalAppData%\{packId}` location for the one-click `Setup.exe`. |
+| `--instLocation PerUser\|PerMachine\|Either` | pack time (MSI) | Sets the default install scope baked into the `.msi`. `PerUser` → `%LocalAppData%\{packId}`, `PerMachine` → `Program Files\{publisher}\{packTitle}`. |
+| `VELOPACK_INSTALLDIR` | install time (MSI) | Secure `msiexec` property that overrides the MSI's default destination, e.g. `msiexec /i MyApp.msi /qn VELOPACK_INSTALLDIR="D:\Apps\MyApp"`. |
 
 ## MacOS Overview
 The MacOS installer will be a standard `.pkg` - which is just a bundle where the UI is provided by the operating system, allowing the user to pick the install location. The app will be launched automatically after the install (mirroring the behavior on Windows) because of a `postinstall` script added by Velopack.
 
 The key options which will customize the installer are as follows:
 - `--packTitle {app name}` customizes the name of the `.app` bundle and the app name shown in the `.pkg`
-- `--pkgWelcome {path}` adds a Welcome page
-- `--pkgReadme {path}` adds a Readme page
-- `--pkgLicense {path}` adds a License Acceptance page
-- `--pkgConclusion {path}` adds a Conclusion page
-- `--noPkg` disable generating a `.pkg` installer entirely
+- `--instWelcome {path}` adds a Welcome page
+- `--instReadme {path}` adds a Readme page
+- `--instLicense {path}` adds a License Acceptance page
+- `--instConclusion {path}` adds a Conclusion page
 
-The pkgPage arguments can be a `.rtf` or a `.html` file.
+These content arguments accept the file types supported by the macOS Installer, i.e. `.txt`, `.rtf`, or `.html`.
 
 The `.app` package can be extracted to `/Applications` or `~/Applications`, this is selected by the user while installing.

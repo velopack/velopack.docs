@@ -17,17 +17,21 @@ Optionally, you can pre-build your AppImage/AppDir structure to the [following s
 If you have staged your AppDir, you can provide it to the `--packDir / -p` argument. Note that the folder ***must*** end in `.AppDir`. 
 If using a pre-built AppDir it's expected that the icon and `.desktop` file will already exist, and the `--icon` / `--categories` arguments will be ignored.
 
+The following Linux-specific options are available when Velopack generates the bundle for you:
+- `--categories {names}` — the [freedesktop.org Desktop Menu](https://specifications.freedesktop.org/menu-spec/latest/category-registry.html) categories written into the `.desktop` file. Defaults to `Utility`.
+- `--compression {algo}` — the compression algorithm used for the AppImage, either `gzip` (the default) or `xz`. `xz` produces smaller files at the cost of slower (de)compression.
+
 ## Updating
 During updates, packages are downloaded to a temporary location (`/var/tmp`) and then the `.AppImage` is replaced. 
 If the `.AppImage` is in a privileged folder, the updater will automatically prompt for sudo using `pkexec`.
-The app can technically be updated while it's running, although Velopack will make an effort to close/restart it to clear out any old versions curently running.
+The app can technically be updated while it's running, although Velopack will make an effort to close/restart it to clear out any old versions currently running.
 
 ## What is an AppImage?
-AppImage does not install software in the traditional sense (i.e., it do not put files all over the place in the system).
+AppImage does not install software in the traditional sense (i.e., it does not put files all over the place in the system).
 
-It use one file per application. Each one is self-contained: it includes all libraries the application depends on and that are not part of the base system. 
+It uses one file per application. Each one is self-contained: it includes all libraries the application depends on and that are not part of the base system. 
 In this regard, it is similar to "application virtualization". 
-One can use a AppImage file even if they are not a superuser, or they are using a live CD. 
+One can use an AppImage file even without being a superuser, or while using a live CD. 
 AppImage files are often simpler than compiling and installing an application, as no installation actually took place. 
 The AppImage file is a compressed image which is temporarily mounted to allow access to the program, but not having to extract the program or modify the underlying system.
 
@@ -38,12 +42,17 @@ The AppImage file is a compressed image which is temporarily mounted to allow ac
 
 ## FUSE / libfuse dependency
 An AppImage is a single file containing an embedded squashfs filesystem. When the AppImage runs, that filesystem is mounted using libfuse, therefore it must be installed
-before attempting to run an AppImage. On Ubuntu that can be done with the following
+before attempting to run an AppImage. Velopack produces type-2 AppImages, which require **FUSE 2** (`libfuse2`).
+
+This used to be installed by default on most distributions, but newer releases (such as Ubuntu 22.04 and later) ship only FUSE 3 out of the box, so `libfuse2` must
+be installed explicitly. On Ubuntu that can be done with the following:
 
 ```
 sudo add-apt-repository universe
 sudo apt install libfuse2
 ```
+
+On Ubuntu 24.04 and later the package is named `libfuse2t64` (`sudo apt install libfuse2t64`).
 
 ## Can an AppImage be "installed"?
 Yes, it can - but this exercise is generally left up to the user. There are frameworks which will install an AppImage on first run, by moving it to a pre-determined location (usually `~/Applications`), adding a dock/launcher/desktop shortcut etc. 
@@ -59,8 +68,6 @@ sudo apt install software-properties-common appimagelauncher
 
 For other distros of linux, [check the wiki](https://github.com/TheAssassin/AppImageLauncher/wiki).
 
-Once AppImageLauncher is installed, the user will see an installation dialog any time they download and run a new AppImage:
-
-![appimagelauncher screenshot](/images/appimagelauncher.png)
+Once AppImageLauncher is installed, the user will see an installation dialog any time they download and run a new AppImage.
 
 It is also possible to install an AppImage manually (eg. without AppImageLauncher) [though it's a bit involved](https://askubuntu.com/a/1311653/15694).

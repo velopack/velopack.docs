@@ -5,12 +5,17 @@ Code signing is an essential part of application distribution. On Windows, appli
 
 On both platforms, signing needs to be performed by Velopack itself, this is because the Velopack binaries (such as Update and Setup) need to be signed at different points in the package build process.
 
-## Signing on Windows
+## SmartScreen & Antivirus {#smartscreen}
+On Windows, unsigned applications are frequently flagged by SmartScreen and antivirus software, and users may see a warning before they can run your app. The most reliable way to avoid this is to **code-sign** your application (see below), but signing alone is not always instant — SmartScreen warnings are driven by *reputation*, which builds up over time as more users run your signed binaries.
 
-Here is the general rule of thumb for Windows Defender/Smart Screen warnings:
+Here is the general rule of thumb for Windows Defender / SmartScreen warnings:
 - You don't sign your code. You release MyApp-v1.exe. People get smart screen warnings for a while until the reputation on that file increases. You release MyApp-v2.exe. People get warnings again until MyApp-v2.exe builds up enough reputation.
 - You sign your code with an OV certificate. You release MyApp-v1.exe. People get smart screen warnings for a while until the reputation on that certificate increases. You release MyApp-v2.exe. People don't get warnings because the certificate already has a good reputation. Eventually your certificate expires and it comes time to release MyApp-v47.exe. You renew your certificate, and people get warnings again until the new certificate builds up reputation.
-- You sign your code with an EV certificate. People never get warnings.
+- You sign your code with an EV (Extended Validation) certificate. People never get warnings, because EV certificates are granted instant SmartScreen reputation.
+
+In short: code-sign, prefer an EV (or Azure Artifact Signing) certificate for instant reputation, and expect a short reputation-building period for OV certificates.
+
+## Signing on Windows
 
 ### Acquiring a code signing certificate
 
@@ -37,7 +42,7 @@ If you instead wish to purchase a code signing certificate from a different vend
 - [IdenTrust](https://www.identrust.com/digital-certificates/trustid-ev-code-signing)
 - [Sectigo (formerly Comodo)](https://sectigo.com/ssl-certificates-tls/code-signing)
 
-There are also resellers which may have certificates from authorised issuers for lower prices, but the added risk is that you will get no official support for those certificates and identity verification proceedures may be more convoluted.
+There are also resellers which may have certificates from authorised issuers for lower prices, but the added risk is that you will get no official support for those certificates and identity verification procedures may be more convoluted.
     
 :::warning
 Note that since June 1, 2023 there [has been a policy change](https://knowledge.digicert.com/general-information/new-private-key-storage-requirement-for-standard-code-signing-certificates-november-2022), meaning it is no longer possible to download your code signing certificate. It must be either stored in an authorised cloud HSM or a USB HSM will be shipped to you. Many of these solutions will require manual steps and not be compatible with automation / CI. Please review carefully before purchasing.
@@ -85,7 +90,7 @@ vpk pack ... --signParams "/td sha256 /fd sha256 /f yourCert.pfx /tr http://time
 ```
 
 :::tip
-You should always pass absolute paths in your signing arguments, as there is no guarentee that signtool will be run in the same working directory as vpk.
+You should always pass absolute paths in your signing arguments, as there is no guarantee that signtool will be run in the same working directory as vpk.
 :::
 
 If you are new to using `signtool.exe`, you can check the [command line reference here](https://learn.microsoft.com/dotnet/framework/tools/signtool-exe). I recommend getting signing working on a single binary first, using `signtool.exe`, before trying to get things working with the Velopack CLI.
@@ -166,7 +171,11 @@ If you would like to use a different keychain, you must install your certificate
 argument to specify that Velopack should discover certificates from a non-default keychain.
 <hr />
 If you do not provide an entitlements file for hardened runtime, one suitable for most dotnet apps will be provided for you automatically. If your app requires
-special entitlements and the defaults are not suitable, you should supply your own signing entitlements using `--signEntitlements {path}`
+special entitlements and the defaults are not suitable, you should supply your own signing entitlements using `--signEntitlements {path}`. Note that the macOS App
+Sandbox entitlement (`com.apple.security.app-sandbox`) is **not** supported by Velopack — see the [macOS limitations note](operating-systems/macos.mdx) for details.
+<hr />
+By default Velopack performs a "deep" signing of all binaries inside your bundle. If you would prefer to pre-sign your own binaries and have Velopack skip them,
+you can pass `--signDisableDeep`.
 <hr />
 Even though your certificate may appear as `Developer ID Application: Your Name (TeamName)` in Keychain Access, you should not specify the team name as a part of
 your `--signAppIdentity` or `--signInstallIdentity` arguments. Your certificate should just be `Developer ID Application: Your Name` with no team.

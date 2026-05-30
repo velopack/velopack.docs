@@ -80,6 +80,6 @@ Here are some examples:
 - .NET 5.0 AspNetCore (x86)  `--framework net5.0-x86-aspnetcore`
 - .NET 9.0 SDK (x64)  `--framework net9.0-x64-sdk`
 
-By default, Velopack will accept any installed release, but always install the latest. That is to say, if your dependency is specified as `net6.0-x64-desktop` and version `6.0.2` is installed, it will be accepted. If it's not installed, Velopack will download the latest available version (at the time of writing, that's `6.0.26`). 
+By default, Velopack will accept any installed release, but always install the latest. That is to say, if your dependency is specified as `net6.0-x64-desktop` and version `6.0.2` is installed, it will be accepted. If it's not installed, Velopack will download the latest available patch version. 
 
 If you need a specific version of dotnet, (eg. `6.0.11`) - you can specify a third version part in your dependency string: `--framework net6.0.11-x64-desktop`. In this case, if the installed version is `< 6.0.11`, then it will be upgraded to the latest available.

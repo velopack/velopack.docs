@@ -52,11 +52,22 @@ VelopackApp.Build()
     .Run();
 
 // Option 2: Pass to a custom locator
-var locator = VelopackLocator.CreateDefaultForPlatform(new MyConsoleLogger());
+var locator = VelopackLocator.CreateDefaultForPlatform(logger: new MyConsoleLogger());
 var updateManager = new UpdateManager("your-update-url", null, locator);
 ```
 
-## Advanced Debugging
+## Environment variables {#environment-variables}
+
+Velopack reads a handful of environment variables at runtime. These affect the behavior of the library and the bundled binaries (Setup.exe / Update.exe), and are unrelated to the `vpk` build tool's command-line options.
+
+| Variable | Set by | Description |
+|---|---|---|
+| `VELOPACK_FIRSTRUN` | Velopack | Set when your app is launched for the very first time after install. Velopack reads and clears it inside `VelopackApp.Run()`, surfacing it via the `OnFirstRun` hook. Read it only through the hook, not directly. |
+| `VELOPACK_RESTART` | Velopack | Set when your app was restarted by Velopack to apply an update. Velopack reads and clears it inside `VelopackApp.Run()`, surfacing it via the `OnRestarted` hook. |
+| `VELOPACK_TEMP` | You | Overrides the temp/working directory Velopack uses for downloading and staging updates. Useful in locked-down or CI environments where the default temp location is unavailable. |
+| `VELOPACK_DEBUG` | You | When set, Velopack does **not** automatically exit the process after running a fast-callback hook (install/update/uninstall). Useful for attaching a debugger to inspect hook behavior. Leave unset in production. |
+
+
 The debug builds of Velopack binaries have additional logging/debugging capabilities, and will produce console output. In some instances, it may be useful to [compile Velopack](../contributing/compiling.mdx) for your platform, and replace the release binaries of Setup.exe and Update.exe with debug versions.
 
 If your issue is with package building, after building the rust binaries in Debug mode, it can also be useful to run the Velopack.Vpk project from Visual Studio with your intended command line arguments rather than running the `vpk` tool directly.

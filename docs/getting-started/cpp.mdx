@@ -33,7 +33,7 @@ On Windows, you may need to convert `wchar_t*` and `std::wstring` to UTF-8 befor
     ```cpp
     #include "Velopack.h"
 
-    wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
+    int wmain(int argc, wchar_t* argv[], wchar_t* envp[])
     {
         // This should run as early as possible in the main method.
         // Velopack may exit / restart the app at this point. 
@@ -50,6 +50,8 @@ On Windows, you may need to convert `wchar_t*` and `std::wstring` to UTF-8 befor
     The following show how to implement a basic update check within your application. 
     
     You can also split up the various methods to allow your users to control when to check for updates, download them, or apply them.
+
+    The URL passed to `UpdateManager` points at wherever you host your updates (a web server, S3 bucket, GitHub releases, etc.).
 
     ```cpp
     #include "Velopack.h"
@@ -71,6 +73,8 @@ On Windows, you may need to convert `wchar_t*` and `std::wstring` to UTF-8 befor
         exit(0); // exit the app to apply the update
     }
     ```
+
+    Unlike the C# and Python SDKs, the C / C++ library has no single apply-and-restart helper, so you call `WaitExitThenApplyUpdate` (which prepares the updater and waits for this process to exit) and then exit the app yourself via `exit(0)`.
 </FancyStep>
 
 <FancyStep step={5}>

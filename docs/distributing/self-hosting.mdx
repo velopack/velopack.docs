@@ -3,47 +3,90 @@
 
 <FlowLink /> provides a fully managed solution for distributing applications. It takes care of handling updates, rollbacks by managing the the releases list. It manages organizing and distributing release assests within separate channels, and provides additional features like tiered rollout.
 
-If instead you would prefer to manage your own infrastructure, Velopack provides tooling for downloading and uploading release assets to many common storage providers. The `vpk` tool has support downloading the latest release, and, for several providers, pushing up new release assets after running `vpk pack` (see [Overview](overview.mdx)).
+If instead you would prefer to manage your own infrastructure, Velopack provides tooling for downloading and uploading release assets to many common storage providers. The `vpk` tool has support for downloading the latest release, and, for several providers, pushing up new release assets after running `vpk pack` (see [Overview](overview.mdx)).
+
+:::note
+The examples below show the minimum flags to get started. For the full list of options for each provider, run `vpk download <provider> --help` / `vpk upload <provider> --help`, and see the [Deployment CLI](deploy-cli.mdx) guide for the end-to-end `download → pack → upload` workflow.
+:::
+
+:::warning Retention policy is destructive
+On S3, Azure, and the local file system, passing `--keepMaxReleases <count>` to `vpk upload` applies a retention policy that **permanently deletes** older releases beyond the most recent `<count>` full releases. Omit it to keep all releases.
+:::
 
 ## Amazon S3
 
-[Amazon S3](https://aws.amazon.com/s3/) is a highly scalable, durable, and secure object storage service. 
+[Amazon S3](https://aws.amazon.com/s3/) is a highly scalable, durable, and secure object storage service.
 
-To upload or download from an S3 bucket you will need to specify either the S3 endpoint or the region. Authentication can be done using an existing session token or by access key ID and secret.
+To upload or download from an S3 bucket you must specify exactly one of `--region` (for AWS) or `--endpoint` (for any S3-compatible provider). Authentication can be done with `--keyId`/`--secret`, or an STS `--session` token.
 
-For all of the available options see the [vpk CLI documentation](../reference/cli).
+```cmd
+vpk download s3 --bucket MyApp --region us-west-1 --keyId {keyId} --secret {secret}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload s3 --bucket MyApp --region us-west-1 --keyId {keyId} --secret {secret}
+```
+
+Other useful options: `--prefix` (upload under a sub-path), `--disablePathStyle`, `--timeout` (network timeout in minutes, default `30`), and the destructive `--keepMaxReleases` noted above.
 
 ## Azure Blob storage
 
-[Azure Blob Storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction) is a scalable, cost-effective cloud storage solution for unstructured data. 
+[Azure Blob Storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction) is a scalable, cost-effective cloud storage solution for unstructured data.
 
-You can authenticate to Azure Blob Storage using either a storage account name and access key or by using a shared access signature (SAS). 
+You must specify `--account` and `--container`, plus exactly one of `--key` (storage account access key) or `--sas` (shared access signature).
 
-For all of the available options see the [vpk CLI documentation](../reference/cli).
+```cmd
+vpk download azure --account MyAccount --container MyContainer --key {accessKey}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload azure --account MyAccount --container MyContainer --key {accessKey}
+```
+
+Other useful options: `--prefix`, a custom `--endpoint`, and the destructive `--keepMaxReleases` noted above.
 
 ## File system
-Velopack supports local file system paths for both "uploading" and "downloading". This is useful for testing or for local development via network drives. The `vpk` tool can be used to pack releases and then copy them to a local directory.
+Velopack supports local file system paths for both "uploading" and "downloading". This is useful for testing, for local development via network drives, or for hosting on any storage you can mount as a directory. The target directory is specified with `--path`.
 
-For all of the available options see the [vpk CLI documentation](../reference/cli).
+```cmd
+vpk download local --path /srv/releases
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload local --path /srv/releases
+```
+
+Pass `--regenerate` to rebuild the `releases.{channel}.json` file in the target directory from the assets present. The destructive `--keepMaxReleases` is also supported.
 
 ## Gitea
 
 [Gitea](https://gitea.io) is a lightweight, self-hosted Git service. It provides a private, fast, reliable DevOps platform.
 
-When publishing to Gitea the release name will be the same as the version number unless otherwise specified. If an existing release is not found a new one will be created. Optionally if you would prefer to update an existing release you can specify the `--merge` flag.
+When publishing to Gitea the release name will be the same as the version number unless otherwise specified. If an existing release is not found a new one will be created. Pass `--merge` to update an existing release instead.
 
-For all of the available options see the [vpk CLI documentation](../reference/cli).
+```cmd
+vpk download gitea --repoUrl https://gitea.example.com/me/MyApp --token {token}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload gitea --repoUrl https://gitea.example.com/me/MyApp --token {token} --publish --tag v1.0.1
+```
+
+Other useful options: `--pre` (mark as a prerelease), `--releaseName`, `--targetCommitish`.
 
 ## GitHub
 
 [GitHub](https://github.com) is a widely used platform for hosting Git repositories and collaborating on software development. It provides features like pull requests, issue tracking, and CI/CD integrations.
 
-When publishing to GitHub, the release name will default to the version number unless specified. If a release with the same name exists, it can be updated using the `--merge` flag.
+:::warning Uploads are drafts by default
+`vpk upload github` creates the release as a **draft** unless you pass `--publish`. A draft release is not visible to your users and `UpdateManager` will not see it until you publish it (either via `--publish` or manually in the GitHub UI).
+:::
 
-For all of the available options see the [vpk CLI documentation](../reference/cli).
+```cmd
+vpk download github --repoUrl https://github.com/me/MyApp --token {token}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload github --repoUrl https://github.com/me/MyApp --token {token} --publish --tag v1.0.1
+```
+
+A `--token` is required for private repositories; for public repositories downloads work without one (subject to GitHub's anonymous rate limit). Other useful options: `--pre`, `--releaseName`, `--targetCommitish`, and `--merge` (update an existing release with the same name). See the [GitHub Actions guide](github-actions.mdx) for a complete CI example.
 
 ## HTTP server
-Velopack supports arbitrary HTTP endpoints for downloading. This endpoint must be able to service the `releases.{channel}.json` file, as well as the `nupkg` files. `vpk` does not offer upload support, and it is up to you to upload the updated files to the server after building a new release.
+Velopack supports arbitrary HTTP endpoints for downloading. This endpoint must be able to serve the `releases.{channel}.json` file, as well as the `nupkg` files. `vpk` does not offer upload support for plain HTTP — it is up to you to upload the updated files to the server after building a new release.
 
-For all of the available options see the [vpk CLI documentation](../reference/cli).
-
+```cmd
+vpk download http --url https://the.place/you-host/updates
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+# then upload the contents of your output directory to your HTTP host yourself
+```

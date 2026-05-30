@@ -26,5 +26,5 @@ using Velopack.Windows;
 
 VelopackApp.Build()
     .OnAfterInstallFastCallback((v) => new Shortcuts().CreateShortcutForThisExe(ShortcutLocation.Desktop))
-    .Run()
+    .Run();
 ```

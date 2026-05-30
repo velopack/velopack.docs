@@ -13,7 +13,9 @@ Delta packages use [Zstandard](https://github.com/facebook/zstd) to create binar
 ## Optimising for size
 The default parameters picked for patch generation are to provide a good balance of size and speed. 
 If you would like to optimize for size, you can do this with the `--delta BestSize` argument.
-YMMV, for some appliations this may give you big size savings, for others it may not. Either way it will be a lot slower, about on-par with the `bsdiff` algorithm.
+YMMV, for some applications this may give you big size savings, for others it may not. Either way it will be a lot slower, about on-par with the `bsdiff` algorithm.
+
+The `--delta` option accepts three modes: `None` (disable delta generation), `BestSpeed` (the default), and `BestSize`.
 
 ## How delta's work
 During updates, Velopack will look for possibly more than one delta to download. Imagine you have published the following releases:
@@ -25,7 +27,7 @@ During updates, Velopack will look for possibly more than one delta to download.
 If a user has not opened your app in a while, and has `1.0.0` installed, the next time they open the app, 
 3 delta's will be downloaded: `1.0.1-delta`, `1.0.2-delta`, and `1.0.3-delta`.
 
-The previously downloaded/installed package is stored in `%LocalAppData\{packId}\packages`, so Velopack will then apply those 3 delta's sequentially 
+The previously downloaded/installed package is stored in `%LocalAppData%\{packId}\packages`, so Velopack will then apply those 3 delta's sequentially 
 on top of the local package that exists in that directory. 
 
 Once the delta's have been applied, and the `1.0.3` release has been reconstructed, it will be ready for applying. 
@@ -39,3 +41,9 @@ This means any one GitHub release must only have 1 full package and 1 delta upda
 
 ## Disabling delta's
 If for some reason you don't want to deploy delta's, you can disable them with the `--delta none` argument.
+
+## Generating and applying deltas manually
+Normally deltas are created and applied for you automatically, but the `vpk delta` command group lets you work with them directly:
+
+- `vpk delta generate --base {old}.nupkg --new {new}.nupkg --output {patch}` — creates a delta patch from two full `.nupkg` releases. Like `vpk pack`, it accepts a `--mode` of `None`, `BestSpeed` (default), or `BestSize`.
+- `vpk delta patch --base {old}.nupkg --patch {patch} --output {new}.nupkg` — reconstructs a full package from a base package plus one or more patches. `--patch` / `-p` may be specified multiple times to apply patches in sequence.

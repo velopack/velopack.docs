@@ -1,0 +1,34 @@
+---
+sidebar_position: 8
+---
+
+# Uninstalling
+<AppliesTo all />
+
+This page describes what happens when your application is uninstalled, what gets removed, and what survives.
+
+## What triggers an uninstall
+- **Windows:** the user uninstalls from *Apps & features* / *Programs and Features*, which invokes Velopack's uninstall routine. (If the app was installed via MSI, uninstall is handled by `msiexec` instead.)
+- **macOS:** there is no separate uninstaller — the user deletes the `.app` bundle (e.g. dragging it to the Trash).
+- **Linux:** the user deletes the `.AppImage` (or removes the package via their package manager, depending on how it was distributed).
+
+## Windows
+On Windows the uninstaller performs the following steps:
+
+1. Runs your **uninstall hook** (`--veloapp-uninstall {version}` on the command line, or the C# `OnBeforeUninstallFastCallback`) so your app can clean up before removal.
+2. Removes all shortcuts that point into the install directory.
+3. Removes the entire install directory — the whole `%LocalAppData%\{packId}` folder (app, `current`, packages, `Update.exe`, everything inside it).
+4. Removes the app's temporary working directory.
+5. Removes the entry from the Windows uninstall registry.
+
+Because the *whole* `{packId}` folder is deleted, anything you stored inside it — including settings or logs next to your binary — is lost. See [Preserving Files & Settings](./preserved-files.mdx) for where to put data you want to keep.
+
+:::warning
+The uninstall hook is a FastCallback. It must show no UI and exit quickly, and there is no way to cancel the uninstall from it. See [App Hooks](./hooks.mdx).
+:::
+
+## macOS & Linux
+On these platforms the application is a single self-contained bundle (`.app` / `.AppImage`). "Uninstalling" simply means deleting that bundle, so only the files inside it are removed. There is no Velopack uninstall command and the uninstall hook is **not** invoked (FastCallbacks are Windows-only).
+
+## What survives
+Anything stored **outside** the install directory survives an uninstall — for example settings in `%AppData%\{packId}` (roaming) on Windows, or files under `~/Library/Application Support` on macOS or in the user's home directory on Linux. Use the locator paths described in [Preserving Files & Settings](./preserved-files.mdx) to decide what is and isn't removed.

@@ -11,6 +11,10 @@ vpk download http --url https://the.place/you-host/updates
 vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
 ```
 
+:::note
+The short flags `-u`, `-v`, and `-p` are aliases for `--packId`, `--packVersion`, and `--packDir` respectively (see the [packaging overview](../packaging/overview.mdx)). They are interchangeable.
+:::
+
 There are providers for various sources, such as GitHub, S3, HTTP, etc.
 
 ## Deploying releases

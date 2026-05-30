@@ -10,19 +10,26 @@ If you do not wish to create the `.app` bundle manually, Velopack can do this fo
 
 If you wish for Velopack to automatically create a bundle, the only additional argument you need to provide is `--icon`, and this must be a valid `.icns` file.
 
+### Creating a bundle without packaging
+If you just want to produce the `.app` bundle (for example to inspect or test it) without building a full release, you can use the `vpk bundle` command, which takes the same input arguments as `vpk pack`. By default Velopack generates an `Info.plist` for you; you can customise the bundle identifier with `--bundleId {id}`, or supply a completely custom `Info.plist` with `--plist {path}`. These two options are mutually exclusive.
+
 :::warning
 [Code signing and notarization](../signing.mdx) is required by Apple before shipping your releases to users, or your app won't run.
 :::
 
 ## Updating
-During updates, packages are downloaded to `/tmp`, and during apply step the `.app` bundle will be extracted and replaced. 
+During updates, packages are downloaded to a per-app cache directory (`~/Library/Caches/velopack/{packId}/packages`), and during the apply step the `.app` bundle will be extracted and replaced. macOS uses the user's `Caches` folder (rather than the Linux `/var/tmp` location) because it is the conventional, user-writable location for app data that does not need to survive a cache purge, and it avoids requiring elevation for the common per-user case. 
 
 If the `.app` is installed to `/Applications` (and not `~/Applications` for example), elevation may be required. 
-In this case, the updater will use AppleScrpt to request elevation and complete the update. 
+In this case, the updater will use AppleScript to request elevation and complete the update. 
 The `.app` bundle created by Velopack does not need to be in `/Applications` to support updates, it is a portable / self contained bundle
 and if it is moved by the user it is still capable of applying updates.
 
-The app can technically be updated while it's running, although Velopack will make an effort to close/restart it to clear out any old versions curently running.
+The app can technically be updated while it's running, although Velopack will make an effort to close/restart it to clear out any old versions currently running.
+
+:::warning Limitations
+The macOS **App Sandbox** entitlement (`com.apple.security.app-sandbox`) is **not** supported by Velopack. The updater needs to write outside the sandbox container (it replaces the `.app` bundle in place and may write to `/Applications`), and it spawns a helper / uses AppleScript (`do shell script ... with administrator privileges`) to request elevation when the bundle lives in a privileged location — all of which the App Sandbox forbids. Sandboxed apps are typically distributed through the Mac App Store, which provides its own update mechanism, so they do not need Velopack.
+:::
 
 ## Installing
 Velopack will automatically generate and sign a `.pkg` installer for you, which allows you to show a readme, conclusion, license page, etc. 

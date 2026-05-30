@@ -16,7 +16,7 @@ Get started with our python library.
 </FancyStep>
 
 <FancyStep step={2}>
-    Add the following code to your entry point (eg. `main.py`) as early as possible (before any electron startup code etc.):
+    Add the following code to your entry point (eg. `main.py`) as early as possible (before any other app startup code):
     ```python
     import velopack
 
@@ -34,6 +34,8 @@ Get started with our python library.
     The following shows how to implement a basic update check within your application. 
     
     You can also split up the various methods to allow your users to control when to check for updates, download them, or apply them.
+
+    The URL passed to `UpdateManager` points at wherever you host your updates (a web server, S3 bucket, GitHub releases, etc.).
 
     ```python
     def update_app():
@@ -56,6 +58,8 @@ Get started with our python library.
     ```sh
     pyinstaller --onedir app.py
     ```
+
+    Make sure you use PyInstaller's `--onedir` (folder) output, not `--onefile`. Velopack packages and updates a directory of files, so the single self-extracting executable produced by `--onefile` is not compatible.
 </FancyStep>
 
 <FancyStep step={5}>

@@ -31,6 +31,9 @@ Before running a command for a different OS, you should review the help text of 
 - It is not possible to create MacOS packages on Windows or Linux. Due to the hard dependencies on tools like `codesign`, `xcrun`, `productbuild` and so forth, 
   you must use a MacOS machine to create MacOS packages.
 
+## Signing caveat
+While you can *build* a Windows package from Linux or macOS, **signing** it has additional requirements. The standard `--signParams` / `--signTemplate` path relies on `signtool.exe`, which only runs on Windows. If you need to sign a Windows package from Linux or macOS, use a cross-platform tool such as JSign. See the [code signing guide](./signing.mdx) for details.
+
 
 
 

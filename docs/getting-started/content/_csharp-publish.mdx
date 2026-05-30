@@ -13,6 +13,9 @@ Before building a Velopack release, you must first build your application and pu
     dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
     </code>
     </p>
+    <p>
+    Replace <code>-r win-x64</code> with the <a href="https://learn.microsoft.com/dotnet/core/rid-catalog">runtime identifier (RID)</a> for your target platform, such as <code>osx-arm64</code> or <code>linux-x64</code>.
+    </p>
     </>
 )}
 
@@ -37,7 +40,7 @@ Before building a Velopack release, you must first build your application and pu
 )}
 
 <Admonition type="tip">
-    Starting with .NET 7, the `-o`/`--output` option [can no longer be used with a solution file][def].
+    Starting with .NET 7, the `-o`/`--output` option [can no longer be used with a solution file](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/7.0/solution-level-output-no-longer-valid).
 
     Starting with .NET 8 and later, the `dotnet publish` command defaults to the Release configuration, so you can omit the `-c Release` option.
     For more details see https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/dotnet-publish-config.

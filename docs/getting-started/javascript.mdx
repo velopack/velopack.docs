@@ -9,10 +9,32 @@ import Admonition from '@theme/Admonition';
 Get started with our NPM package for JS & Electron.
 
 :::tip
-This guide assumes you are building an Electron app with Electron Forge and the Webpack bundler. Since Velopack contains a native binary module (`.node`), it may not be compatible with the `vite` or `rollup` bundlers. To scaffold a brand new project, you can use the official electron forge template:
+This guide assumes you are building an Electron app with Electron Forge and the Webpack bundler, which is the recommended setup. Since Velopack contains a native binary module (`.node`), it works out of the box with Webpack. To scaffold a brand new project, you can use the official electron forge template:
 ```
 npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
 ```
+:::
+
+### Using Vite / Rollup
+
+Velopack also works with the `vite` and `rollup` bundlers, but you must prevent them from bundling the native `.node` module. Externalize `electron` and all of your `package.json` dependencies so they are loaded from `node_modules` at runtime instead of being inlined:
+
+```js
+// vite.config.js
+import fs from 'node:fs';
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+
+export default defineConfig({
+    build: {
+        rollupOptions: {
+            external: ['electron', ...Object.keys(pkg.dependencies || {})],
+        },
+    },
+});
+```
+
+:::note
+Some users have reported an `invalid peer certificate: UnknownIssuer` error from `checkForUpdatesAsync` when running under vite/rollup. This is a known issue. Do not work around it by serving updates over plain `http` — keep your update feed on `https` and ensure the system trust store is available to the packaged app.
 :::
 
 <FancyStep step={1}>
@@ -45,9 +67,13 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
 <FancyStep step={3}>
     This has some complexity because of electron's IPC model and that Velopack has a native node module.
 
-    First, you should setup IPC handlers in your main application thread:
+    First, you should setup IPC handlers in your main application thread. The
+    `updateUrl` points at wherever you host your updates (a web server, S3 bucket,
+    GitHub releases, etc.):
     ```js
-    const { VelopackApp } = require('velopack');
+    const { VelopackApp, UpdateManager } = require('velopack');
+
+    const updateUrl = "https://the.place/you-host/updates";
 
     ipcMain.handle("velopack:get-version", () => {
         try {
@@ -76,6 +102,10 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
         return true;
     });
     ```
+
+    Unlike the C# and Python SDKs, the JS binding has no single apply-and-restart
+    helper, so you call `waitExitThenApplyUpdate` (which prepares the updater and
+    waits for this process to exit) and then exit the app yourself via `app.quit()`.
 
     Next, you need to expose these functions to your renderer processes in `preload.ts`
     ```js

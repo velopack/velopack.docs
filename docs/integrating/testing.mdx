@@ -40,10 +40,10 @@ if (updateInfo != null) {
 
 ### Other Languages
 
-For languages without a built-in test locator, you can test by:
+The `TestVelopackLocator` shown here is C#-only. For other languages (JS, Python, Rust, C++) there is no built-in test locator, so test against a real-ish install instead:
 
 1. **Creating a minimal package** - Build a test release with `vpk pack` and install it locally
-2. **Using a local update source** - Point your UpdateManager at a local directory
+2. **Using a local update source** - Point your `UpdateManager` at a local directory (every SDK accepts a plain path or `file` URL the same way the C# `new UpdateManager("C:\\path")` form does), so you can serve updates straight from a folder without an HTTP server.
 3. **Mocking the update source** - Create a mock HTTP server or file source for testing
 
 ## Testing Update Downloads
@@ -51,11 +51,14 @@ For languages without a built-in test locator, you can test by:
 To test that your application can correctly check for and download updates:
 
 ```csharp
-// Create a mock update source
+// Create a mock update source from an HTTP server
 var source = new SimpleWebSource("http://localhost:8080/releases");
 
-// Or use a local directory
-var source = new SimpleWebSource("file:///C:/my-test-updates");
+// Or use a local directory. SimpleWebSource only speaks HTTP, so for a
+// local path use SimpleFileSource (which is what passing a path to
+// UpdateManager resolves to under the hood).
+var source = new SimpleFileSource(new DirectoryInfo(@"C:\my-test-updates"));
+// equivalently: new UpdateManager(@"C:\my-test-updates")
 
 var updateManager = new UpdateManager(source);
 var updateInfo = await updateManager.CheckForUpdatesAsync();

@@ -1,0 +1,73 @@
+---
+sidebar_position: 2
+---
+
+# Update Sources
+<AppliesTo all />
+
+An update *source* tells `UpdateManager` where to look for your `releases.{channel}.json` feed and the packages it references. When you pass a plain URL or file path to the `UpdateManager` constructor, Velopack picks a simple source for you, but you can also construct a source explicitly to get authentication, prereleases, and provider-specific behaviour.
+
+```cs
+// these two are equivalent
+var mgr = new UpdateManager("https://the.place/you-host/updates");
+var mgr = new UpdateManager(new SimpleWebSource("https://the.place/you-host/updates"));
+```
+
+All built-in sources live in the `Velopack.Sources` namespace.
+
+## Built-in sources
+
+### SimpleWebSource
+Reads the feed and packages over HTTP(S) from a static location (a web server, S3 bucket, Azure Blob container, etc). This is what `new UpdateManager("https://...")` resolves to.
+
+```cs
+new SimpleWebSource("https://the.place/you-host/updates");
+```
+
+### SimpleFileSource
+Reads the feed and packages from a local directory. This is what `new UpdateManager("C:\\path")` (any non-HTTP path) resolves to. Useful for testing or for apps that update from a network/USB share.
+
+```cs
+new SimpleFileSource(new DirectoryInfo(@"C:\my-updates"));
+```
+
+### GithubSource
+Reads releases from a GitHub repository's Releases.
+
+```cs
+new GithubSource("https://github.com/yourName/yourRepo", accessToken: null, prerelease: false);
+```
+
+- `prerelease` — if true, GitHub pre-releases are also considered.
+- `accessToken` — required for private repositories. Without a token, public download URLs are used and you are subject to GitHub's unauthenticated rate limit of **60 requests per hour per IP**. When supplied, the token is sent as an `Authorization: Bearer {token}` header.
+
+### GitlabSource
+Reads releases from a GitLab repository.
+
+```cs
+new GitlabSource("https://gitlab.com/yourName/yourRepo", accessToken: "...", upcomingRelease: false);
+```
+
+The access token is **required** (it is a non-nullable parameter) and is sent as a `PRIVATE-TOKEN` header.
+
+### GiteaSource
+Reads releases from a Gitea repository.
+
+```cs
+new GiteaSource("https://gitea.com/yourName/yourRepo", accessToken: null, prerelease: false);
+```
+
+Behaves like `GithubSource`: a token is required for private repositories, and the unauthenticated rate limit is 60 requests per hour per IP. When supplied, the token is sent as an `Authorization: token {token}` header.
+
+### VelopackFlowSource
+Reads releases from the hosted [Velopack Flow](../distributing/Flow/overview.mdx) service.
+
+```cs
+new VelopackFlowSource(); // defaults to https://api.velopack.io/
+```
+
+## Custom sources
+If none of the built-in sources fit (for example you authenticate with a custom scheme, or fetch the feed from a private API), you can implement `IUpdateSource` yourself and pass it to `UpdateManager`.
+
+## A note on S3 and other backends
+There is **no `S3Source`** (or Azure/etc) in the library. The `vpk` CLI can *upload* releases to S3, Azure, and others, but those backends serve plain static files — so on the client you read them with `SimpleWebSource` (pointing at the bucket/container URL). S3 is a deploy-side concept only.

@@ -28,23 +28,39 @@ There are a variety of options / callbacks you can specify here to customise Vel
 ```cs
 static void Main(string[] args)
 {
-    ILogger log = CreateLogger();
+    IVelopackLogger log = CreateLogger();
     VelopackApp.Build()
+        .SetLogger(log)
         .OnBeforeUninstallFastCallback((v) => {
             // delete / clean up some files before uninstallation
         })
         .OnFirstRun((v) => {
             MessageBox.Show("Thanks for installing my application!");
         })
-        .Run(log);
+        .Run();
 }
 ```
 
 The full list of options [for VelopackApp is available here](../reference/cs/Velopack/VelopackApp). You can also read more about [how hooks work](./hooks.mdx).
 
+### VelopackApp options
+
+The builder exposes several methods to customise startup behaviour:
+
+- `SetArgs(string[])` — override the command-line arguments used to detect which hook to run. If not set, the process arguments are used.
+- `SetLogger(IVelopackLogger)` — route Velopack's diagnostic messages to your own logger (in addition to the default log file). Ignored if you also provide a custom locator.
+- `SetLocator(IVelopackLocator)` — override how Velopack finds application paths. Mostly useful for [testing](./testing.mdx).
+- `SetAutoApplyOnStartup(bool)` — whether to automatically apply a pending downloaded update on startup. On by default; see [Apply updates](#apply-updates) below.
+- `SetAppUserModelId(string)` — override the Windows Application User Model ID (used for taskbar grouping and toast notifications). By default this is read from the package manifest, falling back to `velopack.{AppId}`.
+- `OnFirstRun(VelopackHook)` — runs the first time the app is launched after installation.
+- `OnRestarted(VelopackHook)` — runs when the app is restarted by Velopack after applying an update. See [hooks](./hooks.mdx).
+
 :::warning
-A "FastCallback" requires that your application show no UI and exit quickly. When the callback returns, your application will exit. If you do not exit this callback quickly enough your process will be killed.
+A "FastCallback" (the `OnBefore*`/`OnAfter*FastCallback` methods) requires that your application show no UI and exit quickly. When the callback returns, your application will exit. These callbacks are **Windows-only** (they are no-ops on macOS and Linux) and each has a timeout — install/uninstall callbacks have 30 seconds, update callbacks have 15 seconds. If you do not exit the callback quickly enough your process will be killed. See [App Hooks](./hooks.mdx) for details.
 :::
+
+### The `Run()` contract
+`Run()` must be called **exactly once**, and should be the **first code** in your `Main()`. When Velopack runs your app with a fast-exit hook argument (during install, update or uninstall), the hook executes and then the process exits from *inside* `Run()` — so any code placed *before* `Run()` will be re-run during those operations. Keeping `Run()` first ensures your normal startup logic only executes during a normal launch.
 
 ## Configuring Updates
 Updates can be accomplished by adding [UpdateManager](../reference/cs/Velopack/UpdateManager) to your app:
@@ -74,9 +90,9 @@ Updates can be done silently in the background, or integrated into your applicat
 You can host your update packages basically anywhere, here are a few examples:
 - Local directory:<br/>`new UpdateManager("C:\Updates")`
 - HTTP server, or S3, Azure Storage, etc:<br/>`new UpdateManager("https://the.place/you-host/updates")`
-- GitHub Releases:<br/>`new UpdateManager(new GitHubSource("https://github.com/yourName/yourRepo")`
+- GitHub Releases:<br/>`new UpdateManager(new GithubSource("https://github.com/yourName/yourRepo", null, false))`
 
-There are a variety of built-in sources (eg. [GithubSource](../reference/cs/Velopack/Sources/GithubSource), [SimpleWebSource](../reference/cs/Velopack/Sources/SimpleWebSource)) you can use when checking for updates, but you can also build your own by [deriving from IUpdateSource](../reference/cs/Velopack/Sources/IUpdateSource).
+There are a variety of built-in sources (eg. `GithubSource`, `SimpleWebSource`) you can use when checking for updates, but you can also build your own by deriving from `IUpdateSource`. See [Update sources](./update-sources.mdx) for the full list and how to construct each.
 
 ### Check for updates
 `CheckForUpdatesAsync` will read the provided update source for a `releases.{channel}.json` file to retrieve available updates ([Read about channels](../packaging/channels.mdx)). If there is an update available, a non-null [UpdateInfo](../reference/cs/Velopack/UpdateInfo) will be returned with some details about the update. You can also [retrieve any release notes](release-notes.mdx) which were provided when the update was packaged.
@@ -84,7 +100,16 @@ There are a variety of built-in sources (eg. [GithubSource](../reference/cs/Velo
 There are [also some options](../reference/cs/Velopack/UpdateOptions) which can be passed in to [UpdateManager](../reference/cs/Velopack/UpdateManager) to customise how updates are handled, eg. to allow things like [switching channels](switching-channels.mdx).
 
 ### Download updates
-`DownloadUpdatesAsync` will attempt to download deltas (if available) and re-construct the latest full release. If there are no deltas available, or the delta reconstruction fails, the latest full release package will be downloaded instead. Note that if an option like `AllowVersionDowngrade` is specified, the downloaded version might be older than the currently executing version.
+`DownloadUpdatesAsync` will attempt to download deltas (if available) and re-construct the latest full release. If there are no deltas available, or the delta reconstruction fails, the latest full release package will be downloaded instead. Note that if an option like `AllowVersionDowngrade` is specified, the downloaded version might be older than the currently executing version. See [Targeting a specific version](./specific-version.mdx) for details, including how to install an exact version.
+
+#### Delta fallback rules
+Deltas keep downloads small, but Velopack will fall back to a full download when it would be faster or when deltas can't be used:
+- If there are more deltas to apply than `UpdateOptions.MaximumDeltasBeforeFallback` (default `10`), the full package is downloaded instead. Set this to a negative number to disable deltas entirely.
+- If the combined size of the deltas is larger than the full package, the full package is downloaded instead.
+- If there is no local base package to apply deltas on top of, deltas are disabled. Because only Windows (installer) installs ship with a complete `.nupkg`, the first update after a non-Windows install is always a full download.
+
+#### Concurrency & resuming
+`DownloadUpdatesAsync` acquires a global per-app lock (a `.velopack_lock` file in the packages directory) so only one download/apply operation runs at a time. If another operation is already in progress it throws `AcquireLockFailedException`. If the full package already exists on disk the download is skipped, and in-progress downloads are written to `.partial` files.
 
 ### Apply updates
 Once the update has downloaded, you have a few options available. Calling `ApplyUpdatesAndRestart` or `ApplyUpdatesAndExit` will exit your app, install any [bootstrap prerequisites](../packaging/bootstrapping.mdx), install the update, and then optionally restart your app right away.
@@ -93,9 +118,22 @@ If you do not want to exit your app immediately, you can call `WaitExitThenApply
 
 Lastly, if you do not call any of these "Apply" methods, when you re-launch your app, by default, Velopack will detect that there is a pending update and install it then. If you wish to disable this, you should call `VelopackApp.Build().SetAutoApplyOnStartup(false)`.
 
+You can detect whether there is a downloaded-but-unapplied update at any time via `UpdateManager.UpdatePendingRestart`, which returns the pending `VelopackAsset` (or null if there is none).
+
 :::tip
 It is recommended that you use one of the functions which explicitly applies a package (eg. `ApplyUpdatesAndRestart`), and do not rely on the AutoApply behavior as a rule of thumb. The auto behavior will only apply a downloaded version if it is > the currently installed version, so will not work if trying to downgrade or switch channels, and if more than one instance of your process is running it could result in the update failing or those other processes being terminated.
 :::
+
+#### Auto-apply & startup cleanup
+On every launch, `VelopackApp.Build().Run()` performs two related housekeeping steps:
+- **Auto-apply:** if a newer full package exists locally (`latestLocal > current`), the app was *not* just restarted by Velopack, and auto-apply is enabled, it applies that update and restarts. This is why it only ever moves *forward* — it cannot downgrade or switch channels (see [Targeting a specific version](./specific-version.mdx)).
+- **Cleanup:** it deletes old local packages from the packages directory, keeping only the currently installed version and the latest local version.
+
+### Handling errors
+The update methods can throw, and a robust integration should catch at least these:
+- `NotInstalledException` — thrown by any check/download call when the app is not a real Velopack install. This is the most common source of first-run confusion: running your app directly from `bin/Debug` (rather than from an installed copy) is *not* an install, so update checks will throw. See [Testing](./testing.mdx) for how to test without a full install.
+- `ChecksumFailedException` — a downloaded package failed size or hash verification.
+- `AcquireLockFailedException` — another download/apply operation is already in progress (see [Concurrency & resuming](#concurrency--resuming) above).
 
 ## How updates work
 
@@ -111,7 +149,7 @@ In a typical Windows install the application structure will look like this:
     └── Update.exe
 ```
 
-`sq.version` is a special file created by Velopack which contains some metadata about your currently installed application. During install/uninstall, the entire `{packId}` folder is replaced or removed. During updates, only the `current` folder is replaced. If you store settings in the same folder as your main binary, they will be erased during updates. 
+`sq.version` is a special file created by Velopack which contains some metadata about your currently installed application. During install/uninstall, the entire `{packId}` folder is replaced or removed (see [Uninstalling](./uninstalling.mdx)). During updates, only the `current` folder is replaced. If you store settings in the same folder as your main binary, they will be erased during updates. 
 
 :::warning
 Since `current` is replaced with the new version during updates, it's not safe to store settings, logs, etc in the `current` dir where your app lives. See ***[Preserving Files](./preserved-files.mdx)*** for more info.

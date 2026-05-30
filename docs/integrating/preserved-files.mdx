@@ -17,3 +17,14 @@ On Windows, you just need to be outside the `%LocalAppData%\{packId}\current` di
 ## Non-Windows
 For other non-Windows operating systems, you should search online to find best practices about where to store settings/log files for installed apps. 
 The recommended location is OS / distro specific, and might be in `/var` or somewhere in user home `~` (eg. `~/Library/Application Support` on MacOS).
+
+## Finding app paths at runtime
+Rather than hardcoding paths, you can ask Velopack where things live. After `VelopackApp.Build().Run()` has executed, `VelopackLocator.Current` (an [`IVelopackLocator`](../reference/cs/Velopack/Locators/IVelopackLocator)) exposes:
+
+- `RootAppDir` — the application's root directory (on Windows, the `{packId}` folder).
+- `AppContentDir` — where the versioned application files live (the `current` folder on Windows).
+- `PackagesDir` — where downloaded `.nupkg` packages are kept.
+- `AppTempDir` — the temporary/working directory for this app.
+- `CurrentlyInstalledVersion`, `Channel`, and `IsPortable` — metadata about the install.
+
+Using these means your "store settings one level up from the app" logic keeps working even if the install layout differs across platforms. Anything you store outside the install/`RootAppDir` will survive an uninstall — see [Uninstalling](./uninstalling.mdx) for exactly what gets removed.

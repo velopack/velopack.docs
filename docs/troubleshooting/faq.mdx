@@ -3,15 +3,19 @@
 Commonly asked questions about Velopack.
 
 - **My application was detected as a virus?** <br/>
-  Velopack can't help with this, but you can [code-sign](packaging/signing.mdx) your app and check [other suggestions here](https://github.com/clowd/Clowd.Squirrel/issues/28#issuecomment-1016241760).
+  Unsigned applications are more likely to be flagged by antivirus software and Windows SmartScreen. [Code-sign](../packaging/signing.mdx) your app and build up reputation over time to reduce false positives. See the [SmartScreen & Antivirus guidance](../packaging/signing.mdx#smartscreen) for details.
 - **What happened to SquirrelAwareApp? / Shortcuts** <br/>
   This concept no longer exists in Velopack. You can create hooks on install/update in a similar way using the `VelopackApp` builder. Although note that recreating shortcuts or registry entries yourself during hooks is no longer required.
 - **Can Velopack bootstrap new runtimes during updates?** <br/>
-  Yes, this is fully supported. Before installing updates, Velopack will prompt the user to install any missing updates.
+  Yes, this is fully supported. Before installing updates, Velopack will prompt the user to install any missing runtimes.
 - **How do I install the `vpk` tool? / I've installed the tool but it doesn't work**
-  For now, you need to install `dotnet` runtime 6.0 or later for your platform, and then run `dotnet tool update -g vpk`. 
+  You need to install the [.NET 8 SDK or later](../packaging/runtime.mdx#supported-frameworks) for your platform, and then run `dotnet tool install -g vpk`. 
   It's recommended to use the same version of `vpk` as the Velopack package referenced in your application to ensure compatibility.
   Alternatively, you can run `vpk` without installing it globally using the [`dnx`](https://learn.microsoft.com/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472) command: `dnx vpk --version 1.0.0` (replace `1.0.0` with your Velopack package version).
   If you get a message that it was installed successfully, but running it in your terminal results in a "binary/command not found" message, it's probably because your PATH is not set-up properly. For windows, `%USERPROFILE%\.dotnet\tools` should be on the PATH. For macos, [see this issue](https://github.com/dotnet/sdk/issues/9415). In general, dotnet should set these paths up for you, but that is what you should check if things are not working.
 - **Can I use a 4 part version (1.0.0.0) instead of SemVer2?**
   Velopack only supports a 3 part version with tags and metadata (1.0.0-build.23+metadata) following the SemVer2 standard. Some people choose to version with the date, 2024.01.12 for example. It's also possible to get automated git commit based versioning [using something like nbgv](https://github.com/dotnet/Nerdbank.GitVersioning). The reason Velopack supports SemVer2 and not traditional 4 part versions is that it's possible to provide a lot more information in SemVer2 versions, and it is not feasible for us to support both formats throughout the framework.
+- **Why do I get a `NotInstalledException`?**
+  The `UpdateManager` throws `NotInstalledException` from check/download operations when the current app is not a real Velopack installation. This most commonly happens when running a development/debug build (for example from your IDE or `dotnet run`) rather than an app that was installed via `Setup.exe` / the packaged build. Update operations only work once the app has been packed with `vpk` and installed. See the [integrating guide](../integrating/overview.mdx) for how to test updates against a real install.
+- **Does Velopack collect any telemetry or analytics?**
+  No. The Velopack runtime library and the binaries shipped with your application (Setup.exe, Update.exe) collect no telemetry, analytics, or tracking data. Your users' data stays private. (The `vpk` build tool performs its own update check, which is not telemetry about your end users.)
