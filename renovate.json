@@ -1,0 +1,45 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":configMigration",
+    ":pinDevDependencies",
+    "abandonments:recommended",
+    "security:minimumReleaseAgeNpm",
+    ":maintainLockFilesWeekly",
+    ":semanticCommitsDisabled"
+  ],
+  "labels": ["renovate"],
+  "schedule": ["on saturday before 11am"],
+  "timezone": "Europe/London",
+  "minimumReleaseAge": "14 days",
+  "dependencyDashboard": true,
+  "automergeType": "pr",
+  "automergeStrategy": "rebase",
+  "platformAutomerge": false,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
+  "vulnerabilityAlerts": {
+    "schedule": ["at any time"],
+    "labels": ["security"],
+    "prCreation": "immediate"
+  },
+  "packageRules": [
+    {
+      "description": "Automerge non-major npm updates",
+      "matchDatasources": ["npm"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
+      "groupName": "docusaurus",
+      "matchPackageNames": ["@docusaurus/**", "@mdx-js/**", "@easyops-cn/docusaurus-search-local"]
+    },
+    {
+      "groupName": "react",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"]
+    }
+  ]
+}
