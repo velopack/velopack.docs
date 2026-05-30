@@ -63,10 +63,10 @@ const config: Config = {
           editUrl: ({ versionDocsDirPath, docPath, locale }) => {
             let match;
             if ((match = docPath.match(/reference\/.*/)) != null) {
-              return null; // reference pages can't be edited
+              return undefined; // reference pages can't be edited
             }
             if (locale != 'en') {
-              return null;
+              return undefined;
               // return 'https://crowdin.com/project/velopack/invite?h=88bec14b5657f004fe5ba325090df5ba2031736';
             }
             return `https://github.com/velopack/velopack.docs/tree/master/${versionDocsDirPath}/${docPath}`;

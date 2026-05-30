@@ -2,6 +2,10 @@
   // This file is not used in compilation. It is here just for a nice editor experience.
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    // TS 6.0 deprecated `baseUrl` (TS5101), but @docusaurus/tsconfig still ships it.
+    // Maintainer-recommended interim workaround per facebook/docusaurus#11893.
+    // Remove once we upgrade to the Docusaurus release that drops baseUrl (PR #11915).
+    "ignoreDeprecations": "6.0"
   }
 }
