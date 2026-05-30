@@ -10,16 +10,16 @@ the next time a source page changes.
 | Content | Translated? | Where |
 |---|---|---|
 | Guide pages (44 `.mdx` under `docs/`, minus `docs/reference/**`) | ✅ AI pipeline | `i18n/<locale>/docusaurus-plugin-content-docs/current/` |
-| Top nav + sidebar category labels | ✅ Hand-maintained | `.../docusaurus-theme-classic/navbar.json`, `.../docusaurus-plugin-content-docs/current.json` |
+| Top nav + sidebar category labels | ✅ AI pipeline | `.../docusaurus-theme-classic/navbar.json`, `.../docusaurus-plugin-content-docs/current.json` |
 | Generic theme strings (search box, buttons, pagination) | ❌ Not in scope | Docusaurus's bundled locale translations apply; anything without one falls back to English |
 | API reference (auto-generated, `docs/reference/**`) | ❌ No (English fallback) | — |
 | Blog | ❌ No (English) | — |
 
-The AI pipeline translates **our Markdown guides**. The top-nav and sidebar-category labels
-are small and config-driven, so they're hand-maintained in two small JSON files (see
-[`AGENTS.md`](../AGENTS.md) → "Localizing nav & sidebar"). Generic theme chrome (`code.json`)
-is intentionally left to Docusaurus's own bundled translations — owning it would mean
-overriding Docusaurus on every upgrade.
+The AI pipeline translates **our Markdown guides** plus the **nav/sidebar labels** (two
+small JSON files, re-translated only when a label changes in `docusaurus.config.ts` /
+`sidebars.ts` — see [`AGENTS.md`](../AGENTS.md) → "Localizing nav & sidebar"). Generic theme
+chrome (`code.json`) is intentionally left to Docusaurus's own bundled translations — owning
+it would mean overriding Docusaurus on every upgrade.
 
 Reference docs are intentionally left untranslated: there are ~569 of them, they're
 regenerated daily, and Docusaurus automatically falls back to the English page when a
@@ -41,6 +41,8 @@ and instructions for adding a new language.
 
 ## Manifest
 
-`translation-manifest.json` maps `locale → { relPath → sha256(English source) }`. It is how
-the pipeline knows what's stale. It is committed and maintained by the script — don't edit
-it by hand.
+`translation-manifest.json` is a flat map `relPath → sha256(English source)` for the guide
+pages (the hash is of the **English** file, so when it changes every locale for that page is
+stale), plus a `__ui` section mapping each nav/sidebar JSON file to a hash of its pruned
+English baseline (so those re-translate only when a label changes). It is how the pipeline
+knows what's stale — committed and maintained by the script; don't edit it by hand.

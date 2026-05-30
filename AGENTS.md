@@ -230,8 +230,9 @@ site UI), and let the pipeline regenerate the localized content. Manual edits to
 
 ### How the pipeline works
 
-- **`scripts/translate.config.json`** — declares `locales` and the docs source globs
-  (`docs/**` minus `reference/**`).
+- **`scripts/translate.config.json`** — declares `locales`, the docs source globs
+  (`docs/**` minus `reference/**`), the `ui` JSON files (nav/sidebar) with their
+  prune/keep rules, and `cleanupAfter` (transient files to delete post-run).
 - **`scripts/translate.mjs`** — dependency-free Node 18+ script (built-in `fetch`, no
   new npm packages). It hashes each English source and compares against
   `i18n/translation-manifest.json`; only changed/missing pages are re-translated via the
@@ -240,16 +241,21 @@ site UI), and let the pipeline regenerate the localized content. Manual edits to
   - Env: `ANTHROPIC_API_KEY` (required), `TRANSLATE_MODEL` (optional, default
     `claude-sonnet-4-6`).
   - Flags: `--locale <id>`, `--force` (ignore the manifest), `--dry-run`.
-- **`.github/workflows/translate.yml`** — on push to `master` touching `docs/**` (or
-  manual dispatch): `npm ci` → `npm run translate` → commit any `i18n/**` changes as
-  `github-actions[bot]` → dispatch `deploy.yml`. The commit only touches `i18n/**`, which
-  is **not** in the workflow's trigger paths, so it never re-triggers itself (mirrors the
-  `generate.yml` pattern).
+- **`.github/workflows/translate.yml`** — on push to `master` touching `docs/**`,
+  `sidebars.ts`, `docusaurus.config.ts`, or the translate script/config (or manual
+  dispatch): `npm ci` → `npm run i18n:scaffold` → `npm run translate` → commit any
+  `i18n/**` changes as `github-actions[bot]` → dispatch `deploy.yml`. The commit only
+  touches `i18n/**`, which is **not** in the workflow's trigger paths, so it never
+  re-triggers itself (mirrors the `generate.yml` pattern).
   - Requires the **`ANTHROPIC_API_KEY`** repo secret (set in GitHub repo settings).
 
 ### npm scripts
 
 - `npm run translate` — run the translation engine locally (needs `ANTHROPIC_API_KEY`).
+- `npm run i18n:scaffold` — `docusaurus write-translations` for the locale **and** `en`,
+  producing the English baseline the UI step diffs against. Run this before `translate`
+  if you want nav/sidebar labels (re)translated locally; the markdown pipeline doesn't
+  need it.
 
 ### Reference sidebar & non-default-locale builds
 
@@ -306,9 +312,10 @@ falls back to English.
 1. Add the locale to `docusaurus.config.ts`: `i18n.locales`, `i18n.localeConfigs`
    (label + `htmlLang`), and the search theme's `language: [...]` array.
 2. Add the locale to `scripts/translate.config.json` (`locales` and `localeLabels`).
-3. Run `npm run translate` (or just push to `master` and let CI do it) for the guide pages.
-4. Add the locale's `navbar.json` + `current.json` (see "Localizing nav & sidebar").
-5. Verify with `npm run build` (builds all locales, `onBrokenLinks: 'throw'` applies to
+3. Run `npm run i18n:scaffold && npm run translate` (or just push to `master` and let CI
+   do it). This translates the guide pages **and** the nav/sidebar labels for the new
+   locale.
+4. Verify with `npm run build` (builds all locales, `onBrokenLinks: 'throw'` applies to
    every locale).
 
 ### Translation rules (enforced by the script's prompt)
