@@ -82,14 +82,9 @@ Una **compilación de producción multiplataforma** completa (que combina binari
 :::
 
 ### Preparación de Linux
-Si estás en Linux (probado en Ubuntu), hay requisitos previos de paquetes adicionales. Ejecutar las pruebas (que construyen AppImages) requiere FUSE:
-```shell
-sudo add-apt-repository universe
-sudo apt update
-sudo apt install libfuse2
-```
+Si estás en Linux (probado en Ubuntu), hay requisitos previos de paquetes adicionales.
 
-Si también estás compilando las bibliotecas/binarios nativos de Rust, se requieren los siguientes paquetes de desarrollo:
+Si estás compilando las bibliotecas/binarios nativos de Rust, se requieren los siguientes paquetes de desarrollo:
 ```shell
 sudo apt-get install -y libgtk-3-dev libx11-dev libxext-dev libxft-dev libxinerama-dev libxcursor-dev libxrender-dev libxfixes-dev libpango1.0-dev libgl1-mesa-dev libglu1-mesa-dev libpipewire-0.3-dev libclang-dev libgbm-dev libegl-dev libwayland-dev
 ```

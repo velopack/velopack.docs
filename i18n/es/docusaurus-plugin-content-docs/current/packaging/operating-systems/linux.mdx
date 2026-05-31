@@ -40,20 +40,6 @@ El archivo AppImage es una imagen comprimida que se monta temporalmente para per
 - Un AppImage debería funcionar en prácticamente todos los sistemas operativos base (distribuciones). Por ejemplo, podrías apuntar a Ubuntu 9.10, openSUSE 11.2 y Fedora 13 (y versiones posteriores) al mismo tiempo, sin tener que crear y mantener paquetes separados para cada sistema de destino.
 - Los AppImages son reubicables y portátiles, y no modifican el sistema operativo de ninguna manera. Esto significa que puede ejecutarse directamente desde un CD en vivo, una memoria USB, etc.
 
-## Dependencia de FUSE / libfuse
-Un AppImage es un único archivo que contiene un sistema de archivos squashfs integrado. Cuando el AppImage se ejecuta, ese sistema de archivos se monta usando libfuse, por lo que debe estar instalado
-antes de intentar ejecutar un AppImage. Velopack produce AppImages de tipo 2, que requieren **FUSE 2** (`libfuse2`).
-
-Anteriormente se instalaba por defecto en la mayoría de las distribuciones, pero las versiones más recientes (como Ubuntu 22.04 y posteriores) solo incluyen FUSE 3 de forma predeterminada, por lo que `libfuse2` debe
-instalarse explícitamente. En Ubuntu esto se puede hacer con lo siguiente:
-
-```
-sudo add-apt-repository universe
-sudo apt install libfuse2
-```
-
-En Ubuntu 24.04 y versiones posteriores, el paquete se llama `libfuse2t64` (`sudo apt install libfuse2t64`).
-
 ## ¿Se puede «instalar» un AppImage?
 Sí, se puede, pero esto generalmente queda a criterio del usuario. Existen frameworks que instalarán un AppImage en el primer uso, moviéndolo a una ubicación predeterminada (normalmente `~/Applications`), añadiendo un acceso directo al dock/lanzador/escritorio, etc.
 Uno de estos frameworks es [AppImageLauncher](https://github.com/TheAssassin/AppImageLauncher), pero también existen otros.
