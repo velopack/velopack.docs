@@ -11,8 +11,8 @@ sidebar_position: 0
 
 | Type | Summary |
 | --- | --- |
-| [`GitBase<T>`](./GitBase<T>.md) | Base class to provide some shared implementation between sources which download releases from a Git repository. |
-| [`GitBase<T>.GitBaseAsset`](./GitBase<T>.GitBaseAsset.md) | Provides a wrapper around `VelopackAsset` which also contains a Git Release. |
+| [`GitBase<T>`](./GitBase-T.md) | Base class to provide some shared implementation between sources which download releases from a Git repository. |
+| [`GitBase<T>.GitBaseAsset`](./GitBase-T.GitBaseAsset.md) | Provides a wrapper around `VelopackAsset` which also contains a Git Release. |
 | [`GiteaRelease`](./GiteaRelease.md) | Describes a Gitea release, including attached assets. |
 | [`GiteaReleaseAsset`](./GiteaReleaseAsset.md) | Describes a asset (file) uploaded to a Gitea release. |
 | [`GiteaSource`](./GiteaSource.md) | Retrieves available releases from a Gitea repository. |

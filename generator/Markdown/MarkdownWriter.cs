@@ -71,13 +71,43 @@ internal static class MarkdownWriter
 
     // ── path / href contract ───────────────────────────────────────────────
 
+    // Characters that are illegal in a Windows filename. Generic type names like
+    // GitBase<T> carry '<'/'>', which git refuses to check out on Windows runners
+    // ("error: invalid path … exit code 128"), so every type name has to be folded
+    // into a portable path segment before it becomes a file or an href.
+    private static readonly char[] InvalidNameChars = { '<', '>', ':', '"', '/', '\\', '|', '?', '*' };
+    private static readonly System.Text.RegularExpressions.Regex MultiDashRx =
+        new("-+", System.Text.RegularExpressions.RegexOptions.Compiled);
+
+    /// <summary>
+    /// Fold a type name into a filesystem-safe path segment (no extension). Nested-type dots
+    /// are preserved; each dot-separated part has Windows-illegal characters replaced with '-',
+    /// runs collapsed, and dashes trimmed. e.g. <c>GitBase&lt;T&gt;</c> → <c>GitBase-T</c>,
+    /// <c>GitBase&lt;T&gt;.GitBaseAsset</c> → <c>GitBase-T.GitBaseAsset</c>.
+    /// </summary>
+    public static string FileSegment(string typeName)
+    {
+        static string Clean(string part)
+        {
+            var sb = new StringBuilder(part.Length);
+            foreach (var c in part)
+                sb.Append(Array.IndexOf(InvalidNameChars, c) >= 0 ? '-' : c);
+            var cleaned = MultiDashRx.Replace(sb.ToString(), "-").Trim('-');
+            return cleaned.Length == 0 ? "_" : cleaned;
+        }
+        return string.Join(".", typeName.Split('.').Select(Clean));
+    }
+
     /// <summary>
     /// Page path relative to the language root for a type. Empty <paramref name="namespaceName"/>
     /// (flat languages) → <c>TypeName.md</c>; otherwise <c>Namespace/TypeName.md</c>.
-    /// Adapters use this to populate <see cref="ApiTypeRef.Href"/>.
+    /// Adapters use this to populate <see cref="ApiTypeRef.Href"/>. The type name is folded
+    /// through <see cref="FileSegment"/> so the href matches the on-disk (portable) filename.
     /// </summary>
     public static string PageHref(string namespaceName, string typeName)
-        => string.IsNullOrEmpty(namespaceName) ? $"{typeName}.md" : $"{namespaceName}/{typeName}.md";
+        => string.IsNullOrEmpty(namespaceName)
+            ? $"{FileSegment(typeName)}.md"
+            : $"{namespaceName}/{FileSegment(typeName)}.md";
 
     /// <summary>Page path + member anchor, relative to the language root.</summary>
     public static string MemberHref(string namespaceName, string typeName, string anchor)
@@ -268,7 +298,7 @@ internal static class MarkdownWriter
             sb.AppendLine();
             var rows = group.Select(t => (IReadOnlyList<string>)new[]
             {
-                $"[`{RenderHelpers.InlineCodeEscape(t.Name)}`](./{t.Name}.md)" +
+                $"[`{RenderHelpers.InlineCodeEscape(t.Name)}`](./{FileSegment(t.Name)}.md)" +
                     (t.IsObsolete ? " _(deprecated)_" : ""),
                 RenderHelpers.CellEscape(FirstLine(t.Summary)),
             });
@@ -355,7 +385,7 @@ internal static class MarkdownWriter
         sb.AppendLine("___");
         sb.AppendLine($"*Generated from `{model.PackageName}`{VersionSuffix(model)}*");
 
-        File.WriteAllText(Path.Combine(dir, type.Name + ".md"), sb.ToString());
+        File.WriteAllText(Path.Combine(dir, FileSegment(type.Name) + ".md"), sb.ToString());
     }
 
     private static void AppendInheritance(StringBuilder sb, ApiType type, string currentPageDir)
