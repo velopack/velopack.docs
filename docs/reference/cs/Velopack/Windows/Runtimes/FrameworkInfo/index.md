@@ -15,7 +15,7 @@ sidebar_label: Runtimes.FrameworkInfo
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
  Represents a full .NET Framework runtime, usually included in Windows automatically through Windows Update 
 

@@ -12,7 +12,7 @@
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
  Runtime for .NET Core 3.1 Desktop Runtime (x64) 
 

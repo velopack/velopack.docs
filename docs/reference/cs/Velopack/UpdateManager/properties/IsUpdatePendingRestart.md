@@ -12,7 +12,7 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
  OBSOLETE: Use [UpdatePendingRestart](UpdatePendingRestart.md) instead. 
 

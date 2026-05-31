@@ -14,7 +14,7 @@ sidebar_label: IUpdateSource Interface
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 Abstraction for finding and downloading updates from a package source \/ repository. An implementation may copy a file from a local repository, download from a web address,  or even use third party services and parse proprietary data to produce a package feed.
 

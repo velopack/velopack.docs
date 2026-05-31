@@ -10,11 +10,11 @@
 **Declaring Type:** [PackageManifest](../index.md)  
 **Namespace:** [Velopack.NuGet](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 ```csharp
 [NullableContext(1)]
-public static bool TryParseFromFile(string filePath, out PackageManifest manifest);
+public static bool TryParseFromFile(string filePath, [MaybeNullWhen(false)]out PackageManifest manifest);
 ```
 
 ## Parameters

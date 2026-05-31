@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [HttpClientFileDownloader](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 ```csharp
 public HttpClientFileDownloader();

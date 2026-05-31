@@ -14,7 +14,7 @@ sidebar_label: UpdateExe
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 A static helper class to assist in running Update.exe CLI commands. You probably should not invoke this directly,  instead you should use the relevant methods on [UpdateManager](../UpdateManager/index.md). For example: [ApplyUpdatesAndExit(VelopackAsset)](../UpdateManager/methods/ApplyUpdatesAndExit.md), or [ApplyUpdatesAndRestart(VelopackAsset, string\[\])](../UpdateManager/methods/ApplyUpdatesAndRestart.md).
 

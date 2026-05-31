@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes.RuntimeInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
  Execute a runtime installer at a local file path. Typically used after [DownloadToFile(string, Action\<int\>, IFileDownloader, IVelopackLogger)](DownloadToFile.md)
 

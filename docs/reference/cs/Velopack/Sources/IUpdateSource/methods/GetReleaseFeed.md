@@ -10,7 +10,7 @@
 **Declaring Type:** [IUpdateSource](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 Retrieve the list of available remote releases from the package source. These releases can subsequently be downloaded with [DownloadReleaseEntry(IVelopackLogger, VelopackAsset, string, Action\<int\>, CancellationToken)](DownloadReleaseEntry.md).
 

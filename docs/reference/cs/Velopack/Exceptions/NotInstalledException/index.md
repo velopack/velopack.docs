@@ -14,7 +14,7 @@ sidebar_label: NotInstalledException
 
 **Namespace:** [Velopack.Exceptions](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 Thrown when an operation can not be performed in an application that is not installed.
 

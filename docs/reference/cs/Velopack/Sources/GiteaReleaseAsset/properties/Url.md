@@ -10,7 +10,7 @@
 **Declaring Type:** [GiteaReleaseAsset](../index.md)  
 **Namespace:** [Velopack.Sources](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 The asset URL for this release asset. Requests to this URL will use API quota and return JSON unless the 'Accept' header is "application\/octet\-stream". 
 

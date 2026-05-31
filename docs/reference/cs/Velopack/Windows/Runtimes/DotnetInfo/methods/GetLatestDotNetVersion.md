@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes.DotnetInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 Get latest available version of dotnet. Channel can be 'LTS', 'current', or a two part version  (eg. '6.0') to get the latest minor release.
 

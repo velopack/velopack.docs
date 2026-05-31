@@ -14,7 +14,7 @@ sidebar_label: GitBase\<T\>
 
 **Namespace:** [Velopack.Sources](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 Base class to provide some shared implementation between sources which download releases from a Git repository.
 

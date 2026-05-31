@@ -10,7 +10,7 @@
 **Declaring Type:** [VelopackLocator](../index.md)  
 **Namespace:** [Velopack.Locators](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 Get the current locator in use, this process\-wide locator can be set\/overridden during VelopackApp.Build(). Alternatively, most methods which use locators also accept an IVelopackLocator as a parameter.
 

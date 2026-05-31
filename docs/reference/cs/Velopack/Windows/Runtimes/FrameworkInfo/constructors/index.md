@@ -13,7 +13,7 @@ title: Constructors
 **Declaring Type:** [Runtimes.FrameworkInfo](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 ```csharp
 public FrameworkInfo(string id, string displayName, string downloadUrl, int releaseVersion);

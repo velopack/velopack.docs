@@ -10,7 +10,7 @@
 **Declaring Type:** [ShellLink.PropVariant](../index.md)  
 **Namespace:** [Velopack.Windows](../../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 ```csharp
 public static ShellLink.PropVariant FromString(string str);

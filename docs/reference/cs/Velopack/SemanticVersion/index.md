@@ -14,7 +14,7 @@ sidebar_label: SemanticVersion
 
 **Namespace:** [Velopack](../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 A semantic version implementation that supports SemVer2 with an optional 4th revision component for backwards compatibility with NuGet\-style version numbers.
 

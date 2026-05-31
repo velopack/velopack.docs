@@ -10,7 +10,7 @@
 **Declaring Type:** [UpdateManager](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 This will exit your app immediately, apply updates, and then optionally relaunch the app using the specified  restart arguments. If you need to save state or clean up, you should do that before calling this method.  The user may be prompted during the update, if the update requires additional frameworks to be installed etc. You can check if there are pending updates by checking [UpdatePendingRestart](../properties/UpdatePendingRestart.md).
 

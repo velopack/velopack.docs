@@ -10,13 +10,13 @@
 **Declaring Type:** [SemanticVersion](../index.md)  
 **Namespace:** [Velopack](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 Try to parse a version string. Returns false if the string is not a valid semantic version.
 
 ```csharp
 [NullableContext(2)]
-public static bool TryParse(string value, out SemanticVersion version);
+public static bool TryParse(string value, [NotNullWhen(true)]out SemanticVersion version);
 ```
 
 ## Parameters

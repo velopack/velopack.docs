@@ -10,7 +10,7 @@
 **Declaring Type:** [Runtimes](../index.md)  
 **Namespace:** [Velopack.Windows](../../index.md)  
 **Assembly:** Velopack  
-**Assembly Version:** 1.0.1+f2ee712
+**Assembly Version:** 1.1.1+5bc6c10
 
 Search for a runtime by name. If a platform architecture is not specified, the default is x64. Returns null if no match is found. 
 
