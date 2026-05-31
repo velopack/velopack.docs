@@ -2,7 +2,7 @@
 <AppliesTo all />
 El SDK de Velopack es responsable de compilar versiones e instaladores.
 
-Está compuesto por:
+Está compuesto de:
 - Binarios de Rust que se redistribuyen con las aplicaciones instaladas,
 - Paquete NuGet de .NET (`Velopack`),
 - Herramienta de línea de comandos de .NET (`vpk`).
@@ -10,17 +10,17 @@ Está compuesto por:
 Para probar el proyecto, es necesario compilar los binarios de Rust antes de compilar dotnet.
 
 :::tip
-Para el desarrollo local, solo necesitas compilar los binarios para tu **sistema operativo actual** — no es necesario compilar todas las plataformas para ejecutar las pruebas. Una compilación de producción multiplataforma completa (que combina binarios de todos los sistemas operativos) es gestionada por CI y se describe en la sección de Lanzamiento / Compilación a continuación.
+Para el desarrollo local, solo necesitas compilar los binarios para tu **sistema operativo actual** — no necesitas compilar todas las plataformas para ejecutar las pruebas. Una compilación de producción multiplataforma completa (que combina binarios de cada sistema operativo) es gestionada por CI y se describe en la sección Release / Build a continuación.
 :::
 
-### Requisitos previos
- - [SDK de .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) — la solución tiene como objetivo múltiple `net8.0`, `net9.0` y `net10.0`, por lo que se requiere el SDK más alto (10) para compilar todo. CI instala los SDKs `8.0.x`, `9.0.x` y `10.0.x` de forma paralela.
+### Prerrequisitos
+ - [SDK de .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) — la solución tiene múltiples objetivos `net8.0`, `net9.0` y `net10.0`, por lo que se requiere el SDK más reciente (10) para compilar todo. CI instala los SDKs `8.0.x`, `9.0.x` y `10.0.x` en paralelo.
  - [Rust / Cargo](https://www.rust-lang.org/tools/install) — la versión mínima de Rust compatible es `1.75` (edición 2021).
  - `dotnet tool update -g nbgv`
- - `dotnet tool install -g dotnet-coverage` (solo necesario para recopilar cobertura de código)
+ - `dotnet tool install -g dotnet-coverage` (solo se necesita para recopilar cobertura de código)
 
 ### Depuración / Pruebas
-En Windows, debes compilar los binarios de Rust usando la función `windows` antes de ejecutar las pruebas (algunos binarios lo requieren). En OSX o Linux, debes ejecutar `cargo build` sin el indicador de función.
+En Windows, debes compilar los binarios de Rust usando la función `windows` antes de ejecutar las pruebas (algunos binarios la requieren). En OSX o Linux, debes ejecutar `cargo build` sin el indicador de función en su lugar.
 
 En Windows:
 ```shell
@@ -41,13 +41,13 @@ dotnet test --no-build
 ```
 
 :::tip
-El ejecutor de pruebas está configurado mediante `global.json` para usar [`Microsoft.Testing.Platform`](https://learn.microsoft.com/dotnet/core/testing/microsoft-testing-platform-intro). `dotnet test --no-build` sigue funcionando; también puedes apuntar a un proyecto individual, por ejemplo `dotnet test --project test/Velopack.Tests/Velopack.Tests.csproj --no-build`.
+El ejecutor de pruebas está configurado mediante `global.json` para usar [`Microsoft.Testing.Platform`](https://learn.microsoft.com/dotnet/core/testing/microsoft-testing-platform-intro). `dotnet test --no-build` sigue funcionando; también puedes apuntar a un proyecto específico, por ejemplo `dotnet test --project test/Velopack.Tests/Velopack.Tests.csproj --no-build`.
 :::
 
-### Lanzamiento / Compilación
-Crear un lanzamiento de producción completo es complejo porque Velopack debe incluir binarios nativos para Windows, Linux y macOS. Debes compilar los binarios de Rust por separado en cada plataforma y luego combinarlos en la máquina de compilación final usando `/p:PackRustAssets=true`.
+### Versión / Compilación
+Crear una versión de producción completa es complejo porque Velopack debe incluir binarios nativos para Windows, Linux y macOS. Debes compilar los binarios de Rust por separado en cada plataforma y luego combinarlos en la máquina de compilación final usando `/p:PackRustAssets=true`.
 
-Para el **desarrollo local**, generalmente solo necesitas binarios para tu sistema operativo actual. El enfoque más simple es:
+Para el **desarrollo local**, generalmente solo necesitas los binarios para tu sistema operativo actual. El enfoque más sencillo es:
 
 En Windows:
 ```shell
@@ -74,11 +74,11 @@ dotnet build -c Release
 ```
 
 :::tip
-Para ver un ejemplo completo y funcional de cómo compilar un lanzamiento usando código local de Velopack, consulta los [scripts de desarrollo en la muestra de Avalonia](https://github.com/velopack/velopack/tree/master/samples/CSharpAvalonia/dev-scripts).
+Para un ejemplo completo y funcional de cómo compilar una versión usando código local de Velopack, consulta los [scripts de desarrollo en la muestra de Avalonia](https://github.com/velopack/velopack/tree/master/samples/CSharpAvalonia/dev-scripts).
 :::
 
 :::note
-Una **compilación de producción multiplataforma** completa (que combina binarios de todos los sistemas operativos en un solo paquete) requiere compilar Rust en cada plataforma primero, luego recopilar todos los artefactos en `target/release` y ejecutar `dotnet build -c Release /p:PackRustAssets=true /p:ContinuousIntegrationBuild=true`. Este flujo de trabajo es gestionado por CI y no es práctico replicarlo localmente. Consulta los [flujos de trabajo de CI](https://github.com/velopack/velopack/tree/master/.github/workflows) para más detalles.
+Una **compilación de producción multiplataforma completa** (que combina binarios de todos los sistemas operativos en un único paquete) requiere compilar Rust en cada plataforma primero, luego recopilar todos los artefactos en `target/release` y ejecutar `dotnet build -c Release /p:PackRustAssets=true /p:ContinuousIntegrationBuild=true`. Este flujo de trabajo es gestionado por CI y no es práctico replicarlo localmente. Consulta los [flujos de trabajo de CI](https://github.com/velopack/velopack/tree/master/.github/workflows) para más detalles.
 :::
 
 ### Preparación de Linux
@@ -89,7 +89,7 @@ Si estás compilando las bibliotecas/binarios nativos de Rust, se requieren los 
 sudo apt-get install -y libgtk-3-dev libx11-dev libxext-dev libxft-dev libxinerama-dev libxcursor-dev libxrender-dev libxfixes-dev libpango1.0-dev libgl1-mesa-dev libglu1-mesa-dev libpipewire-0.3-dev libclang-dev libgbm-dev libegl-dev libwayland-dev
 ```
 
-Instalar dotnet y configurar las rutas puede ser complicado; recomiendo usar el script [dotnet-install.sh](https://learn.microsoft.com/dotnet/core/tools/dotnet-install-script).
+Instalar dotnet y configurar las rutas puede ser complicado, recomiendo usar el script [dotnet-install.sh](https://learn.microsoft.com/dotnet/core/tools/dotnet-install-script).
 
 ```shell
 ./dotnet-install.sh -c 10.0
@@ -104,7 +104,7 @@ export PATH="$PATH:$HOME/.dotnet"
 export PATH="$PATH:$HOME/.dotnet/tools"
 ```
 
-A continuación, instala las herramientas de dotnet faltantes:
+A continuación, instala las herramientas de dotnet que faltan:
 
 ```shell
 dotnet tool update -g nbgv
@@ -115,9 +115,9 @@ Debes verificar que `nbgv` funcione en la línea de comandos (p. ej., `nbgv -h`)
 Si no funciona, verifica que tus herramientas se instalaron en `~/.dotnet/tools`. Si no usaste el script `dotnet-install.sh`,
 dotnet podría estar en una ubicación diferente (p. ej., `/usr/share/dotnet`) y las rutas anteriores deberán actualizarse.
 
-Una vez que dotnet esté configurado, puedes instalar Rust, lo cual se hace habitualmente con el [script rustup disponible aquí](https://www.rust-lang.org/tools/install)
+Una vez configurado dotnet, puedes instalar Rust, lo cual se hace normalmente con el [script rustup disponible aquí](https://www.rust-lang.org/tools/install)
 
-Para verificar que Rust está instalado y funcionando correctamente, debes compilar los binarios de Rust:
+Para verificar que Rust está instalado y funciona correctamente, debes compilar los binarios de Rust:
 
 ```shell
 cargo build --release -p velopack_bins
