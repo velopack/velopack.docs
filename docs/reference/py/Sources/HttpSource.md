@@ -15,5 +15,25 @@ Retrieves updates from a static file host or other web server.
 class HttpSource
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`HttpSource`](#httpsource) |  |
+
+
+### HttpSource(url) {#httpsource}
+
+```py
+HttpSource(url)
+```
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `url` |  |
+
+
 ___
 *Generated from `velopack` 1.1.1*

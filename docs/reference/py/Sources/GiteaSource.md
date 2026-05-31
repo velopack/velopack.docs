@@ -15,5 +15,27 @@ Retrieves available releases from a Gitea repository.
 class GiteaSource
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`GiteaSource`](#giteasource) |  |
+
+
+### GiteaSource(repo_url, access_token, prerelease) {#giteasource}
+
+```py
+GiteaSource(repo_url, access_token=None, prerelease=False)
+```
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `repo_url` |  |
+| `access_token` | (default: None) |
+| `prerelease` | (default: False) |
+
+
 ___
 *Generated from `velopack` 1.1.1*

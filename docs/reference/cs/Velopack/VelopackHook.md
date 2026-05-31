@@ -19,13 +19,13 @@ public delegate void VelopackHook(SemanticVersion version)
 
 | Constructor | Summary |
 | --- | --- |
-| [`VelopackHook`](#velopackhook-object-intptr) |  |
+| [`VelopackHook`](#velopackhook-object-nint) |  |
 
 
-### VelopackHook(object, method) {#velopackhook-object-intptr}
+### VelopackHook(object, method) {#velopackhook-object-nint}
 
 ```cs
-public VelopackHook(object @object, IntPtr method)
+public VelopackHook(object @object, nint method)
 ```
 
 **Parameters**
@@ -33,7 +33,7 @@ public VelopackHook(object @object, IntPtr method)
 | Name | Type | Description |
 | --- | --- | --- |
 | `object` | `object` |  |
-| `method` | `IntPtr` |  |
+| `method` | `nint` |  |
 
 
 ## Methods

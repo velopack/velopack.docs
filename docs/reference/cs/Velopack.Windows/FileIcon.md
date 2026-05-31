@@ -101,7 +101,7 @@ Gets/sets the filename to get the icon for
 ### ShellIcon {#shellicon}
 
 ```cs
-public IntPtr ShellIcon { get; }
+public nint ShellIcon { get; }
 ```
 
 Gets the icon for the chosen file

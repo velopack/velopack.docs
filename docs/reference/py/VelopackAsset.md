@@ -11,5 +11,33 @@ sidebar_position: 2
 class VelopackAsset
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`VelopackAsset`](#velopackasset) |  |
+
+
+### VelopackAsset(PackageId, Version, Type, FileName, SHA1, SHA256, Size, NotesMarkdown, NotesHtml) {#velopackasset}
+
+```py
+VelopackAsset(PackageId, Version, Type, FileName, SHA1, SHA256, Size, NotesMarkdown, NotesHtml)
+```
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `PackageId` |  |
+| `Version` |  |
+| `Type` |  |
+| `FileName` |  |
+| `SHA1` |  |
+| `SHA256` |  |
+| `Size` |  |
+| `NotesMarkdown` |  |
+| `NotesHtml` |  |
+
+
 ___
 *Generated from `velopack` 1.1.1*

@@ -16,5 +16,27 @@ and GitHub Enterprise instances.
 class GithubSource
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`GithubSource`](#githubsource) |  |
+
+
+### GithubSource(repo_url, access_token, prerelease) {#githubsource}
+
+```py
+GithubSource(repo_url, access_token=None, prerelease=False)
+```
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `repo_url` |  |
+| `access_token` | (default: None) |
+| `prerelease` | (default: False) |
+
+
 ___
 *Generated from `velopack` 1.1.1*

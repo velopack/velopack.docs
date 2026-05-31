@@ -11,5 +11,30 @@ sidebar_position: 2
 class VelopackLocatorConfig
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`VelopackLocatorConfig`](#velopacklocatorconfig) |  |
+
+
+### VelopackLocatorConfig(RootAppDir, UpdateExePath, PackagesDir, ManifestPath, CurrentBinaryDir, IsPortable) {#velopacklocatorconfig}
+
+```py
+VelopackLocatorConfig(RootAppDir, UpdateExePath, PackagesDir, ManifestPath, CurrentBinaryDir, IsPortable)
+```
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `RootAppDir` |  |
+| `UpdateExePath` |  |
+| `PackagesDir` |  |
+| `ManifestPath` |  |
+| `CurrentBinaryDir` |  |
+| `IsPortable` |  |
+
+
 ___
 *Generated from `velopack` 1.1.1*

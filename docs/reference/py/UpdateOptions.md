@@ -11,5 +11,27 @@ sidebar_position: 2
 class UpdateOptions
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`UpdateOptions`](#updateoptions) |  |
+
+
+### UpdateOptions(AllowVersionDowngrade, MaximumDeltasBeforeFallback, ExplicitChannel) {#updateoptions}
+
+```py
+UpdateOptions(AllowVersionDowngrade, MaximumDeltasBeforeFallback, ExplicitChannel=None)
+```
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `AllowVersionDowngrade` |  |
+| `MaximumDeltasBeforeFallback` |  |
+| `ExplicitChannel` | (default: None) |
+
+
 ___
 *Generated from `velopack` 1.1.1*

@@ -13,6 +13,19 @@ Python wrapper for VelopackApp with builder pattern
 class App
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`App`](#app) |  |
+
+
+### App() {#app}
+
+```py
+App()
+```
+
 ## Methods
 
 | Method | Summary |

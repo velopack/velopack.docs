@@ -149,8 +149,8 @@ Gets/sets the HotKey to start the shortcut (if any)
 | [`Save`](#save) | Saves the shortcut to ShortCutFile. |
 | [`Save`](#save-string) | Saves the shortcut to the specified file |
 | [`Open`](#open-string) | Loads a shortcut from the specified file |
-| [`Open`](#open-string-intptr-eshelllinkresolveflags) | Loads a shortcut from the specified file, and allows flags controlling |
-| [`Open`](#open-string-intptr-eshelllinkresolveflags-ushort) | Loads a shortcut from the specified file, and allows flags controlling |
+| [`Open`](#open-string-nint-eshelllinkresolveflags) | Loads a shortcut from the specified file, and allows flags controlling |
+| [`Open`](#open-string-nint-eshelllinkresolveflags-ushort) | Loads a shortcut from the specified file, and allows flags controlling |
 
 
 ### ~ShellLink() {#shelllink-2}
@@ -172,7 +172,7 @@ Dispose the object, releasing the COM ShellLink object
 ### GetIcon(large) {#geticon-bool}
 
 ```cs
-public IntPtr GetIcon(bool large)
+public nint GetIcon(bool large)
 ```
 
 This pointer must be destroyed with DistroyIcon when you are done with it.
@@ -184,7 +184,7 @@ This pointer must be destroyed with DistroyIcon when you are done with it.
 | `large` | `bool` | Whether to return the small or large icon |
 
 
-**Returns** `IntPtr`
+**Returns** `nint`
 
 ### SetAppUserModelId(appId) {#setappusermodelid-string}
 
@@ -269,10 +269,10 @@ Loads a shortcut from the specified file
 | `linkFile` | `string` | The shortcut file (.lnk) to load |
 
 
-### Open(linkFile, hWnd, resolveFlags) {#open-string-intptr-eshelllinkresolveflags}
+### Open(linkFile, hWnd, resolveFlags) {#open-string-nint-eshelllinkresolveflags}
 
 ```cs
-public void Open(string linkFile, IntPtr hWnd, ShellLink.EShellLinkResolveFlags resolveFlags)
+public void Open(string linkFile, nint hWnd, ShellLink.EShellLinkResolveFlags resolveFlags)
 ```
 
 Loads a shortcut from the specified file, and allows flags controlling
@@ -283,14 +283,14 @@ the UI behaviour if the shortcut's target isn't found to be set.
 | Name | Type | Description |
 | --- | --- | --- |
 | `linkFile` | `string` | The shortcut file (.lnk) to load |
-| `hWnd` | `IntPtr` | The window handle of the application's UI, if any |
+| `hWnd` | `nint` | The window handle of the application's UI, if any |
 | `resolveFlags` | [`ShellLink.EShellLinkResolveFlags`](./ShellLink.EShellLinkResolveFlags.md) | Flags controlling resolution behaviour |
 
 
-### Open(linkFile, hWnd, resolveFlags, timeOut) {#open-string-intptr-eshelllinkresolveflags-ushort}
+### Open(linkFile, hWnd, resolveFlags, timeOut) {#open-string-nint-eshelllinkresolveflags-ushort}
 
 ```cs
-public void Open(string linkFile, IntPtr hWnd, ShellLink.EShellLinkResolveFlags resolveFlags, ushort timeOut)
+public void Open(string linkFile, nint hWnd, ShellLink.EShellLinkResolveFlags resolveFlags, ushort timeOut)
 ```
 
 Loads a shortcut from the specified file, and allows flags controlling
@@ -302,7 +302,7 @@ no SLR_NO_UI is specified, you can also specify a timeout.
 | Name | Type | Description |
 | --- | --- | --- |
 | `linkFile` | `string` | The shortcut file (.lnk) to load |
-| `hWnd` | `IntPtr` | The window handle of the application's UI, if any |
+| `hWnd` | `nint` | The window handle of the application's UI, if any |
 | `resolveFlags` | [`ShellLink.EShellLinkResolveFlags`](./ShellLink.EShellLinkResolveFlags.md) | Flags controlling resolution behaviour |
 | `timeOut` | `ushort` | Timeout if SLR_NO_UI is specified, in ms. |
 

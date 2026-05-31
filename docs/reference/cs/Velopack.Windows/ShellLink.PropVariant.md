@@ -100,7 +100,7 @@ public short Reserved3
 ### pointerValue {#pointervalue}
 
 ```cs
-public IntPtr pointerValue
+public nint pointerValue
 ```
 
 ___

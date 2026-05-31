@@ -11,5 +11,28 @@ sidebar_position: 2
 class UpdateInfo
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`UpdateInfo`](#updateinfo) |  |
+
+
+### UpdateInfo(TargetFullRelease, DeltasToTarget, IsDowngrade, BaseRelease) {#updateinfo}
+
+```py
+UpdateInfo(TargetFullRelease, DeltasToTarget, IsDowngrade, BaseRelease=None)
+```
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `TargetFullRelease` |  |
+| `DeltasToTarget` |  |
+| `IsDowngrade` |  |
+| `BaseRelease` | (default: None) |
+
+
 ___
 *Generated from `velopack` 1.1.1*

@@ -11,6 +11,28 @@ sidebar_position: 2
 class UpdateManager
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`UpdateManager`](#updatemanager) |  |
+
+
+### UpdateManager(source, options, locator) {#updatemanager}
+
+```py
+UpdateManager(source, options=None, locator=None)
+```
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `source` |  |
+| `options` | (default: None) |
+| `locator` | (default: None) |
+
+
 ## Methods
 
 | Method | Summary |

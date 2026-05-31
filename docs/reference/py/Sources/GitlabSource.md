@@ -15,5 +15,27 @@ Retrieves available releases from a GitLab repository.
 class GitlabSource
 ```
 
+## Constructors
+
+| Constructor | Summary |
+| --- | --- |
+| [`GitlabSource`](#gitlabsource) |  |
+
+
+### GitlabSource(repo_url, access_token, prerelease) {#gitlabsource}
+
+```py
+GitlabSource(repo_url, access_token=None, prerelease=False)
+```
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `repo_url` |  |
+| `access_token` | (default: None) |
+| `prerelease` | (default: False) |
+
+
 ___
 *Generated from `velopack` 1.1.1*

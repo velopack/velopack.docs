@@ -50,7 +50,7 @@ public Guid fmtid
 ### pid {#pid}
 
 ```cs
-public UIntPtr pid
+public nuint pid
 ```
 
 ___
