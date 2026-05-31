@@ -22,7 +22,7 @@ El instalador de Windows extraerá la aplicación en `%LocalAppData%\{packId}`. 
 
 El directorio `current` será completamente reemplazado [durante las actualizaciones](../integrating/overview.mdx). Los demás archivos añadidos por Velopack (`Update.exe` y `sq.version`) son cruciales y son archivos necesarios para que Velopack pueda actualizar correctamente su aplicación.
 
-### Instalador MSI de Windows
+### Instalador MSI de Windows {#windows-msi-installer}
 Además de `Setup.exe`, Velopack puede generar un instalador `.msi` usando WiX 5. El MSI proporciona integración completa con Windows Installer, incluida la compatibilidad con instalaciones por máquina en Archivos de programa, la implementación mediante directivas de grupo y las entradas estándar de Agregar o quitar programas.
 
 Para habilitar la generación de MSI, añada el indicador `--msi` a su comando `vpk pack`. El MSI se construye junto con `Setup.exe` durante el empaquetado.

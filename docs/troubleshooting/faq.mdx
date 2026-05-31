@@ -9,7 +9,7 @@ Commonly asked questions about Velopack.
 - **Can Velopack bootstrap new runtimes during updates?** <br/>
   Yes, this is fully supported. Before installing updates, Velopack will prompt the user to install any missing runtimes.
 - **How do I install the `vpk` tool? / I've installed the tool but it doesn't work**
-  You need to install the [.NET 8 SDK or later](../packaging/runtime.mdx#supported-frameworks) for your platform, and then run `dotnet tool install -g vpk`. 
+  You need to install the [.NET 8 SDK or later](https://dotnet.microsoft.com/download) for your platform, and then run `dotnet tool install -g vpk`. 
   It's recommended to use the same version of `vpk` as the Velopack package referenced in your application to ensure compatibility.
   Alternatively, you can run `vpk` without installing it globally using the [`dnx`](https://learn.microsoft.com/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472) command: `dnx vpk --version 1.0.0` (replace `1.0.0` with your Velopack package version).
   If you get a message that it was installed successfully, but running it in your terminal results in a "binary/command not found" message, it's probably because your PATH is not set-up properly. For windows, `%USERPROFILE%\.dotnet\tools` should be on the PATH. For macos, [see this issue](https://github.com/dotnet/sdk/issues/9415). In general, dotnet should set these paths up for you, but that is what you should check if things are not working.

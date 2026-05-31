@@ -108,10 +108,10 @@ Los deltas mantienen las descargas pequeñas, pero Velopack recurrirá a una des
 - Si el tamaño combinado de los deltas es mayor que el paquete completo, se descarga el paquete completo en su lugar.
 - Si no hay un paquete base local sobre el que aplicar los deltas, los deltas se deshabilitan. Dado que solo las instalaciones de Windows (instalador) incluyen un `.nupkg` completo, la primera actualización después de una instalación que no sea Windows es siempre una descarga completa.
 
-#### Concurrencia y reanudación
+#### Concurrencia y reanudación {#concurrency--resuming}
 `DownloadUpdatesAsync` adquiere un bloqueo global por aplicación (un archivo `.velopack_lock` en el directorio de paquetes) para que solo se ejecute una operación de descarga/aplicación a la vez. Si ya hay otra operación en curso, lanza `AcquireLockFailedException`. Si el paquete completo ya existe en el disco, se omite la descarga, y las descargas en curso se escriben en archivos `.partial`.
 
-### Aplicar actualizaciones
+### Aplicar actualizaciones {#apply-updates}
 Una vez que la actualización se ha descargado, tienes algunas opciones disponibles. Llamar a `ApplyUpdatesAndRestart` o `ApplyUpdatesAndExit` cerrará tu aplicación, instalará cualquier [requisito previo de bootstrap](../packaging/bootstrapping.mdx), instalará la actualización y luego opcionalmente reiniciará tu aplicación de inmediato.
 
 Si no deseas cerrar tu aplicación de inmediato, puedes llamar a `WaitExitThenApplyUpdates` en su lugar, que iniciará Update.exe y esperará 60 segundos antes de continuar. Si tu aplicación no ha salido dentro de los 60 segundos, será terminada.

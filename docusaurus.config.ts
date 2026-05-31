@@ -1,78 +1,128 @@
-import { themes as prismThemes } from 'prism-react-renderer';
-import type { Config } from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+import { themes as prismThemes } from "prism-react-renderer";
+import type { Config } from "@docusaurus/types";
+import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: 'Velopack',
-  tagline: 'Installer and automatic update framework for cross-platform desktop applications',
-  favicon: 'favicon/favicon.ico',
-  url: 'https://docs.velopack.io/',
-  baseUrl: '/',
+  title: "Velopack",
+  tagline:
+    "Installer and automatic update framework for cross-platform desktop applications",
+  favicon: "favicon/favicon.ico",
+  url: "https://docs.velopack.io/",
+  baseUrl: "/",
   trailingSlash: false,
-  organizationName: 'velopack',
-  projectName: 'velopack.docs',
-  onBrokenLinks: 'throw',
+  organizationName: "velopack",
+  projectName: "velopack.docs",
+  onBrokenLinks: "throw",
+  onBrokenAnchors: "throw",
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'es'],
+    defaultLocale: "en",
+    locales: ["en", "es"],
     localeConfigs: {
-      en: { label: 'English', htmlLang: 'en' },
-      es: { label: 'Español', htmlLang: 'es' },
+      en: { label: "English", htmlLang: "en" },
+      es: { label: "Español", htmlLang: "es" },
     },
   },
   customFields: {
-    flowBaseUrl: 'https://app.velopack.io',
+    flowBaseUrl: "https://app.velopack.io",
   },
   themes: [
-    ['@easyops-cn/docusaurus-search-local', {
-      hashed: true,
-      indexBlog: false,
-      docsRouteBasePath: '/',
-      ignoreFiles: new RegExp(".*reference/.*"),
-      language: ['en', 'es'],
-    }],
-    '@docusaurus/theme-mermaid'
+    [
+      "@easyops-cn/docusaurus-search-local",
+      {
+        hashed: true,
+        indexBlog: false,
+        docsRouteBasePath: "/",
+        ignoreFiles: new RegExp(".*reference/.*"),
+        language: ["en", "es"],
+      },
+    ],
+    "@docusaurus/theme-mermaid",
   ],
   plugins: [
-    ['@docusaurus/plugin-client-redirects', {
-      redirects: [
-        { from: '/packaging/rid', to: '/packaging/runtime' },
-        { from: '/troubleshooting/cli', to: '/reference/cli' },
-        { from: '/category/quick-start', to: '/category/getting-started' },
-      ],
-    }],
+    [
+      "@docusaurus/plugin-client-redirects",
+      {
+        redirects: [
+          { from: "/packaging/rid", to: "/packaging/runtime" },
+          { from: "/troubleshooting/cli", to: "/reference/cli" },
+          { from: "/category/quick-start", to: "/category/getting-started" },
+        ],
+      },
+    ],
   ],
   headTags: [
     // Favicon
-    { tagName: 'link', attributes: { rel: 'shortcut icon', href: '/favicon/favicon.ico' } },
-    { tagName: 'link', attributes: { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' } },
-    { tagName: 'link', attributes: { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/icon_32.png' } },
-    { tagName: 'link', attributes: { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/icon_16.png' } },
-    { tagName: 'link', attributes: { rel: 'manifest', href: '/favicon/site.webmanifest' } },
-    { tagName: 'link', attributes: { rel: 'mask-icon', href: '/favicon/safari-pinned-tab.svg', color: '#edd323' } },
-    { tagName: 'meta', attributes: { name: 'msapplication-TileColor', content: '#000000' } },
-    { tagName: 'meta', attributes: { name: 'theme-color', content: '#ffffff' } },
+    {
+      tagName: "link",
+      attributes: { rel: "shortcut icon", href: "/favicon/favicon.ico" },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/favicon/apple-touch-icon.png",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon/icon_32.png",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/favicon/icon_16.png",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: { rel: "manifest", href: "/favicon/site.webmanifest" },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "mask-icon",
+        href: "/favicon/safari-pinned-tab.svg",
+        color: "#edd323",
+      },
+    },
+    {
+      tagName: "meta",
+      attributes: { name: "msapplication-TileColor", content: "#000000" },
+    },
+    {
+      tagName: "meta",
+      attributes: { name: "theme-color", content: "#ffffff" },
+    },
   ],
   markdown: {
-    format: 'detect',
+    format: "detect",
     mermaid: true,
     hooks: {
-      onBrokenMarkdownLinks: 'throw',
+      onBrokenMarkdownLinks: "throw",
     },
   },
   presets: [
     [
-      'classic',
+      "classic",
       {
         docs: {
-          sidebarPath: './sidebars.ts',
-          routeBasePath: '/',
+          sidebarPath: "./sidebars.ts",
+          routeBasePath: "/",
           editUrl: ({ versionDocsDirPath, docPath, locale }) => {
             let match;
             if ((match = docPath.match(/reference\/.*/)) != null) {
               return undefined; // reference pages can't be edited
             }
-            if (locale != 'en') {
+            if (locale != "en") {
               return undefined;
               // return 'https://crowdin.com/project/velopack/invite?h=88bec14b5657f004fe5ba325090df5ba2031736';
             }
@@ -85,18 +135,18 @@ const config: Config = {
           showReadingTime: true,
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: "./src/css/custom.css",
         },
         gtag: {
-          trackingID: 'G-YM5CQ7KMDT',
+          trackingID: "G-YM5CQ7KMDT",
           anonymizeIP: true,
-        }
+        },
       } satisfies Preset.Options,
     ],
   ],
 
   themeConfig: {
-    image: 'logo/opengraph.png',
+    image: "logo/opengraph.png",
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -104,50 +154,50 @@ const config: Config = {
       // title: 'Velopack',
       hideOnScroll: false,
       logo: {
-        alt: 'Velopack Logo',
-        src: 'logo/velopack-black.svg',
-        srcDark: 'logo/velopack-white.svg',
+        alt: "Velopack Logo",
+        src: "logo/velopack-black.svg",
+        srcDark: "logo/velopack-white.svg",
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'mainSidebar',
-          position: 'left',
-          label: 'Guides',
+          type: "docSidebar",
+          sidebarId: "mainSidebar",
+          position: "left",
+          label: "Guides",
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'referenceSidebar',
-          position: 'left',
-          label: 'Reference',
+          type: "docSidebar",
+          sidebarId: "referenceSidebar",
+          position: "left",
+          label: "Reference",
         },
         {
-          to: '/blog',
-          label: 'Blog',
-          position: 'left'
+          to: "/blog",
+          label: "Blog",
+          position: "left",
         },
         {
-          type: 'localeDropdown',
-          position: 'right',
+          type: "localeDropdown",
+          position: "right",
         },
         {
-          href: 'https://github.com/velopack/velopack',
-          position: 'right',
-          className: 'header-icon header-icon-github',
-          'aria-label': 'GitHub repository',
+          href: "https://github.com/velopack/velopack",
+          position: "right",
+          className: "header-icon header-icon-github",
+          "aria-label": "GitHub repository",
         },
         {
-          href: 'https://discord.gg/CjrCrNzd3F',
-          position: 'right',
-          className: 'header-icon header-icon-discord',
-          'aria-label': 'Discord invite',
+          href: "https://discord.gg/CjrCrNzd3F",
+          position: "right",
+          className: "header-icon header-icon-discord",
+          "aria-label": "Discord invite",
         },
       ],
     },
     docs: {
       sidebar: {
         autoCollapseCategories: true,
-      }
+      },
     },
     // footer: {
     //   style: 'dark',
@@ -195,7 +245,16 @@ const config: Config = {
     //   copyright: `Copyright © ${new Date().getFullYear()} Velopack Ltd.`,
     // },
     prism: {
-      additionalLanguages: ['csharp', 'rust', 'cpp', 'batch', 'powershell', 'java', 'toml', 'json'],
+      additionalLanguages: [
+        "csharp",
+        "rust",
+        "cpp",
+        "batch",
+        "powershell",
+        "java",
+        "toml",
+        "json",
+      ],
       theme: prismThemes.oneLight,
       darkTheme: prismThemes.nightOwl,
     },
