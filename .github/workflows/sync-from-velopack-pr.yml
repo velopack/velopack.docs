@@ -1,0 +1,202 @@
+name: Sync Docs from Velopack PR
+
+# Reviews a merged (or any) PR on the velopack/velopack repo and, if the change
+# warrants it, updates these docs and opens a PR here. It NEVER pushes to master:
+# every change produced by this workflow is opened as a pull request for review.
+#
+# Triggers:
+#   - workflow_dispatch: run it by hand, typing the velopack PR number.
+#   - repository_dispatch (type: velopack-pr-merged): fired by the velopack repo
+#     when a PR merges (see .github/workflows/notify-docs.yml over there).
+#
+# Only English source under docs/ is edited; the translation workflow regenerates
+# i18n/** afterwards, and docs/reference/** is auto-generated so it's left alone.
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'velopack/velopack PR number to review'
+        required: true
+        type: string
+  repository_dispatch:
+    types: [velopack-pr-merged]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  # one run per source PR; a newer dispatch for the same PR cancels the older one
+  group: sync-docs-${{ github.event.inputs.pr_number || github.event.client_payload.pr_number }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_REPO: velopack/velopack
+  PR_NUMBER: ${{ github.event.inputs.pr_number || github.event.client_payload.pr_number }}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate input
+        run: |
+          if [ -z "$PR_NUMBER" ]; then
+            echo "::error::No PR number provided (inputs.pr_number / client_payload.pr_number)."
+            exit 1
+          fi
+          echo "Reviewing $SOURCE_REPO#$PR_NUMBER"
+
+      - name: Checkout docs
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch source PR context
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          ctx="$RUNNER_TEMP/pr-context.md"
+          gh pr view "$PR_NUMBER" --repo "$SOURCE_REPO" \
+            --json number,title,body,state,merged,mergedAt,author,headRefName,baseRefName,url,files \
+            > "$RUNNER_TEMP/pr.json"
+
+          {
+            echo "# velopack/velopack PR #$PR_NUMBER"
+            echo
+            echo "- Title: $(jq -r '.title' "$RUNNER_TEMP/pr.json")"
+            echo "- URL: $(jq -r '.url' "$RUNNER_TEMP/pr.json")"
+            echo "- State: $(jq -r '.state' "$RUNNER_TEMP/pr.json") (merged: $(jq -r '.merged' "$RUNNER_TEMP/pr.json"))"
+            echo "- Base <- Head: $(jq -r '.baseRefName' "$RUNNER_TEMP/pr.json") <- $(jq -r '.headRefName' "$RUNNER_TEMP/pr.json")"
+            echo
+            echo "## Description"
+            echo
+            jq -r '.body // "(no description)"' "$RUNNER_TEMP/pr.json"
+            echo
+            echo "## Files changed"
+            echo
+            jq -r '.files[] | "- \(.path) (+\(.additions)/-\(.deletions))"' "$RUNNER_TEMP/pr.json"
+            echo
+            echo "## Full diff"
+            echo
+            echo '```diff'
+            gh pr diff "$PR_NUMBER" --repo "$SOURCE_REPO"
+            echo '```'
+          } > "$ctx"
+
+          echo "PR_CONTEXT_FILE=$ctx" >> "$GITHUB_ENV"
+          echo "PR_BODY_FILE=$RUNNER_TEMP/docs-pr-body.md" >> "$GITHUB_ENV"
+          echo "Wrote $(wc -l < "$ctx") lines of PR context."
+
+      - name: Review PR and update docs
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: |
+            --model claude-sonnet-4-6
+            --max-turns 40
+            --allowedTools Read,Edit,Write,Glob,Grep,Bash(npm run build),Bash(npm run typecheck),Bash(ls:*),Bash(cat:*),Bash(rg:*)
+            --disallowedTools Bash(git push:*),Bash(git commit:*),Bash(git checkout:*),Bash(gh:*)
+          prompt: |
+            You are maintaining the Velopack documentation site (Docusaurus 3). A pull
+            request was merged into the velopack/velopack source repository, and your job
+            is to decide whether these docs need to change as a result, and if so, make
+            the changes.
+
+            The full context of the source PR (title, description, changed files, and the
+            complete diff) is in this file — read it first:
+
+                ${{ env.PR_CONTEXT_FILE }}
+
+            Read AGENTS.md in the repo root for the documentation conventions, structure,
+            and rules. Follow them exactly.
+
+            ## Your task
+
+            1. Carefully review the source PR diff. Determine whether it changes anything
+               user-facing that the docs describe: new or changed CLI flags/commands, new
+               SDK APIs or options, changed default behavior, new features, removed
+               features, renamed concepts, changed config, new platform support, etc.
+            2. Decide:
+               A) Do any EXISTING doc pages under docs/ need updating to stay accurate?
+               B) Do any NEW doc pages need to be written to cover new functionality?
+            3. If either is true, make the edits under docs/ (and update sidebars.ts /
+               docusaurus.config.ts redirects only if you add or move pages). Match the
+               existing style, MDX/frontmatter format, and linking conventions.
+            4. Run `npm run build` to confirm the site still builds and you introduced no
+               broken links (the build throws on broken links). Fix anything you broke.
+
+            ## Hard rules
+
+            - Write ENGLISH ONLY. NEVER touch anything under i18n/ — the translation
+              workflow regenerates it from the English source after this merges.
+            - NEVER edit anything under docs/reference/** — it is auto-generated from
+              source code and will be overwritten.
+            - Do NOT commit, push, create branches, or use git/gh — only edit files. The
+              workflow handles branching and opening the PR.
+            - Be conservative. Pure internal refactors, CI/build changes, test-only
+              changes, dependency bumps, and anything with no user-facing or documented
+              effect should result in NO doc changes. It is correct and expected to change
+              nothing when the PR doesn't affect the docs. Do not invent content.
+
+            ## Output
+
+            When you are done, write a concise markdown summary to this exact file:
+
+                ${{ env.PR_BODY_FILE }}
+
+            - If you made doc changes, the summary should explain what you changed and why,
+              referencing the source PR, and list the affected pages. It becomes the body
+              of the docs PR.
+            - If you decided NO doc changes are needed, write a single line to that file:
+              `NO_CHANGES: <one-sentence reason>`
+
+      - name: Open docs PR if changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No documentation changes were made for $SOURCE_REPO#$PR_NUMBER."
+            if [ -f "$PR_BODY_FILE" ]; then echo "Reason: $(cat "$PR_BODY_FILE")"; fi
+            exit 0
+          fi
+
+          branch="docs/velopack-pr-${PR_NUMBER}-${GITHUB_RUN_ID}"
+          git checkout -b "$branch"
+          git add -A
+          git commit -m "docs: sync for velopack/velopack#${PR_NUMBER}"
+          git push origin "$branch"
+
+          title="docs: sync for velopack#${PR_NUMBER}"
+          src_url="https://github.com/${SOURCE_REPO}/pull/${PR_NUMBER}"
+          {
+            echo "Automated documentation update for [velopack/velopack#${PR_NUMBER}](${src_url})."
+            echo
+            if [ -f "$PR_BODY_FILE" ]; then cat "$PR_BODY_FILE"; fi
+            echo
+            echo "---"
+            echo "_Generated by the \`sync-from-velopack-pr\` workflow. Review before merging; English only — translations regenerate on merge._"
+          } > "$RUNNER_TEMP/final-pr-body.md"
+
+          gh pr create \
+            --title "$title" \
+            --body-file "$RUNNER_TEMP/final-pr-body.md" \
+            --base master \
+            --head "$branch" \
+            --label documentation 2>/dev/null \
+          || gh pr create \
+            --title "$title" \
+            --body-file "$RUNNER_TEMP/final-pr-body.md" \
+            --base master \
+            --head "$branch"
