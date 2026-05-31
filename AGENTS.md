@@ -125,6 +125,7 @@ The following reference docs are auto-generated:
 - **CLI Reference:** `docs/reference/cli/`
 - **C++ Reference:** `docs/reference/cpp/`
 - **JavaScript Reference:** `docs/reference/js/`
+- **Python API Reference:** `docs/reference/py/`
 
 **⚠️ Important:** Do not manually edit files in these directories. They will be overwritten on the next generation run.
 
@@ -198,7 +199,7 @@ Velopack supports multiple programming languages. When adding documentation:
 | Rust      | ✅ Ready | `docs/getting-started/rust.mdx` | - |
 | JavaScript| ✅ Ready | `docs/getting-started/javascript.mdx` | `docs/reference/js/` |
 | C++       | ✅ Ready | `docs/getting-started/cpp.mdx` | `docs/reference/cpp/` |
-| Python    | ✅ Ready | `docs/getting-started/python.mdx` | - |
+| Python    | ✅ Ready | `docs/getting-started/python.mdx` | `docs/reference/py/` |
 
 ## i18n / Translations
 

@@ -92,6 +92,7 @@ const sidebars: SidebarsConfig = {
         auto("reference/cs", "C#", "The C# API reference for Velopack. See the available namespaces below.", "reference/cs/Velopack/index"),
         auto("reference/cpp", "C++", "The C++ API reference for Velopack.", "reference/cpp/index"),
         auto("reference/js", "JS", "The JS API reference for Velopack.", "reference/js/index"),
+        auto("reference/py", "Python", "The Python API reference for Velopack.", "reference/py/index"),
         link("Rust", "https://docs.rs/velopack", "Link to docs.rs/velopack"),
         auto("reference/cli/content", "CLI", "The Velopack CLI reference.", "reference/cli/index"),
       ],

@@ -19,7 +19,7 @@ For other non-Windows operating systems, you should search online to find best p
 The recommended location is OS / distro specific, and might be in `/var` or somewhere in user home `~` (eg. `~/Library/Application Support` on MacOS).
 
 ## Finding app paths at runtime
-Rather than hardcoding paths, you can ask Velopack where things live. After `VelopackApp.Build().Run()` has executed, `VelopackLocator.Current` (an [`IVelopackLocator`](../reference/cs/Velopack/Locators/IVelopackLocator)) exposes:
+Rather than hardcoding paths, you can ask Velopack where things live. After `VelopackApp.Build().Run()` has executed, `VelopackLocator.Current` (an [`IVelopackLocator`](../reference/cs/Velopack.Locators/IVelopackLocator)) exposes:
 
 - `RootAppDir` — the application's root directory (on Windows, the `{packId}` folder).
 - `AppContentDir` — where the versioned application files live (the `current` folder on Windows).
