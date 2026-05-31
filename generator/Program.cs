@@ -21,6 +21,16 @@ class Program
         string docRootDir = Path.GetFullPath(Path.Combine(scriptsDir, ".."));
         string ReferenceDir(string lang) => Path.Combine(docRootDir, "docs", "reference", lang);
 
+        // Strict mode: a language that fails to generate is a HARD ERROR (non-zero exit) instead
+        // of silently keeping the previously-committed docs. Auto-on in CI (GitHub sets CI=true)
+        // so a broken extractor fails the workflow rather than shipping stale reference pages;
+        // off locally so a dev missing Docker/npm/python can still regenerate the subset they can.
+        // Pass --strict to force it on anywhere.
+        bool strict = args.Contains("--strict")
+            || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("CI"));
+        args = args.Where(a => a != "--strict").ToArray();
+        var failures = new List<string>();
+
         // CLI-only mode (used by the per-OS CI matrix to capture native help text).
         if (args.Length == 2 && args[0] == "cli") {
             Console.WriteLine("Generating CLI Reference Only...");
@@ -51,23 +61,23 @@ class Program
 
         // Unified pipeline: extractor → adapter → ApiModel → MarkdownWriter, one per language.
         if (Enabled("cs"))
-            await RunLanguageAsync("C#", ReferenceDir("cs"),
+            await RunLanguageAsync("C#", ReferenceDir("cs"), failures, strict,
                 async () => { var e = await CSharpExtractor.ExtractAsync(); return e == null ? null : CSharpAdapter.Build(e); });
 
         if (Enabled("js"))
-            await RunLanguageAsync("JavaScript", ReferenceDir("js"),
+            await RunLanguageAsync("JavaScript", ReferenceDir("js"), failures, strict,
                 async () => { var e = await TypeScriptExtractor.ExtractAsync(); return e == null ? null : TypeScriptAdapter.Build(e); });
 
         if (Enabled("cpp"))
         {
             CppExtractResult? cppExtract = null;
-            await RunLanguageAsync("C++", ReferenceDir("cpp"),
+            await RunLanguageAsync("C++", ReferenceDir("cpp"), failures, strict,
                 async () => { cppExtract = await CppExtractor.ExtractAsync(); return cppExtract == null ? null : CppAdapter.Build(cppExtract); },
                 afterWrite: dir => CppAdapter.WriteCApiPage(cppExtract!, dir));
         }
 
         if (Enabled("py"))
-            await RunLanguageAsync("Python", ReferenceDir("py"),
+            await RunLanguageAsync("Python", ReferenceDir("py"), failures, strict,
                 async () => { var e = await PythonExtractor.ExtractAsync(); return e == null ? null : PythonAdapter.Build(e); });
 
         Console.WriteLine("Updating CLI Reference...");
@@ -77,25 +87,49 @@ class Program
             Console.WriteLine($"  CLI reference failed: {ex.Message}");
         }
 
+        // In strict mode (CI), surface every failed language at once and exit non-zero so the
+        // workflow fails loudly instead of committing stale docs for the broken language(s).
+        if (failures.Count > 0)
+        {
+            Console.Error.WriteLine($"\n{failures.Count} reference(s) failed (strict mode):");
+            foreach (var f in failures)
+                Console.Error.WriteLine($"  - {f}");
+            Environment.Exit(1);
+        }
+
         Console.WriteLine("Done!");
     }
 
     /// <summary>
-    /// Run one language pipeline. On any failure (tool missing, network down, empty model)
-    /// the existing committed docs are left untouched so the site keeps building.
+    /// Run one language pipeline. On any failure (tool missing, network down, empty model) the
+    /// existing committed docs are left untouched so the site keeps building — UNLESS
+    /// <paramref name="strict"/> is set, in which case the failure is recorded in
+    /// <paramref name="failures"/> and turned into a non-zero exit by the caller (CI behaviour).
     /// </summary>
-    static async Task RunLanguageAsync(string display, string outputDir, Func<Task<ApiModel?>> build, Action<string>? afterWrite = null)
+    static async Task RunLanguageAsync(string display, string outputDir, List<string> failures, bool strict, Func<Task<ApiModel?>> build, Action<string>? afterWrite = null)
     {
+        // In strict mode, "keep existing docs" is itself the failure we want to catch.
+        string Skip(string reason)
+        {
+            if (strict) {
+                Console.WriteLine($"  {display}: {reason} — FAILING (strict mode).");
+                failures.Add($"{display}: {reason}");
+            } else {
+                Console.WriteLine($"  {display}: {reason} — keeping existing docs.");
+            }
+            return reason;
+        }
+
         Console.WriteLine($"Updating {display} Reference...");
         try {
             var model = await build();
             if (model == null) {
-                Console.WriteLine($"  {display}: extractor unavailable — keeping existing docs.");
+                Skip("extractor produced no model");
                 return;
             }
             var typeCount = model.Namespaces.Sum(n => n.Types.Count);
             if (typeCount == 0) {
-                Console.WriteLine($"  {display}: model has no types — keeping existing docs.");
+                Skip("model has no types");
                 return;
             }
             Util.EnsureEmptyDirectory(outputDir);
@@ -103,8 +137,7 @@ class Program
             afterWrite?.Invoke(outputDir);
             Console.WriteLine($"  {display}: wrote {typeCount} type page(s) to {outputDir}.");
         } catch (Exception ex) {
-            Console.WriteLine($"  {display} reference failed: {ex.Message}");
-            Console.WriteLine($"  Keeping existing {display} docs.");
+            Skip($"reference failed: {ex.Message}");
         }
     }
 

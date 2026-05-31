@@ -22,7 +22,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '10.x'
       - name: Generate CLI Reference
         working-directory: generator
         run: dotnet run -- cli refout
@@ -39,10 +39,10 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '10.x'
       - name: Generate
         working-directory: generator
-        run: dotnet run
+        run: dotnet run -- --strict
       - uses: caesay/wait-artifact-action@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

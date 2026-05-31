@@ -54,11 +54,31 @@ internal static class TypeScriptExtractor
         // Install typedoc + typescript locally in the extracted package.
         await Util.RunProcessAsync("npm", new[] { "install", "--no-audit", "--no-fund", "typedoc", "typescript" }, packageDir);
 
+        // TypeScript discovers a tsconfig.json by walking up the directory tree from the entry
+        // point. The work dir lives inside this docs repo, whose root tsconfig.json extends
+        // "@docusaurus/tsconfig" — not installed here — so the walk-up resolves to it and fails
+        // with TS6053, killing the run. Write a self-contained tsconfig next to the entry point
+        // and point typedoc at it so the search never escapes the package.
+        var tsconfig = Path.Combine(packageDir, "tsconfig.typedoc.json");
+        await File.WriteAllTextAsync(tsconfig, """
+        {
+          "compilerOptions": {
+            "target": "ESNext",
+            "module": "ESNext",
+            "moduleResolution": "node",
+            "skipLibCheck": true,
+            "noEmit": true
+          },
+          "include": ["**/*.d.ts"]
+        }
+        """);
+
         var jsonOut = Path.Combine(workDir, "typedoc.json");
         var result = await Util.RunCaptureAsync("npx", new[]
         {
             "typedoc",
             "--json", jsonOut,
+            "--tsconfig", tsconfig,
             "--entryPoints", entry,
             "--entryPointStrategy", "expand",
             "--skipErrorChecking",
