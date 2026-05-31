@@ -1,0 +1,34 @@
+---
+sidebar_position: 8
+---
+
+# Desinstalación
+<AppliesTo all />
+
+Esta página describe qué ocurre cuando tu aplicación se desinstala, qué se elimina y qué permanece.
+
+## Qué desencadena una desinstalación
+- **Windows:** el usuario desinstala desde *Aplicaciones y características* / *Programas y características*, lo que invoca la rutina de desinstalación de Velopack. (Si la aplicación fue instalada mediante MSI, la desinstalación la gestiona `msiexec` en su lugar.)
+- **macOS:** no existe un desinstalador independiente — el usuario elimina el paquete `.app` (por ejemplo, arrastrándolo a la Papelera).
+- **Linux:** el usuario elimina el `.AppImage` (o elimina el paquete a través de su gestor de paquetes, dependiendo de cómo se haya distribuido).
+
+## Windows
+En Windows, el desinstalador realiza los siguientes pasos:
+
+1. Ejecuta tu **gancho de desinstalación** (`--veloapp-uninstall {version}` en la línea de comandos, o el callback de C# `OnBeforeUninstallFastCallback`) para que tu aplicación pueda limpiar antes de la eliminación.
+2. Elimina todos los accesos directos que apuntan al directorio de instalación.
+3. Elimina todo el directorio de instalación — la carpeta completa `%LocalAppData%\{packId}` (aplicación, `current`, paquetes, `Update.exe`, todo lo que contiene).
+4. Elimina el directorio de trabajo temporal de la aplicación.
+5. Elimina la entrada del registro de desinstalación de Windows.
+
+Debido a que se elimina *toda* la carpeta `{packId}`, cualquier cosa que hayas almacenado dentro de ella — incluidos ajustes o registros junto a tu binario — se perderá. Consulta [Preservación de archivos y configuración](./preserved-files.mdx) para saber dónde guardar los datos que deseas conservar.
+
+:::warning
+El gancho de desinstalación es un FastCallback. No debe mostrar ninguna interfaz de usuario y debe salir rápidamente, y no hay forma de cancelar la desinstalación desde él. Consulta [Ganchos de aplicación](./hooks.mdx).
+:::
+
+## macOS & Linux
+En estas plataformas, la aplicación es un paquete único autocontenido (`.app` / `.AppImage`). «Desinstalar» simplemente significa eliminar ese paquete, por lo que solo se eliminan los archivos que contiene. No existe ningún comando de desinstalación de Velopack y el gancho de desinstalación **no** se invoca (los FastCallbacks son exclusivos de Windows).
+
+## Qué permanece
+Cualquier cosa almacenada **fuera** del directorio de instalación sobrevive a una desinstalación — por ejemplo, la configuración en `%AppData%\{packId}` (itinerante) en Windows, o los archivos bajo `~/Library/Application Support` en macOS o en el directorio personal del usuario en Linux. Utiliza las rutas del localizador descritas en [Preservación de archivos y configuración](./preserved-files.mdx) para decidir qué se elimina y qué no.

@@ -36,6 +36,11 @@ jobs:
       # up by the script (see cleanupAfter in translate.config.json).
       - name: Scaffold UI translations
         run: npm run i18n:scaffold
+      # The translate script shells out to the Claude CLI (`claude -p`); the runner doesn't
+      # ship it. The CLI reads ANTHROPIC_API_KEY from the env automatically (set on the
+      # Translate step below), so no `claude` login/config is needed in CI.
+      - name: Install Claude CLI
+        run: npm install -g @anthropic-ai/claude-code
       - name: Translate
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

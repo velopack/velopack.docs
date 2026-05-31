@@ -1,19 +1,19 @@
 ---
-sidebar_label: Resumen
+sidebar_label: Descripción general
 sidebar_position: 0
 ---
 
-# Resumen de la integración
+# Descripción general de la integración
 <AppliesTo all />
 
-Para integrar Velopack en tu aplicación, *debes* inicializar Velopack lo antes posible durante el inicio de la aplicación, y *deberías* añadir código de comprobación de actualizaciones en algún lugar.
+Para integrar Velopack en tu aplicación, *debes* inicializar Velopack lo antes posible en el inicio de la aplicación, y *deberías* agregar código de verificación de actualizaciones en algún lugar.
 
-Para aplicaciones .NET, primero deberías instalar el [paquete NuGet de Velopack](https://nuget.org/packages/velopack).
+Para aplicaciones .NET, primero debes instalar el [paquete NuGet de Velopack](https://nuget.org/packages/velopack).
 
 ## Inicio de la aplicación
-Velopack requiere que añadas algo de código al inicio de tu aplicación para gestionar los hooks. Esto se debe a que Velopack ejecutará tu binario principal en ciertas etapas del proceso de instalación/actualización con argumentos especiales, para permitirte personalizar el comportamiento. Espera que tu aplicación responda a estos argumentos de la manera correcta y luego se cierre lo antes posible. 
+Velopack requiere que agregues algo de código al inicio de tu aplicación para manejar los hooks. Esto se debe a que Velopack ejecutará tu binario principal en ciertas etapas del proceso de instalación/actualización con argumentos especiales, para permitirte personalizar el comportamiento. Espera que tu aplicación responda a estos argumentos de la manera correcta y luego salga lo antes posible.
 
-La forma más sencilla/mínima de gestionar esto correctamente es añadir el código de inicio del SDK a tu método `Main()`. Esto debería estar en el binario "principal" (el especificado al empaquetar con `--mainExe {exeName}`).
+La forma más simple/mínima de manejar esto correctamente es agregar el código de inicio del SDK a tu método `Main()`. Esto debe estar en el binario "principal" (el especificado al empaquetar con `--mainExe {exeName}`).
 
 ```cs
 static void Main(string[] args)
@@ -28,26 +28,42 @@ Hay una variedad de opciones / callbacks que puedes especificar aquí para perso
 ```cs
 static void Main(string[] args)
 {
-    ILogger log = CreateLogger();
+    IVelopackLogger log = CreateLogger();
     VelopackApp.Build()
+        .SetLogger(log)
         .OnBeforeUninstallFastCallback((v) => {
             // delete / clean up some files before uninstallation
         })
         .OnFirstRun((v) => {
             MessageBox.Show("Thanks for installing my application!");
         })
-        .Run(log);
+        .Run();
 }
 ```
 
 La lista completa de opciones [para VelopackApp está disponible aquí](../reference/cs/Velopack/VelopackApp). También puedes leer más sobre [cómo funcionan los hooks](./hooks.mdx).
 
+### Opciones de VelopackApp
+
+El constructor expone varios métodos para personalizar el comportamiento de inicio:
+
+- `SetArgs(string[])` — anula los argumentos de línea de comandos usados para detectar qué hook ejecutar. Si no se establece, se usan los argumentos del proceso.
+- `SetLogger(IVelopackLogger)` — enruta los mensajes de diagnóstico de Velopack a tu propio registrador (además del archivo de registro predeterminado). Se ignora si también proporcionas un localizador personalizado.
+- `SetLocator(IVelopackLocator)` — anula cómo Velopack encuentra las rutas de la aplicación. Principalmente útil para [pruebas](./testing.mdx).
+- `SetAutoApplyOnStartup(bool)` — si se aplica automáticamente una actualización descargada pendiente al inicio. Activado por defecto; consulta [Aplicar actualizaciones](#apply-updates) a continuación.
+- `SetAppUserModelId(string)` — anula el ID del modelo de usuario de la aplicación de Windows (usado para la agrupación en la barra de tareas y notificaciones de sistema). Por defecto, se lee del manifiesto del paquete, con valor alternativo `velopack.{AppId}`.
+- `OnFirstRun(VelopackHook)` — se ejecuta la primera vez que se inicia la aplicación después de la instalación.
+- `OnRestarted(VelopackHook)` — se ejecuta cuando Velopack reinicia la aplicación después de aplicar una actualización. Consulta [hooks](./hooks.mdx).
+
 :::warning
-Un "FastCallback" requiere que tu aplicación no muestre ninguna interfaz de usuario y se cierre rápidamente. Cuando el callback retorna, tu aplicación se cerrará. Si no sales de este callback con suficiente rapidez, tu proceso será terminado.
+Un "FastCallback" (los métodos `OnBefore*`/`OnAfter*FastCallback`) requiere que tu aplicación no muestre ninguna interfaz de usuario y salga rápidamente. Cuando el callback regresa, tu aplicación saldrá. Estos callbacks son **exclusivos de Windows** (son operaciones sin efecto en macOS y Linux) y cada uno tiene un tiempo de espera: los callbacks de instalación/desinstalación tienen 30 segundos, los callbacks de actualización tienen 15 segundos. Si no sales del callback con suficiente rapidez, tu proceso será terminado. Consulta [Hooks de la aplicación](./hooks.mdx) para más detalles.
 :::
 
-## Configuración de las actualizaciones
-Las actualizaciones se pueden realizar añadiendo [UpdateManager](../reference/cs/Velopack/UpdateManager) a tu aplicación:
+### El contrato de `Run()`
+`Run()` debe llamarse **exactamente una vez**, y debe ser el **primer código** en tu `Main()`. Cuando Velopack ejecuta tu aplicación con un argumento de hook de salida rápida (durante la instalación, actualización o desinstalación), el hook se ejecuta y luego el proceso sale desde *dentro* de `Run()` — por lo que cualquier código colocado *antes* de `Run()` se volverá a ejecutar durante esas operaciones. Mantener `Run()` primero garantiza que tu lógica de inicio normal solo se ejecute durante un inicio normal.
+
+## Configuración de actualizaciones
+Las actualizaciones se pueden realizar agregando [UpdateManager](../reference/cs/Velopack/UpdateManager) a tu aplicación:
 
 ```cs
 private static async Task UpdateMyApp()
@@ -71,31 +87,53 @@ private static async Task UpdateMyApp()
 Las actualizaciones se pueden realizar silenciosamente en segundo plano, o integrarse en la interfaz de usuario de tu aplicación. Siempre depende de ti.
 :::
 
-Puedes alojar tus paquetes de actualización básicamente en cualquier lugar; aquí hay algunos ejemplos:
+Puedes alojar tus paquetes de actualización prácticamente en cualquier lugar, aquí hay algunos ejemplos:
 - Directorio local:<br/>`new UpdateManager("C:\Updates")`
 - Servidor HTTP, o S3, Azure Storage, etc.:<br/>`new UpdateManager("https://the.place/you-host/updates")`
-- GitHub Releases:<br/>`new UpdateManager(new GitHubSource("https://github.com/yourName/yourRepo")`
+- Versiones de GitHub:<br/>`new UpdateManager(new GithubSource("https://github.com/yourName/yourRepo", null, false))`
 
-Hay una variedad de fuentes integradas (p. ej. [GithubSource](../reference/cs/Velopack/Sources/GithubSource), [SimpleWebSource](../reference/cs/Velopack/Sources/SimpleWebSource)) que puedes usar al comprobar actualizaciones, pero también puedes crear la tuya propia [derivando de IUpdateSource](../reference/cs/Velopack/Sources/IUpdateSource).
+Hay una variedad de fuentes integradas (p. ej., `GithubSource`, `SimpleWebSource`) que puedes usar al verificar actualizaciones, pero también puedes crear la tuya propia derivando de `IUpdateSource`. Consulta [Fuentes de actualización](./update-sources.mdx) para la lista completa y cómo construir cada una.
 
-### Comprobar actualizaciones
-`CheckForUpdatesAsync` leerá la fuente de actualizaciones proporcionada en busca de un archivo `releases.{channel}.json` para recuperar las actualizaciones disponibles ([Lee sobre los canales](../packaging/channels.mdx)). Si hay una actualización disponible, se devolverá un [UpdateInfo](../reference/cs/Velopack/UpdateInfo) no nulo con algunos detalles sobre la actualización. También puedes [recuperar cualquier nota de la versión](release-notes.mdx) que se proporcionó cuando se empaquetó la actualización.
+### Verificar actualizaciones
+`CheckForUpdatesAsync` leerá la fuente de actualización proporcionada en busca de un archivo `releases.{channel}.json` para recuperar las actualizaciones disponibles ([Leer sobre canales](../packaging/channels.mdx)). Si hay una actualización disponible, se devolverá un [UpdateInfo](../reference/cs/Velopack/UpdateInfo) no nulo con algunos detalles sobre la actualización. También puedes [recuperar las notas de versión](release-notes.mdx) que se proporcionaron al empaquetar la actualización.
 
-También hay [algunas opciones](../reference/cs/Velopack/UpdateOptions) que se pueden pasar a [UpdateManager](../reference/cs/Velopack/UpdateManager) para personalizar cómo se gestionan las actualizaciones, p. ej. para permitir cosas como [cambiar de canal](switching-channels.mdx).
+También hay [algunas opciones](../reference/cs/Velopack/UpdateOptions) que se pueden pasar a [UpdateManager](../reference/cs/Velopack/UpdateManager) para personalizar cómo se manejan las actualizaciones, p. ej., para permitir cosas como [cambiar de canal](switching-channels.mdx).
 
 ### Descargar actualizaciones
-`DownloadUpdatesAsync` intentará descargar deltas (si están disponibles) y reconstruir la última versión completa. Si no hay deltas disponibles, o la reconstrucción del delta falla, se descargará en su lugar el paquete de la última versión completa. Ten en cuenta que si se especifica una opción como `AllowVersionDowngrade`, la versión descargada podría ser más antigua que la versión que se está ejecutando actualmente.
+`DownloadUpdatesAsync` intentará descargar deltas (si están disponibles) y reconstruir la versión completa más reciente. Si no hay deltas disponibles, o la reconstrucción de deltas falla, se descargará el paquete de versión completa más reciente. Ten en cuenta que si se especifica una opción como `AllowVersionDowngrade`, la versión descargada podría ser más antigua que la versión que se está ejecutando actualmente. Consulta [Apuntar a una versión específica](./specific-version.mdx) para obtener detalles, incluyendo cómo instalar una versión exacta.
+
+#### Reglas de reserva de delta
+Los deltas mantienen las descargas pequeñas, pero Velopack recurrirá a una descarga completa cuando sea más rápido o cuando los deltas no se puedan usar:
+- Si hay más deltas que aplicar que `UpdateOptions.MaximumDeltasBeforeFallback` (predeterminado `10`), se descarga el paquete completo en su lugar. Establece esto en un número negativo para deshabilitar los deltas por completo.
+- Si el tamaño combinado de los deltas es mayor que el paquete completo, se descarga el paquete completo en su lugar.
+- Si no hay un paquete base local sobre el que aplicar los deltas, los deltas se deshabilitan. Dado que solo las instalaciones de Windows (instalador) incluyen un `.nupkg` completo, la primera actualización después de una instalación que no sea Windows es siempre una descarga completa.
+
+#### Concurrencia y reanudación
+`DownloadUpdatesAsync` adquiere un bloqueo global por aplicación (un archivo `.velopack_lock` en el directorio de paquetes) para que solo se ejecute una operación de descarga/aplicación a la vez. Si ya hay otra operación en curso, lanza `AcquireLockFailedException`. Si el paquete completo ya existe en el disco, se omite la descarga, y las descargas en curso se escriben en archivos `.partial`.
 
 ### Aplicar actualizaciones
-Una vez que la actualización se ha descargado, tienes varias opciones disponibles. Llamar a `ApplyUpdatesAndRestart` o `ApplyUpdatesAndExit` cerrará tu aplicación, instalará cualquier [requisito previo de bootstrap](../packaging/bootstrapping.mdx), instalará la actualización y luego, opcionalmente, reiniciará tu aplicación de inmediato.
+Una vez que la actualización se ha descargado, tienes algunas opciones disponibles. Llamar a `ApplyUpdatesAndRestart` o `ApplyUpdatesAndExit` cerrará tu aplicación, instalará cualquier [requisito previo de bootstrap](../packaging/bootstrapping.mdx), instalará la actualización y luego opcionalmente reiniciará tu aplicación de inmediato.
 
-Si no quieres cerrar tu aplicación de inmediato, puedes llamar a `WaitExitThenApplyUpdates` en su lugar, que lanzará Update.exe y esperará 60 segundos antes de continuar. Si tu aplicación no se ha cerrado dentro de los 60 segundos, será terminada.
+Si no deseas cerrar tu aplicación de inmediato, puedes llamar a `WaitExitThenApplyUpdates` en su lugar, que iniciará Update.exe y esperará 60 segundos antes de continuar. Si tu aplicación no ha salido dentro de los 60 segundos, será terminada.
 
-Por último, si no llamas a ninguno de estos métodos "Apply", cuando vuelvas a lanzar tu aplicación, de forma predeterminada, Velopack detectará que hay una actualización pendiente y la instalará en ese momento. Si deseas desactivar esto, deberías llamar a `VelopackApp.Build().SetAutoApplyOnStartup(false)`.
+Por último, si no llamas a ninguno de estos métodos "Apply", cuando vuelvas a iniciar tu aplicación, de forma predeterminada, Velopack detectará que hay una actualización pendiente y la instalará en ese momento. Si deseas deshabilitar esto, debes llamar a `VelopackApp.Build().SetAutoApplyOnStartup(false)`.
+
+Puedes detectar si hay una actualización descargada pero no aplicada en cualquier momento a través de `UpdateManager.UpdatePendingRestart`, que devuelve el `VelopackAsset` pendiente (o null si no hay ninguno).
 
 :::tip
-Se recomienda que uses una de las funciones que aplica explícitamente un paquete (p. ej. `ApplyUpdatesAndRestart`), y como regla general no confíes en el comportamiento de AutoApply. El comportamiento automático solo aplicará una versión descargada si es > que la versión instalada actualmente, por lo que no funcionará si intentas hacer un downgrade o cambiar de canal, y si hay más de una instancia de tu proceso en ejecución, podría provocar que la actualización falle o que esos otros procesos sean terminados.
+Se recomienda usar una de las funciones que aplican explícitamente un paquete (p. ej., `ApplyUpdatesAndRestart`), y no depender del comportamiento de AutoApply como regla general. El comportamiento automático solo aplicará una versión descargada si es > la versión instalada actualmente, por lo que no funcionará si intentas degradar o cambiar de canal, y si se está ejecutando más de una instancia de tu proceso podría resultar en que la actualización falle o que esos otros procesos sean terminados.
 :::
+
+#### Auto-aplicación y limpieza al inicio
+En cada inicio, `VelopackApp.Build().Run()` realiza dos pasos de mantenimiento relacionados:
+- **Auto-aplicación:** si existe localmente un paquete completo más nuevo (`latestLocal > current`), la aplicación *no* acaba de ser reiniciada por Velopack, y la auto-aplicación está habilitada, aplica esa actualización y reinicia. Por eso solo avanza *hacia adelante* — no puede degradar ni cambiar de canal (consulta [Apuntar a una versión específica](./specific-version.mdx)).
+- **Limpieza:** elimina los paquetes locales antiguos del directorio de paquetes, conservando solo la versión instalada actualmente y la versión local más reciente.
+
+### Manejo de errores
+Los métodos de actualización pueden lanzar excepciones, y una integración robusta debería capturar al menos estas:
+- `NotInstalledException` — lanzada por cualquier llamada de verificación/descarga cuando la aplicación no es una instalación real de Velopack. Esta es la fuente más común de confusión en la primera ejecución: ejecutar tu aplicación directamente desde `bin/Debug` (en lugar de desde una copia instalada) *no* es una instalación, por lo que las verificaciones de actualización lanzarán excepciones. Consulta [Pruebas](./testing.mdx) para saber cómo probar sin una instalación completa.
+- `ChecksumFailedException` — un paquete descargado falló en la verificación de tamaño o hash.
+- `AcquireLockFailedException` — otra operación de descarga/aplicación ya está en curso (consulta [Concurrencia y reanudación](#concurrency--resuming) arriba).
 
 ## Cómo funcionan las actualizaciones
 
@@ -111,12 +149,12 @@ En una instalación típica de Windows, la estructura de la aplicación se verá
     └── Update.exe
 ```
 
-`sq.version` es un archivo especial creado por Velopack que contiene algunos metadatos sobre tu aplicación instalada actualmente. Durante la instalación/desinstalación, toda la carpeta `{packId}` se reemplaza o elimina. Durante las actualizaciones, solo se reemplaza la carpeta `current`. Si almacenas la configuración en la misma carpeta que tu binario principal, se borrará durante las actualizaciones. 
+`sq.version` es un archivo especial creado por Velopack que contiene algunos metadatos sobre tu aplicación instalada actualmente. Durante la instalación/desinstalación, toda la carpeta `{packId}` se reemplaza o elimina (consulta [Desinstalación](./uninstalling.mdx)). Durante las actualizaciones, solo se reemplaza la carpeta `current`. Si almacenas la configuración en la misma carpeta que tu binario principal, se borrará durante las actualizaciones.
 
 :::warning
-Dado que `current` se reemplaza con la nueva versión durante las actualizaciones, no es seguro almacenar configuración, registros, etc. en el directorio `current` donde reside tu aplicación. Consulta ***[Preservar archivos](./preserved-files.mdx)*** para más información.
+Dado que `current` se reemplaza con la nueva versión durante las actualizaciones, no es seguro almacenar configuraciones, registros, etc. en el directorio `current` donde vive tu aplicación. Consulta ***[Preservación de archivos](./preserved-files.mdx)*** para más información.
 :::
 
 ### En Linux y Mac
-En estas plataformas, la aplicación se almacena como un único paquete (normalmente de solo lectura) como `.app` o `.AppImage`. El paquete se reemplaza durante las actualizaciones en una única operación atómica.
-Si tienes archivos que deseas conservar (configuración, registros, etc.) debes encontrar un directorio en otra parte del sistema de archivos para almacenar estos archivos.
+En estas plataformas, la aplicación se almacena como un único paquete (generalmente de solo lectura) como `.app` o `.AppImage`. El paquete se reemplaza durante las actualizaciones en una única operación atómica.
+Si tienes archivos que deseas conservar (configuraciones, registros, etc.) debes encontrar un directorio en otro lugar del sistema de archivos para almacenar estos archivos.

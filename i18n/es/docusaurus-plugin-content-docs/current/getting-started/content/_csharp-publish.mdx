@@ -1,17 +1,20 @@
 import Admonition from '@theme/Admonition';
 
-Antes de crear una release de Velopack, primero debes compilar tu aplicación y publicarla en un directorio.
+Antes de compilar una versión de Velopack, primero debes compilar tu aplicación y publicarla en un directorio.
 
 
 {!props.showMultipleTfmSuggestion && (
     <>
     <p>
-    Para simplificar, recomendamos publicarla como una <a href="https://learn.microsoft.com/dotnet/core/deploying/#publish-self-contained">aplicación autocontenida</a>.
+    Para mayor simplicidad, recomendamos publicarla como una <a href="https://learn.microsoft.com/dotnet/core/deploying/#publish-self-contained">aplicación autocontenida</a>.
     </p>
     <p>
     <code className="language-bash">
     dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
     </code>
+    </p>
+    <p>
+    Reemplaza <code>-r win-x64</code> con el <a href="https://learn.microsoft.com/dotnet/core/rid-catalog">identificador de tiempo de ejecución (RID)</a> para tu plataforma de destino, como <code>osx-arm64</code> o <code>linux-x64</code>.
     </p>
     </>
 )}
@@ -25,7 +28,7 @@ Antes de crear una release de Velopack, primero debes compilar tu aplicación y 
         </code>
         </p>
         <p>
-        Esto creará los artefactos que se instalarán dentro del directorio <code>publish</code>. Si tienes como destino varias plataformas, este proceso deberá repetirse para cada una de ellas, reemplazando la opción <code>-f</code> por el identificador de framework de destino (TFM) apropiado para cada plataforma, como <code>net8.0-windows</code> o <code>net8.0-maccatalyst</code>.
+        Esto creará los artefactos que se instalarán dentro del directorio <code>publish</code>. Si estás apuntando a múltiples plataformas, este proceso deberá repetirse para cada una de ellas reemplazando la opción <code>-f</code> con el moniker de marco de destino (TFM) apropiado para cada plataforma, como <code>net8.0-windows</code> o <code>net8.0-maccatalyst</code>.
         </p>
     </>
 )}
@@ -37,9 +40,9 @@ Antes de crear una release de Velopack, primero debes compilar tu aplicación y 
 )}
 
 <Admonition type="tip">
-    A partir de .NET 7, la opción `-o`/`--output` [ya no se puede usar con un archivo de solución][def].
+    A partir de .NET 7, la opción `-o`/`--output` [ya no puede usarse con un archivo de solución](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/7.0/solution-level-output-no-longer-valid).
 
-    A partir de .NET 8 y posteriores, el comando `dotnet publish` usa por defecto la configuración Release, por lo que puedes omitir la opción `-c Release`.
+    A partir de .NET 8 y versiones posteriores, el comando `dotnet publish` usa por defecto la configuración Release, por lo que puedes omitir la opción `-c Release`.
     Para más detalles consulta https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/dotnet-publish-config.
 
     Si ejecutas el comando dotnet publish desde el mismo directorio que el archivo .csproj, puedes omitir el argumento del proyecto. Puedes encontrar más detalles en la [documentación de dotnet publish](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?WT.mc_id=DT-MVP-5003472#arguments).

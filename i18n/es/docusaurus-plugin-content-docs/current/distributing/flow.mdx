@@ -7,40 +7,40 @@ sidebar_position: 1
 <AppliesTo all />
 
 :::info Beta
-Velopack Flow se encuentra actualmente en **beta**. Si te interesa unirte a la beta, ponte en contacto con [info@velopack.io](mailto:info@velopack.io).
+Velopack Flow se encuentra actualmente en **beta**. Si estás interesado en unirte a la beta, por favor contáctanos en [info@velopack.io](mailto:info@velopack.io).
 :::
 
-<FlowLink text="Flow" /> es la solución alojada de Velopack para distribuir aplicaciones. Ofrece una forma fluida de distribuir tus aplicaciones de Velopack. Si prefieres alojar tu aplicación por tu cuenta y gestionar manualmente las actualizaciones y reversiones, consulta la sección de [autoalojamiento](self-hosting.mdx).
+<FlowLink text="Flow" /> es la solución alojada de Velopack para distribuir aplicaciones. Proporciona una forma fluida de distribuir tus aplicaciones de Velopack. Si prefieres alojar tu propia aplicación y gestionar manualmente las actualizaciones y reversiones, consulta la sección de [autoalojamiento](self-hosting.mdx).
 
 ## Características
 
-- Solución totalmente gestionada No necesitas gestionar tu propia infraestructura.
-- [Despliegues escalonados](Flow/tiered-rollout.mdx): Libera actualizaciones de forma gradual a un subconjunto de usuarios antes de un despliegue completo.
-- [Enlaces estáticos](Flow/static-links.mdx): Enlaces estáticos que pueden usarse para dirigir a los usuarios a la última versión de tu aplicación, o a una versión específica.
-- [API](Flow/api.mdx): Una API REST que te permite gestionar de forma programática tus versiones, canales y proyectos.
+- Solución totalmente gestionada: sin necesidad de gestionar tu propia infraestructura.
+- [Lanzamientos escalonados](Flow/tiered-rollout.mdx): Lanza actualizaciones gradualmente a un subconjunto de usuarios antes de un despliegue completo.
+- [Enlaces estáticos](Flow/static-links.mdx): Enlaces estáticos que pueden usarse para dirigir a los usuarios a la última versión de tu aplicación o a una versión específica.
+- [API](Flow/api.mdx): Una API REST que te permite gestionar programáticamente tus versiones, canales y proyectos.
 
 ## Primeros pasos
 
 ### Integración con Flow
-Simplemente sigue la [guía de integración](../integrating/overview.mdx) actual para integrar Velopack en tu aplicación. Asegúrate de que el [UpdateManager](../reference/cs/Velopack/UpdateManager) esté configurado para usar el [VelopackFlowSource](../reference/cs/Velopack/Sources/VelopackFlowSource) como [IUpdateSource](../reference/cs/Velopack/Sources/IUpdateSource). Este es el comportamiento predeterminado del constructor por defecto.
+Simplemente sigue la [guía de integración](../integrating/overview.mdx) actual para integrar Velopack en tu aplicación. Asegúrate de que el [UpdateManager](../reference/cs/Velopack/UpdateManager) esté configurado para usar [VelopackFlowSource](../reference/cs/Velopack.Sources/VelopackFlowSource) como [IUpdateSource](../reference/cs/Velopack.Sources/IUpdateSource). Este es el comportamiento predeterminado del constructor por defecto.
 
-### Publicación en Flow
+### Publicar en Flow
 Comienza creando una cuenta gratuita en <FlowLink />.
 
-Una vez que tengas una cuenta, debes crear un proyecto. Esto puede hacerse haciendo clic en el botón "Create New Project" en el panel principal, o navegando a la lista de Proyectos en la página de inicio de tu Equipo.
-Asegúrate de que el Package Id que introduzcas coincida exactamente con el `--packId` que usaste al compilar tu versión de Velopack. 
+Una vez que tengas una cuenta, debes crear un proyecto. Esto puede hacerse haciendo clic en el botón "Create New Project" del panel principal o navegando a la lista de proyectos en la página de inicio de tu equipo.
+Asegúrate de que el Package Id que ingreses coincida exactamente con el `--packId` que usaste al compilar tu versión de Velopack.
 
-De vuelta en la CLI de Velopack, empaqueta tu aplicación como lo harías normalmente siguiendo la [guía de empaquetado](../packaging/overview.mdx). 
+De vuelta en el CLI de Velopack, empaqueta tu aplicación como lo harías normalmente siguiendo la [guía de empaquetado](../packaging/overview.mdx).
 
-A continuación, inicia sesión en el servicio Flow ejecutando el siguiente comando.
+A continuación, inicia sesión en el servicio de Flow ejecutando el siguiente comando.
 ```bash
 vpk login
 ```
-Para más detalles sobre la autenticación con Flow a través de la CLI `vpk`, consulta [Autenticación de Flow](Flow/authentication.mdx).
+Para más detalles sobre la autenticación con Flow a través del CLI `vpk`, consulta [Autenticación de Flow](Flow/authentication.mdx).
 
 Ahora puedes subir tu versión a Flow ejecutando el siguiente comando en el directorio donde se encuentra tu versión:
 ```bash
 vpk publish --outputDir <OutputDir> --channel <Channel>
 ```
 
-¡Listo! Ahora puedes ver la versión en Flow. En unos minutos la versión estará disponible y lista para su distribución.
+¡Listo! Ahora puedes ver la versión en Flow. En pocos minutos, la versión estará disponible y lista para su distribución.

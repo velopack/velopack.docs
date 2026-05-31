@@ -2,14 +2,14 @@
 sidebar_position: 6
 ---
 
-# Probar las actualizaciones
+# Probando Actualizaciones
 <AppliesTo all />
 
-Al desarrollar aplicaciones con Velopack, querrás probar tu lógica de actualización sin necesitar una instalación completa. Esta guía te muestra cómo probar actualizaciones, hooks y otras funciones de Velopack en entornos de desarrollo y CI/CD.
+Cuando desarrollas aplicaciones con Velopack, querrás probar tu lógica de actualización sin necesitar una instalación completa. Esta guía te muestra cómo probar actualizaciones, hooks y otras características de Velopack en entornos de desarrollo y CI/CD.
 
-## Pruebas en desarrollo
+## Probando en Desarrollo
 
-La forma más sencilla de probar la integración de Velopack durante el desarrollo es usar los ayudantes de prueba integrados que proporciona el SDK.
+La forma más sencilla de probar la integración de Velopack durante el desarrollo es usar los helpers de prueba integrados que proporciona el SDK.
 
 ### C# - TestVelopackLocator
 
@@ -27,7 +27,7 @@ VelopackApp.Build()
     .Run();
 ```
 
-Luego puedes probar la comprobación y descarga de actualizaciones:
+Luego puedes probar la verificación y descarga de actualizaciones:
 
 ```csharp
 var updateManager = new UpdateManager(source, null, locator);
@@ -38,24 +38,27 @@ if (updateInfo != null) {
 }
 ```
 
-### Otros lenguajes
+### Otros Lenguajes
 
-Para lenguajes sin un localizador de prueba integrado, puedes probar mediante:
+El `TestVelopackLocator` mostrado aquí es exclusivo de C#. Para otros lenguajes (JS, Python, Rust, C++) no existe un locator de prueba integrado, así que prueba contra una instalación real en su lugar:
 
-1. **Crear un paquete mínimo** - Compila una versión de prueba con `vpk pack` e instálala localmente
-2. **Usar una fuente de actualización local** - Apunta tu UpdateManager a un directorio local
-3. **Simular la fuente de actualización** - Crea un servidor HTTP simulado o una fuente de archivos para las pruebas
+1. **Creando un paquete mínimo** - Construye una versión de prueba con `vpk pack` e instálala localmente
+2. **Usando una fuente de actualización local** - Apunta tu `UpdateManager` a un directorio local (cada SDK acepta una ruta simple o una URL `file` de la misma manera que la forma `new UpdateManager("C:\\path")` de C#), así puedes servir actualizaciones directamente desde una carpeta sin un servidor HTTP.
+3. **Simulando la fuente de actualización** - Crea un servidor HTTP simulado o una fuente de archivos para pruebas
 
-## Probar las descargas de actualizaciones
+## Probando Descargas de Actualizaciones
 
-Para probar que tu aplicación puede comprobar y descargar correctamente las actualizaciones:
+Para probar que tu aplicación puede verificar y descargar actualizaciones correctamente:
 
 ```csharp
-// Create a mock update source
+// Create a mock update source from an HTTP server
 var source = new SimpleWebSource("http://localhost:8080/releases");
 
-// Or use a local directory
-var source = new SimpleWebSource("file:///C:/my-test-updates");
+// Or use a local directory. SimpleWebSource only speaks HTTP, so for a
+// local path use SimpleFileSource (which is what passing a path to
+// UpdateManager resolves to under the hood).
+var source = new SimpleFileSource(new DirectoryInfo(@"C:\my-test-updates"));
+// equivalently: new UpdateManager(@"C:\my-test-updates")
 
 var updateManager = new UpdateManager(source);
 var updateInfo = await updateManager.CheckForUpdatesAsync();
@@ -66,9 +69,9 @@ Assert.True(updateInfo.TargetFullRelease.Version > currentVersion);
 await updateManager.DownloadUpdatesAsync(updateInfo);
 ```
 
-## Probar los canales
+## Probando Canales
 
-Prueba el [cambio de canal](./switching-channels.mdx) especificando explícitamente un canal:
+Prueba el [cambio de canal](./switching-channels.mdx) especificando un canal explícitamente:
 
 ```csharp
 var options = new UpdateOptions {
@@ -80,9 +83,9 @@ var updateManager = new UpdateManager(source, options);
 var updateInfo = await updateManager.CheckForUpdatesAsync();
 ```
 
-Lee más sobre los canales en la [documentación de canales](../packaging/channels.mdx).
+Lee más sobre los canales en la [documentación de Canales](../packaging/channels.mdx).
 
-## Probar los hooks
+## Probando Hooks
 
 Para probar los hooks de instalación/actualización/desinstalación sin pasar por una instalación completa:
 
@@ -94,7 +97,7 @@ MyApp.exe --veloapp-updated 1.1.0
 MyApp.exe --veloapp-uninstall 1.0.0
 ```
 
-Tu aplicación debería gestionar estos argumentos y cerrarse rápidamente.
+Tu aplicación debería manejar estos argumentos y salir rápidamente.
 
 **Opción 2: Establece variables de entorno**
 
@@ -107,13 +110,13 @@ $env:VELOPACK_FIRSTRUN="true"
 VELOPACK_FIRSTRUN=true ./MyApp
 ```
 
-Consulta la [documentación de hooks](./hooks.mdx) para más detalles sobre los hooks disponibles.
+Consulta la [documentación de Hooks](./hooks.mdx) para más detalles sobre los hooks disponibles.
 
-## Pruebas en CI/CD
+## Probando en CI/CD
 
 Puedes verificar tu integración de Velopack en pruebas automatizadas sin una instalación completa.
 
-### Ejemplo de prueba unitaria (C#)
+### Ejemplo de Prueba Unitaria (C#)
 
 ```csharp
 [Fact]
@@ -135,16 +138,16 @@ public async Task CanCheckForUpdates()
 }
 ```
 
-## Escenarios de prueba comunes
+## Escenarios de Prueba Comunes
 
-### Probar el downgrade de versión
+### Probar Degradación de Versión
 
 ```csharp
 var options = new UpdateOptions { AllowVersionDowngrade = true };
 var updateManager = new UpdateManager(source, options, locator);
 ```
 
-### Probar la detección de la primera ejecución
+### Probar Detección de Primera Ejecución
 
 ```csharp
 VelopackApp.Build()
@@ -155,7 +158,7 @@ VelopackApp.Build()
     .Run();
 ```
 
-### Probar el reinicio tras una actualización
+### Probar Reinicio de Actualización
 
 ```csharp
 VelopackApp.Build()
@@ -166,12 +169,12 @@ VelopackApp.Build()
     .Run();
 ```
 
-## Consejos de depuración
+## Consejos de Depuración
 
-Al probar las actualizaciones:
+Al probar actualizaciones:
 
-1. **Revisa los registros** - Activa el registro (logging) para ver qué está haciendo Velopack
-2. **Inspecciona el directorio de paquetes** - Verifica que los paquetes se descargan correctamente
-3. **Comprueba el feed de versiones** - Asegúrate de que tu `releases.{channel}.json` es válido
+1. **Revisar los registros** - Habilita el registro para ver qué está haciendo Velopack
+2. **Inspeccionar el directorio de paquetes** - Verifica que los paquetes se descarguen correctamente
+3. **Verificar el feed de versiones** - Asegúrate de que tu `releases.{channel}.json` sea válido
 
-Para más orientación sobre depuración, consulta la [documentación de depuración](../troubleshooting/debugging.mdx).
+Para más orientación sobre depuración, consulta la [documentación de Depuración](../troubleshooting/debugging.mdx).

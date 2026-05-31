@@ -2,31 +2,34 @@
 // AI translation engine for the Velopack docs.
 //
 // Single source of truth for both the initial translation pass and ongoing
-// maintenance. Dependency-free (Node 18+, built-in fetch). Reads
-// scripts/translate.config.json, detects which English sources have changed
-// since the last run (via a sha256 manifest), and (re)translates only those
-// into i18n/<locale>/...
+// maintenance. Reads scripts/translate.config.json, detects which English sources have
+// changed since the last run (via a sha256 manifest), and (re)translates only those into
+// i18n/<locale>/...
+//
+// Translation runs through the Claude CLI (`claude -p`) — one path everywhere. Locally it
+// uses your Claude subscription (OAuth/keychain); in CI, set ANTHROPIC_API_KEY in the
+// environment and the CLI picks it up automatically. No code branching, no API key needed
+// for local runs.
 //
 // Usage:
-//   ANTHROPIC_API_KEY=sk-... node scripts/translate.mjs [--locale es] [--force] [--dry-run]
+//   node scripts/translate.mjs [--locale es] [--force] [--dry-run]
 //
 // Env:
-//   ANTHROPIC_API_KEY  required  Anthropic API key
-//   TRANSLATE_MODEL    optional  model id (default: claude-sonnet-4-6)
+//   TRANSLATE_MODEL  optional  model id/alias (default: claude-sonnet-4-6)
+//   CLAUDE_BIN       optional  path to the Claude CLI (default: claude)
+//   ANTHROPIC_API_KEY  optional  honored by the CLI itself when set (e.g. in CI)
 
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync, rmSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 
 const MODEL = process.env.TRANSLATE_MODEL || 'claude-sonnet-4-6';
-const API_KEY = process.env.ANTHROPIC_API_KEY;
-const API_URL = 'https://api.anthropic.com/v1/messages';
-const API_VERSION = '2023-06-01';
-const MAX_TOKENS = 16000;
+const CLAUDE_BIN = process.env.CLAUDE_BIN || 'claude';
 
 // ---------------------------------------------------------------------------
 // CLI args
@@ -87,47 +90,44 @@ function matchesAny(relPath, globs) {
 }
 
 // ---------------------------------------------------------------------------
-// Anthropic API
+// Translation — via the Claude CLI (`claude -p`)
 // ---------------------------------------------------------------------------
-async function callAnthropic(system, userText) {
-  if (!API_KEY) throw new Error('ANTHROPIC_API_KEY is not set');
+// One path everywhere. Locally this uses your Claude subscription (OAuth/keychain); in CI,
+// set ANTHROPIC_API_KEY in the environment and the CLI picks it up automatically. We fully
+// override the system prompt and disable all tools, so each call is a clean, deterministic
+// text transform (no tool use, no extra context). NOTE: never pass --bare — it restricts
+// auth to ANTHROPIC_API_KEY/apiKeyHelper and would break the local subscription path.
+function translate(system, userText) {
   let lastErr;
-  for (let attempt = 1; attempt <= 4; attempt++) {
-    try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'x-api-key': API_KEY,
-          'anthropic-version': API_VERSION,
-        },
-        body: JSON.stringify({
-          model: MODEL,
-          max_tokens: MAX_TOKENS,
-          system,
-          messages: [{ role: 'user', content: userText }],
-        }),
-      });
-      if (res.status === 429 || res.status >= 500) {
-        throw new Error(`retryable HTTP ${res.status}: ${await res.text()}`);
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const res = spawnSync(
+      CLAUDE_BIN,
+      ['-p', '--model', MODEL, '--system-prompt', system, '--tools', '', '--output-format', 'text'],
+      { input: userText, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
+    );
+    if (res.error) {
+      if (res.error.code === 'ENOENT') {
+        throw Object.assign(
+          new Error(`Claude CLI not found (looked for "${CLAUDE_BIN}"). Install it or set CLAUDE_BIN to its path.`),
+          { fatal: true },
+        );
       }
-      if (!res.ok) {
-        throw Object.assign(new Error(`HTTP ${res.status}: ${await res.text()}`), { fatal: true });
-      }
-      const data = await res.json();
-      const text = (data.content || [])
-        .filter((b) => b.type === 'text')
-        .map((b) => b.text)
-        .join('');
-      if (!text) throw new Error('empty response from API');
-      return text;
-    } catch (err) {
-      if (err.fatal) throw err;
-      lastErr = err;
-      const backoff = 1000 * 2 ** (attempt - 1);
-      log(`  ! attempt ${attempt} failed (${err.message}); retrying in ${backoff}ms`);
-      await new Promise((r) => setTimeout(r, backoff));
+      throw res.error;
     }
+    if (res.status === 0) {
+      let text = (res.stdout || '').replace(/\r/g, '');
+      // Defensive: strip a stray whole-file code fence if the model wrapped its output.
+      const fence = text.match(/^\s*```[a-zA-Z]*\n([\s\S]*)\n```\s*$/);
+      if (fence) text = fence[1];
+      text = text.replace(/\s+$/, '');
+      if (text) return text;
+      lastErr = new Error('empty response from Claude CLI');
+    } else {
+      lastErr = new Error(`claude -p exited ${res.status}: ${(res.stderr || '').trim() || '(no stderr)'}`);
+    }
+    const backoff = 1000 * 2 ** (attempt - 1);
+    log(`  ! attempt ${attempt} failed (${lastErr.message}); retrying in ${backoff}ms`);
+    spawnSync('sleep', [String(backoff / 1000)]);
   }
   throw lastErr;
 }
@@ -221,7 +221,7 @@ async function translateDocs(cfg, locale, languageName, manifest) {
       translated++;
       continue;
     }
-    const out = await callAnthropic(docsSystemPrompt(languageName), content);
+    const out = await translate(docsSystemPrompt(languageName), content);
     writeFileEnsured(targetPath, out.endsWith('\n') ? out : out + '\n');
     translated++;
   }
@@ -305,7 +305,7 @@ async function translateUi(cfg, locale, languageName, manifest) {
       if (!DRY_RUN) {
         const subset = {};
         for (const k of untranslated) subset[k] = json[k];
-        const out = await callAnthropic(uiSystemPrompt(languageName), JSON.stringify(subset, null, 2));
+        const out = await translate(uiSystemPrompt(languageName), JSON.stringify(subset, null, 2));
         let parsed;
         try {
           parsed = JSON.parse(out);
@@ -348,6 +348,7 @@ async function main() {
     return;
   }
 
+  log(`Claude CLI: ${CLAUDE_BIN}`);
   log(`Model: ${MODEL}`);
   log(`Locales: ${locales.join(', ')}${FORCE ? ' (force)' : ''}${DRY_RUN ? ' (dry-run)' : ''}`);
 

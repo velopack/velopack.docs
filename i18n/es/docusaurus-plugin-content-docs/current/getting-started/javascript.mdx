@@ -6,24 +6,46 @@ import Admonition from '@theme/Admonition';
 
 # Primeros pasos: JS / Electron
 <AppliesTo all />
-Comience con nuestro paquete de NPM para JS y Electron.
+Comienza con nuestro paquete NPM para JS & Electron.
 
 :::tip
-Esta guía asume que está creando una aplicación de Electron con Electron Forge y el empaquetador Webpack. Dado que Velopack contiene un módulo binario nativo (`.node`), es posible que no sea compatible con los empaquetadores `vite` o `rollup`. Para generar un proyecto completamente nuevo, puede usar la plantilla oficial de electron forge:
+Esta guía asume que estás creando una aplicación Electron con Electron Forge y el empaquetador Webpack, que es la configuración recomendada. Dado que Velopack contiene un módulo binario nativo (`.node`), funciona directamente con Webpack. Para crear un proyecto completamente nuevo, puedes usar la plantilla oficial de electron forge:
 ```
 npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
 ```
 :::
 
+### Usando Vite / Rollup
+
+Velopack también funciona con los empaquetadores `vite` y `rollup`, pero debes evitar que empaqueten el módulo nativo `.node`. Externaliza `electron` y todas las dependencias de tu `package.json` para que se carguen desde `node_modules` en tiempo de ejecución en lugar de ser incluidas en línea:
+
+```js
+// vite.config.js
+import fs from 'node:fs';
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
+
+export default defineConfig({
+    build: {
+        rollupOptions: {
+            external: ['electron', ...Object.keys(pkg.dependencies || {})],
+        },
+    },
+});
+```
+
+:::note
+Algunos usuarios han reportado un error `invalid peer certificate: UnknownIssuer` de `checkForUpdatesAsync` al ejecutarse bajo vite/rollup. Este es un problema conocido. No lo soluciones sirviendo actualizaciones sobre `http` plano — mantén tu fuente de actualizaciones en `https` y asegúrate de que el almacén de confianza del sistema esté disponible para la aplicación empaquetada.
+:::
+
 <FancyStep step={1}>
-    Agregue Velopack a su `package.json`:
+    Agrega Velopack a tu `package.json`:
     ```txt
     npm install velopack
     ```
 </FancyStep>
 
 <FancyStep step={2}>
-    Agregue el siguiente código a su punto de entrada (por ejemplo, `index.ts`) lo antes posible (antes de cualquier código de inicio de electron, etc.):
+    Agrega el siguiente código a tu punto de entrada (p. ej., `index.ts`) lo antes posible (antes de cualquier otro código de inicio de electron, etc.):
     ```js
     const { VelopackApp } = require('velopack');
 
@@ -35,7 +57,7 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
     ```
 
     <Admonition type="warning" title="Squirrel Startup Code">
-        Si actualmente tiene algún código de inicio de "Squirrel", debería eliminarlo ahora. Por ejemplo:
+        Si actualmente tienes algún código de inicio de "Squirrel", debes eliminarlo ahora. Por ejemplo:
         ```
         npm uninstall electron-squirrel-startup @electron-forge/maker-squirrel 
         ```
@@ -43,11 +65,15 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
 </FancyStep>
 
 <FancyStep step={3}>
-    Esto tiene cierta complejidad debido al modelo de IPC de electron y a que Velopack tiene un módulo nativo de node.
+    Esto tiene cierta complejidad debido al modelo IPC de Electron y a que Velopack tiene un módulo nativo de node.
 
-    Primero, debe configurar los manejadores de IPC en el hilo principal de su aplicación:
+    Primero, debes configurar los manejadores IPC en el hilo principal de tu aplicación. La
+    `updateUrl` apunta a donde alojes tus actualizaciones (un servidor web, un bucket de S3,
+    lanzamientos de GitHub, etc.):
     ```js
-    const { VelopackApp } = require('velopack');
+    const { VelopackApp, UpdateManager } = require('velopack');
+
+    const updateUrl = "https://the.place/you-host/updates";
 
     ipcMain.handle("velopack:get-version", () => {
         try {
@@ -77,7 +103,11 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
     });
     ```
 
-    A continuación, debe exponer estas funciones a sus procesos de renderizado en `preload.ts`
+    A diferencia de los SDKs de C# y Python, el enlace JS no tiene un único asistente de aplicar-y-reiniciar,
+    por lo que llamas a `waitExitThenApplyUpdate` (que prepara el actualizador y
+    espera a que este proceso termine) y luego sales de la aplicación tú mismo mediante `app.quit()`.
+
+    A continuación, debes exponer estas funciones a tus procesos de renderizado en `preload.ts`
     ```js
     import { contextBridge, ipcRenderer } from "electron";
     import type { UpdateInfo } from "velopack";
@@ -105,7 +135,7 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
     contextBridge.exposeInMainWorld("velopackApi", velopackApi);
     ```
 
-    Por último, ahora puede usar estas funciones en su renderizador para proporcionar una interfaz de actualización a sus usuarios:
+    Por último, ahora puedes usar estas funciones en tu renderizador para proporcionar una interfaz de actualización a tus usuarios:
     ```js
     async function updateApp() {
         // check for new version
@@ -124,7 +154,7 @@ npm init electron-app@latest my-new-app-name -- --template=webpack-typescript
 </FancyStep>
 
 <FancyStep step={4}>
-    Compile su aplicación en un binario (por ejemplo, `.exe` en Windows). Ejemplo usando electron forge:
+    Compila tu aplicación a un binario (p. ej., `.exe` en Windows). Ejemplo usando electron forge:
     ```sh
     npx electron-forge package
     ```

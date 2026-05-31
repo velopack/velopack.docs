@@ -1,28 +1,34 @@
-# Hooks de la aplicación
-<AppliesTo win />
+# Hooks de la Aplicación
+<AppliesTo all />
 
-Los hooks permiten que tu aplicación ejecute lógica en varias etapas del proceso de instalación/actualización/desinstalación.
+Los hooks permiten que su aplicación ejecute lógica en varias etapas del proceso de instalación/actualización/desinstalación.
 
-En general, no recomiendo intentar gestionar los hooks manualmente; en su lugar, consulta las opciones disponibles de [VelopackApp](../reference/cs/Velopack/VelopackApp).
+En general, no se recomienda manejar los hooks manualmente; en su lugar, prefiera las opciones disponibles de [VelopackApp](../reference/cs/Velopack/VelopackApp).
 
-Si deseas gestionarlos tú mismo, no existe un SDK para tu lenguaje, o simplemente quieres aprender más sobre ello, sigue leyendo.
+Si desea manejarlos usted mismo, no existe un SDK para su lenguaje, o simplemente quiere saber más al respecto, continúe leyendo.
+
+Los mecanismos de argumento de línea de comandos y variables de entorno descritos a continuación son multiplataforma. El constructor `VelopackApp` de C# también ofrece métodos "FastCallback" de conveniencia (`OnAfterInstallFastCallback`, `OnAfterUpdateFastCallback`, `OnBeforeUpdateFastCallback`, `OnBeforeUninstallFastCallback`) que envuelven estos hooks — pero estos son **solo para Windows** y no tienen efecto en macOS y Linux.
 
 ## Hooks de línea de comandos
-En varias etapas del proceso de instalación/actualización/desinstalación, Velopack ejecutará tu ejecutable principal (el especificado al empaquetar con `--mainExe {exeName}`) con ciertos argumentos de línea de comandos y esperará que tu aplicación se cierre lo más rápido posible. 
+En varias etapas del proceso de instalación/actualización/desinstalación, Velopack ejecutará su ejecutable principal (el especificado al empaquetar con `--mainExe {exeName}`) con ciertos argumentos de CLI y esperará que su aplicación salga lo más rápido posible.
 
-- `--veloapp-install {version}` Ocurre después de que el programa se ha extraído, pero antes de que finalice la instalación. La aplicación debe gestionarlo y cerrarse en un plazo de 30 segundos.
-- `--veloapp-obsolete {version}` Se ejecuta en la versión antigua de la aplicación, antes de aplicar una actualización. La aplicación debe gestionarlo y cerrarse en un plazo de 15 segundos.
-- `--veloapp-updated {version}` Se ejecuta en la nueva versión de la aplicación, después de aplicar una actualización. La aplicación debe gestionarlo y cerrarse en un plazo de 15 segundos.
-- `--veloapp-uninstall {version}` Se ejecuta antes de que tenga lugar una desinstalación. La aplicación debe gestionarlo y cerrarse en un plazo de 30 segundos.
+- `--veloapp-install {version}` Ocurre después de que el programa ha sido extraído, pero antes de que la instalación haya finalizado. La aplicación debe manejarlo y salir en un plazo de 30 segundos.
+- `--veloapp-obsolete {version}` Se ejecuta en la versión anterior de la aplicación, antes de que se aplique una actualización. La aplicación debe manejarlo y salir en un plazo de 15 segundos.
+- `--veloapp-updated {version}` Se ejecuta en la nueva versión de la aplicación, después de que se aplica una actualización. La aplicación debe manejarlo y salir en un plazo de 15 segundos.
+- `--veloapp-uninstall {version}` Se ejecuta antes de que tenga lugar una desinstalación. La aplicación debe manejarlo y salir en un plazo de 30 segundos.
 
-Por el momento, no hay forma de proporcionar feedback durante los hooks para indicar que deseas cancelar la instalación/desinstalación/actualización, etc., y no puedes mostrar ninguna interfaz de usuario al usuario.
+Por el momento, no hay forma de proporcionar retroalimentación durante los hooks para indicar que desea cancelar la instalación/desinstalación/actualización, etc., y no puede mostrar ninguna interfaz de usuario al usuario.
 
 :::warning
-Si tu aplicación recibe uno de estos argumentos y no se cierra dentro del tiempo asignado, será terminada.
+Si su aplicación recibe uno de estos argumentos y no sale en el tiempo asignado, será terminada.
 :::
 
 ## Hooks de variables de entorno
-También hay dos variables de entorno que se establecen; si se detectan, tu aplicación no necesita cerrarse.
+También hay dos variables de entorno que se establecen; si se detectan, su aplicación no necesita salir.
 
-- `VELOPACK_FIRSTRUN` es verdadero si esta es la primera ejecución después de que se instaló la aplicación.
-- `VELOPACK_RESTART` es verdadero si la aplicación fue reiniciada por Velopack (normalmente porque se aplicó una actualización).
+- `VELOPACK_FIRSTRUN` es verdadera si esta es la primera ejecución después de que la aplicación fue instalada.
+- `VELOPACK_RESTART` es verdadera si la aplicación fue reiniciada por Velopack (generalmente porque se aplicó una actualización).
+
+En C#, no necesita leer estas variables directamente. `VelopackApp.Build().OnFirstRun(...)` se activa cuando `VELOPACK_FIRSTRUN` está establecida, y `VelopackApp.Build().OnRestarted(...)` se activa cuando `VELOPACK_RESTART` está establecida. A diferencia de los hooks FastCallback mencionados anteriormente, estos se ejecutan durante un inicio normal y su aplicación continúa ejecutándose después.
+
+Para el conjunto completo de variables de entorno de Velopack, consulte [Depuración](../troubleshooting/debugging.mdx#environment-variables).

@@ -1,49 +1,92 @@
 # Alojamiento propio
 <AppliesTo all />
 
-<FlowLink /> proporciona una solución totalmente gestionada para distribuir aplicaciones. Se encarga de gestionar las actualizaciones y los rollbacks administrando la lista de versiones. Gestiona la organización y distribución de los activos de las versiones dentro de canales separados, y proporciona funciones adicionales como el despliegue escalonado.
+<FlowLink /> proporciona una solución completamente administrada para distribuir aplicaciones. Se encarga de gestionar las actualizaciones y reversiones administrando la lista de versiones. Organiza y distribuye los activos de versiones dentro de canales separados, y ofrece funciones adicionales como la implementación escalonada.
 
-Si en cambio prefieres gestionar tu propia infraestructura, Velopack proporciona herramientas para descargar y subir activos de versiones a muchos proveedores de almacenamiento comunes. La herramienta `vpk` tiene soporte para descargar la última versión, y, para varios proveedores, subir nuevos activos de versiones después de ejecutar `vpk pack` (consulta [Resumen](overview.mdx)).
+Si en cambio prefiere gestionar su propia infraestructura, Velopack proporciona herramientas para descargar y cargar activos de versiones en muchos proveedores de almacenamiento comunes. La herramienta `vpk` permite descargar la última versión y, para varios proveedores, enviar nuevos activos de versión después de ejecutar `vpk pack` (consulte [Descripción general](overview.mdx)).
+
+:::note
+Los ejemplos a continuación muestran los indicadores mínimos para comenzar. Para ver la lista completa de opciones de cada proveedor, ejecute `vpk download <provider> --help` / `vpk upload <provider> --help`, y consulte la guía de [CLI de implementación](deploy-cli.mdx) para el flujo de trabajo completo `download → pack → upload`.
+:::
+
+:::warning La política de retención es destructiva
+En S3, Azure y el sistema de archivos local, pasar `--keepMaxReleases <count>` a `vpk upload` aplica una política de retención que **elimina permanentemente** las versiones anteriores más allá de las `<count>` versiones completas más recientes. Omítalo para conservar todas las versiones.
+:::
 
 ## Amazon S3
 
-[Amazon S3](https://aws.amazon.com/s3/) es un servicio de almacenamiento de objetos altamente escalable, duradero y seguro. 
+[Amazon S3](https://aws.amazon.com/s3/) es un servicio de almacenamiento de objetos altamente escalable, duradero y seguro.
 
-Para subir o descargar desde un bucket de S3 necesitarás especificar el endpoint de S3 o la región. La autenticación se puede hacer usando un token de sesión existente o mediante un ID de clave de acceso y un secreto.
+Para cargar o descargar desde un bucket de S3, debe especificar exactamente uno de `--region` (para AWS) o `--endpoint` (para cualquier proveedor compatible con S3). La autenticación puede realizarse con `--keyId`/`--secret`, o con un token STS `--session`.
 
-Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+```cmd
+vpk download s3 --bucket MyApp --region us-west-1 --keyId {keyId} --secret {secret}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload s3 --bucket MyApp --region us-west-1 --keyId {keyId} --secret {secret}
+```
+
+Otras opciones útiles: `--prefix` (cargar bajo una sub-ruta), `--disablePathStyle`, `--timeout` (tiempo de espera de red en minutos, predeterminado `30`), y la destructiva `--keepMaxReleases` mencionada anteriormente.
 
 ## Azure Blob storage
 
-[Azure Blob Storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction) es una solución de almacenamiento en la nube escalable y rentable para datos no estructurados. 
+[Azure Blob Storage](https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction) es una solución de almacenamiento en la nube escalable y rentable para datos no estructurados.
 
-Puedes autenticarte en Azure Blob Storage usando un nombre de cuenta de almacenamiento y una clave de acceso, o usando una firma de acceso compartido (SAS). 
+Debe especificar `--account` y `--container`, además de exactamente uno de `--key` (clave de acceso a la cuenta de almacenamiento) o `--sas` (firma de acceso compartido).
 
-Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+```cmd
+vpk download azure --account MyAccount --container MyContainer --key {accessKey}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload azure --account MyAccount --container MyContainer --key {accessKey}
+```
+
+Otras opciones útiles: `--prefix`, un `--endpoint` personalizado, y la destructiva `--keepMaxReleases` mencionada anteriormente.
 
 ## Sistema de archivos
-Velopack admite rutas del sistema de archivos local tanto para "subir" como para "descargar". Esto es útil para pruebas o para el desarrollo local a través de unidades de red. La herramienta `vpk` se puede usar para empaquetar versiones y luego copiarlas a un directorio local.
+Velopack admite rutas del sistema de archivos local tanto para "cargar" como para "descargar". Esto es útil para pruebas, para desarrollo local mediante unidades de red, o para alojar en cualquier almacenamiento que pueda montarse como un directorio. El directorio de destino se especifica con `--path`.
 
-Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+```cmd
+vpk download local --path /srv/releases
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload local --path /srv/releases
+```
+
+Pase `--regenerate` para reconstruir el archivo `releases.{channel}.json` en el directorio de destino a partir de los activos presentes. La destructiva `--keepMaxReleases` también es compatible.
 
 ## Gitea
 
-[Gitea](https://gitea.io) es un servicio Git ligero y de alojamiento propio. Proporciona una plataforma de DevOps privada, rápida y fiable.
+[Gitea](https://gitea.io) es un servicio de Git ligero y auto-alojado. Proporciona una plataforma DevOps privada, rápida y confiable.
 
-Al publicar en Gitea, el nombre de la versión será el mismo que el número de versión a menos que se especifique lo contrario. Si no se encuentra una versión existente, se creará una nueva. Opcionalmente, si prefieres actualizar una versión existente, puedes especificar la opción `--merge`.
+Al publicar en Gitea, el nombre de la versión será el mismo que el número de versión, a menos que se especifique lo contrario. Si no se encuentra una versión existente, se creará una nueva. Pase `--merge` para actualizar una versión existente en su lugar.
 
-Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+```cmd
+vpk download gitea --repoUrl https://gitea.example.com/me/MyApp --token {token}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload gitea --repoUrl https://gitea.example.com/me/MyApp --token {token} --publish --tag v1.0.1
+```
+
+Otras opciones útiles: `--pre` (marcar como versión preliminar), `--releaseName`, `--targetCommitish`.
 
 ## GitHub
 
-[GitHub](https://github.com) es una plataforma ampliamente utilizada para alojar repositorios Git y colaborar en el desarrollo de software. Proporciona funciones como pull requests, seguimiento de incidencias e integraciones de CI/CD.
+[GitHub](https://github.com) es una plataforma ampliamente utilizada para alojar repositorios de Git y colaborar en el desarrollo de software. Proporciona funciones como solicitudes de extracción, seguimiento de problemas e integraciones de CI/CD.
 
-Al publicar en GitHub, el nombre de la versión será por defecto el número de versión a menos que se especifique. Si existe una versión con el mismo nombre, se puede actualizar usando la opción `--merge`.
+:::warning Los envíos son borradores por defecto
+`vpk upload github` crea la versión como **borrador** a menos que pase `--publish`. Una versión en borrador no es visible para sus usuarios y `UpdateManager` no la verá hasta que la publique (ya sea mediante `--publish` o manualmente en la interfaz de GitHub).
+:::
 
-Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
+```cmd
+vpk download github --repoUrl https://github.com/me/MyApp --token {token}
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+vpk upload github --repoUrl https://github.com/me/MyApp --token {token} --publish --tag v1.0.1
+```
+
+Se requiere `--token` para repositorios privados; para repositorios públicos, las descargas funcionan sin uno (sujeto al límite de velocidad anónimo de GitHub). Otras opciones útiles: `--pre`, `--releaseName`, `--targetCommitish`, y `--merge` (actualizar una versión existente con el mismo nombre). Consulte la [guía de GitHub Actions](github-actions.mdx) para ver un ejemplo completo de CI.
 
 ## Servidor HTTP
-Velopack admite endpoints HTTP arbitrarios para la descarga. Este endpoint debe ser capaz de servir el archivo `releases.{channel}.json`, así como los archivos `nupkg`. `vpk` no ofrece soporte de subida, y depende de ti subir los archivos actualizados al servidor después de compilar una nueva versión.
+Velopack admite puntos de conexión HTTP arbitrarios para descargar. Este punto de conexión debe poder servir el archivo `releases.{channel}.json`, así como los archivos `nupkg`. `vpk` no ofrece soporte de carga para HTTP simple — depende de usted cargar los archivos actualizados al servidor después de compilar una nueva versión.
 
-Para todas las opciones disponibles consulta la [documentación del CLI de vpk](../reference/cli).
-
+```cmd
+vpk download http --url https://the.place/you-host/updates
+vpk pack -u YourAppId -v 1.0.1 -p {buildOutput}
+# then upload the contents of your output directory to your HTTP host yourself
+```

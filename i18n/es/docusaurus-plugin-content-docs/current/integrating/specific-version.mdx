@@ -1,0 +1,86 @@
+---
+sidebar_position: 4
+---
+
+# Apuntar a una Versión Específica
+<AppliesTo all />
+
+De forma predeterminada, `UpdateManager` solo avanza *hacia adelante*: `CheckForUpdatesAsync` devuelve una actualización cuando la última versión remota es **mayor** que la versión instalada actualmente. A veces se necesita algo diferente:
+
+- **Hacer downgrade a la última versión inferior** — se eliminó una versión defectuosa del feed, o estás [cambiando a un usuario a un canal](./switching-channels.mdx) cuya última versión es inferior a la que tienen instalada.
+- **Saltar a una versión exacta** — fijar una compilación particular (más antigua *o* más reciente que la última), por ejemplo para revertir a un usuario específico a una versión estable conocida, o avanzar a un usuario a una compilación específica durante pruebas escalonadas.
+
+El primer caso se maneja con `AllowVersionDowngrade` + `CheckForUpdatesAsync`. El segundo omite la verificación por completo y construye el `UpdateInfo` manualmente.
+
+## Hacer downgrade a la última versión inferior
+Establece `AllowVersionDowngrade = true` en `UpdateOptions`:
+
+```cs
+var mgr = new UpdateManager("https://the.place/you-host/updates", new UpdateOptions {
+    AllowVersionDowngrade = true,
+});
+
+var update = await mgr.CheckForUpdatesAsync();
+if (update != null) {
+    await mgr.DownloadUpdatesAsync(update);
+    mgr.ApplyUpdatesAndRestart(update); // explicit apply is required, see below
+}
+```
+
+Con esta opción habilitada, `CheckForUpdatesAsync` devolverá un `UpdateInfo` en dos casos adicionales:
+- la última versión remota es **inferior** a la versión actual;
+- (cuando se combina con [`ExplicitChannel`](./switching-channels.mdx)) la última versión remota en el *otro* canal tiene el **mismo** número de versión que la actual — un movimiento lateral de canal.
+
+Ten en cuenta que `CheckForUpdatesAsync` siempre apunta a la versión *más reciente aplicable* del canal. Si necesitas una versión específica que no sea la más reciente, utiliza el método manual descrito a continuación.
+
+## Instalar una versión exacta
+Para moverse a una versión arbitraria — independientemente de cuál sea la versión «más reciente» — puedes omitir `CheckForUpdatesAsync` y construir el `UpdateInfo` tú mismo. El flujo de trabajo es:
+
+1. Instanciar la [fuente de actualización](./update-sources.mdx) directamente y pedirle el feed de versiones disponibles.
+2. Encontrar el `VelopackAsset` para la versión exacta que deseas.
+3. Construir un `UpdateInfo` manualmente, estableciendo `isDowngrade` cuando el objetivo es más antiguo que lo instalado.
+4. Descargarlo y aplicarlo como de costumbre.
+
+```cs
+// 1. Point a source at wherever you host releases, and read its feed.
+//    (pass the channel your app uses, or null for this OS's default channel)
+var source = new SimpleWebSource("https://the.place/you-host/updates");
+var mgr = new UpdateManager(source);
+
+var feed = await source.GetReleaseFeed(NullVelopackLogger.Instance, mgr.AppId, channel: null);
+
+// 2. Find the full package for the exact version you want.
+var target = feed.Assets
+    .Where(a => a.Type == VelopackAssetType.Full)
+    .Single(a => a.Version == SemanticVersion.Parse("1.2.3"));
+
+// 3. Build an UpdateInfo by hand. Mark it as a downgrade if the target is
+//    older than the installed version (this disables deltas and removes any
+//    newer local packages — see below).
+var isDowngrade = mgr.CurrentVersion != null && target.Version < mgr.CurrentVersion;
+var info = new UpdateInfo(target, isDowngrade);
+
+// 4. Download and apply — no CheckForUpdatesAsync involved.
+await mgr.DownloadUpdatesAsync(info);
+mgr.ApplyUpdatesAndRestart(info);
+```
+
+Como estás construyendo el `UpdateInfo` directamente, la opción `AllowVersionDowngrade` **no** está involucrada — esa opción solo afecta lo que `CheckForUpdatesAsync` está dispuesto a devolver. `DownloadUpdatesAsync` simplemente descarga cualquier `UpdateInfo.TargetFullRelease` que le proporciones, por lo que eres responsable de establecer `isDowngrade` correctamente.
+
+:::tip
+`GetReleaseFeed` devuelve todos los activos aplicables, incluidos los deltas. Filtra por `VelopackAssetType.Full` (como se muestra arriba) para seleccionar un paquete completo que puedas aplicar directamente.
+:::
+
+## Debes aplicar explícitamente
+El comportamiento de aplicación automática al inicio **solo aplica versiones mayores que la versión actual**, por lo que nunca aplicará un downgrade ni un movimiento lateral por ti. Siempre que el objetivo sea inferior o igual a la versión instalada, debes llamar a un método de aplicación explícito como `ApplyUpdatesAndRestart` o `ApplyUpdatesAndExit`. Depender de la aplicación automática no hará nada silenciosamente.
+
+## Deltas y paquetes locales
+Cuando la actualización es un downgrade o un movimiento lateral, `UpdateInfo.IsDowngrade` es `true` (ya sea establecido por `CheckForUpdatesAsync`, o por ti en el método manual). En ese caso:
+- las actualizaciones delta están deshabilitadas — siempre se descarga el paquete completo de destino;
+- cualquier paquete local en disco que sea *más nuevo* que la versión de destino descargada se elimina, para que la aplicación no pueda «re-actualizarse» sola en el próximo lanzamiento.
+
+## El lado del despliegue
+Apuntar a una versión anterior solo funciona si esa versión está realmente presente en el feed que lee tu cliente. Si anteriormente la reemplazaste o eliminaste, debes hacerla disponible nuevamente — vuelve a publicar o usa `vpk upload` con la versión anterior, o apunta al cliente a un canal/feed donde esa versión esté presente. Consulta [autoalojamiento](../distributing/self-hosting.mdx) y [canales](../packaging/channels.mdx).
+
+## Interacción con los canales
+El downgrade y el cambio de canal se utilizan habitualmente juntos: sacar a un usuario del canal `beta` de vuelta al canal `stable` generalmente implica moverse a una versión inferior. Combina `ExplicitChannel` con `AllowVersionDowngrade` para el caso de la última versión inferior — consulta [Cambio de canales](./switching-channels.mdx).

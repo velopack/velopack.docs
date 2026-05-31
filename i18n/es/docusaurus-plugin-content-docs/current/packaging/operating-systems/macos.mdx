@@ -1,33 +1,39 @@
-# Resumen de MacOS
+# Descripción general de macOS
 <AppliesTo mac />
-Notas específicas de MacOS sobre la creación y el uso de paquetes de Velopack.
+Notas específicas de macOS para crear y usar paquetes de Velopack.
 
-Para Mac, las aplicaciones se distribuyen como paquetes `.app`. Estas son carpetas especiales que aparecen en el Finder como si fueran un único archivo.
+En Mac, las aplicaciones se distribuyen como paquetes `.app`. Estas son carpetas especiales que aparecen en Finder como un solo archivo.
 
 ## Empaquetado
-Si estás creando un paquete personalizado, puedes proporcionar una carpeta que termine en `.app` al argumento `--packDir` / `-p`, y Velopack la copiará y usará directamente.
-Si no deseas crear el paquete `.app` manualmente, Velopack puede hacerlo por ti, así que simplemente proporciona cualquier otra carpeta (que no termine en `.app`) al argumento `--packDir`.
+Si estás creando un bundle personalizado, puedes proporcionar una carpeta que termine en `.app` al argumento `--packDir` / `-p`, y Velopack la copiará y usará directamente.
+Si no deseas crear el bundle `.app` manualmente, Velopack puede hacerlo por ti; simplemente proporciona cualquier otra carpeta (que no termine en `.app`) al argumento `--packDir`.
 
-Si deseas que Velopack cree automáticamente un paquete, el único argumento adicional que necesitas proporcionar es `--icon`, y este debe ser un archivo `.icns` válido.
+Si deseas que Velopack cree automáticamente un bundle, el único argumento adicional que debes proporcionar es `--icon`, y debe ser un archivo `.icns` válido.
+
+### Crear un bundle sin empaquetar
+Si solo deseas producir el bundle `.app` (por ejemplo, para inspeccionarlo o probarlo) sin construir una versión completa, puedes usar el comando `vpk bundle`, que acepta los mismos argumentos de entrada que `vpk pack`. De forma predeterminada, Velopack genera un `Info.plist` por ti; puedes personalizar el identificador del bundle con `--bundleId {id}`, o proporcionar un `Info.plist` completamente personalizado con `--plist {path}`. Estas dos opciones son mutuamente excluyentes.
 
 :::warning
-Apple requiere [la firma de código y la notarización](../signing.mdx) antes de enviar tus versiones a los usuarios, o tu aplicación no se ejecutará.
+[La firma de código y la notarización](../signing.mdx) son requeridas por Apple antes de distribuir tus versiones a los usuarios, o tu aplicación no se ejecutará.
 :::
 
 ## Actualización
-Durante las actualizaciones, los paquetes se descargan a `/tmp`, y durante el paso de aplicación el paquete `.app` se extraerá y reemplazará. 
+Durante las actualizaciones, los paquetes se descargan en un directorio de caché por aplicación (`~/Library/Caches/velopack/{packId}/packages`), y durante el paso de aplicación el bundle `.app` se extrae y reemplaza. macOS utiliza la carpeta `Caches` del usuario (en lugar de la ubicación `/var/tmp` de Linux) porque es la ubicación convencional con permisos de escritura para el usuario, destinada a datos de aplicaciones que no necesitan sobrevivir a una limpieza de caché, y evita requerir elevación de privilegios en el caso común de un usuario individual.
 
-Si el `.app` está instalado en `/Applications` (y no en `~/Applications`, por ejemplo), puede ser necesaria una elevación de privilegios. 
-En este caso, el actualizador usará AppleScript para solicitar la elevación y completar la actualización. 
-El paquete `.app` creado por Velopack no necesita estar en `/Applications` para admitir actualizaciones, es un paquete portable / autónomo
-y, si el usuario lo mueve, sigue siendo capaz de aplicar actualizaciones.
+Si el `.app` está instalado en `/Applications` (y no en `~/Applications`, por ejemplo), es posible que se requiera elevación de privilegios.
+En este caso, el actualizador usará AppleScript para solicitar elevación de privilegios y completar la actualización.
+El bundle `.app` creado por Velopack no necesita estar en `/Applications` para admitir actualizaciones; es un bundle portátil y autocontenido, y si el usuario lo mueve, sigue siendo capaz de aplicar actualizaciones.
 
-Técnicamente la aplicación puede actualizarse mientras se está ejecutando, aunque Velopack hará un esfuerzo por cerrarla/reiniciarla para eliminar cualquier versión antigua que se esté ejecutando actualmente.
+La aplicación puede actualizarse técnicamente mientras se está ejecutando, aunque Velopack hará un esfuerzo por cerrarla o reiniciarla para eliminar las versiones antiguas que se estén ejecutando.
+
+:::warning Limitaciones
+El derecho de acceso **App Sandbox** de macOS (`com.apple.security.app-sandbox`) **no** es compatible con Velopack. El actualizador necesita escribir fuera del contenedor del sandbox (reemplaza el bundle `.app` en su lugar y puede escribir en `/Applications`), y genera un proceso auxiliar / usa AppleScript (`do shell script ... with administrator privileges`) para solicitar elevación cuando el bundle se encuentra en una ubicación con privilegios — todo lo cual prohíbe el App Sandbox. Las aplicaciones en sandbox se distribuyen típicamente a través de la Mac App Store, que proporciona su propio mecanismo de actualización, por lo que no necesitan Velopack.
+:::
 
 ## Instalación
-Velopack generará y firmará automáticamente un instalador `.pkg` por ti, que te permite mostrar un léeme, una conclusión, una página de licencia, etc. 
-Consulta la ayuda de la línea de comandos para obtener una lista completa de opciones.
-También permite al usuario elegir si instalar en `/Applications` o `~/Applications`, y lanzará la aplicación automáticamente después de que se haya instalado. 
+Velopack generará y firmará automáticamente un instalador `.pkg` por ti, lo que te permite mostrar un readme, una conclusión, una página de licencia, etc.
+Consulta la ayuda de línea de comandos para obtener una lista completa de opciones.
+También permite al usuario elegir si instalar en `/Applications` o `~/Applications`, y lanzará la aplicación automáticamente después de que se haya instalado.
 
-Si no deseas enviar un pkg, Velopack también crea un `.zip` portable que se extraerá automáticamente si el usuario hace clic en él en el Finder.
-Si deseas enviar un DMG en su lugar, puedes descomprimir este paquete portable y crear un DMG de esa manera.
+Si no deseas distribuir un pkg, Velopack también crea un `.zip` portátil que se extraerá automáticamente si el usuario hace clic en él en Finder.
+Si deseas distribuir un DMG en su lugar, puedes descomprimir este paquete portátil y crear un DMG de esa manera.

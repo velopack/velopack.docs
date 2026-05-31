@@ -6,13 +6,13 @@ Estos son los pasos generales necesarios:
 
 1. Reemplaza el paquete nuget `Squirrel.Windows` o `Clowd.Squirrel` con el último [Paquete NuGet de Velopack](https://www.nuget.org/packages/velopack).
 
-0. Instala la herramienta de línea de comandos `vpk`, ya que es lo que usarás para construir versiones de Velopack.
+0. Instala la herramienta de línea de comandos `vpk`, ya que es la que usarás para compilar versiones de Velopack.
    ```cmd
    dotnet tool install -g vpk
    ```
 
    :::tip
-   Asegúrate de estar usando la misma versión de vpk y del paquete de Velopack, esta es la única configuración oficialmente compatible.
+   Asegúrate de usar la misma versión de vpk y del paquete de Velopack; esta es la única configuración oficialmente compatible.
    :::
 
    Alternativamente, puedes ejecutar `vpk` sin instalarlo globalmente usando el comando [`dnx`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472):
@@ -20,11 +20,11 @@ Estos son los pasos generales necesarios:
    dnx vpk --version 1.0.0
    ```
    
-   Reemplaza `1.0.0` con la versión del paquete de Velopack que estés usando en tu aplicación.
+   Reemplaza `1.0.0` con la versión del paquete de Velopack que estás usando en tu aplicación.
 
-0. Tendrás que reemplazar `Squirrel.SquirrelAwareApp` al principio de tu aplicación por `Velopack.VelopackApp.Build().Run()`.
+0. Necesitarás reemplazar `Squirrel.SquirrelAwareApp` al comienzo de tu aplicación por `Velopack.VelopackApp.Build().Run()`.
 
-   Los accesos directos [[Leer más]](integrating/shortcuts.mdx) y las entradas del registro se gestionan automáticamente por ti en Velopack, así que si actualmente estás haciendo esto en los hooks de `SquirrelAwareApp`, deberían eliminarse. Por ejemplo, si tus hooks eran así antes:
+   Los accesos directos [[Leer más]](../integrating/shortcuts.mdx) y las entradas del registro se gestionan automáticamente en Velopack, por lo que si actualmente lo estás haciendo en los hooks de `SquirrelAwareApp`, deben eliminarse. Por ejemplo, si tus hooks eran así antes:
    ```cs
    public static void Main(string[] args)
    {
@@ -49,7 +49,7 @@ Estos son los pasos generales necesarios:
        if (firstRun) MessageBox.Show("Thanks for installing my application!");
    }
    ```
-   Entonces migrarías al siguiente código, eliminando los hooks de accesos directos:
+   Luego migrarías al siguiente código, eliminando los hooks de accesos directos:
    ```cs
    public static void Main(string[] args)
    {
@@ -61,36 +61,36 @@ Estos son los pasos generales necesarios:
    }
    ```
 
-0. Los hooks de Velopack ya no admiten la creación manual de accesos directos. En su lugar, estos se crean/eliminan automáticamente por ti como parte del instalador.
+0. Los hooks de Velopack ya no admiten la creación manual de accesos directos. En su lugar, estos se crean/eliminan automáticamente como parte del instalador.
 
 0. Velopack requiere que la aplicación se reinicie para aplicar las actualizaciones. Las API anteriores aplicaban las actualizaciones descargadas *antes* de desencadenar el reinicio.
 
-0. El concepto de `SquirrelAwareApp` ya no existe, así que si has añadido algún atributo, entradas del manifiesto del ensamblado u otros archivos para indicar que tu binario ahora es compatible, puedes eliminarlos. Cada paquete de Velopack tiene exactamente un binario "VelopackApp", que debe implementar el código anterior en la parte superior de `Main`. De forma predeterminada, Velopack buscará un binario en `{packDir}\{packId}.exe`. Si tu exe principal de VelopackApp tiene un nombre diferente, deberías proporcionar el nombre con el argumento `--mainExe yourApp.exe`.
+0. El concepto de `SquirrelAwareApp` ya no existe, por lo que si has añadido atributos, entradas en el manifiesto del ensamblado u otros archivos para indicar que tu binario es «consciente», puedes eliminarlos. Cada paquete de Velopack tiene exactamente un binario "VelopackApp", que debe implementar el código anterior al comienzo de `Main`. De forma predeterminada, Velopack buscará un binario en `{packDir}\{packId}.exe`. Si tu exe principal de VelopackApp tiene un nombre diferente, debes proporcionarlo con el argumento `--mainExe yourApp.exe`.
 
-0. El archivo "RELEASES" ya no es un formato que Velopack utilice, pero producirá uno al construir paquetes en windows con el canal predeterminado (por ejemplo, sin proporcionar ningún argumento de canal). En su lugar, Velopack producirá archivos `releases.{channel}.json`, que deben tratarse de la misma manera. Si deseas migrar una aplicación heredada de windows a Velopack, deberías publicar una versión (omitiendo el argumento `--channel`) y subir tanto el archivo `RELEASES` como el archivo `releases.win.json` que produce Velopack a tu feed de actualizaciones.
+0. El archivo "RELEASES" ya no es un formato que usa Velopack, pero se generará uno al compilar paquetes en Windows con el canal predeterminado (es decir, sin argumento de canal). En su lugar, Velopack producirá archivos `releases.{channel}.json`, que deben tratarse de la misma manera. Si deseas que una aplicación de Windows heredada migre a Velopack, debes publicar una versión (omitiendo el argumento `--channel`) y subir tanto el archivo `RELEASES` como el archivo `releases.win.json` que produce Velopack a tu fuente de actualización.
 
-0. En general, la línea de comandos admite todas las mismas funciones, pero los nombres de los argumentos o los comandos pueden haber cambiado. Velopack ya no admite tomar un `.nupkg` que fue creado por dotnet o nuget.exe. Deberías compilar/publicar tu aplicación y proporcionar la salida de tu compilador a `vpk pack` en su lugar. Un ejemplo muy simple podría verse así
+0. En general, la línea de comandos admite todas las mismas funciones, pero los nombres de los argumentos o comandos pueden haber cambiado. Velopack ya no admite el uso de un `.nupkg` creado por dotnet o nuget.exe. En su lugar, debes compilar/publicar tu aplicación y proporcionar la salida del compilador a `vpk pack`. Un ejemplo muy sencillo podría ser el siguiente
    ```cmd
    dotnet publish --self-contained -r win-x64 -o publish
    vpk pack -u YourAppId -v 1.0.0 -p publish -e yourMainBinary.exe
    ```
 
-   Por favor, revisa la ayuda de la línea de comandos de vpk para más detalles:
+   Consulta la ayuda de la línea de comandos de vpk para más detalles:
    ```cmd
    vpk -h
    ```
-0. En tu aplicación instalada, ya no hay carpetas `app-1.0.0`, y en una aplicación recién instalada no habrá un `YourApp.exe` en la raíz de la aplicación. Cambiar la ruta de la aplicación (por ejemplo, app-1.0.0 y app-1.0.1) como hace Squirrel es muy malo, rompe muchas cosas en Windows. Reglas del firewall, problemas de antivirus, preferencias de GPU, fijación de iconos en la bandeja y más. Mantener la ubicación del exe en la misma posición después de cada actualización soluciona muchos problemas, por lo que velopack siempre almacenará tu programa en `{root}\current\YourApp.exe`. La primera vez que tu aplicación de Squirrel descargue una actualización de Velopack, el actualizador de Velopack realizará una migración de la aplicación, buscará accesos directos en todas las ubicaciones habituales/predeterminadas y los limpiará/reparará para que apunten a la nueva ubicación. Si anteriormente tenías asociaciones de archivos o accesos directos fuera de las ubicaciones predeterminadas que apuntaban a `{root}\YourApp.exe`, estos tendrán que actualizarse, ya que ese archivo ya no existirá en las nuevas instalaciones.
+0. En tu aplicación instalada ya no existen carpetas `app-1.0.0`, y en una aplicación recién instalada no habrá un `YourApp.exe` en la raíz de la aplicación. Cambiar la ruta de la aplicación (p. ej., app-1.0.0 y app-1.0.1) como lo hace Squirrel es muy perjudicial, ya que rompe muchas cosas en Windows: reglas de firewall, problemas con antivirus, preferencias de GPU, anclaje de iconos en la bandeja del sistema y más. Mantener la ubicación del exe en la misma posición después de cada actualización soluciona muchos problemas, por lo que Velopack siempre almacenará tu programa en `{root}\current\YourApp.exe`. La primera vez que tu aplicación Squirrel descarga una actualización de Velopack, el actualizador de Velopack realizará una migración de la aplicación: buscará accesos directos en todas las ubicaciones habituales/predeterminadas y los limpiará/reparará para que apunten a la nueva ubicación. Si anteriormente tenías asociaciones de archivos o accesos directos fuera de las ubicaciones predeterminadas que apuntaban a `{root}\YourApp.exe`, estos deberán actualizarse, ya que ese archivo ya no existirá en las nuevas instalaciones.
 
 ## Diferencias de API con Clowd.Squirrel
 Esta lista no es exhaustiva y puede cambiar con el tiempo. Si tienes una pregunta específica, por favor pregunta en el [Discord de Velopack](https://discord.gg/velopack).
-Para muchas de estas, un simple buscar/reemplazar en tu base de código debería ser suficiente, sin embargo, estas son solo pautas y deberías revisar el 
+Para muchos de estos, una simple búsqueda/reemplazo en tu base de código debería ser suficiente; sin embargo, estas son solo pautas y debes revisar la [referencia de la API de C#](../reference/cs/Velopack/) para conocer las firmas exactas y el comportamiento de las API de reemplazo.
 
-0. La clase `ReleaseEntry` se reemplaza por `VelopackAsset`
+0. La clase `ReleaseEntry` es reemplazada por `VelopackAsset`
 0. `UpdateManager` ya no es desechable. Elimina cualquier declaración `using`.
-0. La propiedad `UpdateManager.IsInstalledApp` se renombra a `UpdateManager.IsInstalled`
-0. El método `UpdateManager.CheckForUpdate()` se renombra a `UpdateManager.CheckForUpdatesAsync()`
-0. `UpdateInfo.CurrentlyInstalledVersion` se reemplaza comprobando el `UpdateInfo.BaseRelease`
-0. `UpdateInfo.ReleasesToApply` ya no existe, dependiendo de tu uso esto se reemplaza por `UpdateInfo.TargetFullRelease` o `UpdateInfo.DeltasToTarget`
-0. `UpdateInfo.FutureReleaseEntry` se reemplaza por `UpdateInfo.TargetFullRelease`
+0. La propiedad `UpdateManager.IsInstalledApp` pasa a llamarse `UpdateManager.IsInstalled`
+0. El método `UpdateManager.CheckForUpdate()` pasa a llamarse `UpdateManager.CheckForUpdatesAsync()`
+0. `UpdateInfo.CurrentlyInstalledVersion` es reemplazado por la comprobación de `UpdateInfo.BaseRelease`
+0. `UpdateInfo.ReleasesToApply` ya no existe; dependiendo de tu uso, se reemplaza por `UpdateInfo.TargetFullRelease` o `UpdateInfo.DeltasToTarget`
+0. `UpdateInfo.FutureReleaseEntry` es reemplazado por `UpdateInfo.TargetFullRelease`
 0. `UpdateInfo.Create()` ya no existe, usa el constructor directamente `new UpdateInfo()`
-0. `UpdateManager.DownloadReleases()` se reemplaza por `UpdateManager.DownloadUpdatesAsync()`
+0. `UpdateManager.DownloadReleases()` es reemplazado por `UpdateManager.DownloadUpdatesAsync()`

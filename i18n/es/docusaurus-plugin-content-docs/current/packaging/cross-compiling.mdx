@@ -1,36 +1,35 @@
-# Compilación cruzada
+# Compilación Cruzada
 <AppliesTo all />
-Compilar lanzamientos para un sistema operativo distinto del que estás usando.
+Compilar versiones para un SO diferente al que estás utilizando.
 
 ## Runtime vs. compilación cruzada
 
-Usar el argumento `--runtime` [[Lee más]](./runtime.mdx) es una excelente forma de indicar a Velopack qué _versión_ de CPU o SO soporta tu software, pero no 
-habilita la compilación cruzada de forma predeterminada y, si intentas usar `--runtime linux-x64` en una máquina Windows, recibirás un mensaje de error "Not Supported".
+Usar el argumento `--runtime` [[Leer más]](./runtime.mdx) es una excelente manera de indicarle a Velopack qué CPU o _versión_ de SO admite tu software, pero no 
+habilita la compilación cruzada de forma predeterminada y si intentas usar `--runtime linux-x64` en una máquina Windows, recibirás un mensaje de error "Not Supported".
 
-Esto se debe a que, de forma predeterminada, Velopack cree que siempre intentas compilar un lanzamiento para el SO que estás usando actualmente.
+Esto se debe a que, de forma predeterminada, Velopack asume que siempre estás intentando compilar una versión para el SO que estás utilizando actualmente.
 
-## Cómo compilar de forma cruzada
-Dado que los argumentos de línea de comandos disponibles para cada SO son ligeramente diferentes, debes optar explícitamente por la compilación cruzada usando una directiva de la CLI. 
+## Cómo realizar compilación cruzada
+Dado que los argumentos de línea de comandos disponibles para cada SO son ligeramente diferentes, debes optar explícitamente por la compilación cruzada utilizando una directiva de CLI. 
 
 Las siguientes directivas están disponibles:
 - `vpk [win]`
 - `vpk [linux]`
 - `vpk [osx]`
 
-Por ejemplo, si deseas compilar un paquete de linux mientras usas una máquina Windows, usarías los siguientes comandos:
+Por ejemplo, si deseas compilar un paquete de linux mientras usas una máquina Windows, utilizarías los siguientes comandos:
 - `vpk [linux] -h`
 - `vpk [linux] pack -h`
 - `vpk [linux] pack --runtime linux-x64 --mainExe yourExeName --packId YourAppId ...`
 
-Antes de ejecutar un comando para un SO diferente, deberías revisar el texto de ayuda de ese comando usando `vpk [os] -h` para ver las opciones disponibles.
+Antes de ejecutar un comando para un SO diferente, debes revisar el texto de ayuda de ese comando usando `vpk [os] -h` para ver las opciones disponibles.
 
 ## Configuraciones compatibles
 
 - Es posible crear paquetes de Windows en cualquier SO (Windows, Linux o MacOS). 
 - Es posible crear paquetes de Linux en cualquier SO (Windows, Linux o MacOS).
-- No es posible crear paquetes de MacOS en Windows o Linux. Debido a las dependencias estrictas de herramientas como `codesign`, `xcrun`, `productbuild`, etc., 
+- No es posible crear paquetes de MacOS en Windows o Linux. Debido a las dependencias estrictas en herramientas como `codesign`, `xcrun`, `productbuild` y similares, 
   debes usar una máquina MacOS para crear paquetes de MacOS.
 
-
-
-
+## Advertencia sobre la firma
+Si bien puedes *compilar* un paquete de Windows desde Linux o macOS, **firmarlo** tiene requisitos adicionales. La ruta estándar `--signParams` / `--signTemplate` depende de `signtool.exe`, que solo se ejecuta en Windows. Si necesitas firmar un paquete de Windows desde Linux o macOS, utiliza una herramienta multiplataforma como JSign. Consulta la [guía de firma de código](./signing.mdx) para más detalles.

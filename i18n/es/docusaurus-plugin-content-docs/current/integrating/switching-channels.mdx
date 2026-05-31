@@ -1,8 +1,10 @@
-# Cambiar de canal
+# Cambio de Canales
 <AppliesTo all />
-De forma predeterminada, `UpdateManager` intentará buscar versiones en el mismo canal para el que fue compilado. Puedes [leer más sobre los canales de empaquetado aquí](../packaging/channels.mdx). Así que normalmente, no deberías proporcionar ningún canal al constructor de `UpdateManager`.
+Por defecto, `UpdateManager` intentará buscar versiones en el mismo canal para el que fue compilado. Puedes [leer más sobre los canales de empaquetado aquí](../packaging/channels.mdx). Por lo tanto, normalmente no deberías proporcionar ningún canal al constructor de `UpdateManager`.
 
-Sin embargo, de vez en cuando, puede ser útil permitir que un usuario cambie de canal sin reinstalar la aplicación. Por ejemplo, un usuario opta por obtener funciones "beta" a través de la configuración de tu aplicación. En ese caso, puedes proporcionar el canal explícitamente:
+Si nunca se especificó un canal (ni en el momento del empaquetado ni a través de `ExplicitChannel`), `UpdateManager` recurre a un canal predeterminado con el nombre abreviado del sistema operativo actual (por ejemplo, `win`, `osx` o `linux`). Esto coincide con el canal predeterminado que `vpk pack` usa cuando no se pasa `--channel`.
+
+Sin embargo, de vez en cuando puede ser útil permitir que un usuario cambie de canal sin reinstalar la aplicación. Por ejemplo, un usuario decide activar las funciones "beta" a través de la configuración de tu aplicación. En ese caso, puedes proporcionar el canal de forma explícita:
 
 ```cs
 new UpdateManager("https://the.place/you-host/updates", new UpdateOptions { 
@@ -10,16 +12,16 @@ new UpdateManager("https://the.place/you-host/updates", new UpdateOptions {
 });
 ```
 
-Además, de forma predeterminada, el UpdateManager solo actualizará a versiones que sean más recientes que la versión actual, lo que conduce a un comportamiento subóptimo porque a menudo puedes estar cambiando a una versión que es inferior a la versión actual. Imagina el siguiente escenario:
+Además, por defecto, el UpdateManager solo actualizará a versiones más recientes que la versión actual, lo que puede llevar a un comportamiento subóptimo porque a menudo puedes estar cambiando a una versión inferior a la versión actual. Imagina el siguiente escenario:
 
-- Publicas la 2.0.0 en el canal `stable`.
-- Publicas de la 2.0.1 a la 2.0.5 en el canal `beta`.
-- Tu usuario instala la 2.0.0 `stable`, y luego opta por `beta` a través de la configuración.
-- Tu usuario puede actualizar de la 2.0.0 -> 2.0.5 sin problemas, porque la 2.0.5 es una versión más reciente.
+- Publicas la versión 2.0.0 en el canal `stable`.
+- Publicas las versiones 2.0.1 a 2.0.5 en el canal `beta`.
+- Tu usuario instala la versión 2.0.0 `stable` y luego activa `beta` a través de la configuración.
+- Tu usuario puede actualizar de 2.0.0 -> 2.0.5 sin problemas, porque 2.0.5 es una versión más reciente.
 - Tu usuario encuentra un error y desactiva `beta` a través de la configuración.
-- De forma predeterminada, UpdateManager no instalará la stable 2.0.0 porque es una versión inferior a la 2.0.5.
+- Por defecto, UpdateManager no instalará la versión stable 2.0.0 porque es una versión inferior a 2.0.5.
 
-Es por esta razón que recomiendo usar siempre la opción `ExplicitChannel` junto con la opción `AllowVersionDowngrade`. Por ejemplo:
+Por esta razón, al cambiar de canal se recomienda usar la opción `ExplicitChannel` junto con la opción `AllowVersionDowngrade`. Por ejemplo:
 
 ```cs
 new UpdateManager("https://the.place/you-host/updates", new UpdateOptions { 
@@ -27,3 +29,5 @@ new UpdateManager("https://the.place/you-host/updates", new UpdateOptions {
     AllowVersionDowngrade = true,
 });
 ```
+
+Cuando `AllowVersionDowngrade` está habilitado, el comportamiento de aplicación automática al inicio no aplicará la versión inferior o igual por ti, por lo que debes llamar a un método de aplicación explícito. Consulta [Apuntar a una versión específica](./specific-version.mdx) para obtener todos los detalles.

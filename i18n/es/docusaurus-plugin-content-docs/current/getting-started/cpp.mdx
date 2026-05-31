@@ -6,34 +6,34 @@ import Completion from './content/_completion.mdx';
 # Primeros pasos: C / C++
 
 <AppliesTo all />
-Comience con nuestra biblioteca multiplataforma de C / C++.
+Comienza con nuestra biblioteca C / C++ multiplataforma.
 
-La biblioteca de C / C++ de Velopack es una biblioteca dinámica precompilada que puede enlazar en su aplicación para habilitar las actualizaciones automáticas y los instaladores.
-Hay disponible una API de C y otra de C++ en [Velopack.h](https://github.com/velopack/velopack/blob/develop/src/lib-cpp/include/Velopack.h),
-por lo que esta biblioteca es adecuada para aplicaciones de C / C++ así como para otros lenguajes de programación que admitan la llamada a funciones de C, por ejemplo, p/invoke. 
+La biblioteca C / C++ de Velopack es una biblioteca dinámica precompilada que puedes vincular a tu aplicación para habilitar actualizaciones automáticas e instaladores.
+Hay una API de C y una de C++ disponibles en [Velopack.h](https://github.com/velopack/velopack/blob/develop/src/lib-cpp/include/Velopack.h),
+por lo que esta biblioteca es adecuada para aplicaciones C / C++ así como para otros lenguajes de programación que admitan la llamada a funciones C, por ejemplo, p/invoke.
 
 :::tip
-Se espera que todas las cadenas (por ejemplo, `char*` o `std::string`) estén codificadas en UTF-8. 
-En Windows, es posible que necesite convertir `wchar_t*` y `std::wstring` a UTF-8 antes de pasarlos a la biblioteca.
+Todas las cadenas de texto (por ejemplo, `char*` o `std::string`) deben estar codificadas en UTF-8.
+En Windows, es posible que necesites convertir `wchar_t*` y `std::wstring` a UTF-8 antes de pasarlos a la biblioteca.
 :::
 
 <FancyStep step={1}>
-    Descargue el `velopack_libc_{version}.zip` más reciente desde [GitHub Releases](https://github.com/velopack/velopack/releases) e inclúyalo en su proyecto.
-    Extraiga el contenido del archivo zip en un directorio al que pueda hacer referencia en su proyecto.
+    Descarga el último `velopack_libc_{version}.zip` desde [GitHub Releases](https://github.com/velopack/velopack/releases) e inclúyelo en tu proyecto.
+    Extrae el contenido del archivo zip en un directorio al que puedas hacer referencia en tu proyecto.
 </FancyStep>
 
 <FancyStep step={2}>
-    Agregue el directorio `include` del contenido extraído a su ruta de inclusión y agregue el binario apropiado de `lib` a las opciones de su enlazador.
-    Encontrará tanto un directorio `lib` como uno `lib-static` en el contenido extraído.
+    Añade el directorio `include` del contenido extraído a tu ruta de inclusión, y agrega el binario adecuado de `lib` a las opciones de tu enlazador.
+    Encontrarás tanto un directorio `lib` como uno `lib-static` en el contenido extraído.
 </FancyStep>
 
 
 <FancyStep step={3}>
-    Agregue `VelopackApp` a su punto de entrada (por ejemplo, `main()` o `wmain()`) lo antes posible, idealmente como la primera instrucción que se ejecute:
+    Añade `VelopackApp` a tu punto de entrada (por ejemplo, `main()` o `wmain()`) lo antes posible, idealmente como la primera instrucción a ejecutar:
     ```cpp
     #include "Velopack.h"
 
-    wmain(int argc**, wchar_t *argv[ ], wchar_t *envp[ ])
+    int wmain(int argc, wchar_t* argv[], wchar_t* envp[])
     {
         // This should run as early as possible in the main method.
         // Velopack may exit / restart the app at this point. 
@@ -46,10 +46,12 @@ En Windows, es posible que necesite convertir `wchar_t*` y `std::wstring` a UTF-
 </FancyStep>
 
 <FancyStep step={4}>
-    Velopack ofrece una forma sencilla de buscar actualizaciones y aplicarlas. 
-    A continuación se muestra cómo implementar una comprobación básica de actualizaciones dentro de su aplicación. 
+    Velopack ofrece una forma sencilla de buscar actualizaciones y aplicarlas.
+    A continuación se muestra cómo implementar una comprobación básica de actualizaciones dentro de tu aplicación.
     
-    También puede dividir los distintos métodos para permitir que sus usuarios controlen cuándo buscar actualizaciones, descargarlas o aplicarlas.
+    También puedes separar los distintos métodos para permitir que tus usuarios controlen cuándo buscar actualizaciones, descargarlas o aplicarlas.
+
+    La URL que se pasa a `UpdateManager` apunta al lugar donde alojas tus actualizaciones (un servidor web, un bucket de S3, GitHub releases, etc.).
 
     ```cpp
     #include "Velopack.h"
@@ -71,11 +73,13 @@ En Windows, es posible que necesite convertir `wchar_t*` y `std::wstring` a UTF-
         exit(0); // exit the app to apply the update
     }
     ```
+
+    A diferencia de los SDK de C# y Python, la biblioteca C / C++ no tiene un único asistente de aplicación y reinicio, por lo que debes llamar a `WaitExitThenApplyUpdate` (que prepara el actualizador y espera a que este proceso finalice) y luego cerrar la aplicación tú mismo mediante `exit(0)`.
 </FancyStep>
 
 <FancyStep step={5}>
-    Compile su aplicación en un programa utilizando su compilador habitual (por ejemplo, msvc, cmake, gcc, etc.)
-    Tome nota del directorio de salida, ya que lo necesitará para empaquetar su aplicación.
+    Compila tu aplicación en un programa usando tu compilador habitual (por ejemplo, msvc, cmake, gcc, etc.)
+    Toma nota del directorio de salida, ya que lo necesitarás para empaquetar tu aplicación.
 </FancyStep>
 
 <FancyStep step={6}>

@@ -1,13 +1,13 @@
-# Notas de la versión
+# Notas de Versión
 <AppliesTo all />
-Es posible almacenar notas de la versión (Markdown) en los paquetes de actualización y acceder a ellas durante la actualización. Esto podría ser útil, por ejemplo, para mostrar al usuario una lista de cambios antes de descargar una actualización.
+Es posible almacenar notas de versión (Markdown) en los paquetes de actualización y acceder a ellas durante el proceso de actualización. Esto puede ser útil, por ejemplo, para mostrar al usuario una lista de cambios antes de descargar una actualización.
 
-- Escribe tus notas de la versión en un archivo (p. ej. releasenotes.mdx).
-- Al empaquetar tu versión, proporciónalas a Velopack con `--releaseNotes {path/to/releasenotes.md}`
+- Escribe tus notas de versión en un archivo Markdown (ej. releasenotes.md).
+- Al empaquetar tu versión, proporciónaselas a Velopack con `--releaseNotes {path/to/releasenotes.md}`
 
-El compilador de Velopack las renderizará a HTML para tu comodidad, y almacenará tanto el HTML como el markdown en tu paquete de actualización.
+El constructor de Velopack las renderizará a HTML para mayor comodidad, y almacenará tanto el HTML como el Markdown en tu paquete de actualización.
 
-Ahora, las notas de la versión estarán disponibles al comprobar actualizaciones, por ejemplo:
+Ahora, las notas de versión estarán disponibles al verificar actualizaciones, por ejemplo:
 
 ```cs
 private static async Task UpdateMyApp()

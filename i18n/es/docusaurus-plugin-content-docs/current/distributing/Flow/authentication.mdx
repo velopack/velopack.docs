@@ -1,5 +1,30 @@
 # Autenticación
-<FlowLink /> admite OAuth, autenticación por formularios y claves de API para la autenticación. Puedes usar cualquiera de estos métodos para autenticarte con el servicio Flow. El método recomendado es usar OAuth, ya que proporciona el mecanismo de autenticación más seguro y flexible.
+<FlowLink /> admite OAuth, autenticación mediante formularios y claves de API. Puede utilizar cualquiera de estos métodos para autenticarse con el servicio Flow. El método recomendado es OAuth, ya que proporciona el mecanismo de autenticación más seguro y flexible.
 
-Para realizar un inicio de sesión interactivo, usa el comando `vpk login`. Esto guardará tu autenticación localmente dentro de `~/.vpk`. Para ejecutar comandos sin interacción, como en una canalización de CI/CD, puedes especificar la opción `--api-key` en los comandos `vpk` que interactúan con Flow. 
+## Inicio de sesión interactivo
 
+Para realizar un inicio de sesión interactivo, utilice el comando `vpk login`. Esto abre un navegador para autenticarse mediante OAuth y almacena sus credenciales localmente, de modo que los comandos posteriores no necesiten iniciar sesión de nuevo. Puede borrarlas con `vpk logout`.
+
+```bash
+vpk login
+```
+
+Las credenciales se almacenan en `~/.vpk` (el archivo `creds.bin`), respaldadas por el almacén de secretos del sistema operativo cuando está disponible (el llavero en macOS y el keyring en Linux). Este es el mismo directorio utilizado para su perfil de Flow.
+
+## Inicio de sesión no interactivo (CI/CD)
+
+Para ejecutar comandos sin interacción, como en un pipeline de CI/CD, cree una clave de API y pásela mediante la opción `--api-key`. Las claves de API se gestionan desde el panel de control de Flow en **Configuración de la cuenta** (consulte [Administración de cuentas](account.mdx)).
+
+```bash
+vpk publish --api-key {yourApiKey} --outputDir <OutputDir> --channel <Channel>
+```
+
+Al igual que con todas las opciones de `vpk`, puede proporcionar la clave de API como la variable de entorno `VPK_API_KEY` en lugar de incluirla en la línea de comandos, lo que resulta más seguro en los registros de CI.
+
+## Comandos de Flow
+
+Los comandos de `vpk` que interactúan con Flow aceptan todos `--api-key`:
+
+- `vpk login` / `vpk logout` — inicia o cierra una sesión OAuth interactiva.
+- `vpk publish` — sube una versión a Flow (utilizado en la guía de [Velopack Flow](../flow.mdx)).
+- `vpk flow api` — realiza llamadas REST directas a la API de Flow (consulte [API](api.mdx)).

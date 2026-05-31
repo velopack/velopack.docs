@@ -1,33 +1,38 @@
-# Firma de código
+# Firma de Código
 <AppliesTo win mac />
 
-La firma de código es una parte esencial de la distribución de aplicaciones. En Windows, es probable que las aplicaciones sin firmas de código se marquen como virus. En OSX, la firma de código y la notarización son obligatorias antes de que los usuarios puedan ejecutar tu aplicación.
+La firma de código es una parte esencial de la distribución de aplicaciones. En Windows, las aplicaciones sin firmas de código son frecuentemente marcadas como virus. En OSX, la firma de código y la Notarización son requeridas antes de que los usuarios puedan ejecutar su aplicación.
 
-En ambas plataformas, la firma debe realizarla el propio Velopack, esto se debe a que los binarios de Velopack (como Update y Setup) deben firmarse en diferentes puntos del proceso de compilación del paquete.
+En ambas plataformas, la firma debe ser realizada por Velopack, esto se debe a que los binarios de Velopack (como Update y Setup) necesitan ser firmados en diferentes puntos del proceso de construcción del paquete.
+
+## SmartScreen y Antivirus {#smartscreen}
+En Windows, las aplicaciones sin firma son frecuentemente marcadas por SmartScreen y el software antivirus, y los usuarios pueden ver una advertencia antes de poder ejecutar su aplicación. La forma más confiable de evitar esto es **firmar con código** su aplicación (ver más abajo), pero la firma por sí sola no siempre es inmediata — las advertencias de SmartScreen se basan en la *reputación*, que se acumula con el tiempo a medida que más usuarios ejecutan sus binarios firmados.
+
+Aquí está la regla general para las advertencias de Windows Defender / SmartScreen:
+- No firma su código. Lanza MyApp-v1.exe. Las personas reciben advertencias de SmartScreen durante un tiempo hasta que la reputación de ese archivo aumenta. Lanza MyApp-v2.exe. Las personas reciben advertencias nuevamente hasta que MyApp-v2.exe acumula suficiente reputación.
+- Firma su código con un certificado OV. Lanza MyApp-v1.exe. Las personas reciben advertencias de SmartScreen durante un tiempo hasta que la reputación de ese certificado aumenta. Lanza MyApp-v2.exe. Las personas no reciben advertencias porque el certificado ya tiene buena reputación. Eventualmente su certificado expira y llega el momento de lanzar MyApp-v47.exe. Renueva su certificado, y las personas reciben advertencias nuevamente hasta que el nuevo certificado acumule reputación.
+- Firma su código con un certificado EV (Extended Validation). Las personas nunca reciben advertencias, porque los certificados EV reciben reputación instantánea de SmartScreen.
+
+En resumen: firme su código, prefiera un certificado EV (o Azure Artifact Signing) para reputación instantánea, y espere un breve período de construcción de reputación para los certificados OV.
 
 ## Firma en Windows
-
-Aquí tienes la regla general para las advertencias de Windows Defender/Smart Screen:
-- No firmas tu código. Lanzas MyApp-v1.exe. La gente recibe advertencias de smart screen durante un tiempo hasta que aumenta la reputación de ese archivo. Lanzas MyApp-v2.exe. La gente recibe advertencias de nuevo hasta que MyApp-v2.exe acumula suficiente reputación.
-- Firmas tu código con un certificado OV. Lanzas MyApp-v1.exe. La gente recibe advertencias de smart screen durante un tiempo hasta que aumenta la reputación de ese certificado. Lanzas MyApp-v2.exe. La gente no recibe advertencias porque el certificado ya tiene una buena reputación. Con el tiempo, tu certificado caduca y llega el momento de lanzar MyApp-v47.exe. Renuevas tu certificado, y la gente recibe advertencias de nuevo hasta que el nuevo certificado acumula reputación.
-- Firmas tu código con un certificado EV. La gente nunca recibe advertencias.
 
 ### Adquirir un certificado de firma de código
 
 #### Azure Artifact Signing
 
-A partir de abril de 2024, la forma más eficaz de firmar con código tu producto es mediante [**Azure Artifact Signing**](https://azure.microsoft.com/en-us/products/artifact-signing) (anteriormente conocido como Azure Trusted Signing).
+A partir de abril de 2024, la forma más efectiva de firmar con código su producto es a través de [**Azure Artifact Signing**](https://azure.microsoft.com/en-us/products/artifact-signing) (anteriormente conocido como Azure Trusted Signing).
 
-- Cuesta 10 USD/mes (o 120 USD/año), lo cual está a la par o es más barato que los certificados de firma de código de otros emisores.
-- Solución totalmente en la nube / No requiere que se te envíe ningún hardware físico (HSM).
-- La firma se puede automatizar (p. ej. en tu canalización de CI).
-- Los certificados de Artifact Signing obtienen reputación instantánea integrada para smart-screen y defender.
+- Cuesta USD$10/mes (o USD$120/año), lo cual es comparable o más barato que los certificados de firma de código de otros emisores.
+- Solución completamente en la nube / No requiere ningún hardware físico (HSM) enviado a usted.
+- La firma puede automatizarse (p.ej. en su pipeline de CI)
+- Los certificados de Artifact Signing obtienen reputación instantánea incorporada para SmartScreen y Defender.
 
-Artifact Signing se puede usar siguiendo la [documentación de Microsoft para usar Artifact Signing con signtool.exe](https://learn.microsoft.com/en-us/azure/trusted-signing/how-to-signing-integrations#download-and-install-net-80-runtime), y leyendo luego nuestra documentación a continuación sobre cómo configurar signtool.exe con Velopack.
+Artifact Signing se puede usar siguiendo la [documentación de Microsoft para usar Artifact Signing con signtool.exe](https://learn.microsoft.com/en-us/azure/trusted-signing/how-to-signing-integrations#download-and-install-net-80-runtime), y luego leyendo nuestra documentación a continuación sobre cómo configurar signtool.exe con Velopack.
 
 #### Otros proveedores de certificados
 
-Si en cambio deseas comprar un certificado de firma de código de un proveedor diferente, Microsoft enumera los siguientes emisores de confianza [en su documentación](https://learn.microsoft.com/windows-hardware/drivers/dashboard/code-signing-cert-manage):
+Si en cambio desea comprar un certificado de firma de código de un proveedor diferente, Microsoft enumera los siguientes emisores de confianza [en su documentación](https://learn.microsoft.com/windows-hardware/drivers/dashboard/code-signing-cert-manage):
 
 - [Certum](https://shop.certum.eu/data-safety/code-signing-certificates/certum-ev-code-sigining.html)
 - [SSL.com](https://www.ssl.com/certificates/ev-code-signing/)
@@ -35,32 +40,32 @@ Si en cambio deseas comprar un certificado de firma de código de un proveedor d
 - [Entrust](https://www.entrustdatacard.com/products/digital-signing-certificates/code-signing-certificates)
 - [GlobalSign](https://go.microsoft.com/fwlink/p/?LinkId=620888)
 - [IdenTrust](https://www.identrust.com/digital-certificates/trustid-ev-code-signing)
-- [Sectigo (anteriormente Comodo)](https://sectigo.com/ssl-certificates-tls/code-signing)
+- [Sectigo (formerly Comodo)](https://sectigo.com/ssl-certificates-tls/code-signing)
 
-También hay revendedores que pueden tener certificados de emisores autorizados a precios más bajos, pero el riesgo añadido es que no obtendrás soporte oficial para esos certificados y los procedimientos de verificación de identidad pueden ser más enrevesados.
+También existen revendedores que pueden tener certificados de emisores autorizados a precios más bajos, pero el riesgo añadido es que no recibirá soporte oficial para esos certificados y los procedimientos de verificación de identidad pueden ser más complicados.
     
 :::warning
-Ten en cuenta que desde el 1 de junio de 2023 [ha habido un cambio de política](https://knowledge.digicert.com/general-information/new-private-key-storage-requirement-for-standard-code-signing-certificates-november-2022), lo que significa que ya no es posible descargar tu certificado de firma de código. Debe almacenarse en un HSM en la nube autorizado o se te enviará un HSM USB. Muchas de estas soluciones requerirán pasos manuales y no serán compatibles con la automatización / CI. Revisa cuidadosamente antes de comprar.
+Tenga en cuenta que desde el 1 de junio de 2023 [ha habido un cambio de política](https://knowledge.digicert.com/general-information/new-private-key-storage-requirement-for-standard-code-signing-certificates-november-2022), lo que significa que ya no es posible descargar su certificado de firma de código. Debe almacenarse en un HSM de nube autorizado o se le enviará un HSM USB. Muchas de estas soluciones requerirán pasos manuales y no serán compatibles con la automatización / CI. Por favor, revise cuidadosamente antes de comprar.
 :::
 
 ### Firma mediante Azure Artifact Signing {#signing-via-azure-artifact-signing}
 
-[Azure Artifact Signing](https://learn.microsoft.com/azure/trusted-signing/overview) (anteriormente Trusted Signing) es un servicio de firma gestionado de Microsoft y una de las formas más [rentables](https://azure.microsoft.com/en-us/pricing/details/artifact-signing) de firmar tu aplicación.
+[Azure Artifact Signing](https://learn.microsoft.com/azure/trusted-signing/overview) (anteriormente Trusted Signing) es un servicio de firma administrado de Microsoft y una de las formas más [rentables](https://azure.microsoft.com/en-us/pricing/details/artifact-signing) de firmar su aplicación.
 
-Para obtener información detallada sobre Azure Artifact Signing, consulta la [documentación oficial](https://learn.microsoft.com/azure/trusted-signing/).
+Para información detallada sobre Azure Artifact Signing, consulte la [documentación oficial](https://learn.microsoft.com/azure/trusted-signing/).
 
 :::note
-La firma depende de `signtool.exe`, que solo es compatible con Windows. Si estás usando un sistema operativo diferente, tendrás que firmar tus binarios en una máquina Windows antes de desplegarlos.
+La firma depende de `signtool.exe` que solo es compatible con Windows. Si está usando un sistema operativo diferente, deberá firmar sus binarios en una máquina Windows antes de desplegarlos.
 :::
 
-1. Primero tendrás que crear una cuenta de Azure en: https://azure.microsoft.com/pricing/purchase-options/azure-account. Esta cuenta deberá tener una [suscripción activa](https://learn.microsoft.com/azure/cost-management-billing/manage/create-subscription#create-a-subscription).
-0. Registra el [proveedor de recursos](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-providers-and-types) de Azure Artifact Signing. Esto puede hacerse en el portal de Azure, o mediante la CLI de Azure siguiendo [estas instrucciones](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#register-the-trusted-signing-resource-provider).
-0. Crea el recurso de Azure Artifact Signing siguiendo [estas instrucciones](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-trusted-signing-account). Anota el nombre y la región que selecciones, ya que usarás estos valores más adelante para los valores `CodeSigningAccountName` y `Endpoint` respectivamente, en el archivo JSON de configuración de firma.
-0. Crea una solicitud de validación de identidad siguiendo [estas instrucciones](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-an-identity-validation-request). Este paso debe realizarse en el Portal de Azure. La validación de identidad puede hacerse para una organización o para un desarrollador individual. Este proceso puede tardar un tiempo, ya que Microsoft verifica la información de identidad. Vuelve a estos pasos una vez completado el proceso de validación de identidad.
-0. Crea un perfil de certificado siguiendo [estas instrucciones](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-certificate-profile). Hay múltiples [modelos de confianza](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-trust-models) compatibles. El modelo de confianza pública (Public Trust) es el más común y es adecuado para la mayoría de las aplicaciones. Anota el nombre del perfil de certificado, ya que usarás este valor más adelante como `CertificateProfileName` en el archivo JSON de configuración de firma.
-0. Velopack viene incluido con una versión de [signtool.exe](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-signtool) (x64) y el [paquete dlib](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-the-trusted-signing-dlib-package) que es compatible con Azure Artifact Signing. Estos componentes [requieren que el .NET 8.0 Runtime](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-net-80-runtime) esté instalado en la máquina que realizará la firma. Puedes encontrar la última versión del .NET 8.0 runtime [aquí](https://dotnet.microsoft.com/download/dotnet/8.0).
-0. Configura la autenticación con Azure Artifact Signing. `signtool.exe` aprovecha la clase común [DefaultAzureCredentials](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) para autenticarse con Azure. Esta clase admite la autenticación de varias formas, incluida la CLI de Azure. Después de instalar la CLI de Azure, ejecuta `az login`. Esto proporcionará a signtool.exe la autenticación que necesita cuando `vpk` lo invoque. Si te estás ejecutando dentro de [GitHub Actions](https://github.com/marketplace/actions/azure-cli-action) o [Azure DevOps](https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/azure-cli-v2?view=azure-pipelines), hay soporte integrado que gestiona la autenticación necesaria.
-0. Crea el archivo JSON de metadatos de firma. Este archivo tiene tres parámetros requeridos y un CorrelationId opcional. El archivo debería verse así:
+1. Primero deberá crear una cuenta de Azure en: https://azure.microsoft.com/pricing/purchase-options/azure-account. Esta cuenta deberá tener una [suscripción activa](https://learn.microsoft.com/azure/cost-management-billing/manage/create-subscription#create-a-subscription).
+0. Registre el [proveedor de recursos](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-providers-and-types) de Azure Artifact Signing. Esto se puede hacer en el portal de Azure o a través de la CLI de Azure siguiendo [estas instrucciones](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#register-the-trusted-signing-resource-provider).
+0. Cree el recurso de Azure Artifact Signing siguiendo [estas instrucciones](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-trusted-signing-account). Tenga en cuenta el nombre y la región que seleccione, ya que usará estos valores más adelante para los valores `CodeSigningAccountName` y `Endpoint` respectivamente, en el archivo JSON de configuración de firma.
+0. Cree una solicitud de validación de identidad siguiendo [estas instrucciones](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-an-identity-validation-request). Este paso debe realizarse en el Portal de Azure. La validación de identidad puede realizarse para una Organización o para un desarrollador Individual. Este proceso puede tomar un tiempo ya que la información de identidad es verificada por Microsoft. Regrese a estos pasos después de que se complete el proceso de validación de identidad.
+0. Cree un perfil de certificado siguiendo [estas instrucciones](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-certificate-profile). Hay múltiples [modelos de confianza](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-trust-models) compatibles. El modelo de Confianza Pública es el más común y es adecuado para la mayoría de las aplicaciones. Tenga en cuenta el nombre del perfil de certificado, ya que usará este valor más adelante como `CertificateProfileName` en el archivo JSON de configuración de firma.
+0. Velopack incluye una versión de [signtool.exe](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-signtool) (x64) y el [paquete dlib](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-the-trusted-signing-dlib-package) compatible con Azure Artifact Signing. Estos componentes [requieren el Runtime de .NET 8.0](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-net-80-runtime) instalado en la máquina que realizará la firma. Puede encontrar la última versión del runtime de .NET 8.0 [aquí](https://dotnet.microsoft.com/download/dotnet/8.0).
+0. Configure la autenticación con Azure Artifact Signing. `signtool.exe` utiliza la clase común [DefaultAzureCredentials](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) para autenticarse con Azure. Esta clase admite autenticación de diversas maneras, incluyendo la CLI de Azure. Después de instalar la CLI de Azure, ejecute `az login`. Esto proporcionará a signtool.exe la autenticación que necesita cuando `vpk` lo invoque. Si está ejecutando dentro de [GitHub Actions](https://github.com/marketplace/actions/azure-cli-action) o [Azure DevOps](https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/azure-cli-v2?view=azure-pipelines), hay soporte integrado que maneja la autenticación necesaria.
+0. Cree el archivo JSON de metadatos de firma. Este archivo tiene tres parámetros requeridos y un CorrelationId opcional. El archivo debe verse así:
    ```json
    {
      "Endpoint": "<Artifact Signing account endpoint>",
@@ -68,13 +73,13 @@ La firma depende de `signtool.exe`, que solo es compatible con Windows. Si está
      "CertificateProfileName": "<Certificate profile name>"
    }
    ```
-   Los valores de cada uno de estos se pueden encontrar en los pasos anteriores donde creaste el recurso de Azure Artifact Signing y el perfil de certificado. El archivo debe guardarse con codificación UTF-8 (sin BOM). Aunque no es obligatorio, a menudo se nombra como `metadata.json`. Los detalles completos se pueden ver [aquí](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#create-a-json-file).
-0. Pasa el archivo JSON de metadatos. Al llamar a `vpk pack` usando `--azureTrustedSignFile <path to json file>`. `vpk` pasará el archivo a `signtool.exe` para firmar los recursos necesarios.
+   Los valores de cada uno de estos se pueden encontrar en los pasos anteriores donde creó el recurso de Azure Artifact Signing y el perfil de certificado. El archivo debe guardarse con codificación UTF-8 (sin BOM). Aunque no es obligatorio, suele llamarse `metadata.json`. Los detalles completos se pueden ver [aquí](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#create-a-json-file).
+0. Pase el archivo JSON de metadatos. Al llamar a `vpk pack` usando `--azureTrustedSignFile <path to json file>`. `vpk` pasará el archivo a `signtool.exe` para firmar los activos necesarios.
 
 ### Firma mediante `signtool.exe`
-Normalmente la firma se realiza mediante `signtool.exe`. Si ya usas esta herramienta para firmar tu aplicación, puedes pasar tus parámetros de firma directamente a Velopack (menos el comando 'sign').
+Normalmente la firma se realiza a través de `signtool.exe`. Si ya utiliza esta herramienta para firmar su aplicación, puede pasar sus parámetros de firma directamente a Velopack (sin el comando 'sign').
 
-Por ejemplo, si tu comando de firma anterior era:
+Por ejemplo, si su comando de firma era:
 ```cmd
 signtool.exe sign /td sha256 /fd sha256 /f yourCert.pfx /tr http://timestamp.comodoca.com
 ```
@@ -85,60 +90,60 @@ vpk pack ... --signParams "/td sha256 /fd sha256 /f yourCert.pfx /tr http://time
 ```
 
 :::tip
-Siempre deberías pasar rutas absolutas en tus argumentos de firma, ya que no hay garantía de que signtool se ejecute en el mismo directorio de trabajo que vpk.
+Siempre debe pasar rutas absolutas en sus argumentos de firma, ya que no hay garantía de que signtool se ejecute en el mismo directorio de trabajo que vpk.
 :::
 
-Si eres nuevo en el uso de `signtool.exe`, puedes consultar la [referencia de línea de comandos aquí](https://learn.microsoft.com/dotnet/framework/tools/signtool-exe). Recomiendo conseguir que la firma funcione primero en un solo binario, usando `signtool.exe`, antes de intentar que las cosas funcionen con la CLI de Velopack.
+Si es nuevo en el uso de `signtool.exe`, puede consultar la [referencia de línea de comandos aquí](https://learn.microsoft.com/dotnet/framework/tools/signtool-exe). Recomiendo hacer que la firma funcione en un solo binario primero, usando `signtool.exe`, antes de intentar que funcione con la CLI de Velopack.
 
-Si estás usando un USB / HSM y tienes el siguiente error de firma `Error: SignerSign() failed." (-2147023673/0x800704c7)`, esto significa que falta una contraseña / token de desbloqueo. Esto se puede añadir a tu comando de firma con los parámetros `/csp /k`. [[Lee más]](https://stackoverflow.com/questions/17927895/automate-extended-validation-ev-code-signing-with-safenet-etoken/54439759#54439759)
+Si está usando un USB / HSM y tiene el siguiente error de firma `Error: SignerSign() failed." (-2147023673/0x800704c7)`, esto significa que le falta una contraseña / token de desbloqueo. Esto se puede agregar a su comando de firma con los parámetros `/csp /k`. [[Leer más]](https://stackoverflow.com/questions/17927895/automate-extended-validation-ev-code-signing-with-safenet-etoken/54439759#54439759)
 
 :::warning
-Ten cuidado al proporcionar parámetros con espacios. Debes envolver entre comillas cualquier cosa que contenga espacios y escaparlas con una barra invertida. Por ejemplo, `--signParams "/n \"My Cert Name\""`. Si estás usando una tarea `<Exec>` de MSBuild o similar, tendrás que usar `&quot;` en su lugar.
+Tenga cuidado al proporcionar parámetros con espacios. Debe envolver todo lo que contenga espacios entre comillas y escaparlos con una barra invertida. Por ejemplo, `--signParams "/n \"My Cert Name\""`. Si está usando una tarea MSBuild `<Exec>` o similar, necesitará usar `&quot;` en su lugar.
 :::
 
-De forma predeterminada, Velopack firmará 10 archivos por llamada a `signtool.exe`, para acelerar la firma y reducir el número de veces que necesitas interactuar con la consola si estás usando algún método de firma interactivo. Esto se puede desactivar con el argumento `--signParallel 1`.
+De forma predeterminada, Velopack firmará 10 archivos por llamada a `signtool.exe`, para acelerar la firma y reducir el número de veces que necesita interactuar con la consola si está usando algún tipo de método de firma interactivo. Esto se puede deshabilitar con el argumento `--signParallel 1`.
 
 ### Comandos y herramientas de firma personalizados
-Si tienes requisitos de firma más avanzados, como una herramienta de firma personalizada (p. ej. `AzureSignTool.exe`), entonces puedes proporcionar una plantilla de comando en su lugar, donde `{{file}}` es el binario que Velopack sustituirá y firmará:
+Si tiene requisitos de firma más avanzados, como una herramienta de firma personalizada (p.ej. `AzureSignTool.exe`), puede proporcionar una plantilla de comando en su lugar, donde `{{file}}` es el binario que Velopack sustituirá y firmará:
 
 ```cmd
 vpk pack ... --signTemplate "AzureSignTool.exe sign ... {{file}}"
 ```
-Lo anterior firmará un archivo a la vez, pero si tu herramienta de firma admite la firma por lotes de varios archivos a la vez, puedes especificar `{{file...}}` en su lugar.
+Lo anterior firmará un archivo a la vez, pero si su herramienta de firma admite la firma por lotes de múltiples archivos a la vez, puede especificar `{{file...}}` en su lugar.
 
-## Firma multiplataforma
-[JSign](https://ebourg.github.io/jsign/) es una versátil herramienta de firma de código que se ejecuta en Linux, macOS y Windows. Admite una amplia gama de algoritmos de firma y servicios de marca de tiempo.
+## Firma Multiplataforma
+[JSign](https://ebourg.github.io/jsign/) es una herramienta de firma de código versátil que se ejecuta en Linux, macOS y Windows. Admite una amplia gama de algoritmos de firma y servicios de marca de tiempo.
 
-Para usarla con Velopack, haz lo siguiente:
-1. Sigue los pasos anteriores para configurar [Azure Artifact Signing](#signing-via-azure-artifact-signing)
-0. Descarga la última versión de JSign desde https://ebourg.github.io/jsign/#files
-0. Instala la [CLI de Azure](https://learn.microsoft.com/cli/azure/) e inicia sesión con `az login`
-0. Obtén un [token de acceso](https://learn.microsoft.com/cli/azure/account?view=azure-cli-latest#az-account-get-access-token) ejecutando `az account get-access-token --resource https://codesigning.azure.net`
-0. Usa la opción `--signTemplate` para firmar tus archivos.
+Para usarlo con Velopack, haga lo siguiente:
+1. Siga los pasos anteriores para configurar [Azure Artifact Signing](#signing-via-azure-artifact-signing)
+0. Descargue la última versión de JSign desde https://ebourg.github.io/jsign/#files
+0. Instale la [CLI de Azure](https://learn.microsoft.com/cli/azure/) e inicie sesión con `az login`
+0. Obtenga un [token de acceso](https://learn.microsoft.com/cli/azure/account?view=azure-cli-latest#az-account-get-access-token) ejecutando `az account get-access-token --resource https://codesigning.azure.net`
+0. Use la opción `--signTemplate` para firmar sus archivos.
 
 ```sh
 vpk pack ... --signTemplate "jsign --storetype TRUSTEDSIGNING --keystore <region> --storepass <api-access-token> --alias <account>/<profile> {{file}}"
 ```
 
-## Firma y notarización en OSX
-La firma de código y la notarización son obligatorias antes de que los usuarios puedan ejecutar tu aplicación, por lo tanto es un paso necesario antes de desplegar tu aplicación.
+## Firma y Notarización en OSX
+La firma de código y la Notarización son requeridas antes de que los usuarios puedan ejecutar su aplicación, por lo tanto es un paso obligatorio antes de desplegar su aplicación.
 
 ### Crear certificados de firma de código
-1. Primero, tendrás que crear una cuenta en https://developer.apple.com, pagar la cuota anual de desarrollador y aceptar cualquier acuerdo de licencia. 
-0. Navega a tus certificados: https://developer.apple.com/account/resources/certificates
-0. Haz clic en el icono (+) para crear nuevos certificados. Necesitas crear tanto un certificado `Developer ID Installer` como uno `Developer ID Application` para la distribución de apps Velopack fuera de la Mac App Store. 
-   ![lista de certificados de apple](/images/apple_certificate_list.png)
-0. Abre ambos certificados haciendo clic en ellos, pulsa Download, y luego haz doble clic en el archivo ".cer" para instalarlo en tu llavero local.
+1. Primero, deberá crear una cuenta en https://developer.apple.com, pagar la cuota anual de desarrollador y aceptar cualquier acuerdo de licencia. 
+0. Navegue a sus certificados: https://developer.apple.com/account/resources/certificates
+0. Haga clic en el icono (+) para crear nuevos certificados. Necesita crear tanto un certificado `Developer ID Installer` como un certificado `Developer ID Application` para la distribución de aplicaciones de Velopack fuera de la Mac App Store. 
+   ![lista de certificados de Apple](/images/apple_certificate_list.png)
+0. Abra ambos certificados haciendo clic en ellos, presione Descargar, y luego haga doble clic en el archivo ".cer" para instalarlo en su llavero local.
 
 :::warning
-Si tus certificados aparecen como no confiables en Acceso a Llaveros, o recibes una advertencia como **"Warning: unable to build chain to self-signed root for signer "Developer ID Application: YourName"**,
-probablemente te falte un certificado de desarrollo en tu máquina que puede descargarse desde aquí: https://www.apple.com/certificateauthority/
+Si sus certificados aparecen como no confiables en Acceso a Llaveros, o recibe una advertencia como **"Warning: unable to build chain to self-signed root for signer "Developer ID Application: YourName"**,
+probablemente le falta un certificado de desarrollo en su máquina que puede descargarse desde aquí: https://www.apple.com/certificateauthority/
 :::
 
 ### Configurar un perfil de NotaryTool
-1. Crea una contraseña específica de la app: https://support.apple.com/en-us/102654. Esta contraseña solo se te mostrará una vez, así que guárdala o anótala en algún lugar.
-0. Encuentra tu ID de equipo de apple: https://developer.apple.com/account#MembershipDetailsCard
-0. Almacena las credenciales de tu cuenta de Apple en un nuevo perfil de NotaryTool:
+1. Cree una contraseña específica de la aplicación: https://support.apple.com/en-us/102654. Esta contraseña solo se le mostrará una vez, así que guárdela o escríbala en algún lugar.
+0. Encuentre su ID de equipo de Apple: https://developer.apple.com/account#MembershipDetailsCard
+0. Almacene las credenciales de su cuenta de Apple en un nuevo perfil de NotaryTool:
    ```sh
    xcrun notarytool store-credentials \
        --apple-id "yourapple@account.com" \
@@ -147,8 +152,8 @@ probablemente te falte un certificado de desarrollo en tu máquina que puede des
        "your-local-profile-name-here"
    ```
 
-### Juntándolo todo
-Ahora que tienes tu perfil de NotaryTool y los certificados de firma de código instalados, puedes añadir los siguientes parámetros a tu comando `pack`:
+### Uniendo todo
+Ahora que tiene su perfil de NotaryTool y los certificados de firma de código instalados, puede agregar los siguientes parámetros a su comando `pack`:
 
 ```sh
 vpk pack \
@@ -158,48 +163,52 @@ vpk pack \
     --notaryProfile "your-local-profile-name-here" \
 ```
 
-Cuando estos parámetros se especifican y son válidos, Velopack firmará con código y notarizará automáticamente tu aplicación y los paquetes del instalador.
+Cuando estos parámetros se especifican y son válidos, Velopack firmará y notarizará automáticamente su aplicación y los paquetes de instalación.
 
 :::tip
-Velopack usará `codesign` y `xcrun notarytool` para firmar y notarizar tu aplicación. De forma predeterminada usarán el llavero predeterminado de tu dispositivo para descubrir certificados y el perfil de notarización.
-Si deseas usar un llavero diferente, debes instalar tus certificados y crear tu perfil de notarización en ese llavero y usar el argumento `--keychain {path}` de Velopack
-para especificar que Velopack debe descubrir los certificados desde un llavero no predeterminado.
+Velopack usará `codesign` y `xcrun notarytool` para firmar y notarizar su aplicación. De forma predeterminada, usarán el llavero predeterminado en su dispositivo para descubrir certificados y el perfil de notarización.
+Si desea usar un llavero diferente, debe instalar sus certificados y crear su perfil de notarización en ese llavero y usar el argumento `--keychain {path}` de Velopack
+para especificar que Velopack debe descubrir certificados desde un llavero no predeterminado.
 <hr />
-Si no proporcionas un archivo de entitlements para hardened runtime, se te proporcionará automáticamente uno adecuado para la mayoría de las apps dotnet. Si tu app requiere
-entitlements especiales y los predeterminados no son adecuados, deberías suministrar tus propios entitlements de firma usando `--signEntitlements {path}`
+Si no proporciona un archivo de permisos para el runtime reforzado, se le proporcionará automáticamente uno adecuado para la mayoría de las aplicaciones dotnet. Si su aplicación requiere
+permisos especiales y los predeterminados no son adecuados, debe proporcionar sus propios permisos de firma usando `--signEntitlements {path}`. Tenga en cuenta que el permiso de App
+Sandbox de macOS (`com.apple.security.app-sandbox`) **no** es compatible con Velopack — consulte la [nota de limitaciones de macOS](operating-systems/macos.mdx) para más detalles.
 <hr />
-Aunque tu certificado pueda aparecer como `Developer ID Application: Your Name (TeamName)` en Acceso a Llaveros, no deberías especificar el nombre del equipo como parte de
-tus argumentos `--signAppIdentity` o `--signInstallIdentity`. Tu certificado debería ser simplemente `Developer ID Application: Your Name` sin equipo.
+De forma predeterminada, Velopack realiza una firma "profunda" de todos los binarios dentro de su paquete. Si prefiere pre-firmar sus propios binarios y que Velopack los omita,
+puede pasar `--signDisableDeep`.
+<hr />
+Aunque su certificado pueda aparecer como `Developer ID Application: Your Name (TeamName)` en Acceso a Llaveros, no debe especificar el nombre del equipo como parte de
+sus argumentos `--signAppIdentity` o `--signInstallIdentity`. Su certificado debe ser simplemente `Developer ID Application: Your Name` sin equipo.
 :::
 
 ### Automatizar la firma en CI/CD (Github Actions)
-También es posible almacenar tus certificados y credenciales de notarización como Action Secrets y firmar tu código durante las compilaciones de CI.
+También es posible almacenar sus certificados y credenciales de notarización como Secretos de Action y firmar su código durante las compilaciones de CI.
 
 <Tabs groupId="ci" queryString>
 <TabItem value="github" label="Github Actions">
-1. Inicia Acceso a Llaveros y abre el panel "My Certificates".
+1. Abra Acceso a Llaveros y abra el panel "Mis Certificados".
 
-0. Selecciona cada certificado (uno a la vez), haz clic derecho y selecciona "Export". Guárdalo como un archivo p12 y anota la contraseña. Puedes usar la misma contraseña para ambos certificados.
+0. Seleccione cada certificado (uno a la vez), haga clic derecho y seleccione "Exportar". Guárdelo como archivo p12 y anote la contraseña. Puede usar la misma contraseña para ambos certificados.
    :::tip
-   Si no ves la opción de exportar, o exportar como `.p12` está deshabilitado, es posible que necesites cambiar qué llavero o pestaña estás viendo. Deberías estar en la pestaña "My Certificates". 
-   Consulta https://stackoverflow.com/questions/15662377/unable-to-export-apple-production-push-ssl-certificate-in-p12-format para obtener más información.
+   Si no puede ver la opción de exportar, o exportar como `.p12` está deshabilitado, es posible que necesite cambiar qué llavero o pestaña está viendo. Debe estar en la pestaña "Mis Certificados". 
+   Consulte https://stackoverflow.com/questions/15662377/unable-to-export-apple-production-push-ssl-certificate-in-p12-format para más información.
    :::
 
-0. Copia el contenido del certificado al portapapeles como base64, ejemplo:
+0. Copie el contenido del certificado al portapapeles en base64, por ejemplo:
    ```sh
    base64 -i CERT.p12 | pbcopy
    ```
 
-0. Crea 7 [Github Secrets](https://docs.github.com/actions/security-guides/using-secrets-in-github-actions) para tus flujos de trabajo de Actions
-   - `BUILD_CERTIFICATE_BASE64` (b64 de tu certificado de app)
-   - `INSTALLER_CERTIFICATE_BASE64` (b64 de tu certificado de instalador)
-   - `P12_PASSWORD` (contraseña de los certificados)
-   - `APPLE_ID` (tu nombre de usuario de apple)
-   - `APPLE_PASSWORD` (tu contraseña específica de la app del paso de notarización anterior)
-   - `APPLE_TEAM` (tu id de equipo del paso de notarización anterior)
+0. Cree 7 [Secretos de Github](https://docs.github.com/actions/security-guides/using-secrets-in-github-actions) para sus flujos de trabajo de Actions
+   - `BUILD_CERTIFICATE_BASE64` (b64 de su certificado de aplicación)
+   - `INSTALLER_CERTIFICATE_BASE64` (b64 de su certificado de instalador)
+   - `P12_PASSWORD` (contraseña para los certificados)
+   - `APPLE_ID` (su nombre de usuario de Apple)
+   - `APPLE_PASSWORD` (su contraseña específica de la aplicación del paso de notarización anterior)
+   - `APPLE_TEAM` (su ID de equipo del paso de notarización anterior)
    - `KEYCHAIN_PASSWORD` (puede ser cualquier cadena aleatoria, se usará para crear un nuevo llavero)
 
-0. Añade un paso a tu flujo de trabajo que instale los certificados y el perfil del llavero. Aquí tienes un ejemplo:
+0. Agregue un paso a su flujo de trabajo que instale los certificados y el perfil de llavero. Aquí hay un ejemplo:
    ```txt
    name: App build & sign
    on: push
@@ -274,34 +283,34 @@ También es posible almacenar tus certificados y credenciales de notarización c
 
 <TabItem value="azure" label="Azure DevOps">
 :::warning
-La documentación aquí para Azure DevOps la proporciona la comunidad y no está verificada por el equipo de Velopack.
+La documentación aquí para Azure DevOps es proporcionada por la comunidad y no ha sido verificada por el equipo de Velopack.
 :::
-1. Inicia Acceso a Llaveros y abre el panel "My Certificates".
+1. Abra Acceso a Llaveros y abra el panel "Mis Certificados".
 
-0. Selecciona cada certificado (uno a la vez), haz clic derecho y selecciona "Export". Guárdalo como un archivo p12 y anota la contraseña. Puedes usar la misma contraseña para ambos certificados.
+0. Seleccione cada certificado (uno a la vez), haga clic derecho y seleccione "Exportar". Guárdelo como archivo p12 y anote la contraseña. Puede usar la misma contraseña para ambos certificados.
    :::tip
-   Si no ves la opción de exportar, o exportar como `.p12` está deshabilitado, es posible que necesites cambiar qué llavero o pestaña estás viendo. Deberías estar en la pestaña "My Certificates". 
-   Consulta https://stackoverflow.com/questions/15662377/unable-to-export-apple-production-push-ssl-certificate-in-p12-format para obtener más información.
+   Si no puede ver la opción de exportar, o exportar como `.p12` está deshabilitado, es posible que necesite cambiar qué llavero o pestaña está viendo. Debe estar en la pestaña "Mis Certificados". 
+   Consulte https://stackoverflow.com/questions/15662377/unable-to-export-apple-production-push-ssl-certificate-in-p12-format para más información.
    :::
 
-0. Copia el contenido del certificado al portapapeles como base64, ejemplo:
+0. Copie el contenido del certificado al portapapeles en base64, por ejemplo:
    ```sh
    base64 -i CERT.p12 | pbcopy
    ```
 
-0. Crea 7 secretos en Azure Key Vault y exponlos a Azure DevOps bajo el grupo de variables "Apple signing". Ten en cuenta que usamos
-   Key Vault en lugar de los secretos de DevOps porque nuestros certificados son demasiado grandes (más de 4K) para almacenarse en los secretos de DevOps.
-   - `P12-PASSWORD` (contraseña de los certificados)
-   - `APPLE-ID` (tu nombre de usuario de apple)
-   - `APPLE-PASSWORD` (tu contraseña específica de la app del paso de notarización anterior)
-   - `APPLE-TEAM` (tu id de equipo del paso de notarización anterior)
+0. Cree 7 secretos en Azure Key Vault y expóngalos a Azure DevOps bajo el grupo de variables "Apple signing". Tenga en cuenta que usamos
+   Key Vault en lugar de secretos de DevOps porque nuestros certificados son demasiado grandes (más de 4K) para almacenarlos en secretos de DevOps.
+   - `P12-PASSWORD` (contraseña para los certificados)
+   - `APPLE-ID` (su nombre de usuario de Apple)
+   - `APPLE-PASSWORD` (su contraseña específica de la aplicación del paso de notarización anterior)
+   - `APPLE-TEAM` (su ID de equipo del paso de notarización anterior)
    - `KEYCHAIN-PASSWORD` (puede ser cualquier cadena aleatoria, se usará para crear un nuevo llavero)
-   - `BUILD-CERTIFICATE-BASE64` (base64 de tu certificado de app)
-   - `INSTALLER-CERTIFICATE-BASE64` (base64 de tu certificado de instalador)
+   - `BUILD-CERTIFICATE-BASE64` (base64 de su certificado de aplicación)
+   - `INSTALLER-CERTIFICATE-BASE64` (base64 de su certificado de instalador)
 
-0. Añade pasos a tu canalización para cargar los secretos, firmar y desmontar:
+0. Agregue pasos a su pipeline para cargar los secretos, firmar y limpiar:
 
-    El YAML para configurarlo:
+    El YAML para configurar:
     ```
       variables:
       - group: Apple signing
@@ -339,14 +348,14 @@ La documentación aquí para Azure DevOps la proporciona la comunidad y no está
         displayName: 🛠️ Install Apple certs and notary profile
     ```
 
-    Desmontarlo:
+    Para limpiar:
     ```
       - bash: security delete-keychain $AGENT_TEMPDIRECTORY/app-signing.keychain-db
         displayName: 🧹 Clean up keychain
         condition: always()
     ``` 
 
-    Firmar en mac (suponiendo un script de powershell):
+    Firmar en Mac (asumiendo un script de PowerShell):
     ```
     # Add signing parameters
     if ($IsMacOS) {

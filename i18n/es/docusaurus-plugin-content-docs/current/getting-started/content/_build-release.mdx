@@ -1,13 +1,12 @@
 import Admonition from '@theme/Admonition';
 
-Ahora estás listo para crear una release de Velopack para tu aplicación. 
+Ahora estás listo para crear una versión de Velopack para tu aplicación.
 
-El `--packId` puede ser cualquier identificador único de aplicación que desees usar. Como debe ser único entre todas las aplicaciones, 
-recomendamos incluir el nombre de tu empresa: `<CompanyName>.<AppName>`.
+El `--packId` puede ser cualquier identificador de aplicación único que desees utilizar. Dado que debe ser único entre todas las aplicaciones, recomendamos incluir el nombre de tu empresa: `<CompanyName>.<AppName>`.
 
-La opción `--mainExe` solo es necesaria si el nombre de tu ejecutable es diferente del `--packId` de tu aplicación.
+La opción `--mainExe` solo es necesaria si el nombre de tu ejecutable es diferente al `--packId` de tu aplicación.
 
-Consulta la [referencia de la CLI](/reference/cli/) para más detalles sobre las opciones disponibles.
+Consulta la [referencia de CLI](/reference/cli/) para obtener más detalles sobre las opciones disponibles.
 
 ```cmd
 vpk pack --packId YourAppId --packVersion 1.0.0 --packDir .\publish --mainExe yourMainApp.exe
@@ -15,8 +14,8 @@ vpk pack --packId YourAppId --packVersion 1.0.0 --packDir .\publish --mainExe yo
 
 {props.includeWarningTip && (
 <Admonition type="tip">
-    <code>vpk</code> producirá una advertencia indicando que <code>VelopackApp.Run()</code> no se 
-    encontró en el punto de entrada de tu aplicación. 
-    Esto es esperado, y la advertencia se puede ignorar con seguridad para este tipo de aplicación.
+    <code>vpk</code> producirá una advertencia indicando que <code>VelopackApp.Run()</code> no 
+    se encontró en el punto de entrada de tu aplicación. 
+    Esto es esperado y la advertencia puede ignorarse con seguridad para este tipo de aplicación.
 </Admonition>
 )}

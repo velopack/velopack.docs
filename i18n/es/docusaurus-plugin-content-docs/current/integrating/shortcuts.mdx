@@ -1,24 +1,24 @@
 # Accesos directos de Windows
 <AppliesTo win />
-De forma predeterminada, durante la instalación Velopack creará un acceso directo en el Escritorio y en la StartMenuRoot. Eliminará automáticamente cualquier acceso directo que encuentre al desinstalar la aplicación.
+De forma predeterminada, durante la instalación Velopack creará un acceso directo en el Escritorio y en StartMenuRoot. Eliminará automáticamente cualquier acceso directo que encuentre al desinstalar la aplicación.
 
-El nombre de los accesos directos se determinará mediante el argumento vpk `--packTitle`. Por ejemplo, si pasas `--packTitle "My Fancy App"`, entonces los accesos directos se crearán como `"My Fancy App.lnk"`.
+El nombre de los accesos directos estará determinado por el argumento `--packTitle` de vpk. Por ejemplo, si pasas `--packTitle "My Fancy App"`, los accesos directos creados se crearán como `"My Fancy App.lnk"`.
 
-Puedes especificar dónde te gustaría que se crearan los accesos directos usando el argumento de línea de comandos `--shortcuts {locations}`. Se admiten las siguientes ubicaciones:
+Puedes especificar dónde deseas que se creen los accesos directos mediante el argumento de línea de comandos `--shortcuts {locations}`. Se admiten las siguientes ubicaciones:
 - `Desktop`
 - `StartMenuRoot`
-- `StartMenu` (esta es una subcarpeta en la StartMenuRoot, también debe especificarse `--packAuthors`)
+- `StartMenu` (esta es una subcarpeta en StartMenuRoot, también debes especificar `--packAuthors`)
 - `Startup`
-- `None` (para desactivar la creación de accesos directos)
+- `None` (para deshabilitar la creación de accesos directos)
 
-Si quisieras instalar en el menú inicio y en el escritorio, el argumento que necesitarías es `--shortcuts Desktop,StartMenuRoot`.
+Si deseas instalar en el menú de inicio y en el escritorio, el argumento que necesitarías es `--shortcuts Desktop,StartMenuRoot`.
 
-### Accesos directos heredados (Legacy)
+### Accesos directos heredados
 
-Si necesitas crear accesos directos en ubicaciones adicionales, se proporcionan las clases `Velopack.Windows.Shortcuts` y `Velopack.Windows.ShellLink`. 
-Estas clases se proporcionan por razones heredadas, y en general no se garantiza la estabilidad de tales funciones.
+Si necesitas crear accesos directos en ubicaciones adicionales, se proporcionan las clases `Velopack.Windows.Shortcuts` y `Velopack.Windows.ShellLink`.
+Estas clases se proporcionan por razones de compatibilidad con versiones anteriores y, en general, no se garantiza la estabilidad de dichas funciones.
 
-Por ejemplo, si quisieras crear un acceso directo durante la instalación de tu aplicación, podrías hacer lo siguiente:
+Por ejemplo, si desearas crear un acceso directo durante la instalación de tu aplicación, podrías hacer lo siguiente:
 
 ```cs
 using Velopack;
@@ -26,5 +26,5 @@ using Velopack.Windows;
 
 VelopackApp.Build()
     .OnAfterInstallFastCallback((v) => new Shortcuts().CreateShortcutForThisExe(ShortcutLocation.Desktop))
-    .Run()
+    .Run();
 ```

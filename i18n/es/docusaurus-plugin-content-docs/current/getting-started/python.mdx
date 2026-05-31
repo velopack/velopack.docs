@@ -6,17 +6,17 @@ import Admonition from '@theme/Admonition';
 
 # Primeros pasos: Python
 <AppliesTo all />
-Comience con nuestra biblioteca de python.
+Comienza con nuestra biblioteca de Python.
 
 <FancyStep step={1}>
-    Instale velopack desde el Python Package Index:
+    Instala velopack desde el Python Package Index:
     ```txt
     pip install velopack
     ```
 </FancyStep>
 
 <FancyStep step={2}>
-    Agregue el siguiente código a su punto de entrada (por ejemplo, `main.py`) lo antes posible (antes de cualquier código de inicio de electron, etc.):
+    Agrega el siguiente código a tu punto de entrada (p. ej., `main.py`) lo antes posible (antes de cualquier otro código de inicio de la aplicación):
     ```python
     import velopack
 
@@ -30,10 +30,12 @@ Comience con nuestra biblioteca de python.
 </FancyStep>
 
 <FancyStep step={3}>
-    Velopack ofrece una forma sencilla de buscar actualizaciones y aplicarlas. 
-    A continuación se muestra cómo implementar una comprobación básica de actualizaciones dentro de su aplicación. 
+    Velopack proporciona una forma sencilla de buscar actualizaciones y aplicarlas. 
+    A continuación se muestra cómo implementar una verificación de actualizaciones básica dentro de tu aplicación. 
     
-    También puede dividir los distintos métodos para permitir que sus usuarios controlen cuándo buscar actualizaciones, descargarlas o aplicarlas.
+    También puedes separar los distintos métodos para permitir que tus usuarios controlen cuándo buscar actualizaciones, descargarlas o aplicarlas.
+
+    La URL que se pasa a `UpdateManager` apunta al lugar donde alojas tus actualizaciones (un servidor web, un bucket de S3, versiones de GitHub, etc.).
 
     ```python
     def update_app():
@@ -52,10 +54,12 @@ Comience con nuestra biblioteca de python.
 </FancyStep>
 
 <FancyStep step={4}>
-    Compile su aplicación en un binario (por ejemplo, `.exe` en Windows). Ejemplo usando PyInstaller:
+    Compila tu aplicación en un binario (p. ej., `.exe` en Windows). Ejemplo usando PyInstaller:
     ```sh
     pyinstaller --onedir app.py
     ```
+
+    Asegúrate de usar la salida `--onedir` (carpeta) de PyInstaller, no `--onefile`. Velopack empaqueta y actualiza un directorio de archivos, por lo que el ejecutable autoextraíble único producido por `--onefile` no es compatible.
 </FancyStep>
 
 <FancyStep step={5}>

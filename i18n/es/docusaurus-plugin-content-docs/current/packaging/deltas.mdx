@@ -1,41 +1,47 @@
-# Actualizaciones delta
+# Actualizaciones Delta
 <AppliesTo all />
 Las actualizaciones delta proporcionan actualizaciones rápidas incluso para las aplicaciones más grandes.
 
-De forma predeterminada, siempre que haya un lanzamiento previo en tu directorio `--outputDir` / `-o`, Velopack generará automáticamente un delta al crear un nuevo lanzamiento.
+De forma predeterminada, siempre que exista una versión anterior en tu directorio `--outputDir` / `-o`, Velopack generará automáticamente un delta al crear una nueva versión.
 
 :::tip
-Si no tienes el último lanzamiento local, p. ej. porque estás ejecutando en CI, puedes usar el comando `vpk download` para obtenerlo automáticamente de modo que se puedan crear los deltas.
+Si no tienes la última versión local, por ejemplo, si estás ejecutando en CI, puedes usar el comando `vpk download` para obtenerla automáticamente y así poder crear deltas.
 :::
 
-Los paquetes delta usan [Zstandard](https://github.com/facebook/zstd) para crear parches binarios de archivos individuales en tu paquete. Debido a las limitaciones de Zstandard, ningún archivo individual puede ser mayor de 2 GB.
+Los paquetes delta usan [Zstandard](https://github.com/facebook/zstd) para crear parches binarios de los archivos individuales de tu paquete. Debido a las limitaciones de Zstandard, ningún archivo individual puede ser mayor de 2 GB.
 
-## Optimizar para el tamaño
-Los parámetros predeterminados elegidos para la generación de parches buscan proporcionar un buen equilibrio entre tamaño y velocidad. 
+## Optimización de tamaño
+Los parámetros predeterminados elegidos para la generación de parches ofrecen un buen equilibrio entre tamaño y velocidad. 
 Si deseas optimizar para el tamaño, puedes hacerlo con el argumento `--delta BestSize`.
-Los resultados pueden variar; para algunas aplicaciones esto puede darte grandes ahorros de tamaño, para otras quizás no. En cualquier caso, será mucho más lento, aproximadamente a la par con el algoritmo `bsdiff`.
+Los resultados pueden variar; para algunas aplicaciones esto puede suponer un gran ahorro de tamaño, para otras puede que no. De cualquier manera, será mucho más lento, aproximadamente a la par que el algoritmo `bsdiff`.
+
+La opción `--delta` acepta tres modos: `None` (desactiva la generación de deltas), `BestSpeed` (el predeterminado) y `BestSize`.
 
 ## Cómo funcionan los deltas
-Durante las actualizaciones, Velopack buscará posiblemente más de un delta para descargar. Imagina que has publicado los siguientes lanzamientos:
+Durante las actualizaciones, Velopack buscará posiblemente más de un delta para descargar. Imagina que has publicado las siguientes versiones:
 - `1.0.0`
 - `1.0.1`
 - `1.0.2`
 - `1.0.3`
 
-Si un usuario no ha abierto tu app en un tiempo y tiene `1.0.0` instalado, la próxima vez que abra la app 
-se descargarán 3 deltas: `1.0.1-delta`, `1.0.2-delta` y `1.0.3-delta`.
+Si un usuario no ha abierto tu aplicación en un tiempo y tiene instalada la versión `1.0.0`, la próxima vez que abra la aplicación se descargarán 3 deltas: `1.0.1-delta`, `1.0.2-delta` y `1.0.3-delta`.
 
-El paquete descargado/instalado previamente se almacena en `%LocalAppData\{packId}\packages`, así que Velopack aplicará entonces esos 3 deltas secuencialmente 
-sobre el paquete local que existe en ese directorio. 
+El paquete descargado/instalado previamente se almacena en `%LocalAppData%\{packId}\packages`, por lo que Velopack aplicará esos 3 deltas de forma secuencial sobre el paquete local que existe en ese directorio. 
 
-Una vez que se han aplicado los deltas y se ha reconstruido el lanzamiento `1.0.3`, estará listo para aplicarse. 
+Una vez que se han aplicado los deltas y se ha reconstruido la versión `1.0.3`, estará lista para su aplicación. 
 
-Hay una heurística en Velopack que intentará decidir si es mejor descargar N deltas o descargar en su lugar el último lanzamiento completo.
-Esto se basa en una serie de factores (p. ej. el tamaño del lanzamiento completo, el tamaño total de los deltas, el número total de deltas entre la versión actual y la de destino).
+Existe una heurística en Velopack que intentará decidir si es mejor descargar N deltas o descargar la última versión completa.
+Esto se basa en varios factores (por ejemplo, el tamaño de la versión completa, el tamaño total de los deltas y el número total de deltas entre la versión actual y la versión objetivo).
 
 ## GitHub Releases
-Hay soporte especial para GitHub Releases en `UpdateManager`, que buscará entre varios GitHub Releases previos los deltas disponibles. 
-Esto significa que cualquier GitHub release individual solo debe tener 1 paquete completo y 1 actualización delta para facilitar una actualización correcta. 
+Existe un soporte especial para GitHub Releases en `UpdateManager` que buscará en varias GitHub Releases anteriores los deltas disponibles. 
+Esto significa que cada GitHub Release solo debe tener 1 paquete completo y 1 actualización delta para facilitar una actualización correcta. 
 
 ## Desactivar los deltas
 Si por alguna razón no deseas desplegar deltas, puedes desactivarlos con el argumento `--delta none`.
+
+## Generar y aplicar deltas manualmente
+Normalmente los deltas se crean y aplican automáticamente, pero el grupo de comandos `vpk delta` te permite trabajar con ellos directamente:
+
+- `vpk delta generate --base {old}.nupkg --new {new}.nupkg --output {patch}` — crea un parche delta a partir de dos versiones completas `.nupkg`. Al igual que `vpk pack`, acepta un `--mode` de `None`, `BestSpeed` (predeterminado) o `BestSize`.
+- `vpk delta patch --base {old}.nupkg --patch {patch} --output {new}.nupkg` — reconstruye un paquete completo a partir de un paquete base y uno o más parches. `--patch` / `-p` puede especificarse varias veces para aplicar parches en secuencia.

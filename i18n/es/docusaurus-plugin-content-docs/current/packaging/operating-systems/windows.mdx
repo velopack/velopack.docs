@@ -1,8 +1,8 @@
-# Resumen de Windows
+# Descripción general de Windows
 <AppliesTo win />
 Notas específicas de Windows sobre la creación y el uso de paquetes de Velopack.
 
-Para Windows, Velopack crea e instala una estructura de carpetas que se ve de la siguiente manera:
+Para Windows, Velopack crea e instala una estructura de carpetas similar a la siguiente:
 
 ```
 %LocalAppData%
@@ -11,46 +11,49 @@ Para Windows, Velopack crea e instala una estructura de carpetas que se ve de la
     │   ├── YourFile.dll
     │   ├── sq.version
     │   └── YourApp.exe
-    └── Update.exe
+    ├── Update.exe
+    └── YourApp.exe          (execution stub)
 ```
 
-## Empaquetado
-No hay requisitos especiales para empaquetar un programa para Windows, aunque puede que desees personalizar el instalador 
-usando `--packTitle`, `--splashImage`, `--icon`, etc. Consulta la ayuda de la línea de comandos para obtener una lista completa de opciones.
+El archivo `YourApp.exe` en el directorio raíz es un pequeño stub de ejecución que lanza el ejecutable real dentro de `current`. Es creado tanto por `Setup.exe` como por el instalador [`.msi`](../installer.mdx#windows-msi-installer), de modo que los accesos directos y lanzadores pueden apuntar a una ruta estable que sobrevive a las actualizaciones.
 
-También es muy recomendable (pero no obligatorio) que [firmes el código](../signing.mdx) antes de enviarlo a tus usuarios. Si no lo haces,
-tu aplicación podría ser marcada como un virus.
+## Empaquetado
+No hay requisitos especiales para empaquetar un programa para Windows, aunque es posible que desee personalizar el instalador
+usando `--packTitle`, `--splashImage`, `--icon`, etc. Consulte la ayuda de la línea de comandos para obtener una lista completa de opciones.
+
+También se recomienda ampliamente (aunque no es obligatorio) que [firme el código](../signing.mdx) antes de distribuir a sus usuarios. Si no lo hace,
+es posible que su aplicación sea marcada como virus.
 
 ## Actualización
-Durante las actualizaciones, todo el directorio `current` será reemplazado, así que si necesitas almacenar configuraciones, registros, informes de fallos, etc., 
-consulta [Preservar archivos](../../integrating/preserved-files.mdx).
+Durante las actualizaciones, el directorio `current` completo será reemplazado, por lo que si necesita almacenar configuraciones, registros, informes de fallos, etc.,
+consulte [Preservar archivos](../../integrating/preserved-files.mdx).
 
-En Windows, si alguno de los archivos dentro de `current` está en uso, la carpeta no puede ser movida/renombrada/eliminada, etc. 
+En Windows, si alguno de los archivos dentro de `current` está en uso, la carpeta no puede moverse/renombrarse/eliminarse, etc.
 Hay muchas cosas que podrían bloquear esta carpeta. Por ejemplo:
 - Un proceso ejecutándose dentro de `current`
-- Un proceso ejecutándose fuera de `current`, que ha abierto un archivo dentro de `current` para lectura. 
+- Un proceso ejecutándose fuera de `current` que ha abierto un archivo dentro de `current` para lectura.
 - Antivirus / Windows Defender, etc.
-- Un proceso con su CWD (directorio de trabajo actual) dentro de esa carpeta (por ejemplo, un proceso `cmd.exe`).
+- Un proceso cuyo CWD (directorio de trabajo actual) se encuentra dentro de esa carpeta (por ejemplo, un proceso `cmd.exe`).
 
-Si la carpeta no puede ser renombrada durante el proceso de actualización, el actualizador de Velopack intentará terminar automáticamente cualquier proceso que se esté ejecutando dentro de `current`.
-Si la carpeta sigue bloqueada y no puede ser renombrada, el actualizador buscará otros procesos en el sistema que puedan estar bloqueando la carpeta, 
-y si encuentra alguno, abrirá un diálogo al usuario ofreciéndole terminarlos o abortar la actualización. Si el proceso que bloquea no pudo identificarse
-(por ejemplo, si el proceso que bloquea se ejecuta como Administrador), se mostrará un mensaje de error al usuario, y se lanzará la versión antigua de la
+Si la carpeta no puede renombrarse durante el proceso de actualización, el actualizador de Velopack intentará finalizar automáticamente los procesos que se ejecutan dentro de `current`.
+Si la carpeta sigue bloqueada y no puede renombrarse, el actualizador buscará otros procesos en el sistema que puedan estar bloqueándola;
+si se encuentran, abrirá un diálogo al usuario ofreciendo la opción de finalizar dichos procesos o cancelar la actualización. Si el proceso que bloquea la carpeta no pudo identificarse
+(por ejemplo, si el proceso bloqueante se ejecuta como Administrador), se mostrará un mensaje de error al usuario y se lanzará la versión anterior de la
 aplicación.
 
 :::info
-Actualmente, ni el actualizador ni el instalador admiten directorios privilegiados como `C:\Program Files`, pero está previsto añadir compatibilidad con esto en el futuro.
+El instalador `Setup.exe` es por usuario e instala en `%LocalAppData%\{packId}`, por lo que no requiere elevación ni utiliza directorios privilegiados. Si necesita una instalación por equipo en `Program Files`, use el [instalador MSI](../installer.mdx#windows-msi-installer) con `--msi --instLocation PerMachine`, que instala en `Program Files\{publisher}\{packTitle}` (registro HKLM, requiere elevación).
 :::
 
 ## Instalación
-El programa de configuración producido por Velopack es un instalador de un solo clic, que mostrará la imagen de presentación que elijas (PNG, JPG o GIF animado), 
-o si no proporcionas una imagen será una simple barra de progreso. 
+El instalador producido por Velopack es un instalador de un solo clic, que mostrará la imagen de presentación de su elección (PNG, JPG o GIF animado),
+o si no proporciona una imagen, será una simple barra de progreso.
 
-De forma predeterminada, el instalador instalará en `%LocalAppData%\{packId}`, pero esto se puede anular en tiempo de ejecución con el argumento `Setup.exe --installto {dir}`.
+De forma predeterminada, el instalador se instalará en `%LocalAppData%\{packId}`, pero esto puede cambiarse en tiempo de ejecución con el argumento `Setup.exe --installto {dir}`.
 
-Antes de iniciar la instalación, el instalador comprobará que el [Runtime de la App](../runtime.mdx) sea compatible con el sistema operativo actual,
+Antes de iniciar la instalación, el instalador verificará que el [tiempo de ejecución de la aplicación](../runtime.mdx) sea compatible con el sistema operativo actual,
 y también comprobará si faltan [dependencias de arranque](../bootstrapping.mdx).
 
-Además, durante la instalación, el instalador ejecutará los [Hooks de la App](../../integrating/hooks.mdx), así como lanzará la aplicación por primera vez 
-una vez que la instalación se haya completado. Si deseas evitar que la aplicación se lance después de que la instalación se haya completado,
-puedes hacerlo con el argumento `Setup.exe --silent`.
+Además, durante la instalación, el instalador ejecutará los [hooks de la aplicación](../../integrating/hooks.mdx) y lanzará la aplicación por primera vez
+una vez que la instalación haya completado. Si desea evitar que la aplicación se lance al finalizar la instalación,
+puede hacerlo con el argumento `Setup.exe --silent`.

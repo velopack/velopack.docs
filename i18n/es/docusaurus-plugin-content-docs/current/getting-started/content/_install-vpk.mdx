@@ -1,8 +1,8 @@
-Velopack usa una herramienta de línea de comandos llamada `vpk` para empaquetar y publicar releases. 
-Se distribuye como una [herramienta global de .NET](https://learn.microsoft.com/dotnet/core/tools/global-tools). Aunque Velopack puede usarse con aplicaciones de [varios lenguajes](/#language-support), se requiere .NET para instalar y ejecutar `vpk`.
+Velopack usa una herramienta de línea de comandos llamada `vpk` para empaquetar y publicar versiones.
+Se distribuye como una [herramienta global de .NET](https://learn.microsoft.com/dotnet/core/tools/global-tools). Aunque Velopack puede usarse con aplicaciones escritas en [varios lenguajes](/#language-support), se requiere el SDK de .NET para instalar y ejecutar `vpk`.
 Puedes instalar el SDK de .NET desde la [página de descarga de .NET](https://dotnet.microsoft.com/download/dotnet).
 
-Una vez que .NET esté instalado, puedes instalar `vpk` ejecutando:
+Una vez instalado .NET, puedes instalar `vpk` ejecutando:
 ```cmd
 dotnet tool install -g vpk
 ```
@@ -11,9 +11,9 @@ dotnet tool install -g vpk
 Se recomienda usar la misma versión de `vpk` que el paquete Velopack referenciado en tu aplicación para garantizar la compatibilidad.
 :::
 
-Alternativamente, puedes ejecutar `vpk` sin instalarlo globalmente usando el comando [`dnx`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472):
+Alternativamente, puedes ejecutar `vpk` sin instalarlo globalmente usando el comando [`dnx`](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-exec?WT.mc_id=DT-MVP-5003472). Usa la sintaxis `@<version>` para fijar la versión de la herramienta `vpk`:
 ```cmd
-dnx vpk --version 1.0.0
+dnx vpk@1.0.0
 ```
 
-Reemplaza `1.0.0` con la versión del paquete Velopack que estés usando en tu aplicación.
+Reemplaza `1.0.0` con la versión del paquete Velopack que estás usando en tu aplicación.
