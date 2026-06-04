@@ -259,4 +259,4 @@ public void Run()
 Runs the Velopack application startup code and triggers any configured hooks.
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

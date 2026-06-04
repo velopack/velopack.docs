@@ -206,4 +206,4 @@ public static bool operator ==(GitBase<T>.GitBaseAsset? left, GitBase<T>.GitBase
 **Returns** `bool`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

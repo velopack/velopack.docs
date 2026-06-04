@@ -71,4 +71,4 @@ Sets the maximum number of deltas to consider before falling back to a full upda
 The default is 10. Set to a negative number to disable deltas.
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

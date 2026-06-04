@@ -417,4 +417,4 @@ Acquires a globally unique mutex/lock for the current application, to avoid conc
 **Returns** `Task<IDisposable>`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

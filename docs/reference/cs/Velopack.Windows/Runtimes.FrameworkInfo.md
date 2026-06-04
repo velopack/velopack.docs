@@ -104,4 +104,4 @@ Check if a runtime compatible with the current instance is installed on this sys
 **Returns** `Task<bool>`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

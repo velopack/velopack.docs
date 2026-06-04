@@ -124,4 +124,4 @@ or http://localhost:3000/api/v1
 **Returns** `Uri`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

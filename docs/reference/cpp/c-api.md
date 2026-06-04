@@ -287,7 +287,7 @@ VelopackLocator provides some utility functions for locating the current app imp
 
 #### Member variables
 
-  - `RootAppDir` - The root directory of the current app.
+  - `RootAppDir` - The root directory of the current app, or the path to the AppImage file on Linux.
   - `UpdateExePath` - The path to the Update.exe binary.
   - `PackagesDir` - The path to the packages’ directory.
   - `ManifestPath` - The current app manifest.

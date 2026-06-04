@@ -75,4 +75,4 @@ public string? ContentType { get; set; }
 The mime type of this release asset (as detected by GitHub).
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

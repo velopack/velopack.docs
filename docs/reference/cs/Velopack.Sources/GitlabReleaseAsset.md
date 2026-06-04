@@ -53,4 +53,4 @@ public GitlabReleaseLink[] Links { get; set; }
 A list of asset (file) links.
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

@@ -51,4 +51,4 @@ public void Log(VelopackLogLevel logLevel, string? message, Exception? exception
 
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

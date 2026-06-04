@@ -74,4 +74,4 @@ public string FilePath { get; }
 The filename of the package which failed validation
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

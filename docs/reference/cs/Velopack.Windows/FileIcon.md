@@ -125,4 +125,4 @@ Gets the type name for the selected file
 if the SHGFI_TYPENAME flag was set.
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

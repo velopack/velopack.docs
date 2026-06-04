@@ -54,6 +54,7 @@ app information from metadata embedded in the .app.
 | [`CurrentlyInstalledVersion`](#currentlyinstalledversion) | The currently installed version of the application, or null if the app is not installed. |
 | [`AppContentDir`](#appcontentdir) | The directory in which versioned application files are stored. |
 | [`Channel`](#channel) | The release channel this package was built for. |
+| [`IsPortable`](#isportable) | A flag indicating if this is a portable build, and that the settings should be self-contained in the package. |
 | [`AppTempDir`](#apptempdir) | The temporary directory for this application. |
 | [`PackagesDir`](#packagesdir) | The directory in which nupkg files are stored for this application. |
 | [`PersistentTempDir`](#persistenttempdir) | /var/tmp/{velopack}/{appid}, for storing app specific files which need to be preserved. |
@@ -119,6 +120,17 @@ public override string? Channel { get; }
 
 The release channel this package was built for.
 
+### IsPortable {#isportable}
+
+```cs
+public override bool IsPortable { get; }
+```
+
+A flag indicating if this is a portable build, and that the settings should be self-contained in the package.
+On Windows, this is true for portable builds, and false for non-portable builds which were installed by Setup.exe
+On OSX and Linux, this is always false, because settings and application files should be stored in the user's 
+home directory.
+
 ### AppTempDir {#apptempdir}
 
 ```cs
@@ -160,4 +172,4 @@ public string? AppImagePath { get; }
 File path of the .AppImage which mounted and ran this application.
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

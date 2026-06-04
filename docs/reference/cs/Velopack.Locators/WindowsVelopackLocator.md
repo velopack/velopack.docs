@@ -143,4 +143,4 @@ public override string? AppUserModelId { get; }
 The Application User Model ID for this app, used for taskbar grouping and toast notifications on Windows.
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

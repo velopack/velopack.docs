@@ -308,4 +308,4 @@ no SLR_NO_UI is specified, you can also specify a timeout.
 
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

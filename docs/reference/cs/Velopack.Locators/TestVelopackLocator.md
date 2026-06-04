@@ -246,4 +246,4 @@ Exit the current process with the given exit code.
 
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

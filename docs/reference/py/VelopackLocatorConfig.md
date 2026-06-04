@@ -7,6 +7,8 @@ sidebar_position: 2
 
 # VelopackLocatorConfig class
 
+VelopackLocator provides some utility functions for locating the current app important paths (eg. path to packages, update binary, and so forth).
+
 ```py
 class VelopackLocatorConfig
 ```
@@ -37,4 +39,4 @@ VelopackLocatorConfig(RootAppDir, UpdateExePath, PackagesDir, ManifestPath, Curr
 
 
 ___
-*Generated from `velopack` 1.1.1*
+*Generated from `velopack` 1.2.0*

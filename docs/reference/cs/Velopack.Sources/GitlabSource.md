@@ -105,4 +105,4 @@ Retrieves a list of [`GitlabRelease`](./GitlabRelease.md) from the current repos
 **Returns** `Task<GitlabRelease[]>`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

@@ -74,4 +74,4 @@ The category type that the asset is listed under.
 Options: 'Package', 'Image', 'Runbook', 'Other'
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

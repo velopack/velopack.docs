@@ -93,4 +93,4 @@ Check if this runtime is supported on the current system
 **Returns** `Task<bool>`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

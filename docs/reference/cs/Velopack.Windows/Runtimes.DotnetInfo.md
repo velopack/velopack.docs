@@ -249,4 +249,4 @@ returned by `GetLatestDotNetVersion`. cpuarch should be either
 **Returns** `string`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

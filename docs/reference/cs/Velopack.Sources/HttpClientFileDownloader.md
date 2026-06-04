@@ -191,4 +191,4 @@ Creates a new `HttpClient` for every request.
 **Returns** `HttpClient`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

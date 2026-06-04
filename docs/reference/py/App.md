@@ -170,4 +170,4 @@ Set whether to automatically apply downloaded updates on startup
 
 
 ___
-*Generated from `velopack` 1.1.1*
+*Generated from `velopack` 1.2.0*

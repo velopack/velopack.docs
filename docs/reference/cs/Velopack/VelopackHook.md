@@ -89,4 +89,4 @@ public virtual void EndInvoke(IAsyncResult result)
 
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

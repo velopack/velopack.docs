@@ -85,4 +85,4 @@ Returns a string containing the contents of the specified url
 **Returns** `Task<string>`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

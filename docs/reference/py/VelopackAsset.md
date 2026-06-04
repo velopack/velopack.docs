@@ -7,6 +7,8 @@ sidebar_position: 2
 
 # VelopackAsset class
 
+An individual Velopack asset, could refer to an asset on-disk or in a remote package feed.
+
 ```py
 class VelopackAsset
 ```
@@ -40,4 +42,4 @@ VelopackAsset(PackageId, Version, Type, FileName, SHA1, SHA256, Size, NotesMarkd
 
 
 ___
-*Generated from `velopack` 1.1.1*
+*Generated from `velopack` 1.2.0*

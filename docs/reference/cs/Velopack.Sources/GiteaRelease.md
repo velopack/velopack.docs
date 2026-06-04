@@ -71,4 +71,4 @@ public GiteaReleaseAsset[] Assets { get; set; }
 A list of assets (files) uploaded to this release.
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

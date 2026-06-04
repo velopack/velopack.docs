@@ -39,4 +39,4 @@ GithubSource(repo_url, access_token=None, prerelease=False)
 
 
 ___
-*Generated from `velopack` 1.1.1*
+*Generated from `velopack` 1.2.0*

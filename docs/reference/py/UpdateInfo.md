@@ -7,6 +7,8 @@ sidebar_position: 2
 
 # UpdateInfo class
 
+Holds information about the current version and pending updates, such as how many there are, and access to release notes.
+
 ```py
 class UpdateInfo
 ```
@@ -35,4 +37,4 @@ UpdateInfo(TargetFullRelease, DeltasToTarget, IsDowngrade, BaseRelease=None)
 
 
 ___
-*Generated from `velopack` 1.1.1*
+*Generated from `velopack` 1.2.0*

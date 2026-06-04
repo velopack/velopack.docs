@@ -457,4 +457,4 @@ public static readonly Runtimes.RuntimeInfo[] All
 An array of all the currently supported runtimes
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

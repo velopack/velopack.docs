@@ -205,4 +205,4 @@ Constructs a dictionary containing HTTP request headers.
 **Returns** `Dictionary<string, string>` — A dictionary of headers including "Accept" and, if available, authorization headers.
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

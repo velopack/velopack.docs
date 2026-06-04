@@ -7,6 +7,8 @@ sidebar_position: 2
 
 # UpdateOptions class
 
+Options to customise the behaviour of UpdateManager.
+
 ```py
 class UpdateOptions
 ```
@@ -34,4 +36,4 @@ UpdateOptions(AllowVersionDowngrade, MaximumDeltasBeforeFallback, ExplicitChanne
 
 
 ___
-*Generated from `velopack` 1.1.1*
+*Generated from `velopack` 1.2.0*

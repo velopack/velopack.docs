@@ -247,4 +247,4 @@ public static bool operator >=(RuntimeVersion v1, RuntimeVersion v2)
 **Returns** `bool`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

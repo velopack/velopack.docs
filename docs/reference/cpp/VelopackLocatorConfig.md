@@ -17,7 +17,7 @@ struct VelopackLocatorConfig
 
 | Field | Summary |
 | --- | --- |
-| [`RootAppDir`](#rootappdir) | The root directory of the current app. |
+| [`RootAppDir`](#rootappdir) | The root directory of the current app, or the path to the AppImage file on Linux. |
 | [`UpdateExePath`](#updateexepath) | The path to the Update.exe binary. |
 | [`PackagesDir`](#packagesdir) | The path to the packages’ directory. |
 | [`ManifestPath`](#manifestpath) | The current app manifest. |
@@ -27,7 +27,7 @@ struct VelopackLocatorConfig
 
 ### RootAppDir {#rootappdir}
 
-The root directory of the current app.
+The root directory of the current app, or the path to the AppImage file on Linux.
 
 ### UpdateExePath {#updateexepath}
 

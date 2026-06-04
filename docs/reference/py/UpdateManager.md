@@ -150,4 +150,4 @@ wait_exit_then_apply_updates(update, silent=False, restart=True, restart_args=No
 
 
 ___
-*Generated from `velopack` 1.1.1*
+*Generated from `velopack` 1.2.0*

@@ -119,4 +119,4 @@ Download the specified [`VelopackAsset`](../Velopack/VelopackAsset.md) to the pr
 **Returns** `Task`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

@@ -123,4 +123,4 @@ or http://internal.github.server.local/api/v3)
 **Returns** `Uri`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

@@ -288,4 +288,4 @@ protected const string DefaultLoggingFileName = "velopack.log"
 The default log file name for Velopack.
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

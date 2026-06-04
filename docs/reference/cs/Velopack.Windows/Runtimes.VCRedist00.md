@@ -74,4 +74,4 @@ Retrieves the web url to the latest compatible runtime installer exe
 **Returns** `Task<string>`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

@@ -20,4 +20,4 @@ public class NotInstalledException : Exception, ISerializable
 **Implements:** `ISerializable`  
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

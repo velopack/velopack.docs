@@ -200,4 +200,4 @@ staged roll outs.
 **Returns** `Guid?`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*

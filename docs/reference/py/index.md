@@ -7,7 +7,7 @@ sidebar_position: 0
 
 # Python API Reference
 
-**Package:** `velopack` 1.1.1
+**Package:** `velopack` 1.2.0
 
 ## Namespaces
 
@@ -21,13 +21,13 @@ sidebar_position: 0
 | Type | Summary |
 | --- | --- |
 | [`App`](./App.md) | Python wrapper for VelopackApp with builder pattern |
-| [`UpdateInfo`](./UpdateInfo.md) |  |
+| [`UpdateInfo`](./UpdateInfo.md) | Holds information about the current version and pending updates, such as how many there are, and access to release notes. |
 | [`UpdateManager`](./UpdateManager.md) |  |
-| [`UpdateOptions`](./UpdateOptions.md) |  |
-| [`VelopackAsset`](./VelopackAsset.md) |  |
-| [`VelopackLocatorConfig`](./VelopackLocatorConfig.md) |  |
+| [`UpdateOptions`](./UpdateOptions.md) | Options to customise the behaviour of UpdateManager. |
+| [`VelopackAsset`](./VelopackAsset.md) | An individual Velopack asset, could refer to an asset on-disk or in a remote package feed. |
+| [`VelopackLocatorConfig`](./VelopackLocatorConfig.md) | VelopackLocator provides some utility functions for locating the current app important paths (eg. path to packages, update binary, and so forth). |
 
 
 
 ___
-*Generated from `velopack` 1.1.1*
+*Generated from `velopack` 1.2.0*

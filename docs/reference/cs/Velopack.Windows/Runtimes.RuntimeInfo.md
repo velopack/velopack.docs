@@ -174,4 +174,4 @@ The unique hash code of this runtime
 **Returns** `int`
 
 ___
-*Generated from `Velopack` 1.1.1*
+*Generated from `Velopack` 1.2.0*
