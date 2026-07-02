@@ -20,6 +20,7 @@ class HttpSource :public IUpdateSourcePointer
 | Constructor | Summary |
 | --- | --- |
 | [`HttpSource`](#velopack-httpsource-httpsource-std-stringconst) | Creates a new HttpSource. |
+| [`HttpSource`](#velopack-httpsource-httpsource-std-stringconst-velopack-httpoptionsconst) | Creates a new HttpSource with custom HTTP options. |
 
 
 ### HttpSource(httpUrl) {#velopack-httpsource-httpsource-std-stringconst}
@@ -35,6 +36,22 @@ Creates a new HttpSource.
 | Name | Description |
 | --- | --- |
 | `httpUrl` | The URL to the releases feed. |
+
+
+### HttpSource(httpUrl, options) {#velopack-httpsource-httpsource-std-stringconst-velopack-httpoptionsconst}
+
+```cpp
+HttpSource(std::string const& httpUrl, Velopack::HttpOptions const& options);
+```
+
+Creates a new HttpSource with custom HTTP options.
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
+| `httpUrl` | The URL to the releases feed. |
+| `options` | HTTP options (custom headers, timeout) applied to all requests made by this source. |
 
 
 ___

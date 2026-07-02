@@ -28,6 +28,8 @@ sidebar_position: 0
 
 | Type | Summary |
 | --- | --- |
+| [`HttpHeader`](./HttpHeader.md) | A single HTTP header (name and value pair) to be sent with a web request. |
+| [`HttpOptions`](./HttpOptions.md) | Options to customize HTTP requests (custom headers, timeout, etc). |
 | [`UpdateInfo`](./UpdateInfo.md) | Holds information about the current version and pending updates, such as how many there are, and access to release notes. |
 | [`UpdateOptions`](./UpdateOptions.md) | Options to customise the behaviour of UpdateManager. |
 | [`VelopackAsset`](./VelopackAsset.md) | An individual Velopack asset, could refer to an asset on-disk or in a remote package feed. |

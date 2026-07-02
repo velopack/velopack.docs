@@ -17,6 +17,10 @@ enum vpkc_update_check_t
 
 using vpkc_update_source_t = void;
 
+struct vpkc_http_header_t;
+
+struct vpkc_http_options_t;
+
 using vpkc_release_feed_delegate_t = char*(*)(void*, char const*);
 
 using vpkc_free_release_feed_t = void(*)(void*, char*);
@@ -44,6 +48,8 @@ extern "C"
     vpkc_update_source_t* vpkc_new_source_file(char const* psz_file_path);
 
     vpkc_update_source_t* vpkc_new_source_http_url(char const* psz_http_url);
+
+    vpkc_update_source_t* vpkc_new_source_http_url_with_options(char const* psz_http_url, vpkc_http_options_t* p_options);
 
     vpkc_update_source_t* vpkc_new_source_github(char const* psz_repo_url, char const* psz_access_token, bool b_prerelease);
 
@@ -135,6 +141,60 @@ using vpkc_update_source_t = void;
 ```
 
 Opaque type for a Velopack UpdateSource. Must be freed with `vpkc_free_update_source`.
+
+-----
+
+## Struct `vpkc_http_header_t`
+
+``` cpp
+struct vpkc_http_header_t
+{
+    char* Name;
+
+    char* Value;
+};
+```
+
+A single HTTP header (name and value pair) to be sent with a web request.
+
+#### Member variables
+
+  - `Name` - The name of the HTTP header (eg. “Authorization”).
+  - `Value` - The value of the HTTP header.
+
+-----
+
+## Struct `vpkc_http_options_t`
+
+``` cpp
+struct vpkc_http_options_t
+{
+    vpkc_http_header_t** Headers;
+
+    size_t HeadersCount;
+
+    uint64_t TimeoutMilliseconds;
+};
+```
+
+Options to customize HTTP requests (custom headers, timeout, etc).
+
+#### Member variables
+
+  - `Headers` - Additional headers to send with each request.
+  - `HeadersCount` - The number of elements in the Headers array.
+
+### Variable `vpkc_http_options_t::TimeoutMilliseconds`
+
+``` cpp
+uint64_t TimeoutMilliseconds;
+```
+
+Timeout applied to the entire request (connection + transfer), in milliseconds.
+
+The default of 0 means requests never time out.
+
+-----
 
 -----
 
@@ -400,6 +460,21 @@ Create a new HttpSource update source for a given HTTP URL.
 
 
 - **`psz_http_url`** — The URL to a remote update server.
+- **Returns** — A new vpkc\_update\_source\_t instance, or null on error.
+
+-----
+
+## Function `vpkc_new_source_http_url_with_options`
+
+``` cpp
+vpkc_update_source_t* vpkc_new_source_http_url_with_options(char const* psz_http_url, vpkc_http_options_t* p_options);
+```
+
+Create a new HttpSource update source for a given HTTP URL, with custom HTTP options.
+
+
+- **`psz_http_url`** — The URL to a remote update server.
+- **`p_options`** — Optional HTTP options (custom headers, timeout). Can be null.
 - **Returns** — A new vpkc\_update\_source\_t instance, or null on error.
 
 -----
