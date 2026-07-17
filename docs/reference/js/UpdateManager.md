@@ -17,22 +17,21 @@ class UpdateManager
 
 | Constructor | Summary |
 | --- | --- |
-| [`constructor`](#constructor-urlorpath-options-locator) | Create a new UpdateManager instance. |
+| [`constructor`](#constructor-options-locator) | Create a new UpdateManager instance that retrieves updates from the hosted Velopack Flow service. |
 
 
-### constructor(urlOrPath, options, locator) {#constructor-urlorpath-options-locator}
+### constructor(options, locator) {#constructor-options-locator}
 
 ```js
-constructor(urlOrPath: string, options?: UpdateOptions, locator?: VelopackLocatorConfig)
+constructor(options?: UpdateOptions, locator?: VelopackLocatorConfig)
 ```
 
-Create a new UpdateManager instance.
+Create a new UpdateManager instance that retrieves updates from the hosted Velopack Flow service.
 
 **Parameters**
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `urlOrPath` | `string` | Location of the update server or path to the local update directory. |
 | `options` | `UpdateOptions` | Optional extra configuration for update manager. (optional) |
 | `locator` | `VelopackLocatorConfig` | Override the default locator configuration (usually used for testing / mocks). (optional) |
 
@@ -149,4 +148,4 @@ optionally restart your app. The updater will only wait for 60 seconds before gi
 **Returns** `void`
 
 ___
-*Generated from `velopack` 1.2.0*
+*Generated from `velopack` 1.2.110-ge826545*

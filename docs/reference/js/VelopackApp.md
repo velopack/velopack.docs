@@ -252,4 +252,4 @@ Build a new VelopackApp instance.
 **Returns** [`VelopackApp`](./VelopackApp.md)
 
 ___
-*Generated from `velopack` 1.2.0*
+*Generated from `velopack` 1.2.110-ge826545*

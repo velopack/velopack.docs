@@ -7,16 +7,22 @@ sidebar_position: 0
 
 # JavaScript API Reference
 
-**Package:** `velopack` 1.2.0
+**Package:** `velopack` 1.2.110-ge826545
 
 ## Classes
 
 | Type | Summary |
 | --- | --- |
+| [`FileSource`](./FileSource.md) | A built-in update source that retrieves release feeds and downloads assets from a local or network directory. |
+| [`GiteaSource`](./GiteaSource.md) | Retrieves available releases from a Gitea repository. |
+| [`GithubSource`](./GithubSource.md) | Retrieves available releases from a GitHub repository. Supports both github.com |
+| [`GitlabSource`](./GitlabSource.md) | Retrieves available releases from a GitLab repository. |
+| [`HttpSource`](./HttpSource.md) | Retrieves updates from a static file host or other web server. |
 | [`UpdateManager`](./UpdateManager.md) | Provides functionality for checking for updates, downloading updates, and applying updates to the current application. |
 | [`VelopackApp`](./VelopackApp.md) | VelopackApp helps you to handle app activation events correctly. |
+| [`VelopackFlowSource`](./VelopackFlowSource.md) | Retrieves updates from the hosted Velopack Flow service (https://api.velopack.io/). |
 
 
 
 ___
-*Generated from `velopack` 1.2.0*
+*Generated from `velopack` 1.2.110-ge826545*

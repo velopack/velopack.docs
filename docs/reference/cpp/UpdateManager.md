@@ -23,6 +23,7 @@ This class is the main entry point for interacting with Velopack.
 | --- | --- |
 | [`UpdateManager`](#velopack-updatemanager-updatemanager-std-stringconst-velopack-updateoptionsconst-velopack-velopacklocatorconfigconst) | Create a new UpdateManager instance for a local or remote directory of releases. |
 | [`UpdateManager`](#velopack-updatemanager-updatemanager-t-std-unique-ptr-t-velopack-updateoptionsconst-velopack-velopacklocatorconfigconst) | Create a new UpdateManager instance with any update source (built-in or custom). The UpdateManager takes ownership of the source. |
+| [`UpdateManager`](#velopack-updatemanager-updatemanager-velopack-updateoptionsconst-velopack-velopacklocatorconfigconst) | Create a new UpdateManager instance which retrieves updates from the hosted Velopack Flow service (https://velopack.io). This is a convenience constructor equivalent to creating a VelopackFlowSource and passing it to UpdateManager. |
 
 
 ### UpdateManager(urlOrPath, options, locator) {#velopack-updatemanager-updatemanager-std-stringconst-velopack-updateoptionsconst-velopack-velopacklocatorconfigconst}
@@ -56,6 +57,22 @@ Create a new UpdateManager instance with any update source (built-in or custom).
 | Name | Description |
 | --- | --- |
 | `pUpdateSource` | The source to use for retrieving feed and downloading assets. |
+| `options` | Optional extra configuration for update manager. |
+| `locator` | Override the default locator configuration (usually used for testing / mocks). |
+
+
+### UpdateManager(options, locator) {#velopack-updatemanager-updatemanager-velopack-updateoptionsconst-velopack-velopacklocatorconfigconst}
+
+```cpp
+UpdateManager(Velopack::UpdateOptions const* options = nullptr, Velopack::VelopackLocatorConfig const* locator = nullptr);
+```
+
+Create a new UpdateManager instance which retrieves updates from the hosted Velopack Flow service (https://velopack.io). This is a convenience constructor equivalent to creating a VelopackFlowSource and passing it to UpdateManager.
+
+**Parameters**
+
+| Name | Description |
+| --- | --- |
 | `options` | Optional extra configuration for update manager. |
 | `locator` | Override the default locator configuration (usually used for testing / mocks). |
 

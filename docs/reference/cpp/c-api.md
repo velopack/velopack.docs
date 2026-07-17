@@ -67,6 +67,8 @@ extern "C"
 
     bool vpkc_new_update_manager(char const* psz_url_or_path, vpkc_update_options_t* p_options, vpkc_locator_config_t* p_locator, vpkc_update_manager_t** p_manager);
 
+    bool vpkc_new_update_manager_flow(vpkc_update_options_t* p_options, vpkc_locator_config_t* p_locator, vpkc_update_manager_t** p_manager);
+
     bool vpkc_new_update_manager_with_source(vpkc_update_source_t* p_source, vpkc_update_options_t* p_options, vpkc_locator_config_t* p_locator, vpkc_update_manager_t** p_manager);
 
     size_t vpkc_get_current_version(vpkc_update_manager_t* p_manager, char* psz_version, size_t c_version);
@@ -594,6 +596,18 @@ Create a new UpdateManager instance.
 - **`p_locator`** — Optional explicit path configuration for Velopack. If null, the default locator will be used.
 - **`p_manager`** — A pointer to where the new vpkc\_update\_manager\_t\* instance will be stored.
 - **Returns** — True if the update manager was created successfully, false otherwise. If false, the error will be available via `vpkc_get_last_error`.
+
+-----
+
+## Function `vpkc_new_update_manager_flow`
+
+``` cpp
+bool vpkc_new_update_manager_flow(vpkc_update_options_t* p_options, vpkc_locator_config_t* p_locator, vpkc_update_manager_t** p_manager);
+```
+
+Create a new UpdateManager instance which retrieves updates from the hosted Velopack Flow service (https://velopack.io).
+
+This is a convenience function which is equivalent to creating a VelopackFlowSource and calling vpkc\_new\_update\_manager\_with\_source. @param p\_options Optional extra configuration for update manager. @param p\_locator Optional explicit path configuration for Velopack. If null, the default locator will be used. @param p\_manager A pointer to where the new vpkc\_update\_manager\_t\* instance will be stored. @returns True if the update manager was created successfully, false otherwise. If false, the error will be available via `vpkc_get_last_error`.
 
 -----
 
