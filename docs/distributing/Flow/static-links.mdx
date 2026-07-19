@@ -2,6 +2,9 @@
 <FlowLink /> provides static links for each channel, and release. These links can be referred from your own website to direct user to download the latest release of an application, or to download a specific release. 
 
 The most common will be the latest release for a given channel. On the channel list page you can click the ellipsis menu on the right side of the channel row and select "Copy latest setup link". This will copy a link to the latest setup installer for that channel to your clipboard. This URL will always point to the latest release for that channel, so you can use it in your own website or documentation.
+
+On Windows, `Setup.exe` and MSI installers downloaded from a channel link install the app on that channel, even when the installer was originally packaged for a different channel. The installed app will therefore continue checking for updates on the channel selected by the link. Repairing an MSI installation also reapplies the installer's selected channel.
+
 ![Latest release for channel static link](/images/latest-channel-link.png)
 
 You can also get direct link to specific releases. On the release details page there is a Release links section with buttons to copy links to installers at specific versions. 
