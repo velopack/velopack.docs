@@ -23,9 +23,14 @@ The Windows installer will extract the application to `%LocalAppData%\{packId}`.
 The `current` directory will be fully replaced [while doing updates](../integrating/overview.mdx). The other files added by Velopack (`Update.exe` and `sq.version`) are crucial and are required files for Velopack to be able to properly update your application.
 
 ### Windows MSI Installer
-In addition to `Setup.exe`, Velopack can generate a `.msi` installer using WiX 5. The MSI provides full Windows Installer integration, including support for per-machine installs to Program Files, Group Policy deployment, and standard Add/Remove Programs entries.
+In addition to `Setup.exe`, Velopack can generate a `.msi` installer using WiX. The MSI provides full Windows Installer integration, including support for per-machine installs to Program Files, Group Policy deployment, and standard Add/Remove Programs entries.
 
 To enable MSI generation, add the `--msi` flag to your `vpk pack` command. The MSI is built alongside `Setup.exe` during packaging.
+
+#### WiX version and licensing
+Velopack builds MSIs using its own fork of WiX v7, rather than binaries produced by the official WiX Toolset project. This matters for licensing: the [Open Source Maintenance Fee (OSMF)](https://opensourcemaintenancefee.org/) that WiX v7 introduced applies only to consumers of WiX's official, compiled binaries. WiX's source code itself is MS-RL licensed and can be used freely without restriction.
+
+Because Velopack compiles its own fork rather than depending on WiX's official binaries, **the OSMF does not apply to Velopack or to applications packaged with `vpk --msi`**.
 
 #### Install Location
 The `--instLocation` option controls where the MSI will install:
