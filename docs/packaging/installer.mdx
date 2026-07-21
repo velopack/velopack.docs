@@ -43,8 +43,12 @@ The `--instLocation` option controls where the MSI will install:
 | `--instLicense {path}` | License agreement (`.txt`, `.md`, or `.rtf`) |
 | `--instReadme {path}` | Readme message (`.txt` or `.md`) |
 | `--instConclusion {path}` | Conclusion message (`.txt` or `.md`) |
-| `--msiBanner {path}` | Top banner image for MSI dialogs (`.bmp`, 493x58) |
-| `--msiLogo {path}` | Background logo for MSI dialogs (`.bmp`, 493x312) |
+| `--msiTopBanner {path}` | Narrow banner across the top of MSI dialogs (`.bmp`, 493x58) |
+| `--msiDialogBackground {path}` | Full background of the MSI welcome and completion dialogs (`.bmp`, 493x312) |
+
+:::note
+The MSI image options were renamed from `--msiBanner` and `--msiLogo`. Update existing packaging scripts to use `--msiTopBanner` and `--msiDialogBackground`, respectively.
+:::
 
 #### Directory Structure
 The MSI installs the same directory layout as `Setup.exe` (see [the canonical layout on the Windows page](operating-systems/windows.mdx)), under `{installFolder}` instead of `%LocalAppData%\{packId}`.
