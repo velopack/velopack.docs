@@ -10,6 +10,8 @@ If you don't have the latest local release, eg. you're running in CI, you can us
 
 Delta packages use [Zstandard](https://github.com/facebook/zstd) to create binary patches of individual files in your package. Due to limitations of Zstandard, no single file can be bigger than 2 GB.
 
+Zstandard (`.zsdiff`) is the only supported non-empty patch format. If Velopack cannot create a Zstandard patch, delta generation fails instead of producing a delta that clients cannot apply. Legacy `.bsdiff` and MSDelta patches are not supported and fail during patching with an `Unsupported patch format` error; publish a full package or regenerate the delta with a current version of `vpk`.
+
 ## Optimising for size
 The default parameters picked for patch generation are to provide a good balance of size and speed. 
 If you would like to optimize for size, you can do this with the `--delta BestSize` argument.
