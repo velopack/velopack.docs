@@ -32,7 +32,13 @@ Before running a command for a different OS, you should review the help text of 
   you must use a MacOS machine to create MacOS packages.
 
 ## Signing caveat
-While you can *build* a Windows package from Linux or macOS, **signing** it has additional requirements. The standard `--signParams` / `--signTemplate` path relies on `signtool.exe`, which only runs on Windows. If you need to sign a Windows package from Linux or macOS, use a cross-platform tool such as JSign. See the [code signing guide](./signing.mdx) for details.
+Windows packages built on Linux or macOS can also be signed there, using `--signTemplate`. It runs whatever command you give it, so any cross-platform signing tool works:
+
+```sh
+vpk [win] pack ... --signTemplate "<your tool> sign {{file...}}"
+```
+
+What does *not* work off Windows is `--signParams` and `--azureTrustedSignFile`, both of which invoke the bundled `signtool.exe`. See [Cross Platform Signing](./signing.mdx#cross-platform-signing) for tools that fill the gap.
 
 
 

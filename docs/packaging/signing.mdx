@@ -55,7 +55,9 @@ Note that since June 1, 2023 there [has been a policy change](https://knowledge.
 For detailed information on Azure Artifact Signing please refer to the [official documentation](https://learn.microsoft.com/azure/trusted-signing/).
 
 :::note
-Signing relies on `signtool.exe` which is only supported on Windows. If you are using a different operating system, you will need to sign your binaries on a Windows machine before deploying them.
+`--signParams` and `--azureTrustedSignFile` rely on `signtool.exe`, which only runs on Windows. Signing with either of those on Linux or macOS is not possible.
+
+`--signTemplate` has no such restriction: it runs whatever command you give it, on any operating system. See [Cross Platform Signing](#cross-platform-signing) below.
 :::
 
 1. First you will need to create an Azure account at: https://azure.microsoft.com/pricing/purchase-options/azure-account. This account will need to have an [active subscription](https://learn.microsoft.com/azure/cost-management-billing/manage/create-subscription#create-a-subscription).
