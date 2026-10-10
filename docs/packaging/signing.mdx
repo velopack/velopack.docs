@@ -28,7 +28,7 @@ As of April 2024, the most effective way to code-sign your product is via [**Azu
 - Signing can be automated (eg. in your CI pipeline)
 - Artifact Signing certificates get built-in instant reputation for smart-screen and defender.
 
-Artifact Signing can be used by following the [Microsoft documentation for using Artifact Signing with signtool.exe](https://learn.microsoft.com/en-us/azure/trusted-signing/how-to-signing-integrations#download-and-install-net-80-runtime), and then reading our docs below on how to configure signtool.exe with Velopack.
+Velopack has built-in support for Artifact Signing on Windows, Linux and macOS. See [Signing via Azure Artifact Signing](#signing-via-azure-artifact-signing) below for how to set it up.
 
 #### Other certificate vendors
 
@@ -55,7 +55,7 @@ Note that since June 1, 2023 there [has been a policy change](https://knowledge.
 For detailed information on Azure Artifact Signing please refer to the [official documentation](https://learn.microsoft.com/azure/trusted-signing/).
 
 :::note
-Signing relies on `signtool.exe` which is only supported on Windows. If you are using a different operating system, you will need to sign your binaries on a Windows machine before deploying them.
+Since Velopack 1.3, `vpk` signs with Azure Artifact Signing directly (no `signtool.exe`), so `--azureTrustedSignFile` works when packaging Windows apps on Windows, Linux and macOS. MSI installers can only be built (and therefore signed) on Windows. Older versions of Velopack use `signtool.exe` and the Artifact Signing dlib, and only support this option on Windows.
 :::
 
 1. First you will need to create an Azure account at: https://azure.microsoft.com/pricing/purchase-options/azure-account. This account will need to have an [active subscription](https://learn.microsoft.com/azure/cost-management-billing/manage/create-subscription#create-a-subscription).
@@ -63,9 +63,8 @@ Signing relies on `signtool.exe` which is only supported on Windows. If you are 
 0. Create the Azure Artifact Signing resource by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-trusted-signing-account). Note the name and region that you select, as you will use these values later for the `CodeSigningAccountName` and `Endpoint` values respectively, in the signing configuration JSON file.
 0. Create an identity validation request by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-an-identity-validation-request). This step must be done in the Azure Portal. The identity validation can either be done for an Organization or an Individual developer. This process make take a while as the identity information is verified by Microsoft. Return to these steps after the identity validation process is completed.
 0. Create a certificate profile by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-certificate-profile). There are multiple [trust models](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-trust-models) that are supported. The Public Trust model is the most common and is suitable for most applications. Note the name of the certificate profile as you will use this value later as the `CertificateProfileName` in the signing configuration JSON file.
-0. Velopack comes bundled with a version of [signtool.exe](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-signtool) (x64) and the [dlib package](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-the-trusted-signing-dlib-package) that is compatible with Azure Artifact Signing. These components [require the .NET 8.0 Runtime](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#download-and-install-net-80-runtime) be installed on the machine that will be performing the signing. You can find the latest version of the .NET 8.0 runtime [here](https://dotnet.microsoft.com/download/dotnet/8.0).
-0. Setup authentication with Azure Artifact Signing. `signtool.exe` leverages the common [DefaultAzureCredentials](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) class for authenticating with Azure. This class supports authenticating in a variety of ways, including the Azure CLI. After installing the Azure CLI, run `az login`. This will provide signtool.exe the authentication it needs when `vpk` invokes it. If you are running inside of the [GitHub Actions](https://github.com/marketplace/actions/azure-cli-action) or [Azure DevOps](https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/azure-cli-v2?view=azure-pipelines) there is built in support that handles performing the needed authentication.
-0. Create signing metadata JSON file. This file has three required paramters and an optional CorrelationId. The file should look like this:
+0. Setup authentication with Azure Artifact Signing. `vpk` uses the common [DefaultAzureCredential](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) class for authenticating with Azure. This class supports authenticating in a variety of ways, including environment variables, managed identity and the Azure CLI. After installing the Azure CLI, run `az login`. If you are running inside of [GitHub Actions](https://github.com/marketplace/actions/azure-login) or [Azure DevOps](https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/azure-cli-v2?view=azure-pipelines) there is built in support that handles performing the needed authentication. The identity you sign in with needs the *Artifact Signing Certificate Profile Signer* role (formerly *Trusted Signing Certificate Profile Signer*) on the account or certificate profile.
+0. Create signing metadata JSON file. This file has three required parameters. The file should look like this:
    ```json
    {
      "Endpoint": "<Artifact Signing account endpoint>",
@@ -73,8 +72,11 @@ Signing relies on `signtool.exe` which is only supported on Windows. If you are 
      "CertificateProfileName": "<Certificate profile name>"
    }
    ```
-   The values from each of these can be found in the steps above where you created the Azure Artifact Signing resource, and the certificate profile. The file should be saved with UTF-8 (without a BOM) encoding. Though not required, this is often named as `metadata.json`. The full details can be seen [here](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#create-a-json-file).
-0. Pass the metadata JSON file. When calling `vpk pack` using `--azureTrustedSignFile <path to json file>`. `vpk` will pass the file through to `signtool.exe` to sign the needed assets.
+   The values from each of these can be found in the steps above where you created the Azure Artifact Signing resource, and the certificate profile. Though not required, this is often named as `metadata.json`. This is the same file format used by Microsoft's [signtool integration](https://learn.microsoft.com/azure/trusted-signing/how-to-signing-integrations#create-a-json-file), and the following optional properties are also supported:
+   - `ExcludeCredentials`: a list of credential types to skip when authenticating (e.g. `["ManagedIdentityCredential", "EnvironmentCredential"]`).
+   - `AccessToken`: a pre-acquired access token to use instead of `DefaultAzureCredential` (e.g. from `az account get-access-token --resource https://codesigning.azure.net`).
+   - `CorrelationId`: an identifier that is attached to each signing request.
+0. Pass the metadata JSON file. When calling `vpk pack` using `--azureTrustedSignFile <path to json file>`. `vpk` will sign your application binaries, `Setup.exe`, and the MSI (if you are building one), and timestamp each signature using `http://timestamp.acs.microsoft.com`. Files which are already signed (for example, signed third party dependencies) are left as-is.
 
 ### Signing via `signtool.exe`
 Usually signing is accomplished via `signtool.exe`. If you already use this tool to sign your application, you can just pass your sign parameters straight to Velopack (minus the 'sign' command).
@@ -112,9 +114,11 @@ vpk pack ... --signTemplate "AzureSignTool.exe sign ... {{file}}"
 The above will sign one file at a time, but if your signing tool supports batch signing multiple files at a time, you can specify `{{file...}}` instead.
 
 ## Cross Platform Signing
+Since Velopack 1.3, [Azure Artifact Signing](#signing-via-azure-artifact-signing) via `--azureTrustedSignFile` is supported on Linux and macOS without any additional tools. If you are using another certificate vendor, or an older version of Velopack, you can use a third party tool with `--signTemplate`.
+
 [JSign](https://ebourg.github.io/jsign/) is a versatile code signing tool that runs on Linux, macOS and Windows. It supports a wide range of signing algorithms and timestamping services.
 
-To use it with Velopack do the following:
+To use it with Velopack and Azure Artifact Signing do the following:
 1. Follow the steps above to setup [Azure Artifact Signing](#signing-via-azure-artifact-signing)
 0. Download the latest version of JSign from https://ebourg.github.io/jsign/#files
 0. Install the [Azure CLI](https://learn.microsoft.com/cli/azure/) and login with `az login`
