@@ -12,8 +12,9 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "translate": "node scripts/translate.mjs",
-    "i18n:scaffold": "docusaurus write-translations --locale es && docusaurus write-translations --locale en",
+    "i18n:status": "node scripts/i18n.mjs status",
+    "i18n:check": "node scripts/i18n.mjs check",
+    "i18n:update": "node scripts/i18n.mjs update",
     "typecheck": "tsc"
   },
   "dependencies": {

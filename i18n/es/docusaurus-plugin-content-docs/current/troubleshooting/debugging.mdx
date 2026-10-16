@@ -1,8 +1,12 @@
-# Depuración y Registro
+# Depuración y registro
 <AppliesTo all />
 Encuentra o configura los registros de la aplicación para detectar problemas en tiempo de ejecución.
 
-Todos los componentes de Velopack (binarios, bibliotecas y el UpdateManager) registran en un archivo compartido de forma predeterminada. El nombre del archivo de registro incluye el ID de la aplicación de `sq.version` cuando está disponible (por ejemplo, `velopack_myapp.log`), o recurre a `velopack.log` cuando no existe contexto de aplicación (como durante la configuración/instalación inicial). Los archivos de registro se rotan automáticamente al alcanzar 1 MB.
+Todas las partes de Velopack incluyen registro integrado para ayudar a diagnosticar problemas, y deberías adjuntar estos registros cuando abras una incidencia (issue) en GitHub sobre un posible error.
+
+## Registro en Velopack
+
+Todos los componentes de Velopack (binarios, bibliotecas y el UpdateManager) escriben sus registros en un archivo compartido de forma predeterminada. El nombre del archivo de registro incluye el ID de la aplicación de `sq.version` cuando está disponible (por ejemplo, `velopack_myapp.log`), o recurre a `velopack.log` cuando no existe contexto de aplicación (como durante la configuración/instalación inicial). Los archivos de registro se rotan automáticamente al alcanzar 1 MB.
 
 Para los binarios Update.exe y Setup.exe, puedes anular la ubicación del registro con el parámetro `--log {path}`. También puedes usar la bandera `--verbose` para capturar la salida de depuración/rastreo en el archivo de registro.
 Consulta la [referencia de línea de comandos](../reference/cli) para obtener una lista completa de argumentos admitidos.
@@ -20,7 +24,7 @@ Todos los registros se enviarán a `/tmp/velopack_{appid}.log` (o `/tmp/velopack
 ### macOS
 Los registros se envían a `~/Library/Logs/velopack_{appid}.log`. Si `~/Library/Logs` no existe, se recurre a `/tmp/velopack_{appid}.log`.
 
-## Manejo Avanzado de Registros
+## Manejo avanzado de registros
 De forma predeterminada, la biblioteca de C# registra en el mismo archivo que los binarios de Velopack. Puedes proporcionar un registrador personalizado adicional a través de `VelopackApp.SetLogger(IVelopackLogger)` — este recibirá todos los mensajes de diagnóstico **además del** registro de archivo predeterminado. También se puede proporcionar un registrador al `UpdateManager` a través de su propiedad `Log` de `IVelopackLocator`.
 
 Nota: Si proporcionas un localizador personalizado, el registrador pasado a `SetLogger` será ignorado — adjunta tu registrador al localizador personalizado en su lugar.
@@ -56,15 +60,15 @@ var updateManager = new UpdateManager("your-update-url", null, locator);
 
 Velopack lee algunas variables de entorno en tiempo de ejecución. Estas afectan el comportamiento de la biblioteca y los binarios incluidos (Setup.exe / Update.exe), y no están relacionadas con las opciones de línea de comandos de la herramienta de compilación `vpk`.
 
-| Variable | Establecido por | Descripción |
+| Variable | Establecida por | Descripción |
 |---|---|---|
-| `VELOPACK_FIRSTRUN` | Velopack | Se establece cuando tu aplicación se lanza por primera vez después de la instalación. Velopack lo lee y borra dentro de `VelopackApp.Run()`, exponiéndolo a través del hook `OnFirstRun`. Léelo solo a través del hook, no directamente. |
-| `VELOPACK_RESTART` | Velopack | Se establece cuando tu aplicación fue reiniciada por Velopack para aplicar una actualización. Velopack lo lee y borra dentro de `VelopackApp.Run()`, exponiéndolo a través del hook `OnRestarted`. |
+| `VELOPACK_FIRSTRUN` | Velopack | Se establece cuando tu aplicación se inicia por primera vez después de la instalación. Velopack la lee y la borra dentro de `VelopackApp.Run()`, exponiéndola a través del hook `OnFirstRun`. Léela solo a través del hook, no directamente. |
+| `VELOPACK_RESTART` | Velopack | Se establece cuando tu aplicación fue reiniciada por Velopack para aplicar una actualización. Velopack la lee y la borra dentro de `VelopackApp.Run()`, exponiéndola a través del hook `OnRestarted`. |
 | `VELOPACK_TEMP` | Tú | Anula el directorio temporal/de trabajo que Velopack usa para descargar y preparar actualizaciones. Útil en entornos restringidos o de CI donde la ubicación temporal predeterminada no está disponible. |
-| `VELOPACK_DEBUG` | Tú | Cuando se establece, Velopack **no** finaliza automáticamente el proceso después de ejecutar un hook de devolución de llamada rápida (instalación/actualización/desinstalación). Útil para adjuntar un depurador e inspeccionar el comportamiento del hook. No establecer en producción. |
+| `VELOPACK_DEBUG` | Tú | Cuando se establece, Velopack **no** finaliza automáticamente el proceso después de ejecutar un hook de devolución de llamada rápida (instalación/actualización/desinstalación). Útil para adjuntar un depurador e inspeccionar el comportamiento del hook. Déjala sin establecer en producción. |
 
 
-Las compilaciones de depuración de los binarios de Velopack tienen capacidades adicionales de registro/depuración y producirán salida de consola. En algunos casos, puede ser útil [compilar Velopack](../contributing/compiling.mdx) para tu plataforma y reemplazar los binarios de versión de Setup.exe y Update.exe con versiones de depuración.
+Las compilaciones de depuración de los binarios de Velopack tienen capacidades adicionales de registro/depuración y producirán salida de consola. En algunos casos, puede ser útil [compilar Velopack](../contributing/compiling.mdx) para tu plataforma y reemplazar los binarios de Setup.exe y Update.exe compilados en modo Release por versiones de depuración.
 
 Si tu problema es con la compilación de paquetes, después de compilar los binarios de Rust en modo de depuración, también puede ser útil ejecutar el proyecto Velopack.Vpk desde Visual Studio con los argumentos de línea de comandos deseados en lugar de ejecutar la herramienta `vpk` directamente.
 

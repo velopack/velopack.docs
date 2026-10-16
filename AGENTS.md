@@ -203,23 +203,21 @@ Velopack supports multiple programming languages. When adding documentation:
 
 ## i18n / Translations
 
-The docs are translated into other languages (Spanish first) and the translations are
-**written and maintained by AI**, not by hand. The pipeline keeps them in sync as the
-English docs evolve.
+The docs are translated into other languages (Spanish first). The translations are
+**written and maintained by AI**, by running a Claude skill locally from time to time —
+nothing translates automatically in CI.
 
 ### Golden rule
 
-**Never hand-edit anything under `i18n/`.** Edit the English source in `docs/` (or the
-site UI), and let the pipeline regenerate the localized content. Manual edits to
-`i18n/` will be overwritten the next time the corresponding English source changes.
+**Edit the English source in `docs/`, not the translations.** Translations catch up when
+someone runs the `translate-docs` skill (`/translate-docs` in Claude Code). Agents editing
+English docs must not touch `i18n/`; a stale translation is expected and is tracked by the
+manifest until the skill is run.
 
 ### What is and isn't translated
 
-- ✅ The 44 guide pages under `docs/` (everything except `docs/reference/**`) — fully
-  AI-translated by the pipeline below.
-- ✅ Top nav + sidebar category labels — also **AI-maintained by the pipeline** (see
-  "Localizing nav & sidebar"). They re-translate automatically when you change a label in
-  `docusaurus.config.ts` / `sidebars.ts`.
+- ✅ The guide pages under `docs/` (everything except `docs/reference/**`).
+- ✅ Top nav + sidebar category labels (see "Localizing nav & sidebar").
 - ❌ Generic theme strings — search box, buttons, pagination, etc. (`code.json`) — **not in
   scope**. Docusaurus ships its own bundled translations for most of them; anything it
   doesn't cover falls back to English. We deliberately don't own these (owning them means
@@ -229,34 +227,29 @@ site UI), and let the pipeline regenerate the localized content. Manual edits to
   is missing, so these stay English **by design**.
 - ❌ The blog — stays English.
 
-### How the pipeline works
+### How it works
 
-- **`scripts/translate.config.json`** — declares `locales`, the docs source globs
-  (`docs/**` minus `reference/**`), the `ui` JSON files (nav/sidebar) with their
-  prune/keep rules, and `cleanupAfter` (transient files to delete post-run).
-- **`scripts/translate.mjs`** — dependency-free Node 18+ script (built-in `fetch`, no
-  new npm packages). It hashes each English source and compares against
-  `i18n/translation-manifest.json`; only changed/missing pages are re-translated via the
-  Anthropic Messages API and written to
-  `i18n/<locale>/docusaurus-plugin-content-docs/current/<relPath>`.
-  - Env: `ANTHROPIC_API_KEY` (required), `TRANSLATE_MODEL` (optional, default
-    `claude-sonnet-4-6`).
-  - Flags: `--locale <id>`, `--force` (ignore the manifest), `--dry-run`.
-- **`.github/workflows/translate.yml`** — on push to `master` touching `docs/**`,
-  `sidebars.ts`, `docusaurus.config.ts`, or the translate script/config (or manual
-  dispatch): `npm ci` → `npm run i18n:scaffold` → `npm run translate` → commit any
-  `i18n/**` changes as `github-actions[bot]` → dispatch `deploy.yml`. The commit only
-  touches `i18n/**`, which is **not** in the workflow's trigger paths, so it never
-  re-triggers itself (mirrors the `generate.yml` pattern).
-  - Requires the **`ANTHROPIC_API_KEY`** repo secret (set in GitHub repo settings).
-
-### npm scripts
-
-- `npm run translate` — run the translation engine locally (needs `ANTHROPIC_API_KEY`).
-- `npm run i18n:scaffold` — `docusaurus write-translations` for the locale **and** `en`,
-  producing the English baseline the UI step diffs against. Run this before `translate`
-  if you want nav/sidebar labels (re)translated locally; the markdown pipeline doesn't
-  need it.
+- **`i18n/translation-manifest.json`** — per locale, the **git blob id** of the English
+  source each translated page reflects, plus a snapshot of the English nav/sidebar labels.
+  Because it stores git blob ids, `git diff <old> <new>` shows exactly which English
+  changes a translation is missing. Maintained by the script; don't edit it by hand.
+- **`scripts/i18n.mjs`** (config: `scripts/i18n.config.json`) — dependency-free bookkeeping;
+  it never translates anything:
+  - `npm run i18n:status` — which pages/labels are stale and where (`changed` with a diff
+    command, `missing`, `untracked`, `invalid` = fails the structural check, plus orphaned
+    translations of deleted pages). `--json` for machine output, `--no-ui` to skip the
+    ~1 min Docusaurus run that produces the English label baseline, `--locale <id>`.
+  - `npm run i18n:check [-- <page> ...]` — structural parity of translations vs. English
+    (code blocks, imports, JSX tags, headings, heading ids, admonitions, links, inline code).
+  - `npm run i18n:update [-- <page> ...]` — re-stamp translations as in sync with the
+    current English (all pages + UI labels when no pages are given; `--ui` / `--no-ui`).
+- **`.claude/skills/translate-docs/`** — the skill that does the translating: runs
+  `status`, fans out one subagent per stale (locale, page) that carries the English diff
+  over into the translation (natural, idiomatic target-language prose — not word-for-word),
+  updates nav/sidebar labels, runs `check`, re-stamps the manifest with `update`, and
+  builds the locale. `translator-brief.md` holds the translation rules and the
+  language-agnostic style/terminology guidance (with examples in several languages, so it
+  applies to any locale without a per-language guide).
 
 ### Reference sidebar & non-default-locale builds
 
@@ -277,28 +270,21 @@ heading text.
 
 ### Localizing nav & sidebar
 
-The top-nav and sidebar-category labels are translated by the **same pipeline** as the
-guides, via a small `ui` section in `scripts/translate.config.json`. Two files per locale:
+The top-nav and sidebar-category labels live in two JSON files per locale, configured in
+the `ui` section of `scripts/i18n.config.json`:
 
 - `i18n/<locale>/docusaurus-theme-classic/navbar.json` — top-nav item labels (Guides,
   Reference, Blog) + logo alt text.
 - `i18n/<locale>/docusaurus-plugin-content-docs/current.json` — sidebar category labels
-  (Getting Started, Integrating, …). `dropKeyPrefixes` strips the auto-generated reference
+  (Getting Started, Integrating, …). `dropKeyPrefixes` excludes the auto-generated reference
   sub-categories (Methods, Properties, per-class — they stay English and would churn daily),
   the Sample-Apps links (tech-stack names), and `version.label`; `keepKeys` retains the
   single stable top-level `Reference` label.
 
-How it stays in sync (in `translate.mjs` → `translateUi`):
-- CI runs `npm run i18n:scaffold` first (`write-translations` for the locale **and** for
-  `en`), producing the English baseline.
-- A key is (re)translated only when its message still equals the English baseline, so
-  existing translations never drift and new/renamed labels are picked up automatically.
-- Re-translation is gated on a hash of the **pruned English baseline** (stored in the
-  manifest's `__ui` section), so it only fires when a label actually changes in
-  `docusaurus.config.ts` / `sidebars.ts` — hence those two files are in `translate.yml`'s
-  trigger paths. Proper nouns (Blog, Flow, C#, Python…) correctly stay as-is.
-- `cleanupAfter` deletes the transient `i18n/en` baseline and the scaffold byproducts we
-  don't own (`code.json`, blog options) so they're never committed.
+`i18n.mjs status` runs `docusaurus write-translations --locale en` to get the current English
+labels (into a transient `i18n/en/`, deleted afterwards), and compares them with the snapshot
+in the manifest to report added / changed / removed labels. The skill edits the locale JSON
+files directly, and `update --ui` takes a new snapshot.
 
 Per-page sidebar entries (C#, FAQ, …) localize automatically via each doc's translated
 `sidebar_label` frontmatter — no JSON needed.
@@ -312,20 +298,11 @@ falls back to English.
 
 1. Add the locale to `docusaurus.config.ts`: `i18n.locales`, `i18n.localeConfigs`
    (label + `htmlLang`), and the search theme's `language: [...]` array.
-2. Add the locale to `scripts/translate.config.json` (`locales` and `localeLabels`).
-3. Run `npm run i18n:scaffold && npm run translate` (or just push to `master` and let CI
-   do it). This translates the guide pages **and** the nav/sidebar labels for the new
-   locale.
+2. Add the locale to `scripts/i18n.config.json` (`locales` and `localeLabels`).
+3. Run `/translate-docs <locale>` in Claude Code. Every page reports as `missing` and gets
+   translated, and the nav/sidebar label files are created.
 4. Verify with `npm run build` (builds all locales, `onBrokenLinks: 'throw'` applies to
    every locale).
-
-### Translation rules (enforced by the script's prompt)
-
-Translate prose, headings, table cell text, alt text, and link *text* only. Never touch:
-frontmatter keys (only `title`/`sidebar_label`/`description` values are translated), code
-fences & inline code, JSX tags/attributes/props, `import` lines, URLs/paths, HTML tags,
-anchor ids, or Velopack product/CLI terms (`vpk`, `Velopack`, `Squirrel`, `ClickOnce`,
-command names).
 
 See [`i18n/README.md`](i18n/README.md) for a shorter summary.
 

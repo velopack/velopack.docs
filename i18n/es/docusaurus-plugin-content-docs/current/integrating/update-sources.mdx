@@ -5,7 +5,7 @@ sidebar_position: 2
 # Fuentes de actualización
 <AppliesTo all />
 
-Una *fuente* de actualización le indica al `UpdateManager` dónde buscar el feed `releases.{channel}.json` y los paquetes a los que hace referencia. Cuando se le pasa una URL simple o una ruta de archivo al constructor de `UpdateManager`, Velopack selecciona automáticamente una fuente sencilla, pero también se puede construir una fuente de forma explícita para obtener autenticación, prelanzamientos y comportamiento específico del proveedor.
+Una *fuente* de actualización le indica a `UpdateManager` dónde buscar tu feed `releases.{channel}.json` y los paquetes a los que hace referencia. Cuando pasas una URL o una ruta de archivo sin más al constructor de `UpdateManager`, Velopack elige por ti una fuente sencilla, pero también puedes construir una fuente de forma explícita para disponer de autenticación, versiones preliminares y comportamiento específico de cada proveedor.
 
 ```cs
 // these two are equivalent
@@ -18,56 +18,56 @@ Todas las fuentes integradas se encuentran en el espacio de nombres `Velopack.So
 ## Fuentes integradas
 
 ### SimpleWebSource
-Lee el feed y los paquetes a través de HTTP(S) desde una ubicación estática (un servidor web, un bucket de S3, un contenedor de Azure Blob, etc.). Esto es lo que resuelve `new UpdateManager("https://...")`.
+Lee el feed y los paquetes por HTTP(S) desde una ubicación estática (un servidor web, un bucket de S3, un contenedor de Azure Blob, etc.). Es la fuente que se usa al escribir `new UpdateManager("https://...")`.
 
 ```cs
 new SimpleWebSource("https://the.place/you-host/updates");
 ```
 
 ### SimpleFileSource
-Lee el feed y los paquetes desde un directorio local. Esto es lo que resuelve `new UpdateManager("C:\\path")` (cualquier ruta que no sea HTTP). Es útil para pruebas o para aplicaciones que se actualizan desde una unidad de red o USB.
+Lee el feed y los paquetes desde un directorio local. Es la fuente que se usa al escribir `new UpdateManager("C:\\path")` (con cualquier ruta que no sea HTTP). Resulta útil para pruebas o para aplicaciones que se actualizan desde una unidad de red o USB.
 
 ```cs
 new SimpleFileSource(new DirectoryInfo(@"C:\my-updates"));
 ```
 
 ### GithubSource
-Lee los lanzamientos desde la sección Releases de un repositorio de GitHub.
+Lee las versiones publicadas en la sección Releases de un repositorio de GitHub.
 
 ```cs
 new GithubSource("https://github.com/yourName/yourRepo", accessToken: null, prerelease: false);
 ```
 
-- `prerelease` — si es true, también se consideran los prelanzamientos de GitHub.
-- `accessToken` — requerido para repositorios privados. Sin un token, se utilizan las URLs de descarga públicas y se está sujeto al límite de velocidad no autenticado de GitHub de **60 solicitudes por hora por IP**. Cuando se proporciona, el token se envía como encabezado `Authorization: Bearer {token}`.
+- `prerelease`: si es true, también se tienen en cuenta las versiones preliminares (pre-releases) de GitHub.
+- `accessToken`: obligatorio para repositorios privados. Sin token, se usan las URL de descarga públicas y quedas sujeto al límite de velocidad de GitHub para solicitudes no autenticadas, de **60 solicitudes por hora por IP**. Si lo proporcionas, el token se envía en el encabezado `Authorization: Bearer {token}`.
 
 ### GitlabSource
-Lee los lanzamientos desde un repositorio de GitLab.
+Lee las versiones de un repositorio de GitLab.
 
 ```cs
 new GitlabSource("https://gitlab.com/yourName/yourRepo", accessToken: "...", upcomingRelease: false);
 ```
 
-El token de acceso es **obligatorio** (es un parámetro no anulable) y se envía como encabezado `PRIVATE-TOKEN`.
+El token de acceso es **obligatorio** (es un parámetro que no admite null) y se envía en el encabezado `PRIVATE-TOKEN`.
 
 ### GiteaSource
-Lee los lanzamientos desde un repositorio de Gitea.
+Lee las versiones de un repositorio de Gitea.
 
 ```cs
 new GiteaSource("https://gitea.com/yourName/yourRepo", accessToken: null, prerelease: false);
 ```
 
-Se comporta como `GithubSource`: se requiere un token para repositorios privados, y el límite de velocidad no autenticado es de 60 solicitudes por hora por IP. Cuando se proporciona, el token se envía como encabezado `Authorization: token {token}`.
+Se comporta como `GithubSource`: los repositorios privados requieren un token, y el límite de velocidad para solicitudes no autenticadas es de 60 solicitudes por hora por IP. Si lo proporcionas, el token se envía en el encabezado `Authorization: token {token}`.
 
 ### VelopackFlowSource
-Lee los lanzamientos desde el servicio alojado de [Velopack Flow](../distributing/Flow/overview.mdx).
+Lee las versiones del servicio alojado [Velopack Flow](../distributing/Flow/overview.mdx).
 
 ```cs
 new VelopackFlowSource(); // defaults to https://api.velopack.io/
 ```
 
 ## Fuentes personalizadas
-Si ninguna de las fuentes integradas es adecuada (por ejemplo, si se autentica con un esquema personalizado o se obtiene el feed desde una API privada), se puede implementar `IUpdateSource` de forma personalizada y pasarla al `UpdateManager`.
+Si ninguna de las fuentes integradas se ajusta a tus necesidades (por ejemplo, si te autenticas con un esquema personalizado u obtienes el feed desde una API privada), puedes implementar tú mismo `IUpdateSource` y pasar tu implementación a `UpdateManager`.
 
 ## Una nota sobre S3 y otros backends
-No existe ningún `S3Source` (ni Azure/etc) en la biblioteca. El CLI vpk puede *cargar* lanzamientos a S3, Azure y otros, pero esos backends sirven archivos estáticos simples, por lo que en el cliente se leen con `SimpleWebSource` (apuntando a la URL del bucket/contenedor). S3 es únicamente un concepto del lado del despliegue.
+**No existe ningún `S3Source`** (ni para Azure, etc.) en la biblioteca. La CLI `vpk` puede *subir* versiones a S3, Azure y otros servicios, pero esos backends sirven archivos estáticos normales, así que en el cliente se leen con `SimpleWebSource` (apuntando a la URL del bucket o contenedor). S3 es un concepto que solo existe en el lado del despliegue.
