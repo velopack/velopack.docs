@@ -61,7 +61,7 @@ Since Velopack 1.3, `vpk` signs with Azure Artifact Signing directly (no `signto
 1. First you will need to create an Azure account at: https://azure.microsoft.com/pricing/purchase-options/azure-account. This account will need to have an [active subscription](https://learn.microsoft.com/azure/cost-management-billing/manage/create-subscription#create-a-subscription).
 0. Register the Azure Artifact Signing [resource provider](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-providers-and-types). This can be done either in the Azure portal, or via the Azure CLI by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#register-the-trusted-signing-resource-provider).
 0. Create the Azure Artifact Signing resource by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-trusted-signing-account). Note the name and region that you select, as you will use these values later for the `CodeSigningAccountName` and `Endpoint` values respectively, in the signing configuration JSON file.
-0. Create an identity validation request by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-an-identity-validation-request). This step must be done in the Azure Portal. The identity validation can either be done for an Organization or an Individual developer. This process make take a while as the identity information is verified by Microsoft. Return to these steps after the identity validation process is completed.
+0. Create an identity validation request by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-an-identity-validation-request). This step must be done in the Azure Portal. The identity validation can either be done for an Organization or an Individual developer. This process may take a while as the identity information is verified by Microsoft. Return to these steps after the identity validation process is completed.
 0. Create a certificate profile by following [these instructions](https://learn.microsoft.com/azure/trusted-signing/quickstart?tabs=registerrp-portal%2Caccount-portal%2Corgvalidation%2Ccertificateprofile-portal%2Cdeleteresources-portal#create-a-certificate-profile). There are multiple [trust models](https://learn.microsoft.com/azure/trusted-signing/concept-trusted-signing-trust-models) that are supported. The Public Trust model is the most common and is suitable for most applications. Note the name of the certificate profile as you will use this value later as the `CertificateProfileName` in the signing configuration JSON file.
 0. Setup authentication with Azure Artifact Signing. `vpk` uses the common [DefaultAzureCredential](https://learn.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet) class for authenticating with Azure. This class supports authenticating in a variety of ways, including environment variables, managed identity and the Azure CLI. After installing the Azure CLI, run `az login`. If you are running inside of [GitHub Actions](https://github.com/marketplace/actions/azure-login) or [Azure DevOps](https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/azure-cli-v2?view=azure-pipelines) there is built in support that handles performing the needed authentication. The identity you sign in with needs the *Artifact Signing Certificate Profile Signer* role (formerly *Trusted Signing Certificate Profile Signer*) on the account or certificate profile.
 0. Create signing metadata JSON file. This file has three required parameters. The file should look like this:
@@ -76,7 +76,7 @@ Since Velopack 1.3, `vpk` signs with Azure Artifact Signing directly (no `signto
    - `ExcludeCredentials`: a list of credential types to skip when authenticating (e.g. `["ManagedIdentityCredential", "EnvironmentCredential"]`).
    - `AccessToken`: a pre-acquired access token to use instead of `DefaultAzureCredential` (e.g. from `az account get-access-token --resource https://codesigning.azure.net`).
    - `CorrelationId`: an identifier that is attached to each signing request.
-0. Pass the metadata JSON file. When calling `vpk pack` using `--azureTrustedSignFile <path to json file>`. `vpk` will sign your application binaries, `Setup.exe`, and the MSI (if you are building one), and timestamp each signature using `http://timestamp.acs.microsoft.com`. Files which are already signed (for example, signed third party dependencies) are left as-is.
+0. Pass the metadata JSON file to `vpk pack` using `--azureTrustedSignFile <path to json file>`. `vpk` will sign your application binaries, `Setup.exe`, and the MSI (if you are building one), and timestamp each signature using `http://timestamp.acs.microsoft.com`. Files which are already signed (for example, signed third party dependencies) are left as-is.
 
 ### Signing via `signtool.exe`
 Usually signing is accomplished via `signtool.exe`. If you already use this tool to sign your application, you can just pass your sign parameters straight to Velopack (minus the 'sign' command).
@@ -161,10 +161,10 @@ Now that you have your NotaryTool profile and code signing certificates installe
 
 ```sh
 vpk pack \
-    ... 
+    ... \
     --signAppIdentity "Developer ID Application: Your Name" \
     --signInstallIdentity "Developer ID Installer: Your Name" \
-    --notaryProfile "your-local-profile-name-here" \
+    --notaryProfile "your-local-profile-name-here"
 ```
 
 When these parameters are specified and valid, Velopack will automatically code sign and notarize your application and installer packages.
@@ -186,7 +186,7 @@ your `--signAppIdentity` or `--signInstallIdentity` arguments. Your certificate 
 :::
 
 ### Automate signing in CI/CD (Github Actions)
-It is also posible to store your certificates and notary credentials as Action Secrets and sign your code during CI builds.
+It is also possible to store your certificates and notary credentials as Action Secrets and sign your code during CI builds.
 
 <Tabs groupId="ci" queryString>
 <TabItem value="github" label="Github Actions">
@@ -302,7 +302,7 @@ The documentation here for Azure DevOps is provided by the community and is not 
    base64 -i CERT.p12 | pbcopy
    ```
 
-0. Create 7 secrets in Azure Key Vault and expose it to Azure DevOps under the "Apple signing" variable group. Note that we use
+0. Create 7 secrets in Azure Key Vault and expose them to Azure DevOps under the "Apple signing" variable group. Note that we use
    Key Vault instead of DevOps secrets because our certificates are too large (over 4K) to store in DevOps secrets.
    - `P12-PASSWORD` (password for the certificates)
    - `APPLE-ID` (your apple username)

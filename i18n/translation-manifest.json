@@ -37,7 +37,7 @@
       "migrating/squirrel.mdx": "11c4e9aaff724d6e2565664ac2cfb3b417cbb692",
       "packaging/bootstrapping.mdx": "ff356a5289e913235ed8e444e478d2ff507e04cf",
       "packaging/channels.mdx": "d2223fb451c8d76d9559b00a643c4dfb734e748c",
-      "packaging/cross-compiling.mdx": "76e8dfce65c47e84595687706ab94ecbe1037ae8",
+      "packaging/cross-compiling.mdx": "30c0ad8cd011c9dfe2c7cd89c9db7eb02c1811ac",
       "packaging/deltas.mdx": "5440c7b1026c23fd20e28e9a87ad120c4477dcd5",
       "packaging/installer.mdx": "91632e80a37fc0e149317abff31699944181654b",
       "packaging/operating-systems/linux.mdx": "fe145902d619e0501b9ee75256c73ab7927a500a",
@@ -45,7 +45,7 @@
       "packaging/operating-systems/windows.mdx": "e190045eb62e68c3668cf1a8615daecf077c209a",
       "packaging/overview.mdx": "b02a3d340f934764eadfd1d638bd1fffec738900",
       "packaging/runtime.mdx": "a13ce074dd8a981d9700772c8960490fbf12dcd6",
-      "packaging/signing.mdx": "19bdeb05e11eb1df01d479cbb3b08b423335dac0",
+      "packaging/signing.mdx": "6b7eb3778454f7bc563f9838ddd635249f5f5b8f",
       "troubleshooting/debugging.mdx": "86b13775816313849e43d6272d931530da7cd473",
       "troubleshooting/faq.mdx": "6a5b1fbae5dc40a3424c57cb2a4410c010c4497c"
     },
