@@ -1,3 +1,4 @@
+import path from "path";
 import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
@@ -24,6 +25,12 @@ const config: Config = {
   },
   customFields: {
     flowBaseUrl: "https://app.velopack.io",
+    // The "Ask AI" chat widget (src/components/DocsAssist), backed by the velopack.docsassist Worker.
+    // Remove this to turn the widget off (and `askAi` in the search theme below).
+    docsAssist: {
+      apiBase: "https://velopack-docsassist.ukkgtz.workers.dev",
+      turnstileSiteKey: "0x4AAAAAAFYfg6Vtz5i8EVl9",
+    },
   },
   themes: [
     [
@@ -34,6 +41,9 @@ const config: Config = {
         docsRouteBasePath: "/",
         ignoreFiles: new RegExp(".*reference/.*"),
         language: ["en", "es"],
+        // Adds an "Ask AI: <query>" row to search results. Its options are ignored: the
+        // docs-assist-search-bridge plugin below points it at our own widget.
+        askAi: {},
       },
     ],
     "@docusaurus/theme-mermaid",
@@ -49,6 +59,19 @@ const config: Config = {
         ],
       },
     ],
+    // The search theme's "Ask AI" row opens the `AskAIWidget` from the `open-ask-ai` package.
+    // Swap that package for src/components/DocsAssist/searchBridge.tsx, which opens our widget.
+    (context) => ({
+      name: "docs-assist-search-bridge",
+      configureWebpack: () => ({
+        resolve: {
+          alias: {
+            "open-ask-ai$": path.join(context.siteDir, "src/components/DocsAssist/searchBridge.tsx"),
+            "open-ask-ai/styles.css": false,
+          },
+        },
+      }),
+    }),
   ],
   headTags: [
     // Favicon

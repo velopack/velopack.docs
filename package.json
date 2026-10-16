@@ -28,7 +28,9 @@
     "clsx": "^2.1.1",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.10.2",

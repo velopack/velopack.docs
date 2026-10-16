@@ -1,0 +1,438 @@
+/* ---- Floating button: an extended FAB with a label, collapsing to a round icon button on mobile ---- */
+
+.fab {
+  position: fixed;
+  right: 1.3rem;
+  bottom: 1.3rem;
+  z-index: calc(var(--ifm-z-index-fixed) - 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 3.25rem;
+  padding: 0 1.25rem 0 1rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-white);
+  font: inherit;
+  font-weight: var(--ifm-font-weight-semibold);
+  cursor: pointer;
+  box-shadow:
+    0 3px 5px -1px rgb(0 0 0 / 0.2),
+    0 6px 10px 0 rgb(0 0 0 / 0.14),
+    0 1px 18px 0 rgb(0 0 0 / 0.12);
+  transition:
+    background-color var(--ifm-transition-fast),
+    box-shadow var(--ifm-transition-fast);
+}
+
+.fab:hover {
+  background: var(--ifm-color-primary-dark);
+  box-shadow:
+    0 5px 5px -3px rgb(0 0 0 / 0.2),
+    0 8px 10px 1px rgb(0 0 0 / 0.14),
+    0 3px 14px 2px rgb(0 0 0 / 0.12);
+}
+
+.fab:focus-visible {
+  outline: 3px solid var(--ifm-color-primary-lightest);
+  outline-offset: 2px;
+}
+
+[data-theme="dark"] .fab {
+  color: var(--ifm-color-black);
+}
+
+.fabIcon {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+}
+
+/* A soft pulsing ring while an answer is being written with the panel closed. */
+.fabBusy::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 2px solid var(--ifm-color-primary);
+  animation: pulse 1.6s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+
+.unreadDot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--ifm-color-danger);
+  border: 2px solid var(--ifm-background-color);
+}
+
+/* Docusaurus' back-to-top button sits in the same corner; lift it above ours. */
+:global(body:has([data-docs-assist-fab]) .theme-back-to-top-button) {
+  bottom: calc(1.3rem + 3.25rem + 0.75rem);
+}
+
+@media (max-width: 768px) {
+  .fab {
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .fabLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  :global(body:has([data-docs-assist-fab]) .theme-back-to-top-button) {
+    bottom: calc(1.3rem + 3.5rem + 0.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fabBusy::after,
+  .spinner {
+    animation-duration: 3s;
+  }
+}
+
+/* ---- Panel ---- */
+
+.panel {
+  position: fixed;
+  right: 1.3rem;
+  bottom: 1.3rem;
+  z-index: var(--ifm-z-index-overlay);
+  display: flex;
+  flex-direction: column;
+  width: 28rem;
+  height: min(44rem, calc(100vh - var(--ifm-navbar-height) - 2.6rem));
+  height: min(44rem, calc(100dvh - var(--ifm-navbar-height) - 2.6rem));
+  overflow: hidden;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 1rem;
+  background: var(--ifm-background-surface-color);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 0.25);
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 768px) {
+  .panel {
+    inset: 0;
+    width: auto;
+    height: auto;
+    border: none;
+    border-radius: 0;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.6rem 0.7rem 1rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.headerIcon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--ifm-color-primary);
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.headerTitle span {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.headerButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ifm-color-emphasis-800);
+  cursor: pointer;
+}
+
+.headerButton:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.intro {
+  margin: auto 0;
+  text-align: center;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.introIcon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.examples {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.example {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 0.6rem;
+  background: transparent;
+  color: var(--ifm-font-color-base);
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.example:hover {
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-color-emphasis-100);
+}
+
+.user {
+  align-self: flex-end;
+  max-width: 85%;
+  padding: 0.5rem 0.85rem;
+  border-radius: 1rem 1rem 0.25rem 1rem;
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-white);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+[data-theme="dark"] .user {
+  color: var(--ifm-color-black);
+}
+
+.assistant {
+  overflow-wrap: anywhere;
+  line-height: 1.55;
+}
+
+.assistant > :last-child {
+  margin-bottom: 0;
+}
+
+.assistant h1,
+.assistant h2,
+.assistant h3,
+.assistant h4 {
+  font-size: 1rem;
+  margin: 1rem 0 0.4rem;
+}
+
+.assistant p,
+.assistant ul,
+.assistant ol,
+.assistant table,
+.assistant blockquote {
+  margin-bottom: 0.75rem;
+}
+
+.assistant :global(.theme-code-block) {
+  margin-bottom: 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.assistant table {
+  font-size: 0.875rem;
+}
+
+/* Blinking caret at the end of a message that is still streaming. */
+.streaming > :last-child::after {
+  content: "▍";
+  margin-left: 0.1rem;
+  color: var(--ifm-color-primary);
+  animation: blink 1s steps(2) infinite;
+}
+
+.streaming:empty::after {
+  content: "▍";
+  color: var(--ifm-color-primary);
+  animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  border: 2px solid var(--ifm-color-emphasis-300);
+  border-top-color: var(--ifm-color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.notice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.6rem;
+  border-left: 4px solid var(--ifm-color-warning);
+  background: var(--ifm-color-emphasis-100);
+  font-size: 0.875rem;
+}
+
+.footer {
+  padding: 0.6rem 0.75rem 0.5rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.turnstile:empty {
+  display: none;
+}
+
+.turnstile {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.inputRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.35rem 0.35rem 0.35rem 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 1.25rem;
+  background: var(--ifm-background-color);
+}
+
+.inputRow:focus-within {
+  border-color: var(--ifm-color-primary);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  max-height: 10rem;
+  padding: 0.35rem 0;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--ifm-font-color-base);
+  font: inherit;
+  line-height: 1.4;
+}
+
+.send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-white);
+  cursor: pointer;
+}
+
+[data-theme="dark"] .send {
+  color: var(--ifm-color-black);
+}
+
+.send:disabled {
+  background: var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-emphasis-600);
+  cursor: default;
+}
+
+.limit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.counter {
+  margin-top: 0.25rem;
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.counterOver {
+  color: var(--ifm-color-danger);
+}
+
+.disclaimer {
+  margin-top: 0.4rem;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-600);
+}
