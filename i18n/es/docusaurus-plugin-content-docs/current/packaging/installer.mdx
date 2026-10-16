@@ -1,31 +1,36 @@
 # Instaladores
 <AppliesTo win mac />
-Velopack adopta un enfoque relativamente ligero en lo que respecta a los instaladores, por lo que no hay mucha personalización disponible como la que se encontraría en otros marcos de instalación. Esta es la compensación que realiza Velopack para garantizar que la experiencia del desarrollador/usuario sea lo más rápida y sencilla posible.
+Velopack adopta un enfoque relativamente ligero en lo que respecta a los instaladores, por lo que no hay tantas opciones de personalización como las que encontrarías en otros frameworks de instalación. Esta es la contrapartida que asume Velopack para que la experiencia del desarrollador y del usuario sea lo más rápida y sencilla posible.
 
-En ambos sistemas operativos, si [la firma de código está configurada](signing.mdx), el instalador también estará firmado. (Esto es _obligatorio_ en MacOS)
+En ambos sistemas operativos, si [la firma de código está configurada](signing.mdx), el instalador también se firmará. (Esto es _obligatorio_ en MacOS)
 
 ## Descripción general de Windows
 El instalador de Windows es actualmente un instalador "de un solo clic", lo que significa que cuando se ejecuta el binario `Setup.exe`, Velopack no mostrará preguntas ni asistentes al usuario, sino que simplemente intentará instalar la aplicación lo más rápido posible y luego la iniciará.
 
-La configuración instalará un acceso directo en `StartMenuRoot` y `Desktop` de forma predeterminada. [[Leer más]](../integrating/shortcuts.mdx)
+La instalación creará un acceso directo en `StartMenuRoot` y `Desktop` de forma predeterminada. [[Más información]](../integrating/shortcuts.mdx)
 
-Las opciones clave que personalizarán el instalador son las siguientes:
+Las opciones clave para personalizar el instalador son las siguientes:
 - `--packTitle {app name}` personaliza los nombres de los accesos directos, el nombre en Aplicaciones y características, y el nombre del ejecutable de entrada portátil.
-- `--icon {path}` establece el .ico en Update.exe y Setup.exe (y también el ícono de los diálogos que se muestran)
+- `--icon {path}` establece el .ico en Update.exe y Setup.exe (y también el ícono de los diálogos que se muestren)
 - `--splashImage {path}` establece la imagen de presentación (posiblemente animada) que se mostrará durante la instalación.
 
 La imagen de presentación puede ser `jpeg`, `png` o `gif`. En el último caso, será animada.
 
-También puede [inicializar los marcos necesarios](bootstrapping.mdx) antes de instalar su aplicación.
+También puedes hacer que se [instalen primero los frameworks necesarios](bootstrapping.mdx) y después tu aplicación.
 
-El instalador de Windows extraerá la aplicación en `%LocalAppData%\{packId}`. Para la estructura de directorios resultante, consulte [el diseño canónico en la página de Windows](operating-systems/windows.mdx).
+El instalador de Windows extraerá la aplicación en `%LocalAppData%\{packId}`. Para ver la estructura de directorios resultante, consulta [el diseño canónico en la página de Windows](operating-systems/windows.mdx).
 
-El directorio `current` será completamente reemplazado [durante las actualizaciones](../integrating/overview.mdx). Los demás archivos añadidos por Velopack (`Update.exe` y `sq.version`) son cruciales y son archivos necesarios para que Velopack pueda actualizar correctamente su aplicación.
+El directorio `current` se reemplazará por completo [durante las actualizaciones](../integrating/overview.mdx). Los demás archivos añadidos por Velopack (`Update.exe` y `sq.version`) son cruciales: Velopack los necesita para poder actualizar correctamente tu aplicación.
 
 ### Instalador MSI de Windows {#windows-msi-installer}
-Además de `Setup.exe`, Velopack puede generar un instalador `.msi` usando WiX 5. El MSI proporciona integración completa con Windows Installer, incluida la compatibilidad con instalaciones por máquina en Archivos de programa, la implementación mediante directivas de grupo y las entradas estándar de Agregar o quitar programas.
+Además de `Setup.exe`, Velopack puede generar un instalador `.msi` usando WiX. El MSI proporciona integración completa con Windows Installer, incluida la compatibilidad con instalaciones por máquina en Archivos de programa, la implementación mediante directivas de grupo y las entradas estándar de Agregar o quitar programas.
 
-Para habilitar la generación de MSI, añada el indicador `--msi` a su comando `vpk pack`. El MSI se construye junto con `Setup.exe` durante el empaquetado.
+Para habilitar la generación de MSI, añade el indicador `--msi` a tu comando `vpk pack`. El MSI se genera junto con `Setup.exe` durante el empaquetado.
+
+#### Versión y licencia de WiX
+Velopack genera los MSI con su propio fork de WiX v7, en lugar de usar los binarios producidos por el proyecto oficial WiX Toolset. Esto es importante en cuanto a la licencia: la [Open Source Maintenance Fee (OSMF)](https://opensourcemaintenancefee.org/) que introdujo WiX v7 solo se aplica a quienes usan los binarios oficiales compilados de WiX. El código fuente de WiX en sí tiene licencia MS-RL y puede usarse libremente, sin restricciones.
+
+Como Velopack compila su propio fork en lugar de depender de los binarios oficiales de WiX, **la OSMF no se aplica a Velopack ni a las aplicaciones empaquetadas con `vpk --msi`**.
 
 #### Ubicación de instalación
 La opción `--instLocation` controla dónde instalará el MSI:
@@ -40,28 +45,32 @@ La opción `--instLocation` controla dónde instalará el MSI:
 | `--msiVersion` | Anular la versión del producto (debe ser una versión MSI válida, es decir, `x.x.x.x`) |
 | `--instLocation` | Establecer el ámbito de instalación: `PerUser`, `PerMachine` o `Either` (predeterminado) |
 | `--instWelcome {path}` | Mensaje de bienvenida que se muestra durante la instalación (`.txt` o `.md`) |
-| `--instLicense {path}` | Acuerdo de licencia (`.txt`, `.md` o `.rtf`) |
+| `--instLicense {path}` | Contrato de licencia (`.txt`, `.md` o `.rtf`) |
 | `--instReadme {path}` | Mensaje de léame (`.txt` o `.md`) |
 | `--instConclusion {path}` | Mensaje de conclusión (`.txt` o `.md`) |
-| `--msiBanner {path}` | Imagen del banner superior para los diálogos de MSI (`.bmp`, 493x58) |
-| `--msiLogo {path}` | Logotipo de fondo para los diálogos de MSI (`.bmp`, 493x312) |
+| `--msiTopBanner {path}` | Banner estrecho en la parte superior de los diálogos de MSI (`.bmp`, 493x58) |
+| `--msiDialogBackground {path}` | Fondo completo de los diálogos de bienvenida y de finalización del MSI (`.bmp`, 493x312) |
+
+:::note
+Las opciones de imagen del MSI se llamaban antes `--msiBanner` y `--msiLogo`. Actualiza tus scripts de empaquetado existentes para que usen `--msiTopBanner` y `--msiDialogBackground`, respectivamente.
+:::
 
 #### Estructura de directorios
-El MSI instala el mismo diseño de directorios que `Setup.exe` (consulte [el diseño canónico en la página de Windows](operating-systems/windows.mdx)), bajo `{installFolder}` en lugar de `%LocalAppData%\{packId}`.
+El MSI instala el mismo diseño de directorios que `Setup.exe` (consulta [el diseño canónico en la página de Windows](operating-systems/windows.mdx)), bajo `{installFolder}` en lugar de `%LocalAppData%\{packId}`.
 
-Después de la instalación, las actualizaciones funcionan de manera idéntica a través de `Update.exe` independientemente de si la aplicación fue instalada con `Setup.exe` o con el `.msi`.
+Después de la instalación, las actualizaciones funcionan de manera idéntica a través de `Update.exe`, independientemente de si la aplicación se instaló con `Setup.exe` o con el `.msi`.
 
 #### Anular la ubicación de instalación en el momento de la instalación
-De forma predeterminada, el MSI se instala en la ubicación implícita por `--instLocation` (véase más arriba). Un administrador del sistema puede anular el destino en el momento de la instalación estableciendo la propiedad segura `VELOPACK_INSTALLDIR` al ejecutar `msiexec`:
+De forma predeterminada, el MSI se instala en la ubicación que determina `--instLocation` (véase más arriba). Un administrador del sistema puede anular el destino en el momento de la instalación estableciendo la propiedad segura `VELOPACK_INSTALLDIR` al ejecutar `msiexec`:
 
 ```cmd
 msiexec /i MyApp.msi /qn VELOPACK_INSTALLDIR="D:\Apps\MyApp"
 ```
 
-Cuando se establece, `VELOPACK_INSTALLDIR` tiene precedencia sobre la ruta predeterminada por usuario/por máquina tanto en las instalaciones con interfaz de usuario como en las silenciosas. Esto es el equivalente en MSI de `Setup.exe --installto`.
+Cuando se establece, `VELOPACK_INSTALLDIR` tiene precedencia sobre la ruta predeterminada por usuario o por máquina, tanto en las instalaciones con interfaz de usuario como en las silenciosas. Es el equivalente en MSI de `Setup.exe --installto`.
 
 ## Anular la ubicación de instalación
-Velopack ofrece tres formas de controlar dónde se instala su aplicación:
+Velopack ofrece tres formas de controlar dónde se instala tu aplicación:
 
 | Mecanismo | Cuándo | Notas |
 |-----------|------|-------|
@@ -70,9 +79,9 @@ Velopack ofrece tres formas de controlar dónde se instala su aplicación:
 | `VELOPACK_INSTALLDIR` | en la instalación (MSI) | Propiedad segura de `msiexec` que anula el destino predeterminado del MSI, p. ej. `msiexec /i MyApp.msi /qn VELOPACK_INSTALLDIR="D:\Apps\MyApp"`. |
 
 ## Descripción general de MacOS
-El instalador de MacOS será un `.pkg` estándar, que es simplemente un paquete donde la interfaz de usuario es proporcionada por el sistema operativo, lo que permite al usuario elegir la ubicación de instalación. La aplicación se iniciará automáticamente después de la instalación (reflejando el comportamiento en Windows) debido a un script `postinstall` añadido por Velopack.
+El instalador de MacOS será un `.pkg` estándar, que es simplemente un paquete cuya interfaz de usuario la proporciona el sistema operativo y que permite al usuario elegir la ubicación de instalación. La aplicación se iniciará automáticamente después de la instalación (igual que en Windows) gracias a un script `postinstall` que añade Velopack.
 
-Las opciones clave que personalizarán el instalador son las siguientes:
+Las opciones clave para personalizar el instalador son las siguientes:
 - `--packTitle {app name}` personaliza el nombre del paquete `.app` y el nombre de la aplicación que se muestra en el `.pkg`
 - `--instWelcome {path}` añade una página de bienvenida
 - `--instReadme {path}` añade una página de léame
@@ -81,4 +90,4 @@ Las opciones clave que personalizarán el instalador son las siguientes:
 
 Estos argumentos de contenido aceptan los tipos de archivo admitidos por el instalador de macOS, es decir, `.txt`, `.rtf` o `.html`.
 
-El paquete `.app` puede extraerse en `/Applications` o `~/Applications`; esto lo selecciona el usuario durante la instalación.
+El paquete `.app` puede extraerse en `/Applications` o `~/Applications`; el usuario lo elige durante la instalación.

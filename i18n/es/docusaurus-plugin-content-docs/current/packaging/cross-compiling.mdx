@@ -1,4 +1,4 @@
-# Compilación Cruzada
+# Compilación cruzada
 <AppliesTo all />
 Compilar versiones para un SO diferente al que estás utilizando.
 
@@ -32,4 +32,4 @@ Antes de ejecutar un comando para un SO diferente, debes revisar el texto de ayu
   debes usar una máquina MacOS para crear paquetes de MacOS.
 
 ## Advertencia sobre la firma
-Si bien puedes *compilar* un paquete de Windows desde Linux o macOS, **firmarlo** tiene requisitos adicionales. La ruta estándar `--signParams` / `--signTemplate` depende de `signtool.exe`, que solo se ejecuta en Windows. Si necesitas firmar un paquete de Windows desde Linux o macOS, utiliza una herramienta multiplataforma como JSign. Consulta la [guía de firma de código](./signing.mdx) para más detalles.
+Si bien puedes *compilar* un paquete de Windows desde Linux o macOS, **firmarlo** tiene requisitos adicionales. Desde Velopack 1.3, [Azure Artifact Signing](./signing.mdx#signing-via-azure-artifact-signing) (`--azureTrustedSignFile`) funciona en todos los sistemas operativos. La opción `--signParams` depende de `signtool.exe`, que solo se ejecuta en Windows. Para otros certificados, usa `--signTemplate` con una herramienta multiplataforma como JSign. Consulta la [guía de firma de código](./signing.mdx) para más detalles.

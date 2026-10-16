@@ -1,18 +1,18 @@
 # Primeros pasos: Rust
 <AppliesTo all />
-Comience con nuestro crate oficial multiplataforma de Rust.
+Comienza con nuestro crate oficial multiplataforma de Rust.
 
 :::tip
-Para encontrar la documentación más precisa y completa de Rust, visite https://docs.rs/velopack
+Para encontrar la documentación más precisa y completa de Rust, visita https://docs.rs/velopack
 :::
 ## Inicio rápido
-1. Agregue Velopack a su `Cargo.toml`:
+1. Agrega Velopack a tu `Cargo.toml`:
 ```toml
 [dependencies]
 velopack = "0.0" # Replace with actual version
 ```
 
-2. Agregue el siguiente código a su función `main()`:
+2. Agrega el siguiente código a tu función `main()`:
 ```rust
 use velopack::*;
 
@@ -23,7 +23,7 @@ VelopackApp::build().run();
 }
 ```
 
-3. Agregue las actualizaciones automáticas en algún lugar de su aplicación:
+3. Agrega las actualizaciones automáticas en algún lugar de tu aplicación:
 ```rust
 use velopack::*;
 
@@ -36,28 +36,28 @@ if let UpdateCheck::UpdateAvailable(updates) = um.check_for_updates().unwrap() {
 um.download_updates(&updates, None).unwrap();
 
 // download completed, let's restart and update
-um.apply_updates_and_restart(&updates).unwrap();
+um.apply_updates_and_restart(&*updates).unwrap();
 }
 }
 ```
 
-4. Compile su aplicación con cargo:
+4. Compila tu aplicación con cargo:
 ```sh
 cargo build --release
 ```
 
-5. Instale la herramienta de línea de comandos `vpk`:
+5. Instala la herramienta de línea de comandos `vpk`:
 ```sh
 dotnet tool update -g vpk
 ```
-***Nota: debe tener instalado el .NET Core SDK 8 para usar y actualizar `vpk`***
+***Nota: debes tener instalado el .NET Core SDK 8 para usar y actualizar `vpk`***
 
-6. Empaquete su versión / instaladores de Velopack:
+6. Empaqueta tu versión / instaladores de Velopack:
 ```sh
 vpk pack -u MyAppUniqueId -v 1.0.0 -p /target/release -e myexename.exe
 ```
 
-✅ ¡Listo! Su aplicación ahora tiene actualizaciones automáticas y un instalador.
-Puede subir su versión a su sitio web, o usar el comando `vpk upload` para publicarla en el destino que elija.
+✅ ¡Listo! Tu aplicación ahora tiene actualizaciones automáticas y un instalador.
+Puedes subir tu versión a tu sitio web, o usar el comando `vpk upload` para publicarla en el destino que elijas.
 
-Lea la documentación de Velopack en [https://docs.velopack.io/](https://docs.velopack.io/) para obtener más información.
+Lee la documentación de Velopack en [https://docs.velopack.io/](https://docs.velopack.io/) para obtener más información.
