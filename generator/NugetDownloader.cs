@@ -25,9 +25,9 @@ public class NugetDownloader
 
     public async Task<IPackageSearchMetadata> GetPackageMetadata(string packageName, string version, CancellationToken cancellationToken)
     {
-        PackageMetadataResource packageMetadataResource = _sourceRepository.GetResource<PackageMetadataResource>();
-        FindPackageByIdResource packageByIdResource = _sourceRepository.GetResource<FindPackageByIdResource>();
-        IPackageSearchMetadata package = null!;
+        PackageMetadataResource packageMetadataResource = GetResource<PackageMetadataResource>();
+        FindPackageByIdResource packageByIdResource = GetResource<FindPackageByIdResource>();
+        IPackageSearchMetadata? package;
 
         var prerelease = version?.Equals("pre", StringComparison.InvariantCultureIgnoreCase) == true;
         if (version is null || version.Equals("latest", StringComparison.InvariantCultureIgnoreCase) || prerelease) {
@@ -62,10 +62,16 @@ public class NugetDownloader
 
     public async Task DownloadPackageToStream(IPackageSearchMetadata package, Stream targetStream, CancellationToken cancellationToken)
     {
-        FindPackageByIdResource packageByIdResource = _sourceRepository.GetResource<FindPackageByIdResource>();
+        FindPackageByIdResource packageByIdResource = GetResource<FindPackageByIdResource>();
         await packageByIdResource
             .CopyNupkgToStreamAsync(package.Identity.Id, package.Identity.Version, targetStream, _sourceCacheContext, _logger, cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    private T GetResource<T>() where T : class, INuGetResource
+    {
+        return _sourceRepository.GetResource<T>()
+            ?? throw new Exception($"NuGet source {_packageSource.Source} does not provide {typeof(T).Name}");
     }
 }
 
