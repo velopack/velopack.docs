@@ -218,8 +218,10 @@ manifest until the skill is run.
 
 - ✅ The guide pages under `docs/` (everything except `docs/reference/**`).
 - ✅ Top nav + sidebar category labels (see "Localizing nav & sidebar").
-- ❌ Generic theme strings — search box, buttons, pagination, etc. (`code.json`) — **not in
-  scope**. Docusaurus ships its own bundled translations for most of them; anything it
+- ✅ Strings in our own React components, e.g. the "Ask AI" widget (see "Localizing
+  component strings").
+- ❌ Generic theme strings — search box, buttons, pagination, etc. (the rest of
+  `code.json`) — **not in scope**. Docusaurus ships its own bundled translations for most of them; anything it
   doesn't cover falls back to English. We deliberately don't own these (owning them means
   maintaining strings that aren't ours and overriding Docusaurus on every upgrade).
 - ❌ The auto-generated API reference (`docs/reference/**`) — ~569 files, regenerated
@@ -230,7 +232,8 @@ manifest until the skill is run.
 ### How it works
 
 - **`i18n/translation-manifest.json`** — per locale, the **git blob id** of the English
-  source each translated page reflects, plus a snapshot of the English nav/sidebar labels.
+  source each translated page reflects, plus a snapshot of the English nav/sidebar labels
+  and component strings.
   Because it stores git blob ids, `git diff <old> <new>` shows exactly which English
   changes a translation is missing. Maintained by the script; don't edit it by hand.
 - **`scripts/i18n.mjs`** (config: `scripts/i18n.config.json`) — dependency-free bookkeeping;
@@ -246,7 +249,7 @@ manifest until the skill is run.
 - **`.claude/skills/translate-docs/`** — the skill that does the translating: runs
   `status`, fans out one subagent per stale (locale, page) that carries the English diff
   over into the translation (natural, idiomatic target-language prose — not word-for-word),
-  updates nav/sidebar labels, runs `check`, re-stamps the manifest with `update`, and
+  updates nav/sidebar labels and component strings, runs `check`, re-stamps the manifest with `update`, and
   builds the locale. `translator-brief.md` holds the translation rules and the
   language-agnostic style/terminology guidance (with examples in several languages, so it
   applies to any locale without a per-language guide).
@@ -289,10 +292,29 @@ files directly, and `update --ui` takes a new snapshot.
 Per-page sidebar entries (C#, FAQ, …) localize automatically via each doc's translated
 `sidebar_label` frontmatter — no JSON needed.
 
-**`code.json` is intentionally NOT committed.** It's generic theme chrome (search box,
-buttons, pagination) that Docusaurus already translates via its bundled locale data;
-owning it would mean overriding Docusaurus on every upgrade. Anything it doesn't cover
+### Localizing component strings
+
+User-facing text in our own React components (`src/components/`, `src/theme/`) is wrapped
+in Docusaurus's `translate()` / `<Translate>` (`@docusaurus/Translate`), which puts it in
+`code.json`. Rules:
+
+- Give every string an explicit `id` under the component's prefix (`docsAssist.*` for the
+  "Ask AI" widget) and a `description` that tells a translator where it appears.
+- The `id`, `message` and `description` must be string literals (they're extracted
+  statically). Use `{placeholders}` + `values` for anything dynamic, never string
+  concatenation, so translators can reorder the sentence.
+- A new component with translatable strings needs its prefix added to `includeKeyPrefixes`
+  of the `code.json` entry in `scripts/i18n.config.json`, or the skill won't see it.
+
+**`i18n/<locale>/code.json` holds only our keys.** The rest of `code.json` is generic theme
+chrome (search box, buttons, pagination) that Docusaurus already translates via its bundled
+locale data; owning it would mean overriding Docusaurus on every upgrade. Docusaurus merges
+the locale file over its bundled translations, so a file with just our keys is enough, and
+`includeKeyPrefixes` keeps the theme keys out of the status report. Anything not covered
 falls back to English.
+
+Text that comes from the docs-assist Worker (activity lines such as "Searching the docs…",
+and the answers themselves) is not part of the site and isn't covered by this.
 
 ### Adding a new language
 
@@ -300,7 +322,7 @@ falls back to English.
    (label + `htmlLang`), and the search theme's `language: [...]` array.
 2. Add the locale to `scripts/i18n.config.json` (`locales` and `localeLabels`).
 3. Run `/translate-docs <locale>` in Claude Code. Every page reports as `missing` and gets
-   translated, and the nav/sidebar label files are created.
+   translated, and the nav/sidebar label and `code.json` files are created.
 4. Verify with `npm run build` (builds all locales, `onBrokenLinks: 'throw'` applies to
    every locale).
 

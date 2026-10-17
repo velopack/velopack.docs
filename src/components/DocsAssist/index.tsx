@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState, type ComponentType, type RefObject } from "react";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { translate } from "@docusaurus/Translate";
 import VelopackMark from "./VelopackMark";
 import { configure, setOpen, useAssistState, type DocsAssistConfig } from "./store";
 import { turnClock } from "./constants";
@@ -176,10 +177,22 @@ export default function DocsAssist() {
       requestAnimationFrame(() => setAnnouncement(text));
     };
     if (unread && !was.unread) {
-      say("New answer from Ask AI");
+      say(
+        translate({
+          id: "docsAssist.fab.announceNewAnswer",
+          message: "New answer from Ask AI",
+          description: "Ask AI: screen reader announcement when an answer finishes while the panel is closed",
+        }),
+      );
       setTwinkle(true);
     } else if (was.busy && !busy && open && !notice && messages[messages.length - 1]?.role === "assistant") {
-      say("Answer ready");
+      say(
+        translate({
+          id: "docsAssist.fab.announceAnswerReady",
+          message: "Answer ready",
+          description: "Ask AI: screen reader announcement when an answer finishes while the panel is open",
+        }),
+      );
     }
   }, [unread, busy, open, notice, messages]);
 
@@ -207,7 +220,24 @@ export default function DocsAssist() {
   if (!cfg) return null;
 
   const shown = open && panelReady;
-  const label = unread ? "Ask AI (new answer)" : busy && !open ? "Ask AI (answering…)" : "Ask AI";
+  const askAi = translate({
+    id: "docsAssist.fab.label",
+    message: "Ask AI",
+    description: "Ask AI: the floating launcher button's text (keep it short)",
+  });
+  const label = unread
+    ? translate({
+        id: "docsAssist.fab.labelUnread",
+        message: "Ask AI (new answer)",
+        description: "Ask AI: the launcher's accessible name when there is an unread answer",
+      })
+    : busy && !open
+      ? translate({
+          id: "docsAssist.fab.labelBusy",
+          message: "Ask AI (answering…)",
+          description: "Ask AI: the launcher's accessible name while an answer is being written in the background",
+        })
+      : askAi;
   const shortcut = isMac ? "⌘I" : "Ctrl+I";
 
   return (
@@ -227,7 +257,14 @@ export default function DocsAssist() {
         aria-controls={everOpened && panelReady ? "docs-assist-panel" : undefined}
         aria-label={label}
         aria-keyshortcuts={isMac ? "Meta+I" : "Control+I"}
-        title={`Ask AI (${shortcut})`}
+        title={translate(
+          {
+            id: "docsAssist.fab.tooltip",
+            message: "Ask AI ({shortcut})",
+            description: "Ask AI: the launcher's tooltip; {shortcut} is the keyboard shortcut, e.g. Ctrl+I",
+          },
+          { shortcut },
+        )}
         inert={shown}
         onPointerEnter={() => void resolvePanel()}
         onFocus={() => void resolvePanel()}
@@ -237,7 +274,7 @@ export default function DocsAssist() {
         <span className={styles.fabRing} aria-hidden="true" />
         <span className={styles.fabSurface} aria-hidden="true" />
         <VelopackMark className={styles.fabIcon} streaks />
-        <span className={styles.fabLabel}>Ask AI</span>
+        <span className={styles.fabLabel}>{askAi}</span>
         {unread && <span className={styles.unreadDot} aria-hidden="true" />}
       </button>
       <span ref={probeRef} className={styles.vvProbe} aria-hidden="true" />

@@ -1,6 +1,6 @@
 ---
 name: translate-docs
-description: Bring the AI-maintained translations of the Velopack docs (i18n/<locale>/) back in sync with the English source in docs/. Finds stale pages via the content-hash manifest, fans out one translator subagent per stale page, updates the nav/sidebar labels, validates, and re-stamps the manifest. Use when asked to update, refresh, sync or fix the translations, or after editing English docs.
+description: Bring the AI-maintained translations of the Velopack docs (i18n/<locale>/) back in sync with the English source in docs/. Finds stale pages via the content-hash manifest, fans out one translator subagent per stale page, updates the nav/sidebar labels and UI component strings, validates, and re-stamps the manifest. Use when asked to update, refresh, sync or fix the translations, or after editing English docs.
 argument-hint: "[locale] [page ...] [all]"
 ---
 
@@ -42,7 +42,7 @@ node scripts/i18n.mjs status --json [--locale <id>]
 ```
 
 This takes about a minute (it runs `docusaurus write-translations` to get the English
-nav/sidebar labels). For each locale it returns:
+nav/sidebar labels and component strings). For each locale it returns:
 
 - `docs[]` — pages needing work, each with a `status`:
   - `changed`: the English changed since the translation was last synced. `diffCommand`
@@ -54,7 +54,8 @@ nav/sidebar labels). For each locale it returns:
     (`checkErrors`), e.g. a dropped heading or a mangled code block. Fix them.
   Any page may also carry `checkErrors` that the translator must resolve.
 - `orphaned[]` — translations whose English page no longer exists.
-- `ui[]` — nav/sidebar label files with `added` / `changed` / `removed` keys.
+- `ui[]` — nav/sidebar label files and `code.json` (our components' strings, e.g. the
+  "Ask AI" widget) with `added` / `changed` / `removed` keys.
 
 Add any pages named in the arguments (or every page for `all`) with status `review`.
 
@@ -99,7 +100,7 @@ English-source problems or translation judgment calls the maintainer should know
 
 While the subagents run, handle the UI labels (step 5) yourself.
 
-### 5. Nav and sidebar labels
+### 5. Nav/sidebar labels and component strings
 
 For each stale `ui[]` entry, edit `i18n/<locale>/<file>` (the `target`) directly, creating
 it if it doesn't exist yet (new locale). The file is a JSON object of
@@ -114,6 +115,19 @@ Keep proper nouns and technology names as-is (Velopack, Flow, Blog, C#, C / C++,
 JavaScript, Python, Rust), and follow the language conventions in `translator-brief.md`
 and the terminology already used by the locale's pages and labels. Labels are short — prefer the conventional UI wording in the target
 language.
+
+`code.json` holds the strings of our own React components (`docsAssist.*` is the "Ask AI"
+chat widget); the `description` of each key says where it appears. Only add keys the status
+report lists — never copy Docusaurus's own theme keys into it. In addition:
+
+- Keep `{placeholders}` (`{time}`, `{max}`, `{discord}`, …) exactly as written; move them
+  wherever the sentence needs them.
+- Keep the `…` ellipsis on status lines and placeholders, and use the same register as
+  the locale's pages (see **Register** in `translator-brief.md`).
+- Example questions (`docsAssist.intro.example*`) are sent to the assistant verbatim, so
+  phrase them as a native speaker would ask them.
+- Accessible names and tooltips (button labels, `aria-label`s) should be the target
+  language's conventional UI wording, short.
 
 ### 6. Validate
 
@@ -134,7 +148,7 @@ Stamp only the pages that were successfully updated and pass `check`:
 node scripts/i18n.mjs update --locale <locale> [--ui] <page> <page> ...
 ```
 
-Add `--ui` if you updated nav/sidebar labels in step 5 (it snapshots the current English
+Add `--ui` if you updated nav/sidebar labels or component strings in step 5 (it snapshots the current English
 labels; it refuses if a baseline key is still missing from the locale file). Stamping also
 drops manifest entries for deleted English pages. Then run
 `node scripts/i18n.mjs status --locale <locale>` to confirm only intentionally skipped

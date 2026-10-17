@@ -20,6 +20,11 @@
       "file": "docusaurus-plugin-content-docs/current.json",
       "dropKeyPrefixes": ["sidebar.referenceSidebar.", "sidebar.mainSidebar.link.", "version.label"],
       "keepKeys": ["sidebar.referenceSidebar.category.Reference"]
+    },
+    {
+      "comment": "Strings of our own React components (translate() / <Translate> ids). Only these keys are ours: the rest of code.json is generic Docusaurus theme chrome that Docusaurus already translates, so it is excluded and the locale file holds just our keys (Docusaurus merges it over its bundled translations). Add a prefix here when a new component gets translatable strings.",
+      "file": "code.json",
+      "includeKeyPrefixes": ["docsAssist."]
     }
   ],
   "manifest": "i18n/translation-manifest.json"

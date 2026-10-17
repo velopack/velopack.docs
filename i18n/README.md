@@ -11,6 +11,7 @@ Nothing translates automatically in CI.
 |---|---|---|
 | Guide pages (`docs/`, minus `docs/reference/**`) | ✅ `translate-docs` skill | `i18n/<locale>/docusaurus-plugin-content-docs/current/` |
 | Top nav + sidebar category labels | ✅ `translate-docs` skill | `.../docusaurus-theme-classic/navbar.json`, `.../docusaurus-plugin-content-docs/current.json` |
+| Our own component strings (the "Ask AI" widget, `docsAssist.*`) | ✅ `translate-docs` skill | `i18n/<locale>/code.json` (only our keys) |
 | Generic theme strings (search box, buttons, pagination) | ❌ Not in scope | Docusaurus's bundled locale translations apply; anything without one falls back to English |
 | API reference (auto-generated, `docs/reference/**`) | ❌ No (English fallback) | — |
 | Blog | ❌ No (English) | — |
@@ -29,7 +30,7 @@ npm run i18n:update -- <page>  # mark a page's translation as in sync (the skill
 
 `translation-manifest.json` records, per locale and page, the **git blob id** of the English
 source the translation reflects (so `git diff <old> <new>` shows exactly what changed since),
-plus a snapshot of the English nav/sidebar labels. It's maintained by `scripts/i18n.mjs`;
+plus a snapshot of the English nav/sidebar labels and component strings. It's maintained by `scripts/i18n.mjs`;
 don't edit it by hand.
 
 See the **i18n / Translations** section of [`AGENTS.md`](../AGENTS.md) for the full runbook

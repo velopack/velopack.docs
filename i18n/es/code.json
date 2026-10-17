@@ -1,0 +1,210 @@
+{
+  "docsAssist.fab.announceNewAnswer": {
+    "message": "Nueva respuesta de Ask AI",
+    "description": "Ask AI: screen reader announcement when an answer finishes while the panel is closed"
+  },
+  "docsAssist.fab.announceAnswerReady": {
+    "message": "Respuesta lista",
+    "description": "Ask AI: screen reader announcement when an answer finishes while the panel is open"
+  },
+  "docsAssist.fab.label": {
+    "message": "Ask AI",
+    "description": "Ask AI: the floating launcher button's text (keep it short)"
+  },
+  "docsAssist.fab.labelUnread": {
+    "message": "Ask AI (nueva respuesta)",
+    "description": "Ask AI: the launcher's accessible name when there is an unread answer"
+  },
+  "docsAssist.fab.labelBusy": {
+    "message": "Ask AI (respondiendo…)",
+    "description": "Ask AI: the launcher's accessible name while an answer is being written in the background"
+  },
+  "docsAssist.fab.tooltip": {
+    "message": "Ask AI ({shortcut})",
+    "description": "Ask AI: the launcher's tooltip; {shortcut} is the keyboard shortcut, e.g. Ctrl+I"
+  },
+  "docsAssist.intro.exampleUpdates": {
+    "message": "¿Cómo compruebo si hay actualizaciones al iniciar mi aplicación?",
+    "description": "Ask AI: an example question; clicking it sends it to the assistant as-is"
+  },
+  "docsAssist.intro.exampleSigning": {
+    "message": "¿Cómo firmo el código de mi aplicación en Windows y macOS?",
+    "description": "Ask AI: an example question; clicking it sends it to the assistant as-is"
+  },
+  "docsAssist.intro.exampleAllUsers": {
+    "message": "¿Puedo instalar para todos los usuarios en lugar de por usuario?",
+    "description": "Ask AI: an example question; clicking it sends it to the assistant as-is"
+  },
+  "docsAssist.status.loading": {
+    "message": "Cargando tu conversación…",
+    "description": "Ask AI: status shown while a previous conversation is loaded"
+  },
+  "docsAssist.status.working": {
+    "message": "Trabajando…",
+    "description": "Ask AI: generic status shown while an answer is being prepared"
+  },
+  "docsAssist.limit.reached": {
+    "message": "Esta conversación ha alcanzado su límite.",
+    "description": "Ask AI: shown in place of the input when the conversation can't take more messages"
+  },
+  "docsAssist.action.startNew": {
+    "message": "Iniciar una conversación nueva",
+    "description": "Ask AI: button that discards the current conversation and starts a new one"
+  },
+  "docsAssist.header.newConversation": {
+    "message": "Nueva conversación",
+    "description": "Ask AI: tooltip of the header button that starts a new conversation"
+  },
+  "docsAssist.header.expand": {
+    "message": "Expandir",
+    "description": "Ask AI: tooltip of the button that makes the panel wider"
+  },
+  "docsAssist.header.close": {
+    "message": "Cerrar",
+    "description": "Ask AI: tooltip of the button that closes the panel"
+  },
+  "docsAssist.scrollToLatest": {
+    "message": "Ir al último mensaje",
+    "description": "Ask AI: button that scrolls the conversation to the newest message"
+  },
+  "docsAssist.header.title": {
+    "message": "Ask AI",
+    "description": "Ask AI: the chat panel's title"
+  },
+  "docsAssist.header.subtitle": {
+    "message": "Asistente de Velopack",
+    "description": "Ask AI: the chat panel's subtitle, under the title"
+  },
+  "docsAssist.header.collapse": {
+    "message": "Contraer",
+    "description": "Ask AI: tooltip of the button that makes the expanded panel narrow again"
+  },
+  "docsAssist.input.placeholderFollowUp": {
+    "message": "Haz otra pregunta…",
+    "description": "Ask AI: input placeholder once the conversation has messages"
+  },
+  "docsAssist.input.placeholder": {
+    "message": "Haz una pregunta…",
+    "description": "Ask AI: input placeholder in a new conversation"
+  },
+  "docsAssist.input.label": {
+    "message": "Tu pregunta",
+    "description": "Ask AI: accessible name of the question input"
+  },
+  "docsAssist.input.send": {
+    "message": "Enviar",
+    "description": "Ask AI: accessible name of the send button"
+  },
+  "docsAssist.input.tooLong": {
+    "message": "Mensaje demasiado largo",
+    "description": "Ask AI: screen reader text when the typed message is over the length limit"
+  },
+  "docsAssist.input.hint": {
+    "message": "Pulsa Intro para enviar y Mayús+Intro para añadir una línea nueva.",
+    "description": "Ask AI: screen reader hint for the question input"
+  },
+  "docsAssist.message.sender": {
+    "message": "Velopack AI",
+    "description": "Ask AI: the name shown above the assistant's answers"
+  },
+  "docsAssist.intro.title": {
+    "message": "¿Cómo puedo ayudarte a publicar tu aplicación?",
+    "description": "Ask AI: the greeting in a new conversation"
+  },
+  "docsAssist.intro.text": {
+    "message": "Pregunta lo que quieras sobre Velopack. Las respuestas se elaboran a partir del código fuente de Velopack, esta documentación y los issues de GitHub, por lo que pueden tardar 30 segundos o más.",
+    "description": "Ask AI: the introduction under the greeting in a new conversation"
+  },
+  "docsAssist.intro.examples": {
+    "message": "Prueba a preguntar",
+    "description": "Ask AI: the heading above the example questions"
+  },
+  "docsAssist.notice.backToPrevious": {
+    "message": "Volver a la conversación anterior",
+    "description": "Ask AI: button that returns to the conversation the visitor had before"
+  },
+  "docsAssist.notice.ipLimit": {
+    "message": "Hoy has iniciado muchas conversaciones.",
+    "description": "Ask AI: notice when the visitor has started too many conversations today"
+  },
+  "docsAssist.notice.ipLimitResetsAt": {
+    "message": "Podrás iniciar una nueva a las {time}.",
+    "description": "Ask AI: follows the conversation limit notice; {time} is a local time, possibly with a weekday"
+  },
+  "docsAssist.notice.ipLimitLater": {
+    "message": "Vuelve a intentarlo más tarde.",
+    "description": "Ask AI: follows the conversation limit notice when the reset time is unknown"
+  },
+  "docsAssist.notice.ipLimitGoBack": {
+    "message": "Mientras tanto, puedes continuar con tu conversación anterior.",
+    "description": "Ask AI: follows the conversation limit notice when the previous conversation can be resumed"
+  },
+  "docsAssist.notice.rateLimited": {
+    "message": "Demasiadas solicitudes. Espera un minuto y vuelve a intentarlo.",
+    "description": "Ask AI: notice when the visitor sends messages too quickly"
+  },
+  "docsAssist.notice.refusal": {
+    "message": "Lo siento, no puedo ayudarte con eso.",
+    "description": "Ask AI: notice when the assistant declines to answer a question"
+  },
+  "docsAssist.notice.tooLong": {
+    "message": "Ese mensaje es demasiado largo. Debe tener menos de {max} caracteres.",
+    "description": "Ask AI: notice when a message is over the length limit; {max} is a number"
+  },
+  "docsAssist.notice.ok": {
+    "message": "Aceptar",
+    "description": "Ask AI: button that dismisses a notice"
+  },
+  "docsAssist.notice.turnstile": {
+    "message": "No hemos podido verificar tu navegador. Vuelve a enviar tu pregunta.",
+    "description": "Ask AI: notice when the bot check (Cloudflare Turnstile) fails"
+  },
+  "docsAssist.notice.restoreFailed": {
+    "message": "No se ha podido cargar tu conversación anterior.",
+    "description": "Ask AI: notice when the stored conversation can't be loaded"
+  },
+  "docsAssist.notice.retry": {
+    "message": "Reintentar",
+    "description": "Ask AI: button that sends the last question again after an error"
+  },
+  "docsAssist.notice.errorAnswering": {
+    "message": "Algo salió mal al responder. Vuelve a intentarlo.",
+    "description": "Ask AI: notice when an answer fails part-way"
+  },
+  "docsAssist.notice.error": {
+    "message": "Algo salió mal. Vuelve a intentarlo.",
+    "description": "Ask AI: notice for an unexpected error"
+  },
+  "docsAssist.notice.capDiscord": {
+    "message": "Discord de Velopack",
+    "description": "Ask AI: link text to the Velopack Discord server, used in the 'assistant is resting' notice"
+  },
+  "docsAssist.notice.capIssues": {
+    "message": "issues de GitHub",
+    "description": "Ask AI: link text to the Velopack GitHub issues, used in the 'assistant is resting' notice"
+  },
+  "docsAssist.notice.capUntil": {
+    "message": "El asistente está descansando hasta las {time}. Mientras tanto, prueba en el {discord} o en los {issues}.",
+    "description": "Ask AI: notice when the assistant's daily budget is used up; {time} is a local time, {discord} and {issues} are links"
+  },
+  "docsAssist.notice.cap": {
+    "message": "El asistente está descansando. Mientras tanto, prueba en el {discord} o en los {issues}.",
+    "description": "Ask AI: notice when the assistant's daily budget is used up; {discord} and {issues} are links"
+  },
+  "docsAssist.notice.timeUnknown": {
+    "message": "más tarde",
+    "description": "Ask AI: stands in for {time} in the limit notices when the reset time can't be read"
+  },
+  "docsAssist.status.reconnecting": {
+    "message": "Reconectando…",
+    "description": "Ask AI: status shown while the connection to the assistant is being re-established"
+  },
+  "docsAssist.status.thinking": {
+    "message": "Pensando…",
+    "description": "Ask AI: status shown while waiting for the first part of an answer"
+  },
+  "docsAssist.status.resuming": {
+    "message": "Retomando donde lo dejó…",
+    "description": "Ask AI: status shown when reattaching to an answer that was still being written after a page reload"
+  }
+}

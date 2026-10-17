@@ -14,6 +14,7 @@ import React, {
   type RefObject,
 } from "react";
 import clsx from "clsx";
+import Translate, { translate } from "@docusaurus/Translate";
 import VelopackMark from "./VelopackMark";
 import Markdown from "./Markdown";
 import { preloadTurnstile } from "./turnstile";
@@ -21,6 +22,7 @@ import {
   MAX_MESSAGE_CHARS,
   dismissNotice,
   newConversation,
+  reconnectingText,
   retry,
   returnToPreviousConversation,
   send,
@@ -57,11 +59,58 @@ import styles from "./Panel.module.css";
 
 type IconComponent = ComponentType<{ size?: number; className?: string }>;
 
-const EXAMPLES: { q: string; Icon: IconComponent }[] = [
-  { q: "How do I check for updates when my app starts?", Icon: RocketIcon },
-  { q: "How do I code-sign my app on Windows and macOS?", Icon: BadgeCheckIcon },
-  { q: "Can I install for all users instead of per-user?", Icon: UsersIcon },
+// Called at render time, so the questions follow the page's locale.
+const examples = (): { q: string; Icon: IconComponent }[] => [
+  {
+    q: translate({
+      id: "docsAssist.intro.exampleUpdates",
+      message: "How do I check for updates when my app starts?",
+      description: "Ask AI: an example question; clicking it sends it to the assistant as-is",
+    }),
+    Icon: RocketIcon,
+  },
+  {
+    q: translate({
+      id: "docsAssist.intro.exampleSigning",
+      message: "How do I code-sign my app on Windows and macOS?",
+      description: "Ask AI: an example question; clicking it sends it to the assistant as-is",
+    }),
+    Icon: BadgeCheckIcon,
+  },
+  {
+    q: translate({
+      id: "docsAssist.intro.exampleAllUsers",
+      message: "Can I install for all users instead of per-user?",
+      description: "Ask AI: an example question; clicking it sends it to the assistant as-is",
+    }),
+    Icon: UsersIcon,
+  },
 ];
+
+const loadingText = () =>
+  translate({
+    id: "docsAssist.status.loading",
+    message: "Loading your conversation…",
+    description: "Ask AI: status shown while a previous conversation is loaded",
+  });
+const workingText = () =>
+  translate({
+    id: "docsAssist.status.working",
+    message: "Working…",
+    description: "Ask AI: generic status shown while an answer is being prepared",
+  });
+const limitText = () =>
+  translate({
+    id: "docsAssist.limit.reached",
+    message: "This conversation has reached its limit.",
+    description: "Ask AI: shown in place of the input when the conversation can't take more messages",
+  });
+const startNewText = () =>
+  translate({
+    id: "docsAssist.action.startNew",
+    message: "Start new conversation",
+    description: "Ask AI: button that discards the current conversation and starts a new one",
+  });
 
 const WIDE_QUERY = "(min-width: 1024px)";
 const WIDE_KEY = "velopack-docs-assist-wide";
@@ -445,12 +494,33 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
   // One stable live region for the status row, polite notices and the limit card: regions that are
   // inserted already holding text are announced unreliably. Notice copy is read from the DOM so it
   // lives in one place; danger notices announce themselves (role="alert").
-  const statusLabel = s.restoring ? "Loading your conversation…" : showStatus ? (s.activity ?? "Working…") : "";
+  const statusLabel = s.restoring ? loadingText() : showStatus ? (s.activity ?? workingText()) : "";
   const [live, setLive] = useState("");
   useEffect(() => {
     const notice = scrollRef.current?.querySelector("[data-live]")?.textContent?.trim();
-    setLive(notice || (s.limitReached ? "This conversation has reached its limit." : statusLabel));
+    setLive(notice || (s.limitReached ? limitText() : statusLabel));
   }, [statusLabel, s.notice, s.limitReached]);
+
+  const newConversationText = translate({
+    id: "docsAssist.header.newConversation",
+    message: "New conversation",
+    description: "Ask AI: tooltip of the header button that starts a new conversation",
+  });
+  const expandText = translate({
+    id: "docsAssist.header.expand",
+    message: "Expand",
+    description: "Ask AI: tooltip of the button that makes the panel wider",
+  });
+  const closeText = translate({
+    id: "docsAssist.header.close",
+    message: "Close",
+    description: "Ask AI: tooltip of the button that closes the panel",
+  });
+  const latestText = translate({
+    id: "docsAssist.scrollToLatest",
+    message: "Scroll to latest",
+    description: "Ask AI: button that scrolls the conversation to the newest message",
+  });
 
   const [introMounted, introLeaving] = usePresence(empty, 180);
   const [latestMounted, latestLeaving] = usePresence(showLatest && !empty, 120);
@@ -501,10 +571,14 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
             <MarkTile size="md" twinkle={tileTwinkle} />
             <div className={styles.titles}>
               <strong id="da-title" className={styles.title}>
-                Ask AI
+                <Translate id="docsAssist.header.title" description="Ask AI: the chat panel's title">
+                  Ask AI
+                </Translate>
               </strong>
               <span id="da-subtitle" className={styles.subtitle}>
-                Velopack assistant
+                <Translate id="docsAssist.header.subtitle" description="Ask AI: the chat panel's subtitle, under the title">
+                  Velopack assistant
+                </Translate>
               </span>
             </div>
             <div className={styles.headerActions}>
@@ -513,8 +587,8 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
                   type="button"
                   className={clsx(styles.headerButton, styles.newButton)}
                   onClick={startNew}
-                  title="New conversation"
-                  aria-label="New conversation"
+                  title={newConversationText}
+                  aria-label={newConversationText}
                 >
                   <ComposeIcon />
                 </button>
@@ -524,8 +598,16 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
                   type="button"
                   className={styles.headerButton}
                   onClick={toggleWide}
-                  title={wide ? "Collapse" : "Expand"}
-                  aria-label="Expand"
+                  title={
+                    wide
+                      ? translate({
+                          id: "docsAssist.header.collapse",
+                          message: "Collapse",
+                          description: "Ask AI: tooltip of the button that makes the expanded panel narrow again",
+                        })
+                      : expandText
+                  }
+                  aria-label={expandText}
                   aria-pressed={wide}
                 >
                   <span className={styles.swap}>
@@ -534,7 +616,7 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
                   </span>
                 </button>
               )}
-              <button type="button" className={styles.headerButton} onClick={close} title="Close" aria-label="Close">
+              <button type="button" className={styles.headerButton} onClick={close} title={closeText} aria-label={closeText}>
                 <ChevronDownIcon />
               </button>
             </div>
@@ -554,7 +636,7 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
             {s.restoring && (
               <>
                 <Skeleton />
-                <Status text="Loading your conversation…" />
+                <Status text={loadingText()} />
               </>
             )}
 
@@ -571,7 +653,7 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
               />
             ))}
 
-            {showStatus && <Status text={s.activity ?? "Working…"} sender={lastMessage?.role !== "assistant"} elapsed />}
+            {showStatus && <Status text={s.activity ?? workingText()} sender={lastMessage?.role !== "assistant"} elapsed />}
 
             {s.notice && <NoticeView notice={s.notice} onAction={refocus} onStartNew={startNew} />}
           </div>
@@ -582,8 +664,8 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
               className={styles.latest}
               data-leaving={latestLeaving ? "" : undefined}
               onClick={scrollToLatest}
-              aria-label="Scroll to latest"
-              title="Scroll to latest"
+              aria-label={latestText}
+              title={latestText}
             >
               <ChevronDownIcon />
             </button>
@@ -595,9 +677,9 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
             </div>
             {s.limitReached ? (
               <div className={styles.limit}>
-                <span>This conversation has reached its limit.</span>
+                <span>{limitText()}</span>
                 <button ref={limitRef} type="button" className={styles.limitButton} onClick={startNew}>
-                  Start new conversation
+                  {startNewText()}
                   <ArrowRightIcon size={14} />
                 </button>
               </div>
@@ -618,8 +700,24 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
                   value={s.draft}
                   onChange={(e) => setDraft(e.target.value)}
                   onKeyDown={onKeyDown}
-                  placeholder={s.messages.length ? "Ask a follow-up…" : "Ask a question…"}
-                  aria-label="Your question"
+                  placeholder={
+                    s.messages.length
+                      ? translate({
+                          id: "docsAssist.input.placeholderFollowUp",
+                          message: "Ask a follow-up…",
+                          description: "Ask AI: input placeholder once the conversation has messages",
+                        })
+                      : translate({
+                          id: "docsAssist.input.placeholder",
+                          message: "Ask a question…",
+                          description: "Ask AI: input placeholder in a new conversation",
+                        })
+                  }
+                  aria-label={translate({
+                    id: "docsAssist.input.label",
+                    message: "Your question",
+                    description: "Ask AI: accessible name of the question input",
+                  })}
                   aria-describedby="da-hint"
                   disabled={s.restoring}
                 />
@@ -628,7 +726,11 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
                   className={styles.send}
                   data-state={sendState}
                   disabled={!canSend}
-                  aria-label="Send"
+                  aria-label={translate({
+                    id: "docsAssist.input.send",
+                    message: "Send",
+                    description: "Ask AI: accessible name of the send button",
+                  })}
                 >
                   <ArrowUpIcon key={arrowKey} className={styles.sendIcon} />
                 </button>
@@ -643,11 +745,21 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
                     </span>
                   </div>
                 )}
-                <span className={styles.srOnly}>{tooLong ? "Message too long" : ""}</span>
+                <span className={styles.srOnly}>
+                  {tooLong
+                    ? translate({
+                        id: "docsAssist.input.tooLong",
+                        message: "Message too long",
+                        description: "Ask AI: screen reader text when the typed message is over the length limit",
+                      })
+                    : ""}
+                </span>
               </div>
             </div>
             <span id="da-hint" className={styles.srOnly}>
-              Press Enter to send, Shift+Enter for a new line.
+              <Translate id="docsAssist.input.hint" description="Ask AI: screen reader hint for the question input">
+                Press Enter to send, Shift+Enter for a new line.
+              </Translate>
             </span>
           </footer>
           <div className={styles.srOnly} role="status" aria-live="polite">
@@ -673,7 +785,11 @@ function SenderRow() {
   return (
     <div className={styles.sender} aria-hidden="true">
       <MarkTile size="sm" />
-      <span className={styles.eyebrow}>Velopack AI</span>
+      <span className={styles.eyebrow}>
+        <Translate id="docsAssist.message.sender" description="Ask AI: the name shown above the assistant's answers">
+          Velopack AI
+        </Translate>
+      </span>
     </div>
   );
 }
@@ -699,22 +815,34 @@ function Intro({ leaving, openedAt, onPick }: { leaving: boolean; openedAt: numb
         <MarkTile size="lg" />
       </div>
       <h2 className={styles.introTitle} style={item(1)}>
-        How can I help you ship?
+        <Translate id="docsAssist.intro.title" description="Ask AI: the greeting in a new conversation">
+          How can I help you ship?
+        </Translate>
       </h2>
       <p className={styles.introText} style={item(2)}>
-        Ask anything about Velopack. Answers are researched from the Velopack source code, these docs and GitHub issues, so
-        they can take 30 seconds or more.
+        <Translate id="docsAssist.intro.text" description="Ask AI: the introduction under the greeting in a new conversation">
+          Ask anything about Velopack. Answers are researched from the Velopack source code, these docs and GitHub issues, so they
+          can take 30 seconds or more.
+        </Translate>
       </p>
       <div className={styles.eyebrow} style={item(3)}>
-        Try asking
+        <Translate id="docsAssist.intro.examples" description="Ask AI: the heading above the example questions">
+          Try asking
+        </Translate>
       </div>
       <div className={styles.examples}>
-        {EXAMPLES.map(({ q, Icon }, i) => (
-          <button key={q} type="button" className={styles.example} style={item(4 + i)} onClick={() => {
+        {examples().map(({ q, Icon }, i) => (
+          <button
+            key={q}
+            type="button"
+            className={styles.example}
+            style={item(4 + i)}
+            onClick={() => {
               void send(q);
               onPick();
             }}
-            tabIndex={leaving ? -1 : undefined}>
+            tabIndex={leaving ? -1 : undefined}
+          >
             <Icon size={16} className={styles.exampleIcon} />
             <span>{q}</span>
             <ArrowRightIcon size={14} className={styles.exampleArrow} />
@@ -753,7 +881,14 @@ const Message = memo(function Message({
     );
   }
   return (
-    <AssistantMessage text={message.text} streaming={streaming} sender={sender} fade={fading} onInternalLink={onInternalLink} pin={pin} />
+    <AssistantMessage
+      text={message.text}
+      streaming={streaming}
+      sender={sender}
+      fade={fading}
+      onInternalLink={onInternalLink}
+      pin={pin}
+    />
   );
 });
 
@@ -800,7 +935,7 @@ function Status({ text, sender = false, elapsed = false }: { text: string; sende
   return (
     <div className={styles.status}>
       {sender && <SenderRow />}
-      <div className={styles.statusLine} data-warn={text === "Reconnecting…" ? "" : undefined}>
+      <div className={styles.statusLine} data-warn={text === reconnectingText() ? "" : undefined}>
         <span className={styles.spinner} aria-hidden="true" />
         <span key={text} className={styles.statusText}>
           {text}
@@ -888,31 +1023,59 @@ function NoticeView({ notice, onAction, onStartNew }: { notice: Notice; onAction
         <NoticeCard
           tone="warn"
           Icon={ClockIcon}
-          actions={notice.canGoBack && <NoticeButton onClick={act(returnToPreviousConversation)}>Back to previous conversation</NoticeButton>}
+          actions={
+            notice.canGoBack && (
+              <NoticeButton onClick={act(returnToPreviousConversation)}>
+                <Translate
+                  id="docsAssist.notice.backToPrevious"
+                  description="Ask AI: button that returns to the conversation the visitor had before"
+                >
+                  Back to previous conversation
+                </Translate>
+              </NoticeButton>
+            )
+          }
         >
-          You've started a lot of conversations today.
-          {notice.resetsAt ? ` You can start a new one at ${formatTime(notice.resetsAt)}.` : " Try again later."}{" "}
-          {notice.canGoBack ? "Meanwhile, you can carry on with your previous conversation." : ""}
+          {translate({
+            id: "docsAssist.notice.ipLimit",
+            message: "You've started a lot of conversations today.",
+            description: "Ask AI: notice when the visitor has started too many conversations today",
+          })}{" "}
+          {notice.resetsAt
+            ? translate(
+                {
+                  id: "docsAssist.notice.ipLimitResetsAt",
+                  message: "You can start a new one at {time}.",
+                  description: "Ask AI: follows the conversation limit notice; {time} is a local time, possibly with a weekday",
+                },
+                { time: formatTime(notice.resetsAt) },
+              )
+            : translate({
+                id: "docsAssist.notice.ipLimitLater",
+                message: "Try again later.",
+                description: "Ask AI: follows the conversation limit notice when the reset time is unknown",
+              })}{" "}
+          {notice.canGoBack
+            ? translate({
+                id: "docsAssist.notice.ipLimitGoBack",
+                message: "Meanwhile, you can carry on with your previous conversation.",
+                description: "Ask AI: follows the conversation limit notice when the previous conversation can be resumed",
+              })
+            : ""}
         </NoticeCard>
       );
     case "cap":
       return (
         <NoticeCard tone="warn" Icon={MoonIcon}>
-          The assistant is resting{notice.resetsAt ? ` until ${formatTime(notice.resetsAt)}` : ""}. In the meantime, try the{" "}
-          <a href="https://discord.gg/CjrCrNzd3F" target="_blank" rel="noopener noreferrer">
-            Velopack Discord
-          </a>{" "}
-          or{" "}
-          <a href="https://github.com/velopack/velopack/issues" target="_blank" rel="noopener noreferrer">
-            GitHub issues
-          </a>
-          .
+          <CapNotice resetsAt={notice.resetsAt} />
         </NoticeCard>
       );
     case "rate_limited":
       return (
         <NoticeCard tone="warn" Icon={ClockIcon}>
-          Too many requests. Please wait a minute and try again.
+          <Translate id="docsAssist.notice.rateLimited" description="Ask AI: notice when the visitor sends messages too quickly">
+            Too many requests. Please wait a minute and try again.
+          </Translate>
         </NoticeCard>
       );
     case "session_limit":
@@ -920,19 +1083,43 @@ function NoticeView({ notice, onAction, onStartNew }: { notice: Notice; onAction
     case "refusal":
       return (
         <NoticeCard tone="neutral" Icon={InfoIcon}>
-          Sorry, I can't help with that one.
+          <Translate id="docsAssist.notice.refusal" description="Ask AI: notice when the assistant declines to answer a question">
+            Sorry, I can't help with that one.
+          </Translate>
         </NoticeCard>
       );
     case "invalid_message":
       return (
         <NoticeCard tone="warn" Icon={AlertTriangleIcon}>
-          That message is too long. Please keep it under {(notice.maxChars ?? MAX_MESSAGE_CHARS).toLocaleString()} characters.
+          {translate(
+            {
+              id: "docsAssist.notice.tooLong",
+              message: "That message is too long. Please keep it under {max} characters.",
+              description: "Ask AI: notice when a message is over the length limit; {max} is a number",
+            },
+            { max: (notice.maxChars ?? MAX_MESSAGE_CHARS).toLocaleString() },
+          )}
         </NoticeCard>
       );
     case "turnstile":
       return (
-        <NoticeCard tone="warn" Icon={ShieldIcon} actions={<NoticeButton onClick={act(dismissNotice)}>OK</NoticeButton>}>
-          We couldn't verify your browser. Please try sending your question again.
+        <NoticeCard
+          tone="warn"
+          Icon={ShieldIcon}
+          actions={
+            <NoticeButton onClick={act(dismissNotice)}>
+              <Translate id="docsAssist.notice.ok" description="Ask AI: button that dismisses a notice">
+                OK
+              </Translate>
+            </NoticeButton>
+          }
+        >
+          <Translate
+            id="docsAssist.notice.turnstile"
+            description="Ask AI: notice when the bot check (Cloudflare Turnstile) fails"
+          >
+            We couldn't verify your browser. Please try sending your question again.
+          </Translate>
         </NoticeCard>
       );
     case "restore_failed":
@@ -942,11 +1129,16 @@ function NoticeView({ notice, onAction, onStartNew }: { notice: Notice; onAction
           Icon={AlertCircleIcon}
           actions={
             <NoticeButton primary onClick={onStartNew}>
-              Start new conversation
+              {startNewText()}
             </NoticeButton>
           }
         >
-          Couldn't load your previous conversation.
+          <Translate
+            id="docsAssist.notice.restoreFailed"
+            description="Ask AI: notice when the stored conversation can't be loaded"
+          >
+            Couldn't load your previous conversation.
+          </Translate>
         </NoticeCard>
       );
     case "error":
@@ -958,15 +1150,71 @@ function NoticeView({ notice, onAction, onStartNew }: { notice: Notice; onAction
             notice.retry && (
               <NoticeButton primary onClick={act(retry)}>
                 <RefreshIcon size={14} />
-                Retry
+                <Translate
+                  id="docsAssist.notice.retry"
+                  description="Ask AI: button that sends the last question again after an error"
+                >
+                  Retry
+                </Translate>
               </NoticeButton>
             )
           }
         >
-          Something went wrong{notice.retry ? " while answering" : ""}. Please try again.
+          {notice.retry
+            ? translate({
+                id: "docsAssist.notice.errorAnswering",
+                message: "Something went wrong while answering. Please try again.",
+                description: "Ask AI: notice when an answer fails part-way",
+              })
+            : translate({
+                id: "docsAssist.notice.error",
+                message: "Something went wrong. Please try again.",
+                description: "Ask AI: notice for an unexpected error",
+              })}
         </NoticeCard>
       );
   }
+}
+
+/** The "assistant is resting" notice (the daily budget is used up), pointing at the community channels instead. */
+function CapNotice({ resetsAt }: { resetsAt?: string }) {
+  const discord = (
+    <a href="https://discord.gg/CjrCrNzd3F" target="_blank" rel="noopener noreferrer">
+      <Translate
+        id="docsAssist.notice.capDiscord"
+        description="Ask AI: link text to the Velopack Discord server, used in the 'assistant is resting' notice"
+      >
+        Velopack Discord
+      </Translate>
+    </a>
+  );
+  const issues = (
+    <a href="https://github.com/velopack/velopack/issues" target="_blank" rel="noopener noreferrer">
+      <Translate
+        id="docsAssist.notice.capIssues"
+        description="Ask AI: link text to the Velopack GitHub issues, used in the 'assistant is resting' notice"
+      >
+        GitHub issues
+      </Translate>
+    </a>
+  );
+  return resetsAt ? (
+    <Translate
+      id="docsAssist.notice.capUntil"
+      description="Ask AI: notice when the assistant's daily budget is used up; {time} is a local time, {discord} and {issues} are links"
+      values={{ time: formatTime(resetsAt), discord, issues }}
+    >
+      {"The assistant is resting until {time}. In the meantime, try the {discord} or {issues}."}
+    </Translate>
+  ) : (
+    <Translate
+      id="docsAssist.notice.cap"
+      description="Ask AI: notice when the assistant's daily budget is used up; {discord} and {issues} are links"
+      values={{ discord, issues }}
+    >
+      {"The assistant is resting. In the meantime, try the {discord} or {issues}."}
+    </Translate>
+  );
 }
 
 /* ======================================================================== helpers */
@@ -1000,7 +1248,13 @@ function hidePartialMarkup(md: string): string {
 /** A reset time in the visitor's local time, with the day when it isn't today. */
 function formatTime(iso: string): string {
   const date = new Date(iso);
-  if (isNaN(date.getTime())) return "later";
+  if (isNaN(date.getTime())) {
+    return translate({
+      id: "docsAssist.notice.timeUnknown",
+      message: "later",
+      description: "Ask AI: stands in for {time} in the limit notices when the reset time can't be read",
+    });
+  }
   const time = date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
   if (date.toDateString() === new Date().toDateString()) return time;
   return `${date.toLocaleDateString(undefined, { weekday: "long" })} ${time}`;

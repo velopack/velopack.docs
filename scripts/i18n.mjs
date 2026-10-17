@@ -176,18 +176,22 @@ function normalizePage(arg) {
 }
 
 // ---------------------------------------------------------------------------
-// UI labels (navbar + sidebar categories)
+// UI labels (navbar, sidebar categories, and our own components' strings in code.json)
 // ---------------------------------------------------------------------------
 // The English labels only exist after Docusaurus has loaded the whole site, so we run
 // `docusaurus write-translations --locale <default>` to produce them under i18n/<default>/,
 // read what we need, and delete that transient directory again.
 
+// `includeKeyPrefixes` (optional) limits a file to keys with those prefixes; `dropKeyPrefixes`
+// then removes keys from what's left, and `keepKeys` are kept regardless.
 function pruneUiKeys(json, entry) {
+  const include = entry.includeKeyPrefixes;
   const drop = entry.dropKeyPrefixes || [];
   const keep = new Set(entry.keepKeys || []);
   const out = {};
   for (const [k, v] of Object.entries(json)) {
-    if (keep.has(k) || !drop.some((p) => k.startsWith(p))) out[k] = v;
+    const inScope = !include || include.some((p) => k.startsWith(p));
+    if (keep.has(k) || (inScope && !drop.some((p) => k.startsWith(p)))) out[k] = v;
   }
   return out;
 }

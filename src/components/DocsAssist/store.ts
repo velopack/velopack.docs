@@ -3,6 +3,7 @@
 // theme Layout, which can remount between pages).
 
 import { useSyncExternalStore } from "react";
+import { translate } from "@docusaurus/Translate";
 import { Api, ApiError, readEvents, type DoneReason } from "./api";
 import { getTurnstileToken } from "./turnstile";
 
@@ -15,6 +16,15 @@ export interface ChatMessage {
   id: string;
   role: "user" | "assistant";
   text: string;
+}
+
+/** The status shown while the connection is being re-established (the panel styles it as a warning). */
+export function reconnectingText(): string {
+  return translate({
+    id: "docsAssist.status.reconnecting",
+    message: "Reconnecting…",
+    description: "Ask AI: status shown while the connection to the assistant is being re-established",
+  });
 }
 
 export type Notice =
@@ -186,7 +196,11 @@ export async function send(text: string, opts: { retry?: boolean } = {}) {
   set({
     busy: true,
     notice: null,
-    activity: "Thinking…",
+    activity: translate({
+      id: "docsAssist.status.thinking",
+      message: "Thinking…",
+      description: "Ask AI: status shown while waiting for the first part of an answer",
+    }),
     draft: opts.retry ? state.draft : "",
     messages: opts.retry ? state.messages : [...state.messages, { id: localId, role: "user", text }],
   });
@@ -249,7 +263,7 @@ async function runTurn(gen: number, threadId: string, res: Response) {
       finishTurn(gen, { kind: "error", retry: false });
       return;
     }
-    set({ activity: "Reconnecting…" });
+    set({ activity: reconnectingText() });
     await new Promise((r) => setTimeout(r, REATTACH_DELAYS_MS[attempt]));
     if (gen !== generation) return;
     try {
@@ -340,7 +354,14 @@ async function restore() {
     if (gen !== generation) return;
     set({ messages: history.messages, limitReached: history.limitReached, restoring: false });
     if (history.running) {
-      set({ busy: true, activity: "Picking up where it left off…" });
+      set({
+        busy: true,
+        activity: translate({
+          id: "docsAssist.status.resuming",
+          message: "Picking up where it left off…",
+          description: "Ask AI: status shown when reattaching to an answer that was still being written after a page reload",
+        }),
+      });
       await runTurn(gen, threadId, await api.attach(threadId, newController().signal));
     }
   } catch (err) {
