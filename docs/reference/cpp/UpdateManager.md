@@ -84,6 +84,8 @@ Create a new UpdateManager instance which retrieves updates from the hosted Velo
 | [`IsPortable`](#velopack-updatemanager-isportable) | Returns whether the app is in portable mode. On Windows this can be true or false. On MacOS and Linux this will always be true. |
 | [`GetCurrentVersion`](#velopack-updatemanager-getcurrentversion) | Returns the currently installed version of the app. |
 | [`GetAppId`](#velopack-updatemanager-getappid) | Returns the currently installed app id. |
+| [`GetCurrentReleaseNotesMarkdown`](#velopack-updatemanager-getcurrentreleasenotesmarkdown) | Returns the release notes (markdown) of the currently installed version, as provided to ‘vpk pack –releaseNotes’. |
+| [`GetCurrentReleaseNotesHtml`](#velopack-updatemanager-getcurrentreleasenoteshtml) | Returns the release notes (rendered HTML) of the currently installed version, as provided to ‘vpk pack –releaseNotes’. |
 | [`UpdatePendingRestart`](#velopack-updatemanager-updatependingrestart) | Returns a VelopackAsset object if there is an update downloaded which still needs to be applied. You can pass this object to WaitExitThenApplyUpdates to apply the update. |
 | [`CheckForUpdates`](#velopack-updatemanager-checkforupdates) | Checks for updates, returning null if there are none available. If there are updates available, this method will return an UpdateInfo object containing the latest available release, and any delta updates that can be applied if they are available. |
 | [`DownloadUpdates`](#velopack-updatemanager-downloadupdates-velopack-updateinfoconst-vpkc-progress-callback-t-void) | Downloads the specified updates to the local app packages directory. Progress is reported back to the caller via an optional callback. This function will acquire a global update lock so may fail if there is already another update operation in progress.If the update contains delta packages and the delta feature is enabled this method will attempt to unpack and prepare them.If there is no delta update available, or there is an error preparing delta packages, this method will fall back to downloading the full version of the update. |
@@ -115,6 +117,26 @@ std::string GetAppId() noexcept;
 ```
 
 Returns the currently installed app id.
+
+### GetCurrentReleaseNotesMarkdown() {#velopack-updatemanager-getcurrentreleasenotesmarkdown}
+
+```cpp
+std::optional<std::string> GetCurrentReleaseNotesMarkdown() noexcept;
+```
+
+Returns the release notes (markdown) of the currently installed version, as provided to ‘vpk pack –releaseNotes’.
+
+**Returns** The release notes, or std::nullopt if the release was packed without release notes.
+
+### GetCurrentReleaseNotesHtml() {#velopack-updatemanager-getcurrentreleasenoteshtml}
+
+```cpp
+std::optional<std::string> GetCurrentReleaseNotesHtml() noexcept;
+```
+
+Returns the release notes (rendered HTML) of the currently installed version, as provided to ‘vpk pack –releaseNotes’.
+
+**Returns** The release notes, or std::nullopt if the release was packed without release notes.
 
 ### UpdatePendingRestart() {#velopack-updatemanager-updatependingrestart}
 

@@ -66,4 +66,4 @@ public string? Name { get; set; }
 The name of this release asset.
 
 ___
-*Generated from `Velopack` 1.2.0*
+*Generated from `Velopack` 1.2.161*

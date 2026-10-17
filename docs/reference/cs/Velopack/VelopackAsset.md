@@ -323,4 +323,4 @@ public static bool operator ==(VelopackAsset? left, VelopackAsset? right)
 **Returns** `bool`
 
 ___
-*Generated from `Velopack` 1.2.0*
+*Generated from `Velopack` 1.2.161*

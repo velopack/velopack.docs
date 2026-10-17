@@ -499,4 +499,4 @@ public static void Fatal(this IVelopackLogger logger, Exception ex)
 
 
 ___
-*Generated from `Velopack` 1.2.0*
+*Generated from `Velopack` 1.2.161*

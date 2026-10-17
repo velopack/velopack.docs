@@ -36,4 +36,4 @@ UpdateOptions(AllowVersionDowngrade, MaximumDeltasBeforeFallback, ExplicitChanne
 
 
 ___
-*Generated from `velopack` 1.2.0*
+*Generated from `velopack` 1.2.161*

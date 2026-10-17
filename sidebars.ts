@@ -59,6 +59,7 @@ const sidebars: SidebarsConfig = {
         link("C++ / wxWidgets", "https://github.com/velopack/velopack/tree/develop/samples/CPlusPlusWidgets", "Velopack in a cross-platform C++ app, using wxWidgets."),
         link("C++ / Win32", "https://github.com/velopack/velopack/tree/develop/samples/CPlusPlusWin32", "Velopack in a C++ app, using the Win32 UI starter template."),
         link("C# / Avalonia", "https://github.com/velopack/velopack/tree/develop/samples/CSharpAvalonia", "Velopack in a cross-platform app with [Avalonia](https://avaloniaui.net/)."),
+        link("C# / MAUI", "https://github.com/velopack/velopack/tree/develop/samples/CSharpMaui", "Velopack in a Windows and macOS (Mac Catalyst) app with [.NET MAUI](https://dotnet.microsoft.com/apps/maui)."),
         link("C# / UnityMono", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUnityMono", "Velopack with [Unity Game Engine](https://unity.com/) and Mono."),
         link("C# / Uno", "https://github.com/velopack/velopack/tree/develop/samples/CSharpUno", "Velopack in a cross-platform app with [Uno Platform](https://github.com/unoplatform/uno)."),
         link("C# / Wpf", "https://github.com/velopack/velopack/tree/develop/samples/CSharpWpf", "Velopack with WPF on Windows."),

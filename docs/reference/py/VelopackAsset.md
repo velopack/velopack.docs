@@ -42,4 +42,4 @@ VelopackAsset(PackageId, Version, Type, FileName, SHA1, SHA256, Size, NotesMarkd
 
 
 ___
-*Generated from `velopack` 1.2.0*
+*Generated from `velopack` 1.2.161*

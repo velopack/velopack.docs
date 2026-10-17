@@ -16,4 +16,4 @@ public enum RuntimeOs
 ```
 
 ___
-*Generated from `Velopack` 1.2.0*
+*Generated from `Velopack` 1.2.161*

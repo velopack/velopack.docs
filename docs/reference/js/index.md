@@ -7,7 +7,7 @@ sidebar_position: 0
 
 # JavaScript API Reference
 
-**Package:** `velopack` 1.2.110-ge826545
+**Package:** `velopack` 1.2.161
 
 ## Classes
 
@@ -25,4 +25,4 @@ sidebar_position: 0
 
 
 ___
-*Generated from `velopack` 1.2.110-ge826545*
+*Generated from `velopack` 1.2.161*

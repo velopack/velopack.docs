@@ -172,4 +172,4 @@ public string? AppImagePath { get; }
 File path of the .AppImage which mounted and ran this application.
 
 ___
-*Generated from `Velopack` 1.2.0*
+*Generated from `Velopack` 1.2.161*

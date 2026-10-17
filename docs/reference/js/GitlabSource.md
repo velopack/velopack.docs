@@ -71,4 +71,4 @@ repoUrl: string
 `readonly`
 
 ___
-*Generated from `velopack` 1.2.110-ge826545*
+*Generated from `velopack` 1.2.161*

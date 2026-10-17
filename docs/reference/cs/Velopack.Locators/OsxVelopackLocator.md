@@ -145,4 +145,4 @@ On OSX and Linux, this is always false, because settings and application files s
 home directory.
 
 ___
-*Generated from `Velopack` 1.2.0*
+*Generated from `Velopack` 1.2.161*

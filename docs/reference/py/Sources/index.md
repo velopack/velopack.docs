@@ -17,5 +17,6 @@ Built-in update sources for fetching release feeds and downloading assets.
 | [`GithubSource`](./GithubSource.md) | Retrieves available releases from a GitHub repository. Supports both github.com |
 | [`GitlabSource`](./GitlabSource.md) | Retrieves available releases from a GitLab repository. |
 | [`HttpSource`](./HttpSource.md) | Retrieves updates from a static file host or other web server. |
+| [`VelopackFlowSource`](./VelopackFlowSource.md) | Retrieves updates from the hosted Velopack Flow service (https://velopack.io). |
 
 

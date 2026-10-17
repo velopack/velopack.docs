@@ -37,4 +37,4 @@ UpdateInfo(TargetFullRelease, DeltasToTarget, IsDowngrade, BaseRelease=None)
 
 
 ___
-*Generated from `velopack` 1.2.0*
+*Generated from `velopack` 1.2.161*

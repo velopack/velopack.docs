@@ -21,14 +21,14 @@ class UpdateManager
 ### UpdateManager(source, options, locator) {#updatemanager}
 
 ```py
-UpdateManager(source, options=None, locator=None)
+UpdateManager(source=None, options=None, locator=None)
 ```
 
 **Parameters**
 
 | Name | Description |
 | --- | --- |
-| `source` |  |
+| `source` | (default: None) |
 | `options` | (default: None) |
 | `locator` | (default: None) |
 
@@ -150,4 +150,4 @@ wait_exit_then_apply_updates(update, silent=False, restart=True, restart_args=No
 
 
 ___
-*Generated from `velopack` 1.2.0*
+*Generated from `velopack` 1.2.161*

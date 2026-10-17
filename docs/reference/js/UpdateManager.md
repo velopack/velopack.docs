@@ -148,4 +148,4 @@ optionally restart your app. The updater will only wait for 60 seconds before gi
 **Returns** `void`
 
 ___
-*Generated from `velopack` 1.2.110-ge826545*
+*Generated from `velopack` 1.2.161*

@@ -39,4 +39,4 @@ VelopackLocatorConfig(RootAppDir, UpdateExePath, PackagesDir, ManifestPath, Curr
 
 
 ___
-*Generated from `velopack` 1.2.0*
+*Generated from `velopack` 1.2.161*

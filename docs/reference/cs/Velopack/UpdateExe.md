@@ -64,4 +64,4 @@ Runs Update.exe in the current working directory to apply updates, optionally re
 
 
 ___
-*Generated from `Velopack` 1.2.0*
+*Generated from `Velopack` 1.2.161*

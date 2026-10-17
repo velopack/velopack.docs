@@ -22,10 +22,10 @@ class HttpSource
 | [`HttpSource`](#httpsource) |  |
 
 
-### HttpSource(url) {#httpsource}
+### HttpSource(url, options) {#httpsource}
 
 ```py
-HttpSource(url)
+HttpSource(url, options=None)
 ```
 
 **Parameters**
@@ -33,7 +33,8 @@ HttpSource(url)
 | Name | Description |
 | --- | --- |
 | `url` |  |
+| `options` | (default: None) |
 
 
 ___
-*Generated from `velopack` 1.2.0*
+*Generated from `velopack` 1.2.161*

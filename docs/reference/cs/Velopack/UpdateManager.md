@@ -19,8 +19,25 @@ public class UpdateManager
 
 | Constructor | Summary |
 | --- | --- |
+| [`UpdateManager`](#updatemanager-updateoptions-ivelopacklocator) | Creates a new UpdateManager instance which checks for updates using the Velopack Flow service (see `VelopackFlowSource`). |
 | [`UpdateManager`](#updatemanager-string-updateoptions-ivelopacklocator) | Creates a new UpdateManager instance using the specified URL or file path to the releases feed, and the specified channel name. |
 | [`UpdateManager`](#updatemanager-iupdatesource-updateoptions-ivelopacklocator) | Creates a new UpdateManager instance using the specified URL or file path to the releases feed, and the specified channel name. |
+
+
+### UpdateManager(options, locator) {#updatemanager-updateoptions-ivelopacklocator}
+
+```cs
+public UpdateManager(UpdateOptions? options = null, IVelopackLocator? locator = null)
+```
+
+Creates a new UpdateManager instance which checks for updates using the Velopack Flow service (see [`VelopackFlowSource`](../Velopack.Sources/VelopackFlowSource.md)).
+
+**Parameters**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `options` | [`UpdateOptions`](./UpdateOptions.md) | Override / configure default update behaviors. |
+| `locator` | [`IVelopackLocator`](../Velopack.Locators/IVelopackLocator.md) | This should usually be left null. Providing an `IVelopackLocator` allows you to mock up certain application paths.<br/> For example, if you wanted to test that updates are working in a unit test, you could provide an instance of `TestVelopackLocator`. |
 
 
 ### UpdateManager(urlOrPath, options, locator) {#updatemanager-string-updateoptions-ivelopacklocator}
@@ -37,7 +54,7 @@ Creates a new UpdateManager instance using the specified URL or file path to the
 | --- | --- | --- |
 | `urlOrPath` | `string` | A basic URL or file path to use when checking for updates. |
 | `options` | [`UpdateOptions`](./UpdateOptions.md) | Override / configure default update behaviors. |
-| `locator` | [`IVelopackLocator`](../Velopack.Locators/IVelopackLocator.md) | This should usually be left null. Providing an `IVelopackLocator` allows you to mock up certain application paths. <br/> For example, if you wanted to test that updates are working in a unit test, you could provide an instance of `TestVelopackLocator`. |
+| `locator` | [`IVelopackLocator`](../Velopack.Locators/IVelopackLocator.md) | This should usually be left null. Providing an `IVelopackLocator` allows you to mock up certain application paths.<br/> For example, if you wanted to test that updates are working in a unit test, you could provide an instance of `TestVelopackLocator`. |
 
 
 ### UpdateManager(source, options, locator) {#updatemanager-iupdatesource-updateoptions-ivelopacklocator}
@@ -52,7 +69,7 @@ Creates a new UpdateManager instance using the specified URL or file path to the
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `source` | [`IUpdateSource`](../Velopack.Sources/IUpdateSource.md) | The source describing where to search for updates. This can be a custom source, if you are integrating with some private resource,<br/> or it could be one of the predefined sources. (eg. `SimpleWebSource` or `GithubSource`, etc). |
+| `source` | [`IUpdateSource`](../Velopack.Sources/IUpdateSource.md) | The source describing where to search for updates. This can be a custom source, if you are integrating with some private resource,<br/> or it could be one of the predefined sources. (eg. `VelopackFlowSource`, `SimpleWebSource` or `GithubSource`, etc). |
 | `options` | [`UpdateOptions`](./UpdateOptions.md) | Override / configure default update behaviors. |
 | `locator` | [`IVelopackLocator`](../Velopack.Locators/IVelopackLocator.md) | This should usually be left null. Providing an `IVelopackLocator` allows you to mock up certain application paths. <br/> For example, if you wanted to test that updates are working in a unit test, you could provide an instance of `TestVelopackLocator`. |
 
@@ -417,4 +434,4 @@ Acquires a globally unique mutex/lock for the current application, to avoid conc
 **Returns** `Task<IDisposable>`
 
 ___
-*Generated from `Velopack` 1.2.0*
+*Generated from `Velopack` 1.2.161*

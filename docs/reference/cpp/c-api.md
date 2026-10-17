@@ -75,6 +75,10 @@ extern "C"
 
     size_t vpkc_get_app_id(vpkc_update_manager_t* p_manager, char* psz_id, size_t c_id);
 
+    size_t vpkc_get_current_release_notes_markdown(vpkc_update_manager_t* p_manager, char* psz_notes, size_t c_notes);
+
+    size_t vpkc_get_current_release_notes_html(vpkc_update_manager_t* p_manager, char* psz_notes, size_t c_notes);
+
     bool vpkc_is_portable(vpkc_update_manager_t* p_manager);
 
     bool vpkc_update_pending_restart(vpkc_update_manager_t* p_manager, vpkc_asset_t** p_asset);
@@ -657,6 +661,38 @@ Returns the currently installed app id.
 - **`psz_id`** — A buffer to store the app id string.
 - **`c_id`** — The size of the `psz_id` buffer.
 - **Returns** — The number of characters written to `psz_id` (including null terminator), or the required buffer size if the buffer is too small.
+
+-----
+
+## Function `vpkc_get_current_release_notes_markdown`
+
+``` cpp
+size_t vpkc_get_current_release_notes_markdown(vpkc_update_manager_t* p_manager, char* psz_notes, size_t c_notes);
+```
+
+Returns the release notes (markdown) of the currently installed version, as provided to `vpk pack --releaseNotes`.
+
+
+- **`p_manager`** — The update manager instance.
+- **`psz_notes`** — A buffer to store the release notes string.
+- **`c_notes`** — The size of the `psz_notes` buffer.
+- **Returns** — The number of characters written to `psz_notes` (including null terminator), or the required buffer size if the buffer is too small. Returns 0 if the release was packed without release notes.
+
+-----
+
+## Function `vpkc_get_current_release_notes_html`
+
+``` cpp
+size_t vpkc_get_current_release_notes_html(vpkc_update_manager_t* p_manager, char* psz_notes, size_t c_notes);
+```
+
+Returns the release notes (rendered HTML) of the currently installed version, as provided to `vpk pack --releaseNotes`.
+
+
+- **`p_manager`** — The update manager instance.
+- **`psz_notes`** — A buffer to store the release notes string.
+- **`c_notes`** — The size of the `psz_notes` buffer.
+- **Returns** — The number of characters written to `psz_notes` (including null terminator), or the required buffer size if the buffer is too small. Returns 0 if the release was packed without release notes.
 
 -----
 

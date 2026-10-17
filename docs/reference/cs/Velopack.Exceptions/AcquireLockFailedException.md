@@ -21,4 +21,4 @@ public class AcquireLockFailedException : Exception, ISerializable
 **Implements:** `ISerializable`  
 
 ___
-*Generated from `Velopack` 1.2.0*
+*Generated from `Velopack` 1.2.161*
