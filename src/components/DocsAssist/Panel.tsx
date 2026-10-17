@@ -162,18 +162,37 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
   const onInternalLink = useCallback(() => {
     if (window.matchMedia(SHEET_QUERY).matches) setOpen(false);
   }, []);
-  // Called as an answer grows. Besides following it, expand the panel the first time the current
-  // turn (question plus answer) no longer fits, unless the visitor has collapsed it before.
-  const autoWide = useRef(false);
-  const pin = useCallback(() => {
+  // Auto-expand: a turn started while the panel is mounted arms a check, and the panel expands the
+  // first time that turn (question plus answer) no longer fits, unless the visitor has collapsed it
+  // before. The check stays armed until the finished answer has been measured, because the end of an
+  // answer and the end of the turn often arrive together (and the panel may be closed when it does).
+  const fit = useRef({ armed: false, canExpand: false, busy: false, revealing: false });
+  const checkFit = useCallback(() => {
+    const f = fit.current;
     const el = scrollRef.current;
-    if (!el) return;
-    if (stickToBottom.current) el.scrollTop = el.scrollHeight;
-    if (autoWide.current && widePref !== "0" && !turnFits(el)) {
-      autoWide.current = false;
+    if (!f.armed || !f.canExpand || !el) return;
+    if (widePref === "0") {
+      f.armed = false;
+    } else if (!turnFits(el)) {
+      f.armed = false;
       setWide(true);
+    } else if (!f.busy && !f.revealing) {
+      f.armed = false; // the whole answer fits
     }
   }, [setWide]);
+  // Called as an answer grows: follow it, and see whether it still fits.
+  const pin = useCallback(
+    (revealing: boolean) => {
+      const el = scrollRef.current;
+      if (!el) return;
+      if (stickToBottom.current) el.scrollTop = el.scrollHeight;
+      fit.current.revealing = revealing;
+      checkFit();
+    },
+    [checkFit],
+  );
+  // …and when the panel opens or resizes, or the turn ends, with the answer already in place.
+  useLayoutEffect(checkFit, [shown, canWide, wide, s.messages, s.busy, checkFit]);
 
   // Open: warm Turnstile, move focus in, listen for Esc. Close (cleanup): give focus back.
   useEffect(() => {
@@ -438,7 +457,13 @@ export default function Panel({ fabRef }: { fabRef: RefObject<HTMLButtonElement 
   const state = shown ? "open" : "closed";
   const enter = skipEnter ? "none" : undefined;
   const isWide = canWide && wide;
-  autoWide.current = s.busy && shown && canWide && !wide;
+  {
+    // Render-time ref writes, idempotent per render.
+    const f = fit.current;
+    if (s.busy && !f.busy) f.armed = true;
+    f.busy = s.busy;
+    f.canExpand = shown && canWide && !wide;
+  }
 
   return (
     <>
@@ -715,7 +740,7 @@ const Message = memo(function Message({
   sender: boolean;
   streaming: boolean;
   onInternalLink: () => void;
-  pin: () => void;
+  pin: (revealing: boolean) => void;
 }) {
   // Decided once, at mount: later renders never add or drop the entry classes.
   const [entering] = useState(enter);
@@ -745,13 +770,13 @@ function AssistantMessage({
   sender: boolean;
   fade: boolean;
   onInternalLink: () => void;
-  pin: () => void;
+  pin: (revealing: boolean) => void;
 }) {
   const [shown, revealing] = useSmoothText(text);
   const live = streaming || revealing;
   const blocks = useMemo(() => splitBlocks(live ? hidePartialMarkup(shown) : shown), [shown, live]);
   // The smoothed text grows between store updates; keep the thread pinned as it does.
-  useLayoutEffect(pin, [shown, pin]);
+  useLayoutEffect(() => pin(live), [shown, live, pin]);
   return (
     <div className={styles.assistant}>
       {sender && <SenderRow />}
