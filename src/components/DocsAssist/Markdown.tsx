@@ -1,8 +1,9 @@
-import React, { Children, isValidElement, type ReactNode } from "react";
+import React, { Children, isValidElement, useMemo, type ReactNode } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Link from "@docusaurus/Link";
 import CodeBlock from "@theme/CodeBlock";
+import styles from "./Panel.module.css";
 
 // Answers are model output steered by visitor input, and the agent reads GitHub issues anyone can
 // write, so a planted link could end up in an answer. Only these destinations become clickable;
@@ -76,7 +77,7 @@ function components(onInternalLink: () => void): Components {
       );
     },
     img({ alt, src }) {
-      return <span>{alt || src ? `[image: ${alt || src}]` : null}</span>;
+      return <span className={styles.imagePlaceholder}>{alt || src ? `[image: ${alt || src}]` : null}</span>;
     },
     pre({ children }) {
       const code = Children.toArray(children)[0];
@@ -87,7 +88,7 @@ function components(onInternalLink: () => void): Components {
     },
     table({ children }) {
       return (
-        <div style={{ overflowX: "auto" }}>
+        <div className={styles.tableWrap}>
           <table>{children}</table>
         </div>
       );
@@ -95,9 +96,12 @@ function components(onInternalLink: () => void): Components {
   };
 }
 
+const remarkPlugins = [remarkGfm];
+
 export default function Markdown({ text, onInternalLink }: { text: string; onInternalLink: () => void }) {
+  const comps = useMemo(() => components(onInternalLink), [onInternalLink]);
   return (
-    <ReactMarkdown remarkPlugins={[remarkGfm]} components={components(onInternalLink)}>
+    <ReactMarkdown remarkPlugins={remarkPlugins} components={comps}>
       {text}
     </ReactMarkdown>
   );

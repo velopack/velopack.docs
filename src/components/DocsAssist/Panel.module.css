@@ -1,0 +1,1979 @@
+/*
+ * "Ask AI" panel. Its JS is a lazy chunk, but Docusaurus merges all CSS into one stylesheet, so these
+ * rules ship on every page (keep them lean). Tokens (--da-*) are defined on the widget root in
+ * fab.module.css and inherit into the shell.
+ *
+ * Build notes: the Docusaurus cssnano preset hoists every @media block to the end of the file and may
+ * reorder media blocks among themselves, so rules in different media blocks never compete on order:
+ * desktop-only motion uses `(width > 768px) and (height > 600px)`, the exact complement of the sheet
+ * query, and other overlaps are resolved by specificity.
+ *
+ * No @starting-style: Docusaurus also runs clean-css, which can't parse it and drops the rest of the
+ * enclosing block. Entries are keyframe animations (fill: backwards only, so they never pin a value),
+ * and the panel's first, already-open mount renders one closed frame before opening (Panel.tsx).
+ */
+
+/* ======================================================================== scrim (desktop only) */
+
+.scrim {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: calc(var(--ifm-z-index-overlay) - 1);
+  width: 720px;
+  height: 820px;
+  max-width: 100vw;
+  max-height: 100vh;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at 100% 100%, var(--da-scrim) 0%, transparent 70%);
+}
+
+.scrim[data-state='open'] {
+  opacity: 1;
+}
+
+/* ======================================================================== shell + morph */
+
+.shell {
+  --clip-open: inset(0 round var(--da-panel-r));
+  --clip-closed: inset(calc(100% - var(--da-fab-h)) 0 0 calc(100% - var(--da-fab-w)) round calc(var(--da-fab-h) / 2));
+  position: fixed;
+  right: calc(var(--da-right) + var(--da-vv-r, 0px));
+  bottom: calc(var(--da-bottom) + var(--da-vv-b, 0px));
+  z-index: var(--ifm-z-index-overlay);
+  width: var(--da-panel-w);
+  max-width: calc(100vw - 2 * var(--da-edge));
+  height: var(--da-panel-h);
+  min-height: 360px;
+  transform-origin: 100% 100%;
+  color: var(--da-text);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.shell[data-wide] {
+  width: var(--da-panel-w-wide);
+  height: var(--da-panel-h-wide);
+}
+
+/* The shadow lives on its own box behind the clipped panel and follows the clip's shape. */
+.panelShadow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--da-panel-r);
+  box-shadow: var(--da-panel-shadow);
+  pointer-events: none;
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--da-hairline);
+  border-radius: var(--da-panel-r);
+  background: var(--da-surface);
+  clip-path: var(--clip-open);
+  contain: layout paint style;
+}
+
+.panel:focus {
+  outline: none; /* the dialog itself only takes focus programmatically */
+}
+
+/* Dark mode: a thin gold rim along the top edge, echoing the marketing hero glow. */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 8%, var(--da-rim) 50%, transparent 92%);
+}
+
+/* Launcher-coloured layer: the panel starts as "the launcher" and dissolves into itself. */
+.tint {
+  position: absolute;
+  inset: -1px;
+  z-index: 3;
+  background: var(--da-fab-bg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tintStreak {
+  position: absolute;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(to left, #edd323, transparent);
+  transform-origin: 100% 50%;
+  opacity: 0;
+}
+
+.tintStreak:first-child {
+  width: 14px;
+  right: calc(var(--da-fab-w) - 12px - 9px);
+  bottom: calc(var(--da-fab-h) / 2 + 1px);
+}
+
+.tintStreak + .tintStreak {
+  width: 10px;
+  right: calc(var(--da-fab-w) - 12px - 6px);
+  bottom: calc(var(--da-fab-h) / 2 - 3px);
+}
+
+:global([data-theme='dark']) .tintStreak {
+  background: linear-gradient(to left, rgb(2 6 23 / 0.55), transparent);
+}
+
+/* Closed (also the "from" state of the open morph). */
+.shell[data-state='closed'] {
+  visibility: hidden;
+  pointer-events: none;
+  scale: 0.985;
+}
+
+.shell[data-state='closed'] .panel {
+  clip-path: var(--clip-closed);
+}
+
+.shell[data-state='closed'] .panelShadow {
+  inset: calc(100% - var(--da-fab-h)) 0 0 calc(100% - var(--da-fab-w));
+  border-radius: calc(var(--da-fab-h) / 2);
+}
+
+.shell[data-state='closed'] .tint {
+  opacity: 1;
+}
+
+.shell[data-state='closed'] .panel > :is(.header, .body, .footer, .latest) {
+  opacity: 0;
+  translate: 0 6px;
+}
+
+/* Nothing loops while the panel is closed. */
+.shell[data-state='closed'] *,
+.shell[data-state='closed'] *::before,
+.shell[data-state='closed'] *::after {
+  animation-play-state: paused;
+}
+
+/* ======================================================================== header */
+
+.header {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 8px 0 14px;
+  background: var(--da-surface);
+  border-bottom: 1px solid transparent;
+}
+
+/* the scrolled shadow is its own layer, so it fades on opacity (box-shadow is never animated) */
+.header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 8px;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--da-scrolled-shadow) 45%, transparent), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.header[data-scrolled] {
+  border-bottom-color: var(--da-hairline);
+}
+
+.header[data-scrolled]::after {
+  opacity: 1;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: -0.01em;
+  color: var(--da-text);
+}
+
+.subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--da-text-muted);
+}
+
+.headerActions {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+}
+
+.headerButton {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--da-text-muted);
+  cursor: pointer;
+}
+
+.headerButton:focus-visible {
+  outline: 2px solid var(--da-accent);
+  outline-offset: -2px;
+}
+
+.swap {
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.swap > svg {
+  position: absolute;
+  inset: 0;
+}
+
+.headerButton[aria-pressed='true'] .swapExpand,
+.headerButton:not([aria-pressed='true']) .swapCollapse {
+  opacity: 0;
+}
+
+/* ======================================================================== mark tiles */
+
+.tile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--da-tile-bg);
+  box-shadow: inset 0 0 0 1px var(--da-tile-ring);
+}
+
+.tileMark {
+  width: 16px;
+  height: 12.7px;
+  overflow: visible;
+  /* optical centring: the spark makes the glyph heavier on the right */
+  translate: -0.5px 0;
+}
+
+.tile_lg {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+}
+
+.tile_lg .tileMark {
+  width: 22px;
+  height: 17.4px;
+}
+
+.tile_sm {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+}
+
+.tile_sm .tileMark {
+  width: 11px;
+  height: 8.7px;
+  translate: none;
+}
+
+/* ======================================================================== body */
+
+.body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px 20px 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--da-scrollbar) transparent;
+}
+
+.eyebrow {
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--da-text-muted);
+}
+
+/* ---- welcome */
+
+.intro {
+  margin: auto 0;
+  padding-bottom: 8%;
+  text-align: left;
+  isolation: isolate;
+  transform-origin: 0 0;
+}
+
+.intro[data-leaving] {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  margin: 0;
+  opacity: 0;
+  scale: 0.98;
+  pointer-events: none;
+}
+
+.introMark {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+/* halo */
+.introMark::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1px solid var(--da-halo);
+  border-radius: 15px;
+  pointer-events: none;
+}
+
+/* the brand's yellow blueprint grid, faded out radially */
+.introMark::before {
+  content: "";
+  position: absolute;
+  inset: -40px -56px;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, var(--da-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--da-grid-line) 1px, transparent 1px);
+  background-size: 12px 12px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(closest-side, #000 25%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 25%, transparent 100%);
+  pointer-events: none;
+}
+
+.introTitle {
+  margin: 16px 0 6px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.015em;
+  color: var(--da-text);
+}
+
+.introText {
+  max-width: 44ch;
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 20px;
+  color: var(--da-text-muted);
+}
+
+.intro > .eyebrow {
+  margin: 20px 0 8px;
+}
+
+.examples {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.example {
+  display: grid;
+  /* solid glyphs need 16px to stay legible; the trailing arrow is a plain stroke at 14px */
+  grid-template-columns: 16px 1fr 14px;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  padding: 9px 12px;
+  border: 1px solid var(--da-control-bd);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--da-text);
+  font: inherit;
+  font-size: 13.5px;
+  line-height: 20px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.example:focus-visible {
+  outline: 2px solid var(--da-accent);
+  outline-offset: 2px;
+}
+
+.exampleIcon {
+  color: var(--da-text-muted);
+}
+
+.exampleArrow {
+  color: var(--da-text-muted);
+  opacity: 0;
+  translate: -4px 0;
+}
+
+/* ---- messages */
+
+.user {
+  align-self: flex-end;
+  max-width: 85%;
+  padding: 8px 12px;
+  border-radius: 14px 14px 4px 14px;
+  background: var(--da-user-bg);
+  color: var(--da-user-fg);
+  box-shadow: inset 0 0 0 1px var(--da-user-ring);
+  font-size: 14px;
+  line-height: 20px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  transform-origin: 100% 100%;
+}
+
+/* consecutive questions group, and only the last keeps the tail */
+.user:has(+ .user) {
+  border-radius: 14px 4px 4px 14px;
+}
+
+.user + .user {
+  margin-top: -18px;
+  border-top-right-radius: 4px;
+}
+
+.sender {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 20px;
+  margin-bottom: 6px;
+}
+
+.assistant {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--da-text);
+  overflow-wrap: anywhere;
+}
+
+/* several messages in one turn read as one answer */
+.assistant + .assistant,
+.assistant + .status {
+  margin-top: -12px;
+}
+
+/* ---- markdown inside answers (with overrides for the site's global element styles) */
+
+.assistantBody > :is(.tableWrap, :global(.theme-code-block)),
+.assistantBody :is(p, ul, ol, blockquote) {
+  margin: 0 0 10px;
+}
+
+.assistantBody > :last-child,
+.assistantBody :is(li, blockquote) > :last-child {
+  margin-bottom: 0;
+}
+
+.assistantBody :is(h1, h2) {
+  margin: 16px 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  color: var(--da-text);
+}
+
+.assistantBody :is(h3, h4, h5, h6) {
+  margin: 16px 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--da-text);
+  text-decoration: none;
+}
+
+.assistantBody > :is(h1, h2, h3, h4, h5, h6):first-child {
+  margin-top: 0;
+}
+
+.assistantBody :is(ul, ol) {
+  padding-left: 1.25rem;
+}
+
+.assistantBody li + li {
+  margin-top: 4px;
+}
+
+.assistantBody li::marker {
+  color: var(--da-text-muted);
+}
+
+.assistantBody strong {
+  font-weight: 600;
+}
+
+.assistantBody a,
+.noticeText a {
+  color: var(--da-accent-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.assistantBody a:hover,
+.noticeText a:hover {
+  color: var(--da-accent-text);
+  text-decoration-color: currentColor;
+}
+
+.assistantBody a[target='_blank']::after,
+.noticeText a[target='_blank']::after {
+  content: "";
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: 0.15em;
+  vertical-align: 0.05em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* beats custom.css `code { … !important; border-radius: 0; white-space: pre }` and the dark border */
+.assistantBody :not(pre) > code {
+  padding: 1px 5px;
+  border: 0;
+  border-radius: 5px;
+  background-color: var(--da-surface-sunken) !important;
+  box-shadow: inset 0 0 0 1px var(--da-hairline);
+  font-size: 0.857em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  vertical-align: baseline;
+}
+
+.assistantBody :global(.theme-code-block) {
+  border: 1px solid var(--da-hairline);
+  border-radius: 10px;
+  box-shadow: none;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.assistantBody :global(.theme-code-block) pre {
+  margin: 0;
+}
+
+/* The body colour custom.css forces on `pre > code`, pinned so the terminal bar always matches it. */
+.assistantBody :global(.theme-code-block) pre > code {
+  background-color: var(--da-code-bg) !important;
+}
+
+/* Copy/wrap buttons: always visible on touch (no hover), with room to scroll a line's end clear of
+   them; mouse users get them on hover or keyboard focus, as elsewhere on the site. */
+.assistant .assistantBody :global(.theme-code-block) button {
+  opacity: 0.6;
+}
+
+.assistantBody :global(.theme-code-block) pre > code {
+  padding-right: 80px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .assistant .assistantBody :global(.theme-code-block) button {
+    opacity: 0;
+  }
+
+  .assistant .assistantBody :global(.theme-code-block):is(:hover, :focus-within) button {
+    opacity: 0.6;
+  }
+
+  .assistantBody :global(.theme-code-block) pre > code {
+    padding-right: var(--ifm-pre-padding);
+  }
+}
+
+/* Shell snippets get the brand's terminal chrome. */
+.assistantBody
+  :global(
+    .theme-code-block:is(
+        .language-bash,
+        .language-sh,
+        .language-shell,
+        .language-console,
+        .language-powershell,
+        .language-ps1,
+        .language-pwsh,
+        .language-cmd,
+        .language-bat
+      )
+  )::before {
+  content: "";
+  display: block;
+  height: 22px;
+  border-bottom: 1px solid var(--da-hairline);
+  border-radius: 9px 9px 0 0;
+  background:
+    radial-gradient(circle 3.5px at 14px 50%, var(--da-chrome-red) 98%, transparent),
+    radial-gradient(circle 3.5px at 26px 50%, var(--da-chrome-yellow) 98%, transparent),
+    radial-gradient(circle 3.5px at 38px 50%, var(--da-chrome-green) 98%, transparent),
+    var(--da-code-bg);
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--da-hairline);
+  border-radius: 8px;
+}
+
+.assistantBody table {
+  display: table;
+  width: 100%;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  border-collapse: collapse;
+}
+
+.assistantBody th {
+  background: var(--da-surface-raised);
+  font-weight: 600;
+  text-align: left;
+}
+
+.assistantBody :is(th, td) {
+  padding: 6px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--da-hairline);
+  /* the wrapper scrolls sideways, so never break inside a word or identifier */
+  overflow-wrap: break-word;
+}
+
+.assistantBody :is(th, td) code {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.assistantBody tr,
+.assistantBody tr:nth-child(2n) {
+  background: transparent;
+  border: 0;
+}
+
+.assistantBody tr:last-child td {
+  border-bottom: 0;
+}
+
+.assistantBody blockquote {
+  padding: 0 0 0 12px;
+  border-left: 2px solid var(--da-hairline-strong);
+  color: var(--da-text-muted);
+}
+
+/* Infima draws hr as a filled 1px box; recolour that rather than adding a border */
+.assistantBody hr {
+  height: 1px;
+  margin: 16px 0;
+  border: 0;
+  background: var(--da-hairline);
+}
+
+.imagePlaceholder {
+  color: var(--da-text-muted);
+  font-style: italic;
+}
+
+/* ---- streaming caret: a pill at the end of the deepest last text block (none after a code block) */
+
+.streaming > :is(p, h1, h2, h3, h4, h5, h6, blockquote):last-child::after,
+.streaming > :is(ul, ol):last-child > li:last-child::after,
+.streaming:empty::after {
+  content: "";
+  display: inline-block;
+  width: 0.42em;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.14em;
+  border-radius: 2px;
+  background: var(--da-accent);
+}
+
+/* ---- status / thinking row (same geometry as an answer's first line) */
+
+.statusLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 22.4px;
+  font-size: 13px;
+  line-height: 22.4px;
+}
+
+/* a ring with one accent arc; it spins while the turn is in progress */
+.spinner {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--da-hairline-strong);
+  border-top-color: var(--da-accent);
+  border-radius: 50%;
+}
+
+.statusLine[data-warn] .spinner {
+  border-top-color: var(--da-warn-fg);
+}
+
+.statusText {
+  color: var(--da-shimmer-base);
+}
+
+.elapsed {
+  margin-left: -4px;
+  color: var(--da-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- restoring skeleton */
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.skBubble,
+.skSender > i,
+.skSender > b,
+.skLine {
+  background: var(--da-skel);
+}
+
+.skBubble {
+  align-self: flex-end;
+  width: 58%;
+  height: 32px;
+  border-radius: 14px 14px 4px 14px;
+}
+
+.skSender {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 10px;
+}
+
+.skSender > i {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+}
+
+.skSender > b {
+  width: 72px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.skLine {
+  height: 10px;
+  border-radius: 999px;
+}
+
+.skLine + .skLine {
+  margin-top: 10px;
+}
+
+/* ---- notices */
+
+.notice {
+  --tone-fg: var(--da-text-muted);
+  --tone-bg: var(--da-surface-raised);
+  --tone-bd: var(--da-hairline-strong);
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: 10px;
+  row-gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--tone-bd);
+  border-radius: 10px;
+  background: var(--tone-bg);
+  color: var(--da-text);
+  font-size: 13px;
+  line-height: 19px;
+}
+
+.notice[data-tone='warn'] {
+  --tone-fg: var(--da-warn-fg);
+  --tone-bg: var(--da-warn-bg);
+  --tone-bd: var(--da-warn-bd);
+}
+
+.notice[data-tone='danger'] {
+  --tone-fg: var(--da-danger-fg);
+  --tone-bg: var(--da-danger-bg);
+  --tone-bd: var(--da-danger-bd);
+}
+
+.noticeIcon {
+  margin-top: 1.5px;
+  color: var(--tone-fg);
+}
+
+.noticeActions {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.noticeButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--da-surface);
+  color: var(--da-text);
+  box-shadow: inset 0 0 0 1px var(--da-hairline-strong);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.noticeButtonPrimary {
+  background: var(--da-accent-tint);
+  color: var(--da-accent-text);
+  box-shadow: inset 0 0 0 1px var(--da-accent-ring);
+}
+
+/* inside a danger card the primary action takes the card's colour, not the accent */
+.notice[data-tone='danger'] .noticeButtonPrimary {
+  background: color-mix(in srgb, var(--da-danger-fg) 10%, transparent);
+  color: var(--da-danger-fg);
+  box-shadow: inset 0 0 0 1px var(--da-danger-bd);
+}
+
+.noticeButton:focus-visible {
+  outline: 2px solid var(--da-accent);
+  outline-offset: 2px;
+}
+
+/* ======================================================================== scroll to latest */
+
+.latest {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--da-footer-h, 96px) + 12px);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--da-surface);
+  color: var(--da-text-muted);
+  box-shadow:
+    inset 0 0 0 1px var(--da-hairline-strong),
+    var(--da-pop-shadow);
+  cursor: pointer;
+}
+
+.latest[data-leaving] {
+  opacity: 0;
+  translate: 0 6px;
+  pointer-events: none;
+}
+
+.latest:focus-visible {
+  outline: 2px solid var(--da-accent);
+  outline-offset: 2px;
+}
+
+/* ======================================================================== footer + composer */
+
+.footer {
+  flex: 0 0 auto;
+  position: relative;
+  padding: 8px 12px 12px;
+  background: var(--da-surface);
+}
+
+/* content scrolls out under a soft fade instead of a hard edge */
+.footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -16px;
+  height: 16px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--da-surface));
+}
+
+.turnstileWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+}
+
+.turnstileWrap:has(> .turnstile:not(:empty)) {
+  grid-template-rows: 1fr;
+}
+
+.turnstile {
+  display: flex;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.turnstile:not(:empty) {
+  margin-bottom: 8px;
+}
+
+.turnstile:empty {
+  margin: 0;
+}
+
+/* The edge is a border (its colour transitions); the focus ring is a layer that fades on opacity. */
+.inputRow {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  min-height: 44px;
+  padding: 5px 5px 5px 13px;
+  border: 1px solid var(--da-input-ring);
+  border-radius: 22px;
+  background: var(--da-input-bg);
+  --ring: 0 0 0 3px var(--da-accent-ring), var(--da-focus-glow);
+}
+
+.inputRow::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  box-shadow: var(--ring);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inputRow[data-multiline] {
+  border-radius: 14px;
+}
+
+.inputRow:focus-within {
+  border-color: var(--da-accent);
+  background: var(--da-surface);
+}
+
+.inputRow:is(:focus-within, [data-over])::after {
+  opacity: 1;
+}
+
+.inputRow[data-over],
+.inputRow[data-over]:focus-within {
+  border-color: color-mix(in srgb, var(--da-danger-fg) 60%, transparent);
+  --ring: 0 0 0 3px var(--da-danger-bg);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: 32px;
+  max-height: 10rem;
+  padding: 6px 0;
+  border: 0;
+  outline: 0;
+  resize: none;
+  background: transparent;
+  color: var(--da-text);
+  caret-color: var(--da-accent);
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.input::placeholder {
+  color: var(--da-text-muted);
+  opacity: 1;
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.send {
+  position: relative;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  /* concentric with the field: 6px inside a 22px pill is a circle, inside the 14px box it's 8px */
+  border-radius: 16px;
+  background: var(--da-send-idle-bg);
+  color: var(--da-send-idle-fg);
+  cursor: pointer;
+}
+
+.inputRow[data-multiline] .send {
+  border-radius: 8px;
+}
+
+.send:disabled {
+  cursor: default;
+}
+
+.send:focus-visible {
+  outline: 2px solid var(--da-accent);
+  outline-offset: 2px;
+}
+
+.send[data-state='ready'] {
+  background: var(--da-accent);
+  color: var(--da-on-accent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18);
+}
+
+.send[data-state='busy'] {
+  background: var(--da-accent-tint);
+  cursor: progress;
+}
+
+.send[data-state='busy'] .sendIcon {
+  translate: 0 -140%;
+  opacity: 0;
+}
+
+/* busy spinner */
+.send::after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1.75px solid transparent;
+  border-top-color: var(--da-accent);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.send[data-state='busy']::after {
+  opacity: 1;
+  animation: daSpin 0.8s linear infinite;
+}
+
+.counterWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+}
+
+.counterWrap:has(.counter) {
+  grid-template-rows: 1fr;
+}
+
+.counterInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.counter {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 14px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--da-text-muted);
+}
+
+.counter[data-over] {
+  color: var(--da-danger-fg);
+  font-weight: 600;
+}
+
+.limit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 6px 6px 14px;
+  border-radius: 22px;
+  background: var(--da-surface-raised);
+  box-shadow: inset 0 0 0 1px var(--da-hairline-strong);
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--da-text-muted);
+}
+
+.limitButton {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--da-accent-solid);
+  color: var(--da-on-accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.limitButton:focus-visible {
+  outline: 2px solid var(--da-accent);
+  outline-offset: 2px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ======================================================================== hover (real pointers only) */
+
+@media (hover: hover) and (pointer: fine) {
+  .headerButton:hover,
+  .latest:hover {
+    background: var(--da-hover);
+    color: var(--da-text);
+  }
+
+  .latest:hover {
+    background: var(--da-surface);
+  }
+
+  .example:hover {
+    background: var(--da-accent-tint);
+    border-color: var(--da-accent-ring);
+  }
+
+  .example:hover .exampleIcon {
+    color: var(--da-accent);
+  }
+
+  .example:hover .exampleArrow {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .noticeButton:hover {
+    background: var(--da-hover);
+  }
+
+  .noticeButtonPrimary:hover {
+    background: color-mix(in srgb, var(--da-accent) 16%, transparent);
+  }
+
+  .notice[data-tone='danger'] .noticeButtonPrimary:hover {
+    background: color-mix(in srgb, var(--da-danger-fg) 16%, transparent);
+  }
+
+  .inputRow:not(:focus-within, [data-over]):hover {
+    border-color: var(--da-input-ring-hover);
+  }
+
+  .send[data-state='ready']:hover {
+    background: var(--da-accent-hover);
+  }
+
+  .send[data-state='ready']:hover .sendIcon {
+    translate: 0 -1px;
+  }
+
+  .limitButton:hover {
+    background: var(--da-accent-solid-hover);
+  }
+
+  .limitButton:hover svg {
+    translate: 3px 0;
+  }
+}
+
+/* ======================================================================== sheet layout (phones, short viewports) */
+
+@media (max-width: 768px), (max-height: 600px) {
+  .shell,
+  .shell[data-wide] {
+    inset: var(--vvt, 0px) auto auto var(--vvl, 0px);
+    width: var(--vvw, 100%);
+    max-width: none;
+    height: var(--vvh, 100dvh);
+    min-height: 0;
+    scale: none;
+  }
+
+  .shell[data-state='closed'] {
+    scale: none;
+  }
+
+  /* a lifted edge, so the sliding sheet reads as a layer arriving, not the page being wiped */
+  .panel {
+    border: 0;
+    border-radius: 0;
+    clip-path: none !important;
+    box-shadow:
+      0 -1px 0 var(--da-hairline),
+      0 -16px 40px rgb(2 6 23 / 0.18);
+  }
+
+  .panel::before,
+  .panelShadow,
+  .tint {
+    display: none;
+  }
+
+  /* the page dims behind the sheet as it slides */
+  .scrim {
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    background: rgb(2 6 23 / 0.32);
+  }
+
+  :global([data-theme='dark']) .scrim {
+    background: rgb(0 0 0 / 0.5);
+  }
+
+  /* the sheet moves as a whole; the header stays put as it slides */
+  .shell[data-state='closed'] .panel > :is(.header, .body, .footer, .latest) {
+    translate: none;
+  }
+
+  .shell[data-state='closed'] .panel > .header {
+    opacity: 1;
+  }
+
+  .header {
+    height: auto;
+    min-height: calc(52px + env(safe-area-inset-top, 0px));
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .footer {
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  /* lock the page behind the sheet */
+  :global(html):has(.shell[data-state='open']) {
+    overflow: hidden;
+  }
+}
+
+/* iOS zooms into inputs under 16px */
+@media (max-width: 768px), (max-height: 600px), (pointer: coarse) {
+  .input {
+    font-size: 16px;
+    line-height: 22px;
+    padding: 5px 0;
+  }
+}
+
+/* ======================================================================== motion: shared */
+
+@media (prefers-reduced-motion: no-preference) {
+  .scrim {
+    transition: opacity 240ms ease-out;
+  }
+
+  .scrim[data-state='closed'] {
+    transition: opacity 160ms ease-in 40ms;
+  }
+
+  .headerButton {
+    transition:
+      background-color 160ms var(--da-ease-standard),
+      color 160ms var(--da-ease-standard),
+      opacity 160ms var(--da-ease-standard),
+      scale 120ms var(--da-ease-press);
+  }
+
+  .headerButton:active {
+    scale: 0.92;
+  }
+
+  .swap > svg {
+    transition: opacity 120ms linear;
+  }
+
+  /* welcome: staggered in, scaled away */
+  .intro {
+    transition:
+      opacity 140ms linear,
+      scale 180ms var(--da-ease-standard);
+  }
+
+  .intro > :not(.examples),
+  .examples > * {
+    --rise: 8px;
+    animation:
+      daFadeIn 240ms var(--da-ease-standard) backwards,
+      daRise 400ms var(--da-ease-out-quint) backwards;
+    animation-delay: calc(var(--base, 0ms) + var(--i, 0) * 40ms);
+  }
+
+  .example {
+    transition:
+      background-color 160ms var(--da-ease-standard),
+      border-color 160ms var(--da-ease-standard),
+      scale 120ms var(--da-ease-press);
+  }
+
+  .example:active {
+    scale: 0.985;
+  }
+
+  .exampleIcon,
+  .exampleArrow {
+    transition:
+      color 160ms var(--da-ease-standard),
+      opacity 160ms var(--da-ease-standard),
+      translate 160ms var(--da-ease-standard);
+  }
+
+  /* messages (.enter is decided once, at mount, and never removed) */
+  .user.enter {
+    --rise: 8px;
+    --from-scale: 0.97;
+    animation:
+      daFadeIn 200ms var(--da-ease-standard) backwards,
+      daRise 450ms var(--da-spring-snappy) backwards,
+      daScaleIn 450ms var(--da-spring-snappy) backwards,
+      daBlurIn 200ms var(--da-ease-standard) backwards;
+  }
+
+  .assistantBody.enter {
+    animation: daFadeIn 200ms var(--da-ease-standard) backwards;
+  }
+
+  /* each new block of a streaming answer settles in */
+  .streaming > * {
+    --rise: 3px;
+    animation:
+      daFadeIn 240ms var(--da-ease-out-cubic) backwards,
+      daRise 240ms var(--da-ease-out-cubic) backwards;
+  }
+
+  .streaming > :is(p, h1, h2, h3, h4, h5, h6, blockquote):last-child::after,
+  .streaming > :is(ul, ol):last-child > li:last-child::after,
+  .streaming:empty::after {
+    animation: daCaret 1.1s var(--da-ease-standard) infinite;
+  }
+
+  .assistantBody a {
+    transition: text-decoration-color 160ms var(--da-ease-standard);
+  }
+
+  .assistantBody :global(.theme-code-block) button {
+    transition: opacity 160ms var(--da-ease-standard);
+  }
+
+  .body[data-restored] > * {
+    animation: daFadeIn 240ms var(--da-ease-standard) both;
+  }
+
+  /* status row: a 120ms hold so a fast first token never flashes it */
+  .status {
+    animation: daStatusIn 300ms var(--da-ease-standard) both;
+  }
+
+  .spinner {
+    animation: daSpin 0.8s linear infinite;
+  }
+
+  .statusText {
+    background: linear-gradient(90deg, var(--da-shimmer-base) 0 40%, var(--da-shimmer-hi) 50%, var(--da-shimmer-base) 60% 100%) 0 0 / 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* the shimmer, plus the swap-in when the label changes (it is re-keyed) */
+    --rise: 3px;
+    animation:
+      daShimmer 2s linear infinite,
+      daFadeIn 200ms var(--da-ease-standard) backwards,
+      daRise 200ms var(--da-ease-standard) backwards;
+  }
+
+  .elapsed {
+    animation: daFadeIn 200ms var(--da-ease-standard) backwards;
+  }
+
+  .skBubble,
+  .skSender > i,
+  .skSender > b,
+  .skLine {
+    background: linear-gradient(90deg, var(--da-skel) 0 40%, var(--da-skel-hi) 50%, var(--da-skel) 60% 100%) 0 0 / 300% 100%;
+    animation: daShimmer 1.6s linear infinite;
+  }
+
+  .notice {
+    --rise: 6px;
+    animation:
+      daFadeIn 240ms var(--da-ease-standard) backwards,
+      daRise 450ms var(--da-spring-snappy) backwards;
+  }
+
+  .noticeButton,
+  .limitButton {
+    transition:
+      background-color 160ms var(--da-ease-standard),
+      scale 120ms var(--da-ease-press);
+  }
+
+  .noticeButton:active,
+  .limitButton:active {
+    scale: 0.96;
+  }
+
+  .limitButton svg {
+    transition: translate 160ms var(--da-ease-standard);
+  }
+
+  .latest {
+    --rise: 6px;
+    animation:
+      daFadeIn 200ms var(--da-ease-standard) backwards,
+      daRise 200ms var(--da-ease-standard) backwards;
+    transition:
+      opacity 200ms var(--da-ease-standard),
+      translate 200ms var(--da-ease-standard),
+      background-color 160ms var(--da-ease-standard),
+      color 160ms var(--da-ease-standard);
+  }
+
+  .latest[data-leaving] {
+    transition:
+      opacity 120ms var(--da-ease-standard),
+      translate 120ms var(--da-ease-standard);
+  }
+
+  /* composer */
+  .inputRow {
+    transition:
+      border-color 160ms var(--da-ease-standard),
+      background-color 160ms var(--da-ease-standard),
+      border-radius 200ms var(--da-ease-standard);
+  }
+
+  .inputRow::after {
+    transition: opacity 160ms var(--da-ease-standard);
+  }
+
+  .header::after {
+    transition: opacity 160ms var(--da-ease-standard);
+  }
+
+  .inputRow,
+  .limit {
+    animation: daFadeIn 200ms var(--da-ease-standard);
+  }
+
+  .send {
+    transition:
+      background-color 160ms var(--da-ease-standard),
+      color 160ms var(--da-ease-standard),
+      border-radius 200ms var(--da-ease-standard),
+      scale 450ms var(--da-spring-snappy);
+  }
+
+  .send[data-state='idle'] {
+    scale: 0.92;
+  }
+
+  .send[data-state='ready']:active {
+    scale: 0.9;
+    transition:
+      background-color 160ms var(--da-ease-standard),
+      color 160ms var(--da-ease-standard),
+      border-radius 200ms var(--da-ease-standard),
+      scale 120ms var(--da-ease-press);
+  }
+
+  .sendIcon {
+    transition:
+      translate 320ms var(--da-ease-out-quint),
+      opacity 160ms var(--da-ease-standard);
+  }
+
+  /* the arrow drops back in when a turn ends (it is re-keyed then) */
+  .send:not([data-state='busy']) .sendIcon {
+    animation: daDropIn 320ms var(--da-ease-out-quint) backwards;
+  }
+
+  .send[data-state='busy'] .sendIcon {
+    transition:
+      translate 220ms var(--da-ease-emph-accel),
+      opacity 220ms var(--da-ease-emph-accel);
+  }
+
+  .send::after {
+    transition: opacity 120ms var(--da-ease-standard);
+  }
+
+  .send[data-state='busy']::after {
+    transition: opacity 160ms var(--da-ease-standard) 80ms;
+  }
+
+  .counterWrap {
+    transition: grid-template-rows 200ms var(--da-ease-standard);
+  }
+
+  .counter {
+    --rise: -2px;
+    animation:
+      daFadeIn 160ms var(--da-ease-standard) backwards,
+      daRise 160ms var(--da-ease-standard) backwards;
+    transition: color 160ms var(--da-ease-standard);
+  }
+
+  .counter[data-nudge] {
+    animation: daNudge 200ms var(--da-ease-standard);
+  }
+
+  .newButton {
+    --from-scale: 0.9;
+    animation:
+      daFadeIn 160ms var(--da-ease-standard) backwards,
+      daScaleIn 160ms var(--da-ease-standard) backwards;
+  }
+
+  .turnstileWrap {
+    transition: grid-template-rows 240ms var(--da-ease-out-quint);
+  }
+}
+
+/* ======================================================================== motion: desktop morph */
+
+@media (prefers-reduced-motion: no-preference) and (width > 768px) and (height > 600px) {
+  /* → open (transitions are taken from the destination state) */
+  .shell {
+    transition:
+      visibility 0s,
+      scale 550ms var(--da-spring-gentle),
+      width 320ms var(--da-ease-out-quint),
+      height 320ms var(--da-ease-out-quint);
+  }
+
+  .panel {
+    transition: clip-path 380ms var(--da-ease-out-quint);
+  }
+
+  .panelShadow {
+    transition:
+      inset 380ms var(--da-ease-out-quint),
+      border-radius 380ms var(--da-ease-out-quint);
+  }
+
+  /* the launcher colour is ~95% gone by ~90ms, while the clip is still growing: only the launcher's
+     footprint ever shows it, and the content arrives on a clean surface */
+  .tint {
+    transition: opacity 140ms var(--da-ease-out-cubic) 20ms;
+  }
+
+  :global([data-theme='dark']) .tint {
+    transition-duration: 110ms;
+  }
+
+  .header {
+    transition:
+      opacity 200ms var(--da-ease-standard) 70ms,
+      translate 400ms var(--da-ease-out-quint) 70ms,
+      border-color 160ms var(--da-ease-standard);
+  }
+
+  .body {
+    transition:
+      opacity 200ms var(--da-ease-standard) 100ms,
+      translate 400ms var(--da-ease-out-quint) 100ms;
+  }
+
+  .footer {
+    transition:
+      opacity 200ms var(--da-ease-standard) 130ms,
+      translate 400ms var(--da-ease-out-quint) 130ms;
+  }
+
+  /* → closed: content leaves first, then the surface folds back into the launcher */
+  .shell[data-state='closed'] {
+    transition:
+      visibility 0s linear 280ms,
+      scale 280ms var(--da-ease-standard);
+  }
+
+  .shell[data-state='closed'] .panel {
+    transition: clip-path 280ms var(--da-ease-standard);
+  }
+
+  .shell[data-state='closed'] .panelShadow {
+    transition:
+      inset 280ms var(--da-ease-standard),
+      border-radius 280ms var(--da-ease-standard);
+  }
+
+  /* solid again by 130ms, under the launcher fading back in on top (150–270ms) */
+  .shell[data-state='closed'] .tint {
+    transition: opacity 100ms linear 30ms;
+  }
+
+  .shell[data-state='closed'] .panel > :is(.header, .body, .footer, .latest) {
+    transition:
+      opacity 90ms linear,
+      translate 0s linear 90ms;
+  }
+
+  .tintStreak {
+    animation: daStreakShoot 300ms var(--da-ease-out-expo) both;
+  }
+
+  .tintStreak + .tintStreak {
+    animation-delay: 40ms;
+  }
+
+  .shell[data-state='closed'] .tintStreak,
+  .shell[data-enter='none'] .tintStreak {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ======================================================================== motion: sheet */
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 768px), (prefers-reduced-motion: no-preference) and (max-height: 600px) {
+  .shell {
+    transition:
+      translate 420ms var(--da-ease-emph-decel),
+      visibility 0s;
+  }
+
+  .shell[data-state='closed'] {
+    translate: 0 100%;
+    transition:
+      translate 260ms var(--da-ease-emph-accel),
+      visibility 0s linear 260ms;
+  }
+
+  .header {
+    transition: border-color 160ms var(--da-ease-standard);
+  }
+
+  /* header contents settle with a little spring (never the sheet edge itself) */
+  .header > * {
+    transition: translate 550ms var(--da-spring-gentle) 80ms;
+  }
+
+  .shell[data-state='closed'] .header > * {
+    translate: 0 8px;
+    transition: translate 0s linear 260ms;
+  }
+
+  /* content rides up with the sheet rather than appearing after it */
+  .body,
+  .footer {
+    transition: opacity 160ms var(--da-ease-standard) 40ms;
+  }
+
+  /* body and footer stay visible while the sheet slides away, then reset for the next open */
+  .shell[data-state='closed'] .panel > :is(.body, .footer, .latest) {
+    transition: opacity 0s linear 260ms;
+  }
+}
+
+/* ======================================================================== reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  /* a short crossfade instead of the morph / slide */
+  .shell {
+    transition:
+      opacity 150ms linear,
+      visibility 0s;
+  }
+
+  .shell[data-state='closed'] {
+    opacity: 0;
+    scale: none;
+    transition:
+      opacity 120ms linear,
+      visibility 0s linear 120ms;
+  }
+
+  .shell[data-state='closed'] .panel {
+    clip-path: var(--clip-open);
+  }
+
+  .shell[data-state='closed'] .panelShadow {
+    inset: 0;
+    border-radius: var(--da-panel-r);
+  }
+
+  .shell[data-state='closed'] .tint {
+    opacity: 0;
+  }
+
+  .shell[data-state='closed'] .panel > :is(.header, .body, .footer, .latest) {
+    opacity: 1;
+    translate: none;
+  }
+
+  .scrim {
+    transition: opacity 150ms linear;
+  }
+
+  .scrim[data-state='closed'] {
+    transition: opacity 120ms linear;
+  }
+
+  /* entries: opacity only, no stagger */
+  .intro > :not(.examples),
+  .examples > *,
+  .user.enter,
+  .assistantBody.enter,
+  .notice,
+  .counter,
+  .latest,
+  .newButton {
+    animation: daFadeIn 150ms linear backwards;
+  }
+
+  .latest {
+    transition: opacity 120ms linear;
+  }
+
+  .intro[data-leaving] {
+    scale: none;
+  }
+
+  /* essential progress keeps going, slowly */
+  .send[data-state='busy']::after,
+  .spinner {
+    animation: daSpin 2.4s linear infinite;
+  }
+
+  .send[data-state='busy'] .sendIcon {
+    translate: none;
+  }
+}
+
+/* ======================================================================== contrast + forced colours */
+
+@media (prefers-contrast: more) {
+  .scrim,
+  .panel::before,
+  .introMark::before {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .scrim,
+  .tint,
+  .panel::before,
+  .introMark::before,
+  .footer::before {
+    display: none;
+  }
+
+  .panel {
+    border-color: CanvasText;
+  }
+
+  .tile,
+  .user,
+  .example,
+  .notice,
+  .inputRow,
+  .limit,
+  .latest,
+  .noticeButton {
+    border: 1px solid CanvasText;
+  }
+
+  .inputRow::after,
+  .header::after {
+    display: none;
+  }
+
+  .inputRow:focus-within {
+    outline: 2px solid Highlight;
+  }
+
+  .statusLine .statusText {
+    background: none;
+    color: CanvasText;
+    animation: none;
+  }
+
+  .statusLine .spinner {
+    border-color: CanvasText;
+    border-top-color: Highlight;
+  }
+
+  .streaming > :is(p, h1, h2, h3, h4, h5, h6, blockquote):last-child::after,
+  .streaming > :is(ul, ol):last-child > li:last-child::after,
+  .streaming:empty::after {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+
+  :is(.headerButton, .example, .noticeButton, .send, .limitButton, .latest):focus-visible {
+    outline-color: Highlight;
+  }
+
+  .send[data-state='ready'] {
+    border: 1px solid ButtonText;
+  }
+}
+
+/* ======================================================================== keyframes (names are minified: never read them from JS) */
+
+@keyframes daStreakShoot {
+  from {
+    translate: 0 0;
+    scale: 1 1;
+    opacity: 1;
+  }
+
+  to {
+    translate: -40px 0;
+    scale: 2.5 1;
+    opacity: 0;
+  }
+}
+
+@keyframes daSpin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+@keyframes daCaret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes daShimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes daStatusIn {
+  0%,
+  40% {
+    opacity: 0;
+    translate: 0 4px;
+  }
+
+  100% {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes daFadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes daRise {
+  from {
+    translate: 0 var(--rise, 8px);
+  }
+}
+
+@keyframes daScaleIn {
+  from {
+    scale: var(--from-scale, 0.97);
+  }
+}
+
+@keyframes daBlurIn {
+  from {
+    filter: blur(2px);
+  }
+}
+
+@keyframes daDropIn {
+  from {
+    translate: 0 140%;
+  }
+}
+
+@keyframes daNudge {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  33% {
+    translate: -2px 0;
+  }
+
+  66% {
+    translate: 2px 0;
+  }
+}

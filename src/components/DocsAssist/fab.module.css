@@ -1,0 +1,728 @@
+/*
+ * "Ask AI" launcher + every design token. The panel's rules live in Panel.module.css. (Only the
+ * panel's JS is lazy: Docusaurus merges all CSS into one stylesheet, so both files ship on every page.)
+ *
+ * Build notes (Docusaurus cssnano preset): every @media block is hoisted to the end of the file, so
+ * media overrides are written as if they come last; keyframe names are minified (never referenced
+ * from JS); there is no autoprefixer, so -webkit- lines are written by hand. No @starting-style: the
+ * clean-css pass that follows can't parse it and drops the rest of the block, so entries are
+ * keyframes with `backwards` fill (which never pins a value once they finish).
+ */
+
+/* ======================================================================== tokens */
+
+.root {
+  display: contents;
+
+  /* colour */
+  --da-accent: var(--ifm-color-primary);
+  --da-accent-hover: var(--ifm-color-primary-dark);
+  --da-accent-text: var(--ifm-color-primary-darker);
+  --da-on-accent: #ffffff;
+  --da-accent-tint: rgb(13 110 253 / 0.08);
+  --da-accent-ring: rgb(13 110 253 / 0.18);
+  /* solid accent fills carrying 13px text (#0261ed: 5.3:1 with white) */
+  --da-accent-solid: var(--ifm-color-primary-dark);
+  --da-accent-solid-hover: var(--ifm-color-primary-darker);
+  --da-page: var(--ifm-background-color);
+  --da-surface: #ffffff;
+  --da-surface-raised: #f8fafc;
+  --da-surface-sunken: #f1f5f9;
+  --da-hairline: rgb(2 6 23 / 0.08);
+  --da-hairline-strong: rgb(2 6 23 / 0.14);
+  --da-control-bd: rgb(2 6 23 / 0.2);
+  --da-hover: rgb(2 6 23 / 0.05);
+  --da-text: #0f172a;
+  --da-text-muted: #64748b;
+  --da-input-bg: #f8fafc;
+  --da-input-ring: #cbd5e1;
+  --da-input-ring-hover: #94a3b8;
+  --da-focus-glow: 0 0 0 0 transparent;
+  --da-user-bg: color-mix(in srgb, var(--ifm-color-primary) 8%, #fff);
+  --da-user-fg: #0f172a;
+  --da-user-ring: rgb(13 110 253 / 0.1);
+  --da-fab-bg: #0f172a;
+  --da-fab-bg-hover: #1e293b;
+  --da-fab-fg: #f8fafc;
+  --da-streak: #edd323;
+  --da-tile-bg: #0f172a;
+  --da-tile-ring: rgb(255 255 255 / 0.06);
+  --da-tile-spark: #f8fafc;
+  --da-beam: #ffc928;
+  --da-beam-hi: #fff3c4;
+  --da-unread: #ef4444;
+  --da-shimmer-base: #64748b;
+  --da-shimmer-hi: #0f172a;
+  --da-skel: #f1f5f9;
+  --da-skel-hi: rgb(255 255 255 / 0.75);
+  --da-grid-line: rgb(15 23 42 / 0.06);
+  --da-halo: rgb(226 189 35 / 0.4);
+  --da-rim: transparent;
+  --da-warn-fg: #b45309;
+  --da-warn-bg: rgb(245 158 11 / 0.07);
+  --da-warn-bd: rgb(245 158 11 / 0.28);
+  --da-danger-fg: #b91c1c;
+  --da-danger-bg: rgb(239 68 68 / 0.06);
+  --da-danger-bd: rgb(239 68 68 / 0.24);
+  --da-scrim: rgb(2 6 23 / 0.1);
+  --da-scrollbar: rgb(2 6 23 / 0.18);
+  --da-scrolled-shadow: rgb(2 6 23 / 0.25);
+  --da-send-idle-bg: #e2e8f0;
+  --da-send-idle-fg: #94a3b8;
+  --da-chrome-red: #ef4444;
+  --da-chrome-yellow: #ffc928;
+  --da-chrome-green: #22c55e;
+  /* the code-block body colour custom.css forces on every `code` (the terminal bar matches it) */
+  --da-code-bg: #f2f2f2;
+
+  /* elevation */
+  --da-fab-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12), inset 0 0 0 1px rgb(255 255 255 / 0.06), 0 1px 2px rgb(2 6 23 / 0.12),
+    0 4px 12px -2px rgb(2 6 23 / 0.18), 0 12px 28px -8px rgb(2 6 23 / 0.22);
+  --da-fab-shadow-hover: 0 2px 4px rgb(2 6 23 / 0.12), 0 10px 24px -4px rgb(2 6 23 / 0.28), 0 20px 40px -12px rgb(2 6 23 / 0.22);
+  --da-panel-shadow: 0 1px 2px rgb(2 6 23 / 0.06), 0 12px 32px rgb(2 6 23 / 0.16);
+  --da-pop-shadow: 0 4px 12px rgb(2 6 23 / 0.12);
+
+  /* geometry (--da-fab-w/h are overwritten at runtime with the launcher's measured size) */
+  --da-edge: 20px;
+  --da-right: max(var(--da-edge), env(safe-area-inset-right));
+  --da-bottom: max(var(--da-edge), env(safe-area-inset-bottom));
+  --da-fab-h: 44px;
+  --da-fab-w: 112px;
+  --da-panel-w: 400px;
+  --da-panel-w-wide: 680px;
+  --da-panel-h: min(680px, calc(100vh - var(--ifm-navbar-height) - 2 * var(--da-edge)));
+  --da-panel-h-wide: min(860px, calc(100vh - var(--ifm-navbar-height) - 2 * var(--da-edge)));
+  --da-panel-r: 16px;
+
+  /* motion */
+  --da-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --da-ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --da-ease-emph-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --da-ease-emph-accel: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --da-ease-expo-hover: cubic-bezier(0.33, 0, 0, 1);
+  --da-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --da-ease-press: cubic-bezier(0.45, 0, 0.2, 1);
+  --da-ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  /* each spring is only ever used at its paired duration: gentle 550ms, snappy 450ms, bouncy 700ms */
+  --da-spring-gentle: linear(0, 0.007 1.5%, 0.025 3%, 0.059 4.8%, 0.103 6.5%, 0.2 9.8%, 0.427 16.5%, 0.53 19.8%, 0.632 23.2%, 0.713 26.5%, 0.778 29.5%, 0.837 32.8%, 0.885 36%, 0.925 39.5%, 0.958 43.2%, 0.983 47.5%, 1.001 52.2%, 1.011 57.5%, 1.015 68.8%, 1);
+  --da-spring-snappy: linear(0, 0.007 1.2%, 0.033 2.8%, 0.073 4.2%, 0.126 5.8%, 0.177 7%, 0.243 8.5%, 0.533 14.5%, 0.648 17%, 0.761 19.8%, 0.85 22.2%, 0.924 24.8%, 0.983 27.3%, 1.027 29.8%, 1.062 32.5%, 1.078 34.5%, 1.089 36.5%, 1.094 38.8%, 1.094 41%, 1.081 46.2%, 1.019 60.8%, 0.998 69%, 0.991 80.5%, 1);
+  --da-spring-bouncy: linear(0, 0.007 1%, 0.035 2.2%, 0.081 3.5%, 0.154 5%, 0.227 6.2%, 0.307 7.5%, 0.62 12%, 0.753 14%, 0.872 16%, 0.975 18%, 1.059 20%, 1.116 21.8%, 1.163 23.8%, 1.191 25.8%, 1.201 27%, 1.205 28.5%, 1.202 30%, 1.192 31.8%, 1.157 35%, 1.055 42.2%, 1.014 45.8%, 0.98 49.8%, 0.962 53.8%, 0.958 56.8%, 0.96 60.2%, 0.996 73.8%, 1.007 80.8%, 1.008 89%, 1);
+}
+
+:global([data-theme='dark']) .root {
+  --da-on-accent: #020617;
+  --da-accent-hover: var(--ifm-color-primary-light);
+  --da-accent-text: var(--ifm-color-primary);
+  --da-accent-tint: rgb(255 201 40 / 0.1);
+  --da-accent-ring: rgb(255 201 40 / 0.22);
+  --da-accent-solid: var(--ifm-color-primary);
+  --da-accent-solid-hover: var(--ifm-color-primary-light);
+  --da-surface: #0f172a;
+  --da-surface-raised: rgb(255 255 255 / 0.03);
+  --da-surface-sunken: #1e293b;
+  --da-hairline: rgb(255 255 255 / 0.08);
+  --da-hairline-strong: rgb(255 255 255 / 0.14);
+  --da-control-bd: rgb(255 255 255 / 0.16);
+  --da-hover: rgb(255 255 255 / 0.06);
+  --da-text: #e2e8f0;
+  --da-text-muted: #94a3b8;
+  --da-input-bg: rgb(255 255 255 / 0.03);
+  --da-input-ring: rgb(255 255 255 / 0.1);
+  --da-input-ring-hover: rgb(255 255 255 / 0.16);
+  --da-focus-glow: 0 0 24px -6px rgb(251 190 9 / 0.35);
+  --da-user-bg: #1e293b;
+  --da-user-fg: #f1f5f9;
+  --da-user-ring: rgb(255 255 255 / 0.06);
+  --da-fab-bg: #ffc928;
+  --da-fab-bg-hover: #ffd045;
+  --da-fab-fg: #020617;
+  --da-streak: rgb(2 6 23 / 0.55);
+  --da-tile-bg: #1e293b;
+  --da-tile-ring: rgb(255 201 40 / 0.22);
+  --da-beam: #fff3c4;
+  --da-beam-hi: #ffffff;
+  --da-unread: #f87171;
+  --da-shimmer-base: #94a3b8;
+  --da-shimmer-hi: #f8fafc;
+  --da-skel: #1e293b;
+  --da-skel-hi: rgb(255 255 255 / 0.06);
+  --da-grid-line: rgb(226 189 35 / 0.1);
+  --da-halo: var(--da-accent-ring);
+  --da-rim: rgb(255 201 40 / 0.38);
+  --da-warn-fg: #fbbf24;
+  --da-warn-bg: rgb(251 191 36 / 0.05);
+  --da-warn-bd: rgb(251 191 36 / 0.22);
+  --da-danger-fg: #fca5a5;
+  --da-danger-bg: rgb(239 68 68 / 0.08);
+  --da-danger-bd: rgb(239 68 68 / 0.24);
+  --da-scrim: rgb(0 0 0 / 0.45);
+  --da-scrollbar: rgb(255 255 255 / 0.16);
+  --da-scrolled-shadow: rgb(0 0 0 / 0.6);
+  --da-send-idle-bg: rgb(255 255 255 / 0.06);
+  --da-send-idle-fg: #64748b;
+  --da-code-bg: #1e293b;
+
+  --da-fab-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35), inset 0 -1px 0 rgb(2 6 23 / 0.1), 0 0 0 1px rgb(255 201 40 / 0.3),
+    0 8px 24px -6px rgb(251 190 9 / 0.35);
+  --da-fab-shadow-hover: 0 0 0 1px rgb(255 201 40 / 0.45), 0 12px 36px -6px rgb(251 190 9 / 0.5);
+  --da-panel-shadow: 0 16px 40px rgb(0 0 0 / 0.55), 0 0 40px rgb(251 190 9 / 0.08);
+  --da-pop-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+}
+
+/* `100dvh` (tracks mobile browser chrome) where supported; the 100vh tokens above are the fallback. */
+@supports (height: 100dvh) {
+  .root {
+    --da-panel-h: min(680px, calc(100dvh - var(--ifm-navbar-height) - 2 * var(--da-edge)));
+    --da-panel-h-wide: min(860px, calc(100dvh - var(--ifm-navbar-height) - 2 * var(--da-edge)));
+  }
+}
+
+/* Launcher only (the panel has its own copy in its module). */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ======================================================================== mark (global: VelopackMark is shared) */
+
+:global(.da-mark) {
+  fill: var(--da-mark-fill, var(--da-mark-gradient));
+}
+
+:global(.da-spark) {
+  fill: var(--da-spark-fill, var(--da-tile-spark));
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+:global(.da-streak) {
+  fill: var(--da-streak-gradient);
+  transform-box: fill-box;
+  transform-origin: 100% 50%;
+  scale: 0 1;
+  opacity: 0;
+}
+
+:global(.da-markGroup) {
+  transform-box: fill-box;
+}
+
+/* Covers the layout viewport; index.tsx measures it to derive --da-vv-r/--da-vv-b. Never painted. */
+.vvProbe {
+  position: fixed;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ======================================================================== launcher */
+
+.fab {
+  --lift: 0px;
+  --da-spark-fill: #ffffff;
+  /* transition parts, swapped per state (see the motion block) */
+  /* hover lift: settles back quickly when the pointer leaves */
+  --t-translate: translate 220ms var(--da-ease-standard);
+  /* back at full strength (150–270ms) before the closing panel hides at 280ms, so the hand-off never blinks */
+  --t-opacity: opacity 120ms linear 150ms;
+  --t-scale: scale 450ms var(--da-spring-snappy) 150ms;
+  --t-press: transform 160ms var(--da-ease-standard);
+
+  position: fixed;
+  right: calc(var(--da-right) + var(--da-vv-r, 0px));
+  bottom: calc(var(--da-bottom) + var(--da-vv-b, 0px));
+  z-index: calc(var(--ifm-z-index-fixed) - 1);
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 16px 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--da-fab-fg);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  translate: 0 calc(0px - var(--lift));
+  /* z-index drops back only after the close has played (applies under every motion preference) */
+  transition:
+    z-index 0s linear 300ms,
+    visibility 0s;
+}
+
+:global([data-theme='dark']) .fab {
+  --da-mark-fill: #020617;
+  --da-spark-fill: #020617;
+}
+
+/* Hit area that reaches back down over the lift, so the lifted edge never slips out from under the
+   pointer (which would drop the hover and make the button bob). */
+.fab::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 calc(0px - var(--lift));
+  border-radius: inherit;
+}
+
+.fab:focus-visible {
+  outline: 2px solid var(--da-accent);
+  outline-offset: 3px;
+}
+
+/* Fades out while the panel morphs out of it; it stays above the shell for the crossfade. */
+.fab[data-open] {
+  z-index: calc(var(--ifm-z-index-overlay) + 1);
+  opacity: 0;
+  scale: 1.04;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    z-index 0s,
+    visibility 0s linear 100ms;
+}
+
+.fabSurface,
+.fabGlow,
+.fabRing {
+  position: absolute;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.fabSurface {
+  inset: 0;
+  z-index: -1;
+  background: var(--da-fab-bg);
+  box-shadow: var(--da-fab-shadow);
+}
+
+.fabGlow {
+  inset: 0;
+  z-index: -2;
+  box-shadow: var(--da-fab-shadow-hover);
+  opacity: 0;
+}
+
+/* Busy: a beam travels around the pill's rim. */
+.fabRing {
+  inset: -1.5px;
+  z-index: -2;
+  padding: 1.5px;
+  overflow: hidden;
+  opacity: 0;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+.fabRing::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(200%, 240px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: conic-gradient(from 0deg, transparent 0 65%, var(--da-beam) 82%, var(--da-beam-hi) 90%, transparent 100%);
+}
+
+.fab:is([data-busy], [data-loading]) .fabRing {
+  opacity: 1;
+}
+
+.fab:is([data-busy], [data-loading]) :global(.da-streak) {
+  scale: 1 1;
+  opacity: 0.7;
+}
+
+.fabIcon {
+  flex: none;
+  width: 22px;
+  height: 17.4px;
+  overflow: visible;
+}
+
+.fabLabel {
+  position: relative;
+}
+
+/*
+ * Unread dot. A 2px ring of page colour separates it from the pill. (Not a mask notch: a mask also
+ * clips the pill's outer shadow and the hover glow, so the shadow would vanish while unread.)
+ */
+.unreadDot {
+  position: absolute;
+  top: -1px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--da-unread);
+  box-shadow: 0 0 0 2px var(--da-page);
+  pointer-events: none;
+}
+
+/* Docusaurus' back-to-top button shares the corner: stack it above the launcher, right edges flush. */
+:global(body:has([data-docs-assist-fab]) .theme-back-to-top-button) {
+  right: calc(20px + var(--da-vv-r, 0px));
+  bottom: calc(20px + 44px + 12px + var(--da-vv-b, 0px));
+  transition:
+    opacity 160ms var(--ifm-transition-timing-default),
+    visibility 0s linear 0s;
+}
+
+:global(body:has([data-docs-assist-shell][data-state='open']) .theme-back-to-top-button) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 160ms linear,
+    visibility 0s linear 160ms;
+}
+
+/* ======================================================================== media */
+
+@media (max-width: 768px) {
+  .root {
+    --da-edge: 16px;
+    --da-fab-h: 48px;
+    --da-fab-w: 48px;
+    --da-panel-w: 100vw;
+    --da-panel-r: 0px;
+  }
+
+  .fab {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .fabIcon {
+    width: 24px;
+    height: 19px;
+  }
+
+  .fabLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .unreadDot {
+    top: 0;
+  }
+
+  :global(body:has([data-docs-assist-fab]) .theme-back-to-top-button) {
+    right: calc(16px + var(--da-vv-r, 0px));
+    bottom: calc(16px + 48px + 12px + var(--da-vv-b, 0px));
+  }
+}
+
+/* Sheet layout: the launcher comes back a little sooner and quicker (the sheet has already slid away). */
+@media (max-width: 768px), (max-height: 600px) {
+  .fab {
+    --t-opacity: opacity 160ms linear 180ms;
+    --t-scale: scale 160ms var(--da-ease-standard) 180ms;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fab:is(:hover, :focus-visible) .fabSurface {
+    background-color: var(--da-fab-bg-hover);
+  }
+
+  .fab:is(:hover, :focus-visible) .fabGlow {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fab {
+    transition:
+      var(--t-translate),
+      var(--t-opacity),
+      var(--t-scale),
+      var(--t-press),
+      z-index 0s linear 300ms,
+      visibility 0s;
+  }
+
+  .fab:active {
+    --t-press: transform 120ms var(--da-ease-press);
+    transform: scale(0.96);
+  }
+
+  .fab[data-open] {
+    transition:
+      var(--t-translate),
+      opacity 100ms linear,
+      scale 160ms var(--da-ease-standard),
+      var(--t-press),
+      z-index 0s,
+      visibility 0s linear 100ms;
+  }
+
+  /* Entrance, once per page load (data-entered is set once it has played, so it never replays). */
+  .fab:not([data-entered]) {
+    animation: daFabIn 360ms var(--da-ease-emph-decel) 400ms backwards;
+  }
+
+  .fabSurface {
+    transition: background-color 160ms var(--da-ease-standard);
+  }
+
+  .fabGlow {
+    transition: opacity 250ms var(--da-ease-expo-hover);
+  }
+
+  .fabRing {
+    transition: opacity 300ms var(--da-ease-standard);
+  }
+
+  .fabRing::before {
+    animation: daSpin 1.6s linear infinite;
+  }
+
+  .fab:not([data-busy], [data-loading]) .fabRing::before {
+    animation-play-state: paused;
+  }
+
+  .unreadDot {
+    animation: daPop 700ms var(--da-spring-bouncy) backwards;
+  }
+
+  :global(.da-streak) {
+    transition:
+      scale 160ms var(--da-ease-standard),
+      opacity 160ms var(--da-ease-standard);
+  }
+
+  :global(.da-markGroup) {
+    transition: translate 260ms var(--da-ease-out-expo);
+  }
+
+  /* One-shot spark twinkle: the launcher on a new answer, the header tile on a finished one. */
+  [data-twinkle] :global(.da-spark) {
+    animation: daTwinkle 600ms var(--da-ease-out-quint);
+  }
+
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .root .fab:active {
+    transform: scale(0.94);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .fab:is(:hover, :focus-visible) {
+    --lift: 4px;
+    --t-translate: translate 450ms var(--da-spring-snappy);
+  }
+
+  .fab:is(:hover, :focus-visible) :global(.da-streak) {
+    scale: 1 1;
+    opacity: 1;
+    transition:
+      scale 260ms var(--da-ease-out-expo),
+      opacity 260ms var(--da-ease-out-expo);
+  }
+
+  .fab:is(:hover, :focus-visible) :global(.da-streak + .da-streak) {
+    transition-delay: 40ms;
+  }
+
+  /* The mark leans ~1.5px into its streaks (12 viewBox units at 22px wide). */
+  .fab:is(:hover, :focus-visible) :global(.da-markGroup) {
+    translate: 12px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fab {
+    transition:
+      opacity 120ms linear 100ms,
+      z-index 0s linear 300ms,
+      visibility 0s;
+  }
+
+  .fab[data-open] {
+    scale: none;
+    transition:
+      opacity 120ms linear,
+      z-index 0s,
+      visibility 0s linear 120ms;
+  }
+
+  .fab:not([data-entered]) {
+    animation: daFadeIn 200ms linear 400ms backwards;
+  }
+
+  .fabSurface {
+    transition: background-color 120ms linear;
+  }
+
+  .fabGlow {
+    transition: opacity 120ms linear;
+  }
+
+  /* Busy stays visible as essential progress: a static ring that breathes in opacity. */
+  .fabRing::before {
+    background: var(--da-beam);
+  }
+
+  .fab:is([data-busy], [data-loading]) .fabRing {
+    animation: daRingBreathe 2.4s ease-in-out infinite alternate;
+  }
+
+}
+
+@media (prefers-contrast: more) {
+  .root,
+  :global([data-theme='dark']) .root {
+    --da-hairline: var(--da-hairline-strong);
+    --da-text-muted: var(--da-text);
+    --da-shimmer-base: var(--da-text);
+    --da-scrim: transparent;
+    --da-rim: transparent;
+    --da-grid-line: transparent;
+    --da-focus-glow: 0 0 0 0 transparent;
+  }
+
+  .root {
+    --da-input-ring: #64748b;
+  }
+
+  :global([data-theme='dark']) .root {
+    --da-input-ring: rgb(255 255 255 / 0.35);
+  }
+
+  .fabGlow {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .fab {
+    border: 1px solid ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+
+  .fab:focus-visible {
+    outline-color: Highlight;
+  }
+
+  .fabGlow {
+    display: none;
+  }
+
+  :global(.da-mark),
+  :global(.da-spark) {
+    fill: CanvasText;
+  }
+
+  .fab :global(.da-mark),
+  .fab :global(.da-spark) {
+    fill: ButtonText;
+  }
+
+  .fab :global(.da-streak) {
+    display: none;
+  }
+
+  .unreadDot {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+
+  /* the beam is a background image, which forced colours drop: show progress as a dashed ring */
+  .fab:is([data-busy], [data-loading]) {
+    outline: 2px dashed Highlight;
+    outline-offset: 2px;
+  }
+}
+
+@media print {
+  .root > * {
+    display: none !important;
+  }
+}
+
+@keyframes daSpin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+@keyframes daTwinkle {
+  0% {
+    scale: 1;
+    rotate: 0deg;
+  }
+
+  35% {
+    scale: 1.3;
+    rotate: 35deg;
+  }
+
+  /* a four-point star is identical at 90deg, so there's no jump at the end */
+  100% {
+    scale: 1;
+    rotate: 90deg;
+  }
+}
+
+@keyframes daFabIn {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+    scale: 0.96;
+  }
+}
+
+@keyframes daFadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes daPop {
+  from {
+    scale: 0;
+  }
+}
+
+@keyframes daRingBreathe {
+  from {
+    opacity: 0.55;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
