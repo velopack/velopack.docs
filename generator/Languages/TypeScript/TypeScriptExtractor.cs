@@ -51,8 +51,14 @@ internal static class TypeScriptExtractor
         }
         Console.WriteLine($"  TypeDoc entry point: {Path.GetRelativePath(packageDir, entry)}");
 
-        // Install typedoc + typescript locally in the extracted package.
-        await Util.RunProcessAsync("npm", new[] { "install", "--no-audit", "--no-fund", "typedoc", "typescript" }, packageDir);
+        // Install typedoc into its own tools dir, not the extracted package: installing there
+        // also pulls in the package's devDependencies, and its pinned typescript can fall
+        // outside typedoc's peer range (ERESOLVE). Only name typedoc so npm picks the newest
+        // typescript that satisfies typedoc's peer dependency.
+        var toolsDir = Path.Combine(workDir, "tools");
+        Directory.CreateDirectory(toolsDir);
+        await File.WriteAllTextAsync(Path.Combine(toolsDir, "package.json"), """{ "private": true }""");
+        await Util.RunProcessAsync("npm", new[] { "install", "--no-audit", "--no-fund", "typedoc" }, toolsDir);
 
         // TypeScript discovers a tsconfig.json by walking up the directory tree from the entry
         // point. The work dir lives inside this docs repo, whose root tsconfig.json extends
@@ -84,7 +90,7 @@ internal static class TypeScriptExtractor
             "--skipErrorChecking",
             "--excludeExternals",
             "--readme", "none",
-        }, packageDir);
+        }, toolsDir);
         Console.WriteLine(result.StdOut);
         if (result.ExitCode != 0)
             Console.WriteLine(result.StdErr);
