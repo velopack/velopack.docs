@@ -51,4 +51,4 @@ baseUri: string
 `readonly`
 
 ___
-*Generated from `velopack` 1.2.161*
+*Generated from `velopack` 1.3.39-g8d2844f*

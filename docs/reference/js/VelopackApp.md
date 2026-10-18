@@ -229,6 +229,8 @@ setLogger(callback: object): VelopackApp
 ```
 
 Set a callback to receive log messages from VelopackApp.
+Messages are delivered asynchronously on the event loop, so a process that
+exits immediately after run() may not receive them.
 
 **Parameters**
 
@@ -252,4 +254,4 @@ Build a new VelopackApp instance.
 **Returns** [`VelopackApp`](./VelopackApp.md)
 
 ___
-*Generated from `velopack` 1.2.161*
+*Generated from `velopack` 1.3.39-g8d2844f*

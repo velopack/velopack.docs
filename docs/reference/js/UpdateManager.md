@@ -43,6 +43,8 @@ Create a new UpdateManager instance that retrieves updates from the hosted Velop
 | [`checkForUpdatesAsync`](#checkforupdatesasync) | Checks for updates, returning None if there are none available. If there are updates available, this method will return an |
 | [`downloadUpdateAsync`](#downloadupdateasync-update-progress) | Downloads the specified updates to the local app packages directory. Progress is reported back to the caller via an optional Sender. |
 | [`getAppId`](#getappid) | Returns the currently installed app id. |
+| [`getCurrentReleaseNotesHtml`](#getcurrentreleasenoteshtml) | Returns the release notes (rendered HTML) of the currently installed version, as provided to 'vpk pack --releaseNotes'. |
+| [`getCurrentReleaseNotesMarkdown`](#getcurrentreleasenotesmarkdown) | Returns the release notes (markdown) of the currently installed version, as provided to 'vpk pack --releaseNotes'. |
 | [`getCurrentVersion`](#getcurrentversion) | Returns the currently installed version of the app. |
 | [`getUpdatePendingRestart`](#getupdatependingrestart) | Returns an VelopackAsset object if there is an update downloaded which still needs to be applied. |
 | [`isPortable`](#isportable) | Returns whether the app is in portable mode. On Windows this can be true or false. |
@@ -92,6 +94,28 @@ getAppId(): string
 Returns the currently installed app id.
 
 **Returns** `string`
+
+### getCurrentReleaseNotesHtml() {#getcurrentreleasenoteshtml}
+
+```js
+getCurrentReleaseNotesHtml(): string | null
+```
+
+Returns the release notes (rendered HTML) of the currently installed version, as provided to 'vpk pack --releaseNotes'.
+Returns null if the release was packed without release notes.
+
+**Returns** `string \| null`
+
+### getCurrentReleaseNotesMarkdown() {#getcurrentreleasenotesmarkdown}
+
+```js
+getCurrentReleaseNotesMarkdown(): string | null
+```
+
+Returns the release notes (markdown) of the currently installed version, as provided to 'vpk pack --releaseNotes'.
+Returns null if the release was packed without release notes.
+
+**Returns** `string \| null`
 
 ### getCurrentVersion() {#getcurrentversion}
 
@@ -148,4 +172,4 @@ optionally restart your app. The updater will only wait for 60 seconds before gi
 **Returns** `void`
 
 ___
-*Generated from `velopack` 1.2.161*
+*Generated from `velopack` 1.3.39-g8d2844f*
