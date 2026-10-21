@@ -65,17 +65,26 @@ Get started with .NET 5+ (cross-platform) or .NET Framework.
             Verify the changes by ensuring your app still starts correctly.
         </TabItem>
         <TabItem value="uno" label="Uno Platform">
-            Add the following code to your `App.xaml.cs` file:
+            Call Velopack from the Uno application's entry point, before creating or running the Uno host. For the Desktop target, add it in `Main` in `Platforms/Desktop/Program.cs`:
             ```csharp
-            public App()
+            [STAThread]
+            public static void Main(string[] args)
             {
-                // It's important to Run() the VelopackApp as early as possible in app startup.
                 VelopackApp.Build()
-                .OnFirstRun((v) => { /* Your first run code here */ })
-                .Run();
-                this.InitializeComponent();
+                    .OnFirstRun(v => { /* Your first run code here */ })
+                    .Run();
+
+                var host = UnoPlatformHostBuilder.Create()
+                    .App(() => new App())
+                    .UseX11()
+                    .UseLinuxFrameBuffer()
+                    .UseMacOS()
+                    .UseWin32()
+                    .Build();
+                host.Run();
             }
             ```
+            Keep the rest of your existing Uno startup code after `VelopackApp.Build().Run()`. Uno uses different entry points for different targets, so call Velopack at the beginning of each target's entry point, before initializing its UI. Do not put the call in `App`'s constructor; it should run from the entry point so Velopack can handle startup lifecycle commands before Uno initializes the app. See the [Uno sample's Desktop entry point](https://github.com/velopack/velopack/blob/develop/samples/CSharpUno/UnoSample/Platforms/Desktop/Program.cs) for a complete example.
         </TabItem>
     </Tabs>
 </FancyStep>
