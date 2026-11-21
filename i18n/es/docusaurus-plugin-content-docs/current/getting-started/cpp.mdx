@@ -69,7 +69,7 @@ En Windows, es posible que necesites convertir `wchar_t*` y `std::wstring` a UTF
         manager.DownloadUpdates(updInfo.value());
 
         // prepare the Updater in a new process, and wait 60 seconds for this process to exit
-        manager.WaitExitThenApplyUpdate(updInfo.value());
+        manager.WaitExitThenApplyUpdates(updInfo.value());
         exit(0); // exit the app to apply the update
     }
     ```
